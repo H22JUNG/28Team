@@ -401,16 +401,22 @@ main .item-container .item-list .itembox .itemname {
 					</div>
 
 					<script>
+						let listck = document.querySelectorAll("input[name='listOrder']");
 						if (getOrder() != null) {
-							let listck = document.querySelectorAll("input[name='listOrder']");
 							for (let i = 0; i < listck.length; i++) {
 								if(listck[i].value == getOrder()){
 									listck[i].setAttribute('checked',true);
 									var style = document.head.appendChild(document.createElement("style"));
-									console.log(i);
 						            style.innerHTML = ".listck:nth-child("+((i+1)*2)+"):after {display: block;}";
 								}
 							}
+						} else {
+							for (let i = 0; i < listck.length; i++) {
+							if(listck[i].checked) {
+									var style = document.head.appendChild(document.createElement("style"));
+						            style.innerHTML = ".listck:nth-child("+((i+1)*2)+"):after {display: block;}";
+								}
+							}							
 						}
 						
 						function getParams() {
