@@ -133,7 +133,7 @@ public interface ProjectDAO {
 		// ================ 장바구니 ================
 		// 장바구니 삭제 - 지정한 row를 삭제하는 메서드
 		public int deleteCart(int cartNum);
-//		public void deleteCart(CartVO cvo);
+		//public void deleteCart(CartVO cvo);
 		// 장바구니 선택 삭제
 		public void deleteAllCart(int cartNum);
 		// 장바구니 수량 수정 - 지정한 row의 수량을 변경하는 메서드(cartNum, count 필요)
@@ -144,4 +144,16 @@ public interface ProjectDAO {
 		public CartVO checkCart(CartVO cvo);
 		// 장바구니 전체 삭제
 		public void deleteAll(String userid);
+			
+		// =============== 관리자페이지 - 주문관리 =====================
+		// 결제완료된 리스트 뽑아오기
+		public List<orderUser> selectAdminOrder();
+		// delivnum Update
+		public void delivNumberUpdate(orderUser ovo);
+		public void delivstatUpdate2();
+		public void delivstatUpdate1();
+		// orderState
+		public int orderState1();
+		public int orderState2();
+		public int orderState3();
 }

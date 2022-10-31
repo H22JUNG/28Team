@@ -20,6 +20,11 @@ public class orderUser {
 	private int totalPrice;
 	private String payResult;
 	private int point;
+	
+	private int delivstate;
+	private String delivnum;
+	
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -97,6 +102,18 @@ public class orderUser {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public int getDelivstate() {
+		return delivstate;
+	}
+	public void setDelivstate(int delivstate) {
+		this.delivstate = delivstate;
+	}
+	public String getDelivnum() {
+		return delivnum;
+	}
+	public void setDelivnum(String delivnum) {
+		this.delivnum = delivnum;
 	}
 	
 	

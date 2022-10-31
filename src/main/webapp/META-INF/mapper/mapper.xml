@@ -545,4 +545,39 @@
 		select * from cart
 		where userid = #{userid} and pro_num = #{proNum}
 	</select>
+	
+	<!-- ==================== 관리자 페이지 - 주문 관리 ==================== -->
+	<select id="selectAdminOrder" resultType="orderUser">
+		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num, userid, total_price, delivstate, pay_result
+		from orderuser
+	</select>
+	
+	<!-- delivnum Update -->
+	<update id="delivNumberUpdate">
+		update orderuser
+		set delivnum = #{delivnum}
+		where order_num = #{orderNum}
+	</update>
+	<update id="delivstatUpdate2">
+		update orderuser
+		set delivstate = 2
+		where delivnum is not null or delivnum != ''
+	</update>
+	<update id="delivstatUpdate1">
+		update orderuser
+		set delivstate = 1
+		where delivnum is null or delivnum = ''
+	</update>
+	
+	<select id="orderState1" resultType="int">
+		select count(*) from orderuser where delivstate = 1 AND pay_result = "완료"
+	</select>
+	
+	<select id="orderState2" resultType="int">
+		select count(*) from orderuser where delivstate = 2 AND pay_result = "완료"
+	</select>
+	
+	<select id="orderState3" resultType="int">
+		select count(*) from orderuser where pay_result = "취소"
+	</select>
 </mapper>

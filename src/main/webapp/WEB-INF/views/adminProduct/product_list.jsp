@@ -142,7 +142,9 @@ td {
 .text_left {
 	text-align: left;
 }
-
+.choice {
+	color: blue;
+}
 #insert_btn {
     border: none;
     background-color: #64d6e4;
@@ -192,7 +194,7 @@ td {
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>
@@ -266,12 +268,12 @@ td {
                                     <tr>
                                     	<td>${cnt}</td>
                                         <td>${productVO.id}</td>
-                                        <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.pro_num}">${productVO.pro_num}</a></td>
+                                        <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.pro_num}" class="choice">${productVO.pro_num}</a></td>
                                         <td class="text_left">${productVO.NAME}</td>
                                         <td><fmt:parseNumber var="n" type="number" value="${productVO.price}" />
-                                        <fmt:formatNumber value="${n}" pattern="#,###"></fmt:formatNumber>
+                                        <fmt:formatNumber value="${n}" pattern="#,###"></fmt:formatNumber>원
                                         </td>
-                                        <td>${productVO.stock}</td>
+                                        <td>${productVO.stock}개</td>
                                         <td>${productVO.view}</td>
                                         <td><fmt:formatDate value="${productVO.create_date}" type="date" pattern="yyyy-MM-dd"/></td>
                                     </tr>
