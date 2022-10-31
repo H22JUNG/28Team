@@ -32,8 +32,8 @@ public interface ProjectDAO {
 	public int checkid(UserVO vo);
 	
 	//카테고리별 상품 리스트로 이동
-	public List<ProductVO> selectCategory(String category1);
-	public List<ProductVO> selectInnerCategory(String category2);
+	public List<ProductVO> selectCategory(ProductVO vo);
+	public List<ProductVO> selectInnerCategory(ProductVO vo);
 	
 	//product List 출력 - 윤정
 	public List<Map<String,Object>> selectProductList();

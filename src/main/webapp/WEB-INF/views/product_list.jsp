@@ -272,6 +272,42 @@ main .item-container .item-list .itembox .itemname {
 	font-size: 12px;
 	cursor: default;
 }
+
+/* select radio */
+		.select {
+			position: relative;
+		}
+	
+        input[type="radio"] {
+             display: none; 
+        }
+
+        .listck {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .listck::before {
+            content: "";
+            width: 18px;
+            height: 18px;
+            border: 1px solid #bdbbbb;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+        .listck::after {
+            box-sizing: border-box;
+            content: "";
+            position: absolute;
+            left: 4px;
+            width: 10px;
+            height: 10px;
+            background: #21A5B5;
+            border-radius: 50%;
+            display: none;
+        }
 </style>
 </head>
 <body>
@@ -354,17 +390,56 @@ main .item-container .item-list .itembox .itemname {
 				</div>
 			</div>
 			<div class="item-list">
-				<p>전체 ${fn:length(list)}개 
-				<select name="listOrder" id="listOrder">
-				<option value="createDate desc">신상품순</option>
-				<option value="view desc">인기순</option>
-				<option value="reviewCount desc">리뷰 많은 순</option>
-				<option value="price">낮은 가격 순</option>
-				<option value="price desc">높은 가격 순</option>
-				</select>
-				</p>
+				<div class="select-box">
+					<p>전체 ${fn:length(list)}개</p>
+					<div id="select">
+						<input type="radio" name="listOrder" id="order-create" value="0" onchange="changeOrder()" checked="checked"/><label for="order-create" class="listck">신상품순</label>
+						<input type="radio" name="listOrder" id="order-view" value="1" onchange="changeOrder()" /><label for="order-view" class="listck">인기순</label>
+						<input type="radio" name="listOrder" id="order-review" value="2" onchange="changeOrder()" /><label for="order-review" class="listck">리뷰 많은 순</label>
+						<input type="radio" name="listOrder" id="order-lowprice" value="3" onchange="changeOrder()" /><label for="order-lowprice" class="listck">낮은 가격 순</label>
+						<input type="radio" name="listOrder" id="order-highprice" value="4" onchange="changeOrder()" /><label for="order-highprice" class="listck">높은 가격 순</label>
+					</div>
 
-				
+					<script>
+						if (getOrder() != null) {
+							let listck = document.querySelectorAll("input[name='listOrder']");
+							for (let i = 0; i < listck.length; i++) {
+								if(listck[i].value == getOrder()){
+									listck[i].setAttribute('checked',true);
+									var style = document.head.appendChild(document.createElement("style"));
+									console.log(i);
+						            style.innerHTML = ".listck:nth-child("+((i+1)*2)+"):after {display: block;}";
+								}
+							}
+						}
+						
+						function getParams() {
+							var url = decodeURIComponent(location.href);
+							url = decodeURIComponent(url);
+
+							var params;
+							params = url.substring(url.indexOf('/') + 1,
+									url.length);
+							params = params.split("/");
+							var orderIndex;
+							orderIndex = params[4].split("?");
+							return params[3] + "/" + orderIndex[0];
+						}
+						function getOrder() {
+							const urlParams = new URL(location.href).searchParams;
+							const currentOrder = urlParams.get('order');
+							return currentOrder;
+						}
+						
+						function changeOrder() {
+							var url_href = window.location.href;
+							var url = new URL(url_href);
+							var selected = document.querySelector('input[type=radio][name=listOrder]:checked');
+							let order = selected.value;
+							location.href = "${pageContext.request.contextPath}/"+ getParams() + "?order=" + order;
+						}
+					</script>
+				</div>
 				<c:forEach var="vo" items="${list}">
 					<div class="itembox">
 						<div class="item-image">
@@ -378,7 +453,7 @@ main .item-container .item-list .itembox .itemname {
 									<span class="discount">${vo.discount}%</span>
 								</c:if> <span> ${vo.name} </span>
 							</a>
-							<p class="price">${vo.price}원</p>
+							<p class="price">${vo.viewPrice}원</p>
 							<div class="item-info">
 
 								<p class="star">

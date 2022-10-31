@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.OptionVO;
 import com.goodee.vo.ProductListVO;
+import com.goodee.vo.ProductVO;
 
 @Service
 public class ListService {
@@ -20,13 +21,12 @@ public class ListService {
 		this.dao = dao;
 	}
 
-	public void selectCategory(String category1, Model model) {
-		model.addAttribute("list" , dao.selectCategory(category1));
+	public void selectCategory(ProductVO vo, Model model) {
+		model.addAttribute("list" , dao.selectCategory(vo));
 	}
-	public void selectInnerCategory(String category2, Model model) {
-		model.addAttribute("list" , dao.selectInnerCategory(category2));
+	public void selectInnerCategory(ProductVO vo, Model model) {
+		model.addAttribute("list" , dao.selectInnerCategory(vo));
 	}
-	
 	
 	
 	// admin product List 출력 - 윤정

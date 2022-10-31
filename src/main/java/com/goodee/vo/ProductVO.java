@@ -13,13 +13,15 @@ public class ProductVO {
 	public String pic3;
 	public String pic4;
 	public String name;
-	public String price;
+	public int price;
 	public int discount;
 	public int view;
 	public String createDate;
 	public int totalStock;
 	public int stargrade;
 	public int reviewCount;
+	public int order;
+	public String viewPrice;
 	
 	public int getId() {
 		return id;
@@ -103,10 +105,10 @@ public class ProductVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public int getDiscount() {
@@ -144,6 +146,18 @@ public class ProductVO {
 	}
 	public void setReviewCount(int reviewCount) {
 		this.reviewCount = reviewCount;
+	}
+	public int getOrder() {
+		return order;
+	}
+	public void setOrder(int order) {
+		this.order = order;
+	}
+	public String getViewPrice() {
+		return viewPrice;
+	}
+	public void setViewPrice(String viewPrice) {
+		this.viewPrice = viewPrice;
 	}
 	
 	

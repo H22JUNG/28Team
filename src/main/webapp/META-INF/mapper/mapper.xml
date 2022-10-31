@@ -30,20 +30,64 @@
 	<!-- product list -->
 	<!-- 카테고리별 -->
 	<select id="selectCategory" resultType="productVO" parameterType="productVO">
-		SELECT p.id, category1 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) price, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+		SELECT p.id, category1 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
 		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
 		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
 		where category1 = #{category1}
 		group by p.id
+		<trim prefix="ORDER BY">
+			<choose>
+				<when test='order == 0'>
+					createDate desc
+				</when>
+				<when test='order == 1'>
+					view desc
+				</when>
+				<when test='order == 2'>
+					reviewCount desc
+				</when>
+				<when test='order == 3'>
+					price
+				</when>
+				<when test='order == 4'>
+					price desc
+				</when>
+				<otherwise>
+					createDate desc
+				</otherwise>
+			</choose>
+		</trim>	
 	</select>
 	<select id="selectInnerCategory" resultType="productVO" parameterType="productVO">
-		SELECT p.id, category2 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) price, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+		SELECT p.id, category2 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
 		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
 		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
 		where category2 = #{category2}
 		group by p.id
+		<trim prefix="ORDER BY">
+			<choose>
+				<when test="order == '0'">
+					createDate desc
+				</when>
+				<when test="order == '1'">
+					view desc
+				</when>
+				<when test="order == '2'">
+					reviewCount desc
+				</when>
+				<when test="order == '3'">
+					price
+				</when>
+				<when test="order == '4'">
+					price desc
+				</when>
+				<otherwise>
+					createDate desc
+				</otherwise>
+			</choose>
+		</trim>	
 	</select>
 	
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->
