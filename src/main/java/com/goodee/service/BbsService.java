@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.CartVO;
+import com.goodee.vo.CommentVO;
 import com.goodee.vo.QnaVO;
 import com.goodee.vo.ReviewCommentVO;
 import com.goodee.vo.UserVO;
@@ -67,6 +68,12 @@ public class BbsService {
 		dao.deleteMyPageQna(vo);
 	}
 		
+	// 상세페이지 -> 장바구니에 데이터 보내기
+		// 장바구니에 담기, 구매하기에 담기
+		public void addCart(CartVO cartvo) {
+			dao.addCart(cartvo);
+		}
+		
 		//QnA
 		//QnA 페이지에 리스트출력
 		public void getQnaList(Model model) {
@@ -90,6 +97,54 @@ public class BbsService {
 		
 		public boolean deleteQna(QnaVO qnavo) {
 			return (dao.deleteQna(qnavo)>0)?true:false;
+		}
+		
+		//조회수
+		public int qnaCount(String id) {
+			return dao.qnaCount(id);
+		}
+		
+		//QnA 답글기능
+		public boolean insertReply(CommentVO commentvo) {
+			return (dao.insertReply(commentvo)>0)?true:false;
+		}
+		
+		//이너 QnA 댓글기능
+		public void getBBSList(Model model) {
+			model.addAttribute("qnaVO1", dao.selectBBSList());
+		}
+		
+		public void getBBSContent(Model model, String id) {
+			model.addAttribute("qnaVO", dao.selectBBS(id));
+		}
+		
+		public List<CommentVO> getCommentList(int root) {
+			return dao.selectCommentList(root);
+		}
+		
+		public int setComment(CommentVO commentvo) {
+			return dao.insertComment(commentvo);
+		}
+		//이너 QnA 댓글수
+		public void updateReplyCount(String id) {
+			dao.updateReplyCount(id);
+		}
+		
+		//관리자 정보수정
+		public void adminList(Model model) {
+			model.addAttribute("list",dao.adminList());
+		}
+
+		public void adminListId(Model model, String id) {
+			model.addAttribute("uservo", dao.adminListId(id));
+		}
+		
+		public boolean updateAdmin(UserVO uservo) throws Exception {
+			return (dao.updateAdmin(uservo)>0)?true:false;
+		}
+		
+		public boolean deleteAdmin(UserVO uservo) {
+			return (dao.deleteAdmin(uservo)>0)?true:false;
 		}
 		
 		// 공지사항

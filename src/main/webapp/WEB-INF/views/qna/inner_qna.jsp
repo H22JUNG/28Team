@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-
 * {
 	margin: 0;
 	padding: 0;
@@ -17,7 +16,6 @@
 ul, li {
 	list-style-type: none;
 }
-
 
 /*main*/
 main {
@@ -92,7 +90,7 @@ a {
 
 .top th {
 	border-bottom: 2px solid #999;
-	font-size : 15px;
+	font-size: 15px;
 }
 
 .qna_list {
@@ -188,33 +186,32 @@ a {
 							</tr>
 						</thead>
 						<tbody>
-								<c:forEach var="vo" items="${list}">
+							<c:forEach var="vo" items="${qnaVO1}">
 								<tr>
-									<td class="num">
-										${vo.id}
-									</td>
-									<td class="category">
-										${vo.qnaCategory}
-									</td>
+									<td class="num">${vo.id}</td>
+									<td class="category">${vo.qnaCategory}</td>
 									<td class="title">
-										<%-- <c:forEach var="i" begin="1" end="${들여쓰기DB(vo.indent)}"> --%>
-										<%-- ${i eq vo.indent ? "<img src='img/re.gif' />" : "&nbsp;&nbsp;"} --%>
-										<%-- <c:forEach> --%> <a href="${pageContext.request.contextPath}/qna/${vo.id}">${vo.title}</a>
+										<a href="${pageContext.request.contextPath}/inner_qna/${vo.id}">
+											${vo.title} 
+											<%-- <c:if test="${vo.reply_count ne 0}">--%>
+												<small><b>(&nbsp;<c:out value="${vo.replyCount}"/>&nbsp;)</b></small>
+											<%-- </c:if>--%>
+										</a>
 									</td>
 									<td class="writer">${vo.owner}</td>
 									<td class="date">${vo.createDate}</td>
-									<td class="count">${vo.ownerId}</td>
+									<td class="count">${vo.hits}</td>
 								</tr>
-								</c:forEach>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 
 				<!--버튼-->
 				<div class="btn_wrap">
-				<%-- <c:if test="${qnaVO.ownerId eq userVO.id}"> --%>
-					<a href="${pageContext.request.contextPath}/write" class="on">문의하기</a>
-				<%-- </c:if> --%>
+					<%-- <c:if test="${qnaVO.ownerId eq userVO.id}"> --%>
+					<a href="${pageContext.request.contextPath}/inner_write" class="on">문의하기</a>
+					<%-- </c:if> --%>
 				</div>
 
 				<!--페이지번호-->
@@ -226,7 +223,10 @@ a {
 						href="#" class="btn last">>></a>
 				</div>
 			</div>
-			</div>
-		</main>
+		</div>
+	</main>
+	<script type="text/javascript">
+
+	</script>
 </body>
 </html>

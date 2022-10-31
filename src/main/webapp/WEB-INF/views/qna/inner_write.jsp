@@ -287,13 +287,13 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post">
+					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post" id="frm">
 						<div class="title">
 							<dl>
 								<dt>문의유형</dt>
 								<dd>
 									<form:select path="qnaCategory">
-										<form:options items="${categoryList}"/>
+										<form:options items="${categoryList2}"/>
 									</form:select>
 								</dd>
 							</dl>
@@ -314,10 +314,13 @@ a {
 						</div>
 						<div class="cont">
 							<form:textarea path="content"/>
+							<%-- <textarea>
+        					</textarea>--%>
 						</div>
 					<div class="btn_wrap">
 						<button class="on" id="acc">등록</button>
 						<button type="button" id="cancel">취소</button>
+						<input type="hidden" name="code" id="code" value="${detailVO.id}">
 					</div>
 					</form:form>
 					</div>
@@ -336,7 +339,8 @@ a {
 							let result = confirm("게시글을 등록하시겠습니까?");
 							if (result == true) {
 								confirm("등록되었습니다.");
-								location.href = "${pageContext.request.contextPath}/write/good";
+								//location.href = "${pageContext.request.contextPath}/inner_write/good";
+								$('#frm').submit();
 							}
 		});
 		

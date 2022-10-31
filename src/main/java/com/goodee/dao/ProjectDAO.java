@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.goodee.vo.CartVO;
+import com.goodee.vo.CommentVO;
 import com.goodee.vo.NoticeVO;
 import com.goodee.vo.OptionVO;
 import com.goodee.vo.PageVO;
@@ -86,15 +87,6 @@ public interface ProjectDAO {
 	public void orderStock(CartVO vo);
 	public void orderPoint(orderUser vo);
 	//여기서위까지 유진 DAO
-	
-	
-	//상품 상세페이지 조회
-	public ProductVO selectDetail(String id);
-	public List<OptionVO> selectDetailOption(String id);
-	public List<OptionVO> selectOptionColor(String id);
-	public List<OptionVO> selectOptionSize(String id);
-	//장바구니 담기
-	public int addCart(CartVO cartvo);
 
 	//Review 게시판
 	public List<ReviewVO> getReview(@Param("id")String id);
@@ -117,14 +109,43 @@ public interface ProjectDAO {
 	public ReviewVO getSelectReview(int id);
 	
 	
-	//Q&A 게시판
-	public List<QnaVO> QnaList();
-	//Q&A 타이틀 누르면 이동
-	public QnaVO selectQna(String id);
-	//Q&A 수정, 생성, 삭제
-	public int updateQna(QnaVO qnavo);
-	public int insertQna(QnaVO qnavo);
-	public int deleteQna(QnaVO qnavo);
+	//상품 상세페이지 조회
+		public ProductVO selectDetail(String id);
+		public List<OptionVO> selectDetailOption(String id);
+		public List<OptionVO> selectOptionColor(String id);
+		public List<OptionVO> selectOptionSize(String id);
+		public OptionVO selectOption(String id);
+		
+		//장바구니 담기
+		public int addCart(CartVO cartvo);
+		
+		//Q&A 게시판
+		public List<QnaVO> QnaList();
+		//Q&A 타이틀 누르면 이동
+		public QnaVO selectQna(String id);
+		//Q&A 수정, 생성, 삭제
+		public int updateQna(QnaVO qnavo);
+		public int insertQna(QnaVO qnavo);
+		public int deleteQna(QnaVO qnavo);
+		//Q&A 조회수
+		public int qnaCount(String id);
+		
+		//Q&A 답글기능
+		public int insertReply(CommentVO commentvo);
+		
+		//이너 Q&A 댓글기능
+		public List<QnaVO> selectBBSList();
+		public QnaVO selectBBS(String id);	
+		public List<CommentVO> selectCommentList(@Param("root") int root);
+		public int insertComment(CommentVO commentvo);
+		//이너 Q&A 댓글수
+		public void updateReplyCount(String id);
+		
+		//관리자 정보수정
+		public List<UserVO> adminList();
+		public UserVO adminListId(String id);
+		public int updateAdmin(UserVO uservo);
+		public int deleteAdmin(UserVO uservo);
 	
 	// 공지사항 게시판
 		public List<NoticeVO> selectNotice(int important);

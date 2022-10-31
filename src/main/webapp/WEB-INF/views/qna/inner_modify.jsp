@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="../js/jquery-3.6.1.min.js?ver123"></script>
 <style>
 * {
 	margin: 0;
@@ -156,7 +155,7 @@ a {
 	border: 1px solid #000;
 	border-radius: 2px;
 	font-size: 14px;
-	background: none;
+	background : none;
 }
 
 .btn_wrap button.on {
@@ -189,7 +188,7 @@ a {
 }
 
 .qna_wrap .info #owner_d {
-	width: 120px;
+	width: 130px;
 }
 
 .qna_write .title {
@@ -287,20 +286,29 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post">
+					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/inner_update" method="post">
+					<%--<form action="${pageContext.request.contextPath}/update" method ="post"> --%>
 						<div class="title">
 							<dl>
 								<dt>문의유형</dt>
 								<dd>
+									<form:hidden path="id"/>
 									<form:select path="qnaCategory">
 										<form:options items="${categoryList}"/>
 									</form:select>
+									<%-- <select name="quest_select" id="">
+									<c:forEach var="vo" items="${categoryList}">
+										<option value="${vo}">${vo}</option>
+									</c:forEach>
+									</select>--%>
 								</dd>
 							</dl>
 							<dl>
 								<dt>비밀번호</dt>
 								<dd>
-									<form:password path="password" placeholder="패스워드 입력" maxlength="4"/>
+									<form:textarea path="password" maxlength="4"/>
+									<%-- <input type="password" name="" id="" placeholder="패스워드 입력"
+										value="${qnaVO.password}" maxlength="4">--%>
 								</dd>
 							</dl>
 						</div>
@@ -308,16 +316,25 @@ a {
 							<dl>
 								<dt>제목</dt>
 								<dd>
-									<form:input path="title" placeholder="제목 입력" id="title_d"/>
+									<form:textarea path="title" id="title_d"/>
+									<%-- <input type="text" name="" id="title_d" placeholder="제목 입력"
+										value="${qnaVO.title}">--%>
+								</dd>
+							</dl>
+							<dl>
+								<dt>작성자</dt>
+								<dd>
+									${qnaVO.owner}
 								</dd>
 							</dl>
 						</div>
 						<div class="cont">
 							<form:textarea path="content"/>
 						</div>
+						<!--버튼-->
 					<div class="btn_wrap">
-						<button class="on" id="acc">등록</button>
-						<button type="button" id="cancel">취소</button>
+					<button class="on" id="btn1">수정완료</button>
+					<button type="button" id="btn2">취소</button>
 					</div>
 					</form:form>
 					</div>
@@ -326,31 +343,16 @@ a {
 		</div>
 	</main>
 	<footer> </footer>
-
+	
 	<script type="text/javascript">
-		document
-				.getElementById("acc")
-				.addEventListener(
-						"click",
-						function() {
-							let result = confirm("게시글을 등록하시겠습니까?");
-							if (result == true) {
-								confirm("등록되었습니다.");
-								location.href = "${pageContext.request.contextPath}/write/good";
-							}
-		});
+		document.getElementById("btn1").addEventListener("click",function() {
+							alert("수정이 완료되었습니다.")
+							location.href = "${pageContext.request.contextPath}/inner_update";
+						});
 		
-		document
-		.getElementById("cancel")
-		.addEventListener(
-				"click",
-				function() {
-					let result = confirm("게시글 작성을 취소하시겠습니까?");
-					if (result == true) {
-						confirm("취소되었습니다.");
-						location.href = "${pageContext.request.contextPath}/qna";
-					}
-	});
+		document.getElementById("btn2").addEventListener("click",function() {
+			location.href = "${pageContext.request.contextPath}/inner_qna/${vo.id}";
+		});
 	</script>
 </body>
 </html>

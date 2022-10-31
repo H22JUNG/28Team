@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="../js/jquery-3.6.1.min.js?ver123"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <style>
 * {
 	margin: 0;
@@ -168,7 +168,7 @@ a {
 	border-top: 2px solid #000;
 }
 
-.qna_write .title, .qna_write .info {
+.qna_write .title, .qna_write .info, .qna_write .password {
 	padding: 15px;
 }
 
@@ -192,30 +192,26 @@ a {
 	width: 120px;
 }
 
-.qna_write .title {
+.qna_write .title, .qna_write .password{
 	border-top: 1px dashed #ddd;
 	font-size: 0;
 }
 
-.qna_write .title dl {
+.qna_write .title dl, .qna_write .password dl{
 	display: inline-block;
 	width: 50%;
 	vertical-align: middle;
 }
 
-.qna_write .title select {
-	width: 200px;
-	padding: 10px;
-}
-
 .qna_write .title dt, .qna_write .title dd, .qna_write .info dt,
-	.qna_write .info dd {
+	.qna_write .info dd, .qna_write .password dt,
+	.qna_write .password dd {
 	display: inline-block;
 	vertical-align: middle;
 	font-size: 14px;
 }
 
-.qna_write .title dt, .qna_write .info dt {
+.qna_write .title dt, .qna_write .info dt, .qna_write .password dt {
 	width: 100px;
 }
 
@@ -223,13 +219,8 @@ a {
 	width: calc(100% - 100px);
 }
 
-.qna_info .title input[type="text"], .qna_write .info input[type="text"],
-	.qna_write .title input[type="password"] {
-	padding: 10px;
-	box-sizing: border-box;
-}
 /* .qna_write .title input[type="text"]{width: 80%;} */
-.qna_write .title dl {
+.qna_write .title dl, .qna_write .password dl {
 	font-size: 0;
 }
 
@@ -287,20 +278,21 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post">
+					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/reply/good" method="post">
 						<div class="title">
 							<dl>
-								<dt>문의유형</dt>
+								<dt>작성자</dt>
 								<dd>
-									<form:select path="qnaCategory">
-										<form:options items="${categoryList}"/>
-									</form:select>
+									관리자
 								</dd>
 							</dl>
+						</div>
+						<div class="password">
 							<dl>
 								<dt>비밀번호</dt>
 								<dd>
-									<form:password path="password" placeholder="패스워드 입력" maxlength="4"/>
+									<input type="password" name="password" id="" value="${qnaVO.password}"/>
+									<input type="hidden" name="root" id="root" value="${qnaVO.id}">
 								</dd>
 							</dl>
 						</div>
@@ -308,7 +300,9 @@ a {
 							<dl>
 								<dt>제목</dt>
 								<dd>
-									<form:input path="title" placeholder="제목 입력" id="title_d"/>
+									Re: ${qnaVO.title}
+									<input type="hidden" name="title" id="" value="Re: ${qnaVO.title}"/>
+									<input type="hidden" name="root" id="" value="${qnaVO.id}"/>
 								</dd>
 							</dl>
 						</div>
@@ -316,7 +310,7 @@ a {
 							<form:textarea path="content"/>
 						</div>
 					<div class="btn_wrap">
-						<button class="on" id="acc">등록</button>
+						<button class="on" id="acc">답변등록</button>
 						<button type="button" id="cancel">취소</button>
 					</div>
 					</form:form>
@@ -328,6 +322,7 @@ a {
 	<footer> </footer>
 
 	<script type="text/javascript">
+	/*
 		document
 				.getElementById("acc")
 				.addEventListener(
@@ -336,7 +331,7 @@ a {
 							let result = confirm("게시글을 등록하시겠습니까?");
 							if (result == true) {
 								confirm("등록되었습니다.");
-								location.href = "${pageContext.request.contextPath}/write/good";
+								location.href = "${pageContext.request.contextPath}/reply/good";
 							}
 		});
 		
@@ -351,6 +346,7 @@ a {
 						location.href = "${pageContext.request.contextPath}/qna";
 					}
 	});
+		*/
 	</script>
 </body>
 </html>

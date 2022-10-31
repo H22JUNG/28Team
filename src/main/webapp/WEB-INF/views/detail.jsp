@@ -699,62 +699,18 @@ input {
 
 	<script type="text/javascript">
 	
-	// 옵션 및 사이즈 중복 제거하기
-	window.addEventListener("DOMContentLoaded", function(){
-		let size = document.getElementById("select_size").value;
-		const colorSelects = document.querySelectorAll("select[name='opt_select_1']");
+	$(document).ready(function(){
 		
-		for (let cselect of colorSelects) {
-			
-			if(size != cselect.dataset.size){
-				cselect.style.display = "none";
-			}
+		var move_product_qna = '${move_product_qna}';
+		if ( move_product_qna ) {
+			$('#tab3').click();	
 		}
 	});
+		// 상품코드 선택
+		$("#select_color option:eq(1)").prop("selected",true);
+		$("#select_color option:eq(2)").prop("selected",true);
 	
-	document.querySelector("select[name='opt_select_2']").addEventListener("change", function(){
-		let size = document.getElementById("select_size").value;
-		const colorSelects = document.querySelectorAll("select[name='opt_select_1']");
-		
-		for (let cselect of colorSelects) {
-			if(size != cselect.dataset.size){
-				cselect.style.display = "none";
-			}else{
-				cselect.style.display = "block";
-			}
-		}
-	});
-	
-	window.addEventListener("DOMContentLoaded", function(){
-		let color = document.getElementById("select_color").value;
-		let size = document.getElementById("select_size").value;
-		
-		const codeSelects = document.querySelectorAll("select[name='code']");
-		
-		for (let cselect of codeSelects) {
-			
-			if(size != cselect.dataset.size){
-				cselect.style.display = "none";
-			}
-		}
-	});
-	
-	document.querySelector("select[name='code']").addEventListener("change", function(){
-		let size = document.getElementById("select_size").value;
-		let color = document.getElementById("select_color").value;
-
-		const codeSelects = document.querySelectorAll("select[name='code']");
-		
-		for (let cselect of codeSelects) {
-			if(size != cselect.dataset.color){
-				cselect.style.display = "none";
-			}else{
-				cselect.style.display = "block";
-			}
-		}
-	});
-	
-		// 사진슬라이드
+		// 사진슬라이드   //컬러&색상&재고에 조건 배열값으로 넣었더니 컬러색상이 null이 있으면 슬라이드 안됨.
 		var slideWrapper = document.getElementById('slider-wrap');
 		var slideIndex = 0;
 		var slides = document.querySelectorAll('#slider-wrap ul li');
@@ -812,7 +768,6 @@ input {
 			plusSlides(1);
 		}, 3000);
 		
-		
 		// 장바구니 이동
 		$("#btn1").click(function() {
 			var id = $("#id").val();
@@ -820,7 +775,7 @@ input {
 			var size = $("#select_size").val();
 			var color = $("#select_color").val();
 			var name = $("#name").val();
-			var code = $("#code").val();
+			var proNum = $("#code").val();
 			var dc = $("#dc").val();
 			var price = $("#cost1").val();
 			var pic1 = $("#pic1").val();
@@ -831,7 +786,7 @@ input {
 			console.log("size : " + size);
 			console.log("color : " + color);
 			console.log("name : " + name);
-			console.log("code : " + code);
+			console.log("proNum : " + proNum);
 			console.log("dc : " + dc);
 			console.log("price : " + price);
 			console.log("pic1 : " + pic1);
@@ -843,7 +798,7 @@ input {
 				size : size,
 				color : color,
 				name : name,
-				code : code,
+				proNum : proNum,
 				dc : dc,
 				price : price,
 				pic1 : pic1
@@ -878,16 +833,22 @@ input {
 			var size = $("#select_size").val();
 			var color = $("#select_color").val();
 			var name = $("#name").val();
-			var price = $("#cost").val();
+			var proNum = $("#code").val();
 			var dc = $("#dc").val();
+			var price = $("#cost1").val();
+			var pic1 = $("#pic1").val();
+			
 			
 			console.log("id : " + id);
 			console.log("count : " + count);
 			console.log("size : " + size);
 			console.log("color : " + color);
 			console.log("name : " + name);
-			console.log("price : " + price);
+			console.log("proNum : " + proNum);
 			console.log("dc : " + dc);
+			console.log("price : " + price);
+			console.log("pic1 : " + pic1);
+			
 
 			var data = {
 				id : id,
@@ -895,8 +856,10 @@ input {
 				size : size,
 				color : color,
 				name : name,
+				proNum : proNum,
+				dc : dc,
 				price : price,
-				dc : dc
+				pic1 : pic1
 			};
 
 			$.ajax({
@@ -915,6 +878,51 @@ input {
 					alert("죄송합니다. 구매하실 수 없습니다.");
 				}
 			});
+		});
+
+		
+		// 옵션 및 사이즈 중복 제거하기  **script 제일 하단에 위치해야함(옵션null일경우 로직에러나서 script멈춤)
+// 		window.addEventListener("DOMContentLoaded", function(){
+// 			let size = document.getElementById("select_size").value;
+// 			const colorSelects = document.querySelectorAll("select[name='opt_select_1']");
+			
+// 			for (let cselect of colorSelects) {
+				
+// 				if(size != cselect.dataset.size){
+// 					cselect.style.display = "none";
+// 				}
+// 			}
+// 		});
+		
+		document.querySelector("select[name='opt_select_2']").addEventListener("change", function(){
+			let size = document.getElementById("select_size").value;
+			const colorSelects = document.querySelectorAll("select[name='opt_select_1']");
+			
+			for (let cselect of colorSelects) {
+				if(size != cselect.dataset.size){
+					cselect.style.display = "none";
+				}else{
+					cselect.style.display = "block";
+				}
+			}
+			
+		});
+		
+		document.querySelector("select[name='select_count']").addEventListener("change", function(){
+			let size = document.getElementById("select_size").value;
+			let color = document.getElementById("select_color").value;
+			let count = document.getElementById("select_count").value;
+			
+			//html 추가로 생성 작업
+			$('.optionSize').remove();
+			var html = '';
+			html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
+			html += '<div class="optionSize">사이즈 : '+ size +'</div>';
+			html += '<div class="optionSize">색상 : '+ color +'</div>';
+			html += '<div class="optionSize">수량 : '+ count +'</div>';
+			
+			$('#productTable').append(html);
+			
 		});
 
 	</script>
