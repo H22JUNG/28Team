@@ -350,8 +350,8 @@
 				});
 		 });
  		
- 	 });
 	 <%--</c:forEach>--%>
+ 	 });
 	 
 	 	//사진 크게보기
 		 document.getElementById("reviewInreview-img").addEventListener("click", function(e) {
