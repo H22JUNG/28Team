@@ -51,7 +51,7 @@
             gap: 10px;
             margin: 10px;
         }
-        
+      
         /* 헤더 이미지 */
         header .header-top .side ul li a {
             text-decoration: none;
@@ -71,7 +71,18 @@
         header .header-top .side ul li{
             text-decoration: none;
             color: #21A5B5;
+            display: flex;
+        	justify-content: center;
+        	align-items: center;
         }
+           header .header-top .side ul .mymenu::after {
+        	content: "";
+            display: inline-block;
+            background: linear-gradient(90deg, #21A5B5 0%, #71B2B4 100%);
+            width: 1px;
+            height: 15px;
+        }
+        
         #main-image{
             background: url("../image/KakaoTalk_20221013_170149504.webp") fixed;
             background-size: cover;

@@ -15,10 +15,10 @@
                     	<li><a href="${pageContext.request.contextPath}/cart/${user.userid}"><img src="${pageContext.request.contextPath}/image/bag_buy_cart.png" alt="" id="cart-logo"></a></li>
                     </c:if>
                     <c:if test="${user eq null}">
-                    <li><a href="${pageContext.request.contextPath}/loginpage">로그인 |</a></li>
+                    <li class="mymenu"><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
                     </c:if>
                     <c:if test="${user != null}">
-                    <li><a href="${pageContext.request.contextPath}/logout">로그아웃 |</a></li>
+                    <li class="mymenu"><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
                     </c:if>
                     <li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
                 </ul>
