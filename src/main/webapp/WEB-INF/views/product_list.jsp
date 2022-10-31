@@ -121,7 +121,7 @@ aside .outer-cate>li:hover>.inner-cate>li>a:hover{
 
 /* 메인 */
 main .item-container {
-	width: 1140px;
+	width: 1040px;
 	display: flex;
 	gap: 30px;
 	flex-direction: column;
@@ -274,7 +274,14 @@ main .item-container .item-list .itembox .itemname {
 }
 
 /* select radio */
-		.select {
+
+		.select-box {
+			display: flex;
+    		padding: 10px 10px 0;
+    		justify-content: space-between;
+    		align-items: end;
+		}
+		#select {
 			position: relative;
 		}
 	
