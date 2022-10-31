@@ -774,7 +774,7 @@ input {
 						<span class="spanarrow">〈〈 &nbsp;</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1" class="arrow" id="prepre">〈〈  &nbsp;</a>
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=1" class="arrow" id="prepre">〈〈  &nbsp;</a>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
@@ -782,7 +782,7 @@ input {
 						<span class="spanarrow"> 〈&nbsp;</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.nowPage - 1}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.nowPage - 1}"
 							class="arrow" id="pre"> 〈&nbsp;</a>
 					</c:otherwise>
 				</c:choose>
@@ -792,7 +792,7 @@ input {
 							<span class="arrow" id="nowpage">&nbsp;${i}&nbsp;</span>
 						</c:when>
 						<c:otherwise>
-							<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${i}"
+							<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${i}"
 								class="arrow" style="color: #CBCBCB;" id="movePage">&nbsp;${i}&nbsp;</a>
 						</c:otherwise>
 					</c:choose>
@@ -802,7 +802,7 @@ input {
 						<span class="spanarrow">&nbsp;〉 </span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.nowPage + 1}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.nowPage + 1}"
 							class="arrow" id="next">&nbsp;〉 </a>
 					</c:otherwise>
 				</c:choose>
@@ -811,7 +811,7 @@ input {
 						<span class="spanarrow">&nbsp; 〉〉</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.totalPage}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.totalPage}"
 							class="arrow" id="nextnext">&nbsp; 〉〉</a>
 					</c:otherwise>
 				</c:choose>
@@ -887,6 +887,16 @@ input {
    			
    		}); 
    	</c:forEach>
+   	
+   	document.getElementById("recentDESC").addEventListener("click", function() {
+   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=recent";
+   	});
+   	document.getElementById("starDESC").addEventListener("click", function() {
+   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=star";
+   	});
+   	document.getElementById("hitDESC").addEventListener("click", function() {
+   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits";
+   	});
     </script>
      
      

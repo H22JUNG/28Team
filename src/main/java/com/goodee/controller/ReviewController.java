@@ -49,7 +49,7 @@ public class ReviewController {
 			reviewservice.getReview(model, id, page, desc);
 			reviewservice.getComment(model, id);
 			return "review/reviewStarDESC";
-		} else if(desc=="hits") {
+		} else if(desc.equals("hits")) {
 			reviewservice.getReview(model, id, page, desc);
 			reviewservice.getComment(model, id);
 			return "review/reviewHitsDESC";
