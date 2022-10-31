@@ -24,7 +24,7 @@ import com.goodee.service.LoginService;
 import com.goodee.service.PayService;
 import com.goodee.service.ReviewService;
 import com.goodee.service.UserService;
-import com.goodee.vo.CommentVO;
+import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.ProductVO;
 import com.goodee.vo.QnaVO;
 import com.goodee.vo.UserVO;
@@ -39,6 +39,15 @@ public class QnaController {
 	
 		// 메인 Qna게시판
 	
+		public QnaController(BbsService bbsservice, UserService userservice, CartService cartservice,
+			ReviewService reviewservice) {
+		super();
+		this.bbsservice = bbsservice;
+		this.userservice = userservice;
+		this.cartservice = cartservice;
+		this.reviewservice = reviewservice;
+	}
+
 		// 상품리스트P->QNA게시판P
 		@GetMapping("/qna")
 		public String getQna(Model model, QnaVO qnavo) {
@@ -137,7 +146,7 @@ public class QnaController {
 		// Q&A 조회P->답글P 답글등록할 때
 		//@GetMapping("/reply/good")
 		@RequestMapping("/reply/good")
-		public String replyBBSResult(@SessionAttribute("user") UserVO user, CommentVO commentvo, @ModelAttribute QnaVO qnaVO) {
+		public String replyBBSResult(@SessionAttribute("user") UserVO user, QnaCommentVO commentvo, @ModelAttribute QnaVO qnaVO) {
 			if (user != null) {
 				commentvo.setOwnerId(user.getId());
 				commentvo.setOwner(user.getUsername());
@@ -180,13 +189,13 @@ public class QnaController {
 		// inner-Q&A 답변
 		@GetMapping("/comment/{root}")
 		@ResponseBody
-		public List<CommentVO> getComments(@PathVariable("root")int root){
+		public List<QnaCommentVO> getComments(@PathVariable("root")int root){
 			return bbsservice.getCommentList(root);
 		}
 		
 		@PostMapping("/comment")
 		@ResponseBody
-		public ResponseEntity<Map<String, String>> setComments(@RequestBody CommentVO commentvo, String id){
+		public ResponseEntity<Map<String, String>> setComments(@RequestBody QnaCommentVO commentvo, String id){
 			ResponseEntity<Map<String,String>> res = null;
 			Map<String, String> map = new HashMap<String, String>();
 			

@@ -12,13 +12,35 @@ public class QnaVO {
 	private int root;
 	private int reId;
 	private int indent;
-	private String category;
+	private int code;
+	private int hits;
+	private int replyCount;
 	
-	public String getCategory() {
-		return category;
+	public int getReplyCount() {
+		return replyCount;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
+	private String result;
+	
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
+	public int getCode() {
+		return code;
+	}
+	public void setCode(int code) {
+		this.code = code;
+	}
+	public int getHits() {
+		return hits;
+	}
+	public void setHits(int hits) {
+		this.hits = hits;
 	}
 	public int getId() {
 		return id;

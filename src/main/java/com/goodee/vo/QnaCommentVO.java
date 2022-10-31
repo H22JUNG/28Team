@@ -1,6 +1,6 @@
 package com.goodee.vo;
 
-public class CommentVO {
+public class QnaCommentVO {
 	private int id;
 	private String title;
 	private String content;

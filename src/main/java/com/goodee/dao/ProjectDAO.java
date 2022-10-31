@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.goodee.vo.CartVO;
-import com.goodee.vo.CommentVO;
+import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.NoticeVO;
 import com.goodee.vo.OptionVO;
 import com.goodee.vo.PageVO;
@@ -131,13 +131,13 @@ public interface ProjectDAO {
 		public int qnaCount(String id);
 		
 		//Q&A 답글기능
-		public int insertReply(CommentVO commentvo);
+		public int insertReply(QnaCommentVO commentvo);
 		
 		//이너 Q&A 댓글기능
 		public List<QnaVO> selectBBSList();
 		public QnaVO selectBBS(String id);	
-		public List<CommentVO> selectCommentList(@Param("root") int root);
-		public int insertComment(CommentVO commentvo);
+		public List<QnaCommentVO> selectCommentList(@Param("root") int root);
+		public int insertComment(QnaCommentVO commentvo);
 		//이너 Q&A 댓글수
 		public void updateReplyCount(String id);
 		

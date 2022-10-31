@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>${detailVO.name}</title>
 <script src="../js/jquery-3.6.1.min.js?ver123"></script>
 <link
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
@@ -500,7 +500,7 @@ input {
 							<li><img src="${detailVO.pic2}" alt=""></li>
 							<li><img src="${detailVO.pic3}" alt=""></li>
 							<c:if test="${detailVO.pic4 != null}">
-							<li><img src="${detailVO.pic4}" alt=""></li>
+								<li><img src="${detailVO.pic4}" alt=""></li>
 							</c:if>
 						</ul>
 						<input type="hidden" name="pic1" id="pic1" value="${detailVO.pic1}"/>
@@ -533,34 +533,32 @@ input {
 							</colgroup>
 							<tbody>
 								<tr>
-									<th><label>가격 </label></th>
-									<td><input type="text" value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원" id="cost"><label for="dc"></label>
-									<input type="text" value="${detailVO.discount}" name="dc"
-										id="dc"><span id="dc-span">%</span></td>
+								<th><label>가격 </label></th>
+								<td><input type="text"
+									value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원"
+									id="cost"><label for="dc"></label> <input type="text"
+									value="${detailVO.discount}" name="dc" id="dc"><span
+									id="dc-span">%</span></td>
 								</tr>
 								<tr>
-									<th><label>판매가격 </label></th>
-									<td><input type="text"
-										value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
-										id="price"> <span>원</span></td>
+								<th><label>판매가격 </label></th>
+								<td><input type="text"
+									value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
+									id="price"> <span>원</span></td>
 								</tr>
 								<tr>
-									<th><label>상품코드 </label></th>
-									<%-- <td><input type="text" value="${detailOptionVO.proNum}"
-										id="product_code"></td> --%>
-									<td>
-									
-										<select name="code" id="code" data-size="${vo.proNum}" data-size="${vo.color}">
+								<th><label>상품코드 </label></th>
+								<%-- <td><input type="hidden" name="proNum" value="${detailOptionVO.proNum}"
+										id="product_code"></td>--%>
+								<td><select name="code" id="code">
 										<c:forEach var="vo" items="${detailOptionVO}">
 											<c:forTokens var="vo1" items="${vo.proNum}" delims=",">
-								 				<option value="${vo1}">${vo1}</option>
-								 			</c:forTokens>
-								 		</c:forEach>
-										</select>
-								
-									</td>
-									<td><input type="hidden" value="${detailVO.id}" id="id"></td>
-								</tr>
+												<option value="${vo1}">${vo1}</option>
+											</c:forTokens>
+										</c:forEach>
+								</select></td>
+								<td><input type="hidden" value="${detailVO.id}" id="id"></td>
+							</tr>
 								<tr>
 									<th>배송비</th>
 									<td><input type="text" value="2,500"><span>원</span></td>
@@ -572,57 +570,63 @@ input {
 										id="save"><span>원</span></td>
 								</tr>
 								
-								<%-- <c:if test="${not empty detailOptionVO[2].size}">--%>
+								<c:if test="${detailOptionVO[1].size != null}">
 								<tr>
 									<th>옵션선택(사이즈)</th>
-								 	<td>
-								 		<select name="opt_select_2" id="select_size" class="form-control opt_select_size">
-								 		<c:forEach var="vo2" items="${selectOptionSize}">
-								 			<c:forTokens var="vo3" items="${vo2.size}" delims=",">
-								 				<option value="${vo3}">${vo3}</option>
-								 			</c:forTokens>
-								 		</c:forEach>
-								 	</select>
-								 	</td>
-								</tr>
-								<%-- </c:if>--%>
-								
-								<%-- <c:if test="${not empty detailOptionVO[3].color}">--%>
-								<tr>
-									 <th>옵션선택(색상)</th>
-								<td>
-									<c:forEach var="vo" items="${selectOptionColor}">
-										<select name="opt_select_1" id="select_color" data-size="${vo.size}" class="form-control opt_select_color">
-								 			<c:forTokens var="vo1" items="${vo.color}" delims=",">
-								 				<option value="${vo1}">${vo1}</option>
-								 			</c:forTokens>
-								 		</select>
-								 	</c:forEach>
-								</td>
-								</tr>
-								<%--</c:if> --%>
-								
-								<tr>
-									<th><label>구매수량</label></th>
-									<td><select name="select_count" id="select_count"
-										class="form-control">
-											<%-- <c:forEach begin="1" end="${detailOptionVO.stock}" var="count">--%>
-											<c:forEach begin="1" end="10" var="count">
-												<option>${count}</option>
+									<td><select name="opt_select_2" id="select_size"
+										class="form-control opt_select_size">
+											<option value="nochoice">-선택없음-</option>
+											<c:forEach var="vo2" items="${selectOptionSize}">
+												<c:forTokens var="vo3" items="${vo2.size}" delims=",">
+													<option value="${vo3}">${vo3}</option>
+												</c:forTokens>
 											</c:forEach>
 									</select></td>
 								</tr>
-							</tbody>
-						</table>
-						<input type="hidden" name="productId" value="${detailVO.id}">
-						<%-- <input type="hidden" name="productNum" value="${detailOptionVO.proNum}">--%>
+							</c:if>
+
+							<c:if test="${detailOptionVO[1].color != null}">
+								<tr>
+									<th>옵션선택(색상)</th>
+									<td><c:forEach var="vo" items="${selectOptionColor}">
+											<select name="opt_select_1" id="select_color"
+												data-size="${vo.size}" class="form-control opt_select_color">
+												<option value="nochoice">-선택없음-</option>
+												<c:forTokens var="vo1" items="${vo.color}" delims=",">
+													<option value="${vo1}">${vo1}</option>
+												</c:forTokens>
+											</select>
+										</c:forEach></td>
+								</tr>
+								</c:if>
+								<tr>
+									<th>옵션선택(색상)</th>
+									<td><select name="opt_select_1" id="select_color" class="form-control opt_select_color">
+													<option value="nochoice">-선택없음-</option>
+													<option value="${optionVO.color}">${optionVO.color}</option>
+											</select>
+									</td>
+								</tr>
+								
+							<tr>
+								<th><label>구매수량</label></th>
+								<td><select name="select_count" id="select_count"
+									class="form-control">
+										<c:forEach begin="0" end="${detailOptionVO[1].stock}"
+											var="count">
+											<option>${count}</option>
+										</c:forEach>
+								</select></td>
+							</tr>
+						</tbody>
+					</table>
+					<input type="hidden" name="productId" value="${detailVO.id}">
+					
 						<!--장바구니/구매하기 버튼-->
 						<div class="datail_top_btns">
 							<input type="submit" value="장바구니" id="btn1" />
 							<input type="submit" value="구매하기" id="btn2" />
 						</div>
-						<%--</div>--%>
-					<%-- </form>--%>
 				</div>
 			</div>
 			<hr width="100%" color="black" size="1">
@@ -806,7 +810,7 @@ input {
 			};
 
 			$.ajax({
-				url : "${pageContext.request.contextPath}/cart",
+				url : "${pageContext.request.contextPath}/detailcart",
 				type : "post",
 				data : data,
 				success : function(result) {
@@ -863,7 +867,7 @@ input {
 			};
 
 			$.ajax({
-				url : "${pageContext.request.contextPath}/pay",
+				url : "${pageContext.request.contextPath}/datailpay",
 				type : "post",
 				data : data,
 				success : function(result) {

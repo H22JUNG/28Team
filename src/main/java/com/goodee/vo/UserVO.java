@@ -14,7 +14,14 @@ public class UserVO {
 	private String email;
 	private int point;
 	private int usercount;
+	private int admin;
 
+	public int getAdmin() {
+		return admin;
+	}
+	public void setAdmin(int admin) {
+		this.admin = admin;
+	}
 	public UserVO() {
 		// TODO Auto-generated constructor stub
 	}

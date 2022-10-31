@@ -66,7 +66,7 @@ public class CartController {
 
 	// 상세페이지->장바구니 담기
 	@ResponseBody
-	@PostMapping("/cart")
+	@PostMapping("/detailcart")
 	public int addCart(CartVO cartvo, HttpSession session) {
 		int result = 0;
 		UserVO user = (UserVO) session.getAttribute("user");
@@ -80,7 +80,7 @@ public class CartController {
 
 	// 상세페이지->구매하기 담기
 	@ResponseBody
-	@PostMapping("/pay")
+	@PostMapping("/datailpay")
 	public int addPay(CartVO cartvo, HttpSession session) {
 		int result = 0;
 		UserVO user = (UserVO) session.getAttribute("user");

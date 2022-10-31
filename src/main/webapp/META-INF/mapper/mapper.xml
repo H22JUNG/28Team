@@ -442,59 +442,169 @@
 	</update>
 	<!-- 위까지 유진 mapper -->
 	
-	
+	<!-- 수정 -->
 	<!-- 상품 상세페이지 조회 -->
 	<select id="selectDetail" resultType="ProductVO">
-  		select id, pic1, pic2, pic3, pic4, name, price, discount from product where id = #{id}
-  	</select>
-  	
-  	<select id="selectDetailOption" resultType="OptionVO">
-  		select id, pro_num, size, color, stock, name from option where id = #{id}
-  	</select>
-  	
-  	<select id="selectOptionColor" resultType="OptionVO">
-  		SELECT id, size, GROUP_CONCAT(color) color FROM option where id = #{id} GROUP BY id, size;
-  	</select>
-  	
-  	<select id="selectOptionSize" resultType="OptionVO">
-  		SELECT id, color, GROUP_CONCAT(size) FROM option where id = #{id} GROUP BY id, color;
-  	</select>
-  
-  	<!-- 상세페이지 장바구니 담기 -->
-  	<insert id="addCart">
-  		insert into cart(cartid, userid, userName, id, name, price, count, color, size, pic1, pro_num) 
-  		values(null, #{userid}, #{userName}, #{id}, #{name}, #{price}, #{count}, #{color}, #{size}, #{pic1}, #{proNum})
-  	</insert>
-	
-	
+		select id, pic1, pic2, pic3, pic4, name, price, discount from product where
+		id = #{id}
+	</select>
+
+	<select id="selectOption" resultType="OptionVO">
+		SELECT
+		B.PRO_NUM
+		, B.COLOR
+		FROM PRODUCT A
+		LEFT JOIN OPTION B
+		ON A.ID = B.ID
+		AND SIZE = #{size}
+		WHERE IFNULL(B.id, '') &lt;&gt; ''
+		AND A.ID = #{id}
+		GROUP BY B.PRO_NUM, B.COLOR
+	</select>
+
+		<select id="selectDetailOption" resultType="OptionVO"> 
+		select id, pro_num, size, color, stock, name from option where id = #{id}
+		</select> 
+		
+		<select id="selectOptionColor" resultType="OptionVO"> 
+		SELECT id, size, GROUP_CONCAT(color) color FROM option where id = #{id} GROUP BY id, size; 
+		</select> 
+		
+		<select id="selectOptionSize" resultType="OptionVO"> 
+		SELECT id, color, GROUP_CONCAT(size) FROM option where id = #{id} GROUP BY id, color; 
+		</select>
+
+	<!-- 상세페이지 장바구니 담기 -->
+	<insert id="addCart">
+		insert into cart(cartid, userid, userName, id, name, price, count, color,
+		size, pic1, pro_num)
+		values(null, #{userid}, #{userName}, #{id}, #{name}, #{price}, #{count}, #{color},
+		#{size}, #{pic1}, #{proNum})
+	</insert>
+
+
+	<!-- SELECT B.pro_num FROM PRODUCT A LEFT JOIN OPTION B ON A.ID = B.ID and 
+		size = #{size} and color = #{color} WHERE IFNULL(B.id, '') &lt;&gt; '' AND 
+		A.ID = #{id} -->
+
 	<!--Q&A 게시글조회 -->
 	<select id="QnaList" resultType="QnaVO">
-  		select id, code, qna_category, password, owner, title, content, date_format(create_date, '%Y-%m-%d') create_date,
-  		owner_id, root, re_id, indent from qna ORDER BY id DESC;
-  	</select>
-	
+		select id, code, qna_category, password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d') create_date,
+		owner_id, root, re_id, indent, hits from qna UNION ALL select id, code,
+		qna_category, password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d') create_date,
+		owner_id, root, re_id, indent, hits from comment ORDER BY root DESC, re_id ASC;
+	</select>
+
 	<!--Q&A 타이틀누를때 이동 -->
-  	<select id="selectQna" resultType="QnaVO">
-  		select id, code, qna_category, password, owner, title, content, date_format(create_date, '%Y-%m-%d') create_date,
-  		owner_id, root, re_id, indent from qna where id = #{id}
-  	</select>
-  	
-  	<!-- Q&A update-->
-  	<update id="updateQna">
-		update qna set qna_category = #{qnaCategory}, password = #{password},owner = #{owner}, title=#{title}, content=#{content}
+	<select id="selectQna" resultType="QnaVO">
+		select id, code, qna_category, password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d') create_date,
+		owner_id, root, re_id, indent from qna where id = #{id}
+	</select>
+
+	<!-- Q&A update -->
+	<update id="updateQna">
+		update qna set qna_category = #{qnaCategory},
+		password = #{password},owner = #{owner}, title=#{title},
+		content=#{content}
 		where id = #{id} and owner_id = #{ownerId}
 	</update>
 
-	<!-- Q&A insert-->
+	<!-- Q&A insert -->
 	<insert id="insertQna">
-		insert into qna(qna_category, title, owner_id, owner, content, password)
-		values('QnA', #{qnaCategory}, #{title}, #{ownerId}, #{owner}, #{content}, #{password})
+		insert into qna(qna_category, title, owner_id, owner,
+		content, password, root)
+		values(#{qnaCategory}, #{title}, #{ownerId},
+		#{owner}, #{content}, #{password}, root)
+	</insert>
+
+	<!-- Q&A delete -->
+	<delete id="deleteQna">
+		delete from qna where id = #{id} and owner_id =
+		#{ownerId}
+	</delete>
+
+	<!-- Q&A조회수 -->
+	<update id="qnaCount">
+		update qna set hits = hits + 1 where id = #{id}
+	</update>
+
+	<!-- Q&A 답변 -->
+	<insert id="insertReply">
+		insert into comment(owner_id, owner, title, content,
+		password, re_id, root, indent)
+		values(#{ownerId}, #{owner}, #{title},
+		#{content}, #{password}, 1, #{root}, 1)
+	</insert>
+
+	<!-- inner-Q&A : 유형이 상품문의만 출력 -->
+	<select id="selectBBSList" resultType="QnaVO">
+		select id, code,
+		qna_category, password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d') create_date,
+		owner_id, root, re_id, indent, hits, reply_count from qna where qna_category = '상품문의' order
+		by id desc
+	</select>
+
+	<select id="selectBBS" resultType="QnaVO">
+		select id, code, qna_category, password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d') create_date,
+		owner_id, root, re_id, indent, hits from qna WHERE qna_category = '상품문의' and id
+		= #{id} ORDER BY id DESC
+	</select>
+
+	<!-- inner Q&A 댓글기능 -->
+	<select id="selectCommentList" resultType="CommentVO">
+		select id, owner_id,
+		owner, content,
+		date_format(create_date, '%Y-%m-%d %T') create_date, order_id, re_id, root, indent
+		from comment
+		where is_delete = 0
+		and root = #{root}
+	</select>
+
+	<insert id="insertComment">
+		insert into comment(owner_id, owner,
+		title, content, password, order_id, re_id, root, indent)
+		values
+		(#{ownerId},#{owner},#{title},#{content},#{password},#{orderId}, 1,
+		#{root}, 1);
 	</insert>
 	
-	<!-- Q&A delete-->
-	<delete id="deleteQna">
-		delete from qna where id = #{id} and owner_id = #{ownerId}
+	<!-- inner-Q&A 댓글수 -->
+	<update id="updateReplyCount" parameterType="int">
+	update qna set reply_count = (select count(id) from comment where root = #{root})
+	where id = #{id}
+	</update>
+
+	<!-- 관리자 정보수정 -->
+	<select id="adminList" resultType="userVO">
+		select id, userid, username,
+		tel, address, email, admin from user where admin = 1
+	</select>
+	<select id="adminListId" resultType="userVO">
+		select id, userid, password,
+		username, tel, address, email, admin from user where admin = 1 AND id
+		= #{id}
+	</select>
+	<update id="updateAdmin" parameterType="userVO">
+		update user
+		set password = #{password}
+		, username = #{username}
+		, tel = #{tel}
+		, address = #{address}
+		, email = #{email}
+		, admin= #{admin}
+		where id = #{id}
+	</update>
+	<delete id="deleteAdmin">
+		delete from user where id = #{id} and userid =
+		#{userid}
 	</delete>
+	
+	<!-- 수정끝 -->
 	
 	<!-- 공지 list -->
 	<select id="selectNotice" resultType="noticeVO">

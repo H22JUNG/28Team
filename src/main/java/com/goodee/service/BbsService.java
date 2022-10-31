@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.CartVO;
-import com.goodee.vo.CommentVO;
+import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.QnaVO;
 import com.goodee.vo.ReviewCommentVO;
 import com.goodee.vo.UserVO;
@@ -68,13 +68,8 @@ public class BbsService {
 		dao.deleteMyPageQna(vo);
 	}
 		
-	// 상세페이지 -> 장바구니에 데이터 보내기
-		// 장바구니에 담기, 구매하기에 담기
-		public void addCart(CartVO cartvo) {
-			dao.addCart(cartvo);
-		}
-		
-		//QnA
+	
+		//QnA - 수정
 		//QnA 페이지에 리스트출력
 		public void getQnaList(Model model) {
 			model.addAttribute("category", "Q&A");
@@ -105,7 +100,7 @@ public class BbsService {
 		}
 		
 		//QnA 답글기능
-		public boolean insertReply(CommentVO commentvo) {
+		public boolean insertReply(QnaCommentVO commentvo) {
 			return (dao.insertReply(commentvo)>0)?true:false;
 		}
 		
@@ -118,11 +113,11 @@ public class BbsService {
 			model.addAttribute("qnaVO", dao.selectBBS(id));
 		}
 		
-		public List<CommentVO> getCommentList(int root) {
+		public List<QnaCommentVO> getCommentList(int root) {
 			return dao.selectCommentList(root);
 		}
 		
-		public int setComment(CommentVO commentvo) {
+		public int setComment(QnaCommentVO commentvo) {
 			return dao.insertComment(commentvo);
 		}
 		//이너 QnA 댓글수
@@ -130,7 +125,7 @@ public class BbsService {
 			dao.updateReplyCount(id);
 		}
 		
-		//관리자 정보수정
+		//관리자 정보수정 - 수정
 		public void adminList(Model model) {
 			model.addAttribute("list",dao.adminList());
 		}

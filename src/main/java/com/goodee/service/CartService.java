@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.CartVO;
+import com.goodee.vo.OptionVO;
 
 @Service
 public class CartService {
@@ -45,15 +46,20 @@ public class CartService {
 		dao.deleteAllCart(cartNum);
 	}
 
-	// 상세페이지 -> 장바구니에 데이터 보내기
-	public void getDetailContent(Model model, String id) {
-		model.addAttribute("detailVO", dao.selectDetail(id));
-		model.addAttribute("detailOptionVO", dao.selectDetailOption(id));
-		model.addAttribute("selectOptionColor", dao.selectOptionColor(id));
-		model.addAttribute("selectOptionSize", dao.selectOptionColor(id));
-	}
-	// 장바구니에 담기, 구매하기에 담기
-	public void addCart(CartVO cartvo) {
-		dao.addCart(cartvo);
-	}
+	// 상품페이지 -> 상세페이지에 데이터 보내기
+		public void getDetailContent(Model model, String id) {
+			model.addAttribute("detailVO", dao.selectDetail(id));
+			model.addAttribute("detailOptionVO", dao.selectDetailOption(id));
+			model.addAttribute("selectOptionColor", dao.selectOptionColor(id));
+			model.addAttribute("selectOptionSize", dao.selectOptionColor(id));
+			model.addAttribute("optionVO", dao.selectOption(id));
+			
+			List<OptionVO> list = dao.selectDetailOption(id);
+		}
+		
+		// 상세페이지 -> 장바구니에 데이터 보내기
+		// 장바구니에 담기, 구매하기에 담기
+		public void addCart(CartVO cartvo) {
+			dao.addCart(cartvo);
+		}
 }
