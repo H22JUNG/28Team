@@ -369,12 +369,13 @@ input::-webkit-input-placeholder {
 	font-size: 60px;
 	padding: 20px;
 	min-height: 300px;
+	display: block;
 }
-
+/* 
 .tabmenu #tab1:checked ~ #content1, .tabmenu #tab2:checked ~ #content2,
 	.tabmenu #tab3:checked ~ #content3 {
 	display: block;
-}
+} */
 
 hr {
 	margin-top: 20px;
@@ -633,8 +634,8 @@ input {
 			<!--탭-->
 			<div class="tabmenu">
 				<input type="radio" name="tab" id="tab1" checked> <a
-					href="#"><label for="tab1">상세정보</label></a> <input type="radio"
-					name="tab" id="tab2"> <a href="#"><label for="tab2">리뷰</label></a>
+					href="#"><label for="tab1">상세정보</label></a>
+				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
 				<input type="radio" name="tab" id="tab3"> <a href="#"><label
 					for="tab3">상품문의</label></a>
 				<div id="content1">

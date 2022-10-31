@@ -320,3 +320,9 @@ font-size : 12px;
 	font-size : 30px;
 	cursor:pointer;
 	}	
+	
+
+/* 페이징 */
+.pageing {
+	padding : 30px;
+}

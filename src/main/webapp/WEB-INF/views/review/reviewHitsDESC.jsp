@@ -486,7 +486,7 @@ input {
 	height: 100px;
 	border: 1px solid black;
 }
-#recentDESC{
+#hitDESC{
 	background : #21A5B5;
 	color : white;
 }
@@ -887,18 +887,6 @@ input {
    			
    		}); 
    	</c:forEach>
-   	
-   	document.getElementById("recentDESC").addEventListener("click", function() {
-   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=recent";
-   	});
-   	document.getElementById("starDESC").addEventListener("click", function() {
-   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=star";
-   	});
-   	document.getElementById("hitDESC").addEventListener("click", function() {
-   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits";
-   	});
-   	
-   	
     </script>
      
      

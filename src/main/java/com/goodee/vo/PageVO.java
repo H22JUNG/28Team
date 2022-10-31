@@ -31,7 +31,17 @@ public class PageVO {
 	private String address;
 	private String email;
 	
+	//리뷰 카테고리
+	private String id;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getUserid() {
 		return userid;
 	}

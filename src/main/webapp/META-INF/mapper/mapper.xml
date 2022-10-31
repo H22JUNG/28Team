@@ -304,10 +304,20 @@
 	
 	
 	<!-- Review 게시글 조회-->
-	<select id="getReview" parameterType="string" resultType="reviewVO">
+	<select id="getReview" parameterType="pageVO" resultType="reviewVO">
 		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
 		from review
 		where code=#{id}
+		ORDER BY createDate DESC
+		limit #{start}, #{cntPerPage}
+	</select>
+	<select id="getReviewStar" parameterType="pageVO" resultType="reviewVO">
+		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
+		from review	where code=#{id} ORDER BY stargrade DESC limit #{start}, #{cntPerPage}
+	</select>
+	<select id="getReviewHits" parameterType="pageVO" resultType="reviewVO">
+		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
+		from review	where code=#{id} ORDER BY hits DESC limit #{start}, #{cntPerPage}
 	</select>
 	
 	<!-- Review 총 갯수 뽑아오기 -->
@@ -332,7 +342,8 @@
 	</select> 
 	<!-- Review 별점 평균 뽑아오기 -->
  	<select id="getStarGradeAvg" parameterType="string" resultType="double">
-		SELECT round(AVG(stargrade),1) avg FROM review WHERE CODE=#{id}
+		SELECT if((count(stargrade)) = 0, 0,(SELECT round(AVG(stargrade),1)
+		FROM review WHERE CODE=#{id})) avg FROM review WHERE CODE=#{id}
 	</select> 
 	<!-- 사진 리뷰 전체보기  -->
 	<select id="getPic" parameterType="string" resultType="reviewVO">

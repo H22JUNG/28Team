@@ -89,7 +89,9 @@ public interface ProjectDAO {
 	//여기서위까지 유진 DAO
 
 	//Review 게시판
-	public List<ReviewVO> getReview(@Param("id")String id);
+	public List<ReviewVO> getReview(PageVO vo);
+	public List<ReviewVO> getReviewStar(PageVO vo);
+	public List<ReviewVO> getReviewHits(PageVO vo);
 	public int getReviewCount(String id);
 	public int getStarGradeCount1(String id);
 	public int getStarGradeCount2(String id);
