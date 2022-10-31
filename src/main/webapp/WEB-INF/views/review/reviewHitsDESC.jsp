@@ -650,7 +650,9 @@ input {
         <div class="starsScore">
             <span id="star">★</span><span id="grade">${starGradeAvg}</span>
             <c:if test="${review.size() != 0}">
-	           <h3> ${(starGradeCount[4] + starGradeCount[3] + starGradeCount[2]) /reviewCount * 100}%의 구매자가 이 상품을 좋아합니다</h3>
+	         	<h3>
+	        	   <fmt:parseNumber var="percent" value="${(starGradeCount[4] + starGradeCount[3] + starGradeCount[2]) /reviewCount * 100}" integerOnly="true" />
+	         	   ${percent}%의 구매자가 이 상품을 좋아합니다</h3>
 	           </c:if>
 	           <c:if test="${review.size() == 0}">
 	           	<h3> 아직 리뷰를 남긴 구매자가 없습니다</h3>
