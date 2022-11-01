@@ -201,6 +201,23 @@ section {
 	border-radius: 20px 20px;
 	padding-top: 20px;
 }
+#emptyOrder{
+	border: 1px solid #D9D9D9;
+	border-radius: 20px 20px;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	
+}
+#emptyOrder h4{
+display:flex;
+justify-content: center;
+}
+#emptyOrder img{
+width: 80px;
+}
 
 #rightTop {
 	display: flex;
@@ -399,6 +416,13 @@ section {
 				</ul>
 			</aside>
 			<section>
+			<c:if test="${empty orderList}">
+					<div id="emptyOrder">
+					<img src="${pageContext.request.contextPath}/image/empty-icon.png" />
+					<h4>주문내역이 존재하지않습니다!</h4>
+					</div>
+					</c:if>
+			
 						<c:forEach var="list" items="${orderList}">
 				<div id="right">
 					<div id="rightTop">
