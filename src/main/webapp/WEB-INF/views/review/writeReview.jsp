@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,6 +50,7 @@
             width: 100%;
             height: 100%;
             outline: none;
+            background: #fff;
         }
         table textarea {
             border: none;
@@ -81,6 +83,9 @@
         option {
             color: #21A5B5;
         }
+        #code {
+        	display : hidden;
+        }
     </style>
 </head>
 <body>
@@ -90,50 +95,50 @@
         <div id="review-box">
             <h2>리뷰를 작성해주세요</h2>
 
-			<form action="${pageContext.request.contextPath}/리뷰쓰고 전송" method="post">
+			<form:form modelAttribute="revo" action="${pageContext.request.contextPath}/writeReviewDone/${proVO.id}" method="post">
             <table>
                 <tr>
                     <td>상품명</td>
-                    <td>이거 샀어요</td>
+                    <td>${proVO.name}</td>
                 </tr>
                 <tr>
                     <td>작성자</td>
-                    <td>작성자에요</td>
+                    <td>${user.username}</td>
                 </tr>
                 <tr>
                     <td>별 점</td>
                     <td>
-                        <select>
-                            <option value="5" selected>★★★★★</option>
-                            <option value="4">★★★★☆</option>
-                            <option value="3">★★★☆☆</option>
-                            <option value="2">★★☆☆☆</option>
-                            <option value="1">★☆☆☆☆</option>
-                        </select>
-                        <label for="star">별점을 선택해주세요</label>
+                         <form:select path="stargrade">
+                            <form:option value="5">★★★★★</form:option>
+                            <form:option value="4">★★★★☆</form:option>
+                            <form:option value="3">★★★☆☆</form:option>
+                            <form:option value="2">★★☆☆☆</form:option>
+                            <form:option value="1">★☆☆☆☆</form:option>
+                        </form:select> 
+                        <label for="stargrade">별점을 선택해주세요</label>
                         
                     </td>
                 </tr>
                 <tr>
                     <td>제 목</td>
-                    <td><input type="text" placeholder="리뷰 제목을 입력해주세요" /></td>
+                    <td><form:input path="title" type="text" placeholder="리뷰 제목을 입력해주세요" /></td>
                 </tr>
                 <tr>
                     <td>내 용</td>
-                    <td><textarea name="" id="" cols="85" rows="25" placeholder="리뷰 내용을 입력해주세요"></textarea></td>
+                    <td><form:textarea path="content" cols="85" rows="25" placeholder="리뷰 내용을 입력해주세요"></form:textarea></td>
                 </tr>
                 <tr>
                     <td>사진첨부</td>
                     <td>
                         <label for="file">최대 2개까지 첨부 가능합니다.</label>
-                        <input type="file" name="file"/>
+                        <form:input type="file" path="pic1"/>
                     </td>
                 </tr>
             </table>
             <div id="btn">
                 <button id="write">등 록</button>
             </div>
-            </form>
+            </form:form>
 
         </div>
     </main>

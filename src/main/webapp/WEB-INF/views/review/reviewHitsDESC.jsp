@@ -825,7 +825,11 @@ input {
     <script>
     
     document.getElementById("writeReview").addEventListener("click", function() {
-    	location.href = "${pageContext.request.contextPath}/writeReview";
+    	<% if(session.getAttribute("user") != null) {%>
+    		location.href = "${pageContext.request.contextPath}/writeReview/${detailVO.id}";
+    	<%} else {%>
+   			alert("로그인 후 이용하실 수 있습니다.");
+   		<%} %>
     });
     
     

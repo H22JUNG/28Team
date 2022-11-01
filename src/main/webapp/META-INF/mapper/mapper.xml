@@ -386,6 +386,11 @@
 		from review
 		where id=#{id}
 	</select>
+	<!-- 리뷰 등록하기 -->
+	<insert id="writeReview">
+		INSERT INTO review(category, title, content, owner_id, OWNER,CODE,stargrade)
+		VALUE(#{category},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade})
+	</insert>
 	
 	<!-- 유진 mapper, 주문페이지에서 입력한 정보 전송 -->
 	<!-- 결제하기위해 DB에서 내 정보 받아옴 -->

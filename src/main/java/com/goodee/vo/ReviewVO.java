@@ -5,6 +5,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("reviewVO")
 public class ReviewVO {
 	private int id;
+	private String category;
 	private String title;
 	private String content;
 	private String pic1;
@@ -13,6 +14,7 @@ public class ReviewVO {
 	private String owner;
 	private String createDate;
 	private int code;
+	private String productName;
 	private int stargrade;
 	private int hits;
 	
@@ -28,6 +30,13 @@ public class ReviewVO {
 	private double avg;
 	
 	
+	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory() {
+		this.category = "Review";
+	}
 	public int getId() {
 		return id;
 	}
@@ -136,7 +145,13 @@ public class ReviewVO {
 	public void setAvg(double avg) {
 		this.avg = avg;
 	}
-
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
 	
 	
 }

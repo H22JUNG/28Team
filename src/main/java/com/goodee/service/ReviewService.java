@@ -1,12 +1,17 @@
 package com.goodee.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.PageVO;
+import com.goodee.vo.ProductVO;
 import com.goodee.vo.ReviewCommentVO;
 import com.goodee.vo.ReviewVO;
+import com.goodee.vo.UserVO;
 
 @Service
 public class ReviewService {
@@ -83,5 +88,32 @@ public class ReviewService {
 	}
 	public void commnetInsert(ReviewCommentVO vo) {
 		dao.putComment(vo);
+	}
+	//리뷰쓰기 창에서 상품명 불러오기
+	public void getProductName(Model model, int id) {
+		String id1 = Integer.toString(id);
+		model.addAttribute("proVO", dao.selectDetail(id1));
+	}
+	//리뷰쓰기 창에서 작성자 불러오기
+	public void getSession(HttpSession session) {
+		session.getAttribute("user");
+	}
+	
+	//리뷰 DB로 전송
+	public void writeReview(int id, ReviewVO vo, Model model, HttpSession session) {
+		//카테고리
+		vo.setCategory();
+		System.out.println("세션");
+		UserVO uservo = (UserVO)session.getAttribute("user");
+		System.out.println("tptus");
+		//작성자id
+		vo.setOwner_id(Integer.toString(uservo.getId()));
+		//작성자이름
+		vo.setOwner(uservo.getUsername());
+		//상품코드
+		String id1 = Integer.toString(id);
+		ProductVO provo = dao.selectDetail(id1);
+		vo.setCode(provo.getId());
+		dao.writeReview(vo);
 	}
 }

@@ -109,6 +109,8 @@ public interface ProjectDAO {
 	public void putComment(ReviewCommentVO vo);
 	//리뷰 모달창
 	public ReviewVO getSelectReview(int id);
+	//리뷰 작성
+	public void writeReview(ReviewVO vo);
 	
 	
 	//상품 상세페이지 조회
