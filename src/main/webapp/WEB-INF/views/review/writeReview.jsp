@@ -95,7 +95,7 @@
         <div id="review-box">
             <h2>리뷰를 작성해주세요</h2>
 
-			<form:form modelAttribute="revo" action="${pageContext.request.contextPath}/writeReviewDone/${proVO.id}" method="post">
+			<form:form modelAttribute="revo" action="${pageContext.request.contextPath}/writeReviewDone/${proVO.id}" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>상품명</td>
@@ -130,8 +130,9 @@
                 <tr>
                     <td>사진첨부</td>
                     <td>
-                        <label for="file">최대 2개까지 첨부 가능합니다.</label>
-                        <form:input type="file" path="pic1"/>
+                        <label for="file">최대 2개까지 첨부 가능합니다.</label><br />
+                        <label for="pic1">사진1</label><form:input type="file" path="pic1" />
+                        <label for="pic2">사진2</label><form:input type="file" path="pic2" />
                     </td>
                 </tr>
             </table>

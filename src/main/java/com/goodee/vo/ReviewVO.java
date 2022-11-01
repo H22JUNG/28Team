@@ -1,6 +1,9 @@
 package com.goodee.vo;
 
+import java.io.File;
+
 import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 @Alias("reviewVO")
 public class ReviewVO {
@@ -8,7 +11,7 @@ public class ReviewVO {
 	private String category;
 	private String title;
 	private String content;
-	private String pic1;
+	private MultipartFile[] pic1;
 	private String pic2;
 	private String owner_id;
 	private String owner;
@@ -55,10 +58,10 @@ public class ReviewVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getPic1() {
+	public MultipartFile[] getPic1() {
 		return pic1;
 	}
-	public void setPic1(String pic1) {
+	public void setPic1(MultipartFile[] pic1) {
 		this.pic1 = pic1;
 	}
 	public String getPic2() {

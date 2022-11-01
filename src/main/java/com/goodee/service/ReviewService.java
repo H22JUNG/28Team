@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.PageVO;
@@ -100,7 +102,9 @@ public class ReviewService {
 	}
 	
 	//리뷰 DB로 전송
-	public void writeReview(int id, ReviewVO vo, Model model, HttpSession session) {
+	public void writeReview(@RequestParam("pic1") MultipartFile[] pic1,
+							@RequestParam("pic2") MultipartFile[] pic2,
+							int id, ReviewVO vo, Model model, HttpSession session) {
 		//카테고리
 		vo.setCategory();
 		System.out.println("세션");
@@ -114,6 +118,13 @@ public class ReviewService {
 		String id1 = Integer.toString(id);
 		ProductVO provo = dao.selectDetail(id1);
 		vo.setCode(provo.getId());
+		
+		for(MultipartFile file : pic1) {
+			if(!file.getOriginalFilename().isEmpty()) {
+				//file.transferTo(vo.setPic1(file.getOriginalFilename()));
+			}
+		}
+		
 		dao.writeReview(vo);
 	}
 }

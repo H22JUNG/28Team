@@ -203,10 +203,6 @@
 		ORDER BY createDate desc;
 
 	</select>
-<!-- 	<select id="getRewrote" resultType="wroteVO">
-		select id, category, title, content, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, re_id 
-		from qna where re_id !=0
-	</select> -->
 	<select id="getsearch" resultType="wroteVO" parameterType="String">
 		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate FROM qna
 		<if test="id != null">

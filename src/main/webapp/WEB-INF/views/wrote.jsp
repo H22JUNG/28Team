@@ -452,6 +452,7 @@
 									</c:if>
 								</c:forEach>
 						</c:forEach>
+						<c:if test="${empty list}"><tr><td colspan="5">작성된 글이 없습니다.</td></tr></c:if>
 					</tbody>
 					
 					

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.goodee.service.CartService;
 import com.goodee.service.ReviewService;
@@ -98,10 +99,12 @@ public class ReviewController {
 	
 	//리뷰쓰고 전송 눌렀을 때
 	@PostMapping("/writeReviewDone/{id}")
-	public String moveWriteReviewDone(@PathVariable("id")int id,
+	public String moveWriteReviewDone(@RequestParam("pic1") MultipartFile[] pic1,
+									@RequestParam("pic2") MultipartFile[] pic2,
+									@PathVariable("id")int id,
 									@ModelAttribute("reviewVO") ReviewVO vo,
 									Model model, HttpSession session) {
-		reviewservice.writeReview(id, vo, model, session);
+		reviewservice.writeReview(pic1, pic2, id, vo, model, session);
 		return "redirect:/moveReview/"+id;
 	}
 	
