@@ -34,7 +34,7 @@ public interface ProjectDAO {
 	
 	//카테고리별 상품 리스트로 이동
 	public List<ProductVO> selectCategory(ProductVO vo);
-	public List<ProductVO> selectInnerCategory(ProductVO vo);
+	public List<ProductVO> selectBest(ProductVO vo);	
 	
 	//product List 출력 - 윤정
 	public List<Map<String,Object>> selectProductList();

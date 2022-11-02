@@ -19,7 +19,8 @@ main {
 	width: 100%;
 	padding: 120px 80px 240px;
 	gap: 20px;
-	min-width: 1200px;
+	justify-content: center;
+    display: flex;
 }
 
 /* 카테고리 메뉴바 */
@@ -125,52 +126,107 @@ main .item-container {
 	display: flex;
 	gap: 30px;
 	flex-direction: column;
-	position: relative;
-	left: 28%;
 }
 /* 베스트 아이템 */
-main .best-itembox .best-item>div {
+main .bestitem-box >div {
 	width: 240px;
 	height: 320px;
-	float: left;
 	margin: 10px;
-	border: 1px solid black;
 }
 
-main .best-itembox p {
+main .bestitem-container > p {
 	font-size: 25px;
 	padding-left: 10px;
 }
 
-main .best-itembox p span {
+main .bestitem-container > p span {
 	color: #28BACE;
 }
 
-/* 상품 list */
-main .item-container .item-list>p {
-	padding: 10px;
+main .bestitem-container .bestitem-list {
+	height: 340px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-main .item-container .item-list .itembox {
+.bestitem-box{
 	width: 240px;
-	float: left;
+	display: inline-block;
 	margin: 10px;
+	white-space: normal;
 }
 
-main .item-container .item-list .itembox .item-image {
+.bestitem-box .bestitem-image{
 	width: 100%;
 	height: 200px;
 	overflow: hidden;
 	margin: 0 auto;
 }
 
-main .item-container .item-list .itembox .item-image img {
+.bestitem-box .bestitem-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-main .item-container .item-list .itembox .itemname {
+.bestitem-box .bestitem-name{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 120px;
+	padding: 10px;
+	gap: 10px;
+}
+
+.bestitem-name a{
+	flex: 1;
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.bestitem-name a .discount{
+	color: #28BACE;
+}
+
+.bestitem-name a:hover>span:last-child{
+	text-decoration: underline;
+}
+
+.bestitem-name .price {
+	font-weight: 700;
+	cursor: default;
+}
+
+.bestitem-name .item-info{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+/* 상품 list */
+main .item-container .item-list>p {
+	padding: 10px;
+}
+
+.itembox {
+	width: 240px;
+	float: left;
+	margin: 10px;
+}
+
+.itembox .item-image {
+	width: 100%;
+	height: 200px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.itembox .item-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.itembox .itemname {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -205,19 +261,19 @@ main .item-container .item-list .itembox .itemname {
 }
 
 /* 별점 */
-.itemname .star {
+.star{
 	cursor: default;
 }
-.itemname .star .stargrade {
+.star .stargrade {
 	color: #28BACE;
 	letter-spacing: -0.1rem;
 	
 }
-.itemname .star .stargrade .nonstar {
+.star .stargrade .nonstar {
 	color: #ABABAB;
 }
 
-.itemname .star .review-count{
+.star .review-count{
 	color: #A8A8A8;
 	font-size: 13px;
 }
@@ -385,16 +441,64 @@ main .item-container .item-list .itembox .itemname {
 		</aside>
 
 		<div class="item-container">
-			<div class="best-itembox">
+			<div class="bestitem-container">
 				<p>
-					${list[0].category} <span>Best</span>
+					${best[0].category} <span>Best</span>
 				</p>
-				<div class="best-item">
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
+				<div class="bestitem-list">
+					<c:forEach var="vo" items="${best}">
+						<div class="bestitem-box">
+						<div class="bestitem-image">
+							<a href="${pageContext.request.contextPath}/detail/${vo.id}">
+								<img src="${vo.pic1}" alt="" />
+							</a>
+						</div>
+						<div class="bestitem-name">
+							<a href="${pageContext.request.contextPath}/detail/${vo.id}">
+								<c:if test="${vo.discount != 0}">
+									<span class="discount">${vo.discount}%</span>
+								</c:if> <span> ${vo.name} </span>
+							</a>
+							<p class="price">${vo.viewPrice}원</p>
+							<div class="item-info">
+
+								<p class="star">
+									<span class="stargrade">
+								<c:choose>
+									<c:when test="${vo.stargrade == 5}">
+										★★★★★
+									</c:when>
+									<c:when test="${vo.stargrade == 0}">
+									<span class="nonstar">
+										☆☆☆☆☆
+									</span>
+									</c:when>
+									<c:otherwise>
+										<c:forEach begin="0" end="${vo.stargrade - 1}">★</c:forEach><c:forEach begin="0" end="${4 - vo.stargrade}"><span class="nonstar">☆</span></c:forEach>
+									</c:otherwise>
+								</c:choose>
+								</span>
+								<span class="review-count">(${vo.reviewCount})</span>
+								</p>
+
+								<c:choose>
+									<c:when test="${vo.totalStock == 0}">
+										<div class="soldout">품절</div>
+									</c:when>
+									<c:when test="${vo.totalStock <= 20}">
+										<div class="deadline">마감임박</div>
+									</c:when>
+									<c:when test="${vo.discount >= 50 && vo.totalStock > 20}">
+										<div class="specialprice">특가</div>
+									</c:when>
+									<c:otherwise>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+					</div>
+					</c:forEach>
+					</div>
 			</div>
 			<div class="item-list">
 				<div class="select-box">

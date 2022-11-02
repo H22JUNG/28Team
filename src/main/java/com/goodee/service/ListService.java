@@ -24,10 +24,9 @@ public class ListService {
 	public void selectCategory(ProductVO vo, Model model) {
 		model.addAttribute("list" , dao.selectCategory(vo));
 	}
-	public void selectInnerCategory(ProductVO vo, Model model) {
-		model.addAttribute("list" , dao.selectInnerCategory(vo));
+	public void selectBest(ProductVO vo, Model model) {
+		model.addAttribute("best", dao.selectBest(vo));
 	}
-	
 	
 	// admin product List 출력 - 윤정
 		public void selectProductList(Model model) {

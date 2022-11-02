@@ -34,7 +34,17 @@
 		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
 		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
-		where category1 = #{category1}
+		<where>
+			<if test='category1 != null and category1 != ""'>
+				and category1 = #{category1}
+			</if>
+			<if test='category2 != null and category2 != ""'>
+				and category2 = #{category2}
+			</if>
+			<if test='search != null and search != ""'>
+				and p.name like CONCAT('%',#{search},'%')
+			</if>
+		</where>
 		group by p.id
 		<trim prefix="ORDER BY">
 			<choose>
@@ -59,35 +69,35 @@
 			</choose>
 		</trim>	
 	</select>
-	<select id="selectInnerCategory" resultType="productVO" parameterType="productVO">
-		SELECT p.id, category2 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+	
+	<select id="selectBest" resultType="productVO">
+	SELECT p.id, 
+	<choose>
+		<when test='category1 != null and category1 != ""'>
+			category1 'category',
+		</when>
+		<when test='category2 != null and category2 != ""'>
+			category2 'category',
+		</when>
+		<otherwise>
+			category1 'category',
+		</otherwise>
+	</choose>
+ 		p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
 		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
 		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
-		where category2 = #{category2}
+		<where>
+			<if test='category1 != null and category1 != ""'>
+				and category1 = #{category1}
+			</if>
+			<if test='category2 != null and category2 != ""'>
+				and category2 = #{category2}
+			</if>
+		</where>
 		group by p.id
-		<trim prefix="ORDER BY">
-			<choose>
-				<when test="order == '0'">
-					createDate desc
-				</when>
-				<when test="order == '1'">
-					view desc
-				</when>
-				<when test="order == '2'">
-					reviewCount desc
-				</when>
-				<when test="order == '3'">
-					price
-				</when>
-				<when test="order == '4'">
-					price desc
-				</when>
-				<otherwise>
-					createDate desc
-				</otherwise>
-			</choose>
-		</trim>	
+		order by view
+		limit 8;
 	</select>
 	
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->

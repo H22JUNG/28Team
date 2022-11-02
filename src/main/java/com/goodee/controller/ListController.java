@@ -25,6 +25,7 @@ public class ListController {
 		ProductVO vo = new ProductVO();
 		vo.setCategory1(category1);
 		vo.setOrder(order);
+		service.selectBest(vo, model);
 		service.selectCategory(vo, model);
 		return "product_list";
 	}
@@ -33,7 +34,14 @@ public class ListController {
 		ProductVO vo = new ProductVO();
 		vo.setCategory2(category2);
 		vo.setOrder(order);
-		service.selectInnerCategory(vo, model);
+		service.selectBest(vo, model);
+		service.selectCategory(vo, model);
+		return "product_list";
+	}
+	
+	@GetMapping("/searchProduct")
+	public String searchProduct(ProductVO vo, Model model) {
+		service.selectCategory(vo, model);
 		return "product_list";
 	}
 }

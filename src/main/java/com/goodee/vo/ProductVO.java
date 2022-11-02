@@ -22,6 +22,7 @@ public class ProductVO {
 	public int reviewCount;
 	public int order;
 	public String viewPrice;
+	public String search;
 	
 	public int getId() {
 		return id;
@@ -158,6 +159,12 @@ public class ProductVO {
 	}
 	public void setViewPrice(String viewPrice) {
 		this.viewPrice = viewPrice;
+	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
 	}
 	
 	
