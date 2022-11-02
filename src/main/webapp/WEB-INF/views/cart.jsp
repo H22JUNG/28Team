@@ -786,7 +786,7 @@
                 </form>		
                 
                 <!-- 주문 form -->
-                <form action="/order/${user.userid}" method="get" class="order_form">
+                <form action="${pageContext.request.contextPath}/CartInforController" method="post" class="order_form">
     
                 </form>			
         </section>
@@ -994,15 +994,18 @@
         		
         		if($(element).find(".chbox").is(":checked") === true){	//체크여부(체크가 되어있으면)
         			
-        			let proNum = $(element).find(".individual_proNum_input").val();
         			let count = $(element).find(".individual_count_input").val();
+        			let cartNum	 = $(element).find(".individual_cartNum_input").val(); //카트넘이 필요해.....
+        			let price = $(element).find(".individual_salePrice_input").val();
         			
-        			let proNum_input = "<input name='orders[" + orderNumber + "].proNum' type='hidden' value='" + proNum + "'>";
-        			form_contents += proNum_input;
+        			let cartNum_input = "<input name='orders[" + orderNumber + "].cartNum' type='hidden' value='" + cartNum + "'>";
+        			form_contents += cartNum_input;
         			
         			let count_input = "<input name='orders[" + orderNumber + "].count' type='hidden' value='" + count + "'>";
         			form_contents += count_input;
         			
+        			let price_input = "<input name='orders[" + orderNumber + "].price' type='hidden' value='" + price + "'>";
+        			form_contents += price_input;
         			orderNumber += 1;
         			
         		}

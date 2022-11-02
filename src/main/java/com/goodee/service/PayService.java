@@ -25,9 +25,7 @@ public class PayService {
 	}
 	
 	
-	public List<CartVO> cartList(UserVO vo) {
-		return dao.cartList(vo);
-	}
+	
 	
 	public void orderInfor(orderUser vo, List<CartVO> volist, HttpSession session,Model model) {
 		int cartListNum = dao.selectCartListNum(((UserVO)session.getAttribute("user")).getUserid());
@@ -97,4 +95,8 @@ public class PayService {
 	public void orderPoint(orderUser vo) {
 		dao.orderPoint(vo);
 	}
+	//카트에서 선택한 상품의 정보를 가져오기위한 서비스
+		public CartVO findCart(CartVO cartvo){
+			return dao.findCart(cartvo);
+		}
 }

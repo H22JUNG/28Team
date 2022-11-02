@@ -74,7 +74,7 @@ public interface ProjectDAO {
 	public void adminUserDelete(UserVO vo);
 	
 	//유진 DAO
-	public List<CartVO> cartList(UserVO vo);
+	public CartVO findCart(CartVO vo);
 	public void orderUserInfor(orderUser vo); //입력한 주문자정보 저장
 	public void orderItemInfor(CartVO vo); //상품 정보 저장할예정	
 	public int selectCartListNum(String userid);

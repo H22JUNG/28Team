@@ -313,7 +313,7 @@
 					</div>
 					<div id="lastBottom">
 						<h3>주문 번호 : ${orderUser.orderNum}</h3>
-						<a href="${pageContext.request.contextPath}/practice">임시이동주문번호 : ${orderUser.orderNum}</a>
+<%-- 						<a href="${pageContext.request.contextPath}/practice"></a> --%>
 							
 					</div>
 				</div>

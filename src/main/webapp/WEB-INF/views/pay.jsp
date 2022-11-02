@@ -259,7 +259,7 @@
     <form action="${pageContext.request.contextPath}/InforController" method="get" id="payform">
         <div class="left">
             <div id="top">
-            	<c:forEach var="vo" items="${cartList}">
+            	<c:forEach var="vo" items="${sessionScope.cartList}">
 						<div class="itembox">
 							<div class="smallItembox">
 								<div class="itemImage">
@@ -297,7 +297,7 @@
             <div id="checkItem">
              <h3>결제 목록</h3>
 				<c:set var="total" value="0"/>
-				<c:forEach var="vo" items="${cartList}">
+				<c:forEach var="vo" items="${sessionScope.cartList}">
 				<div class="checkItems">
 					<h4>${vo.itemName}</h4>
 					<p>${vo.price}</p>
@@ -460,7 +460,10 @@
     }
 	
   	document.getElementById("nowButton").addEventListener("click",function(e){
-  		if(document.querySelector('input[name="pay"]:checked').value == "card") {
+  		if(document.querySelector('input[name="pay"]:checked') == null) {
+  			e.preventDefault();
+  			alert("결제 방법을 선택해 주세요");
+  		} else if(document.querySelector('input[name="pay"]:checked').value == "card") {
   			e.preventDefault();
   			requestPay();
   		};

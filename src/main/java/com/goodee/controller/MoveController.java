@@ -84,27 +84,14 @@ public class MoveController {
 			return "redirect:/cart/" + ((UserVO) session.getAttribute("user")).getUserid();
 		} else if (path == 2) {
 
-			// 아래 두줄 유진쓰 추가
-			session.setAttribute("cartList", payservice.cartList((UserVO) session.getAttribute("user")));
-			session.setAttribute("payresult", model.getAttribute("model"));
-
-			// 아래꺼order_list 페이지에서 사용 - 유진 추가
-			// payservice.getOrderList(model, session);
-
-			return "pay"; // "order_list";
+	
+			payservice.getOrderList(model, session);
+			return "order_list";
 		} else {
 			bbsservice.getwrote(model, session);
 			// 답글가져오기
 			return "wrote";
 		}
-	}
-
-	// 유진 임시 이동 컨트롤러
-	@GetMapping("/practice")
-	public String practice(Model model, HttpSession session) {
-		// 아래꺼order_list 페이지에서 사용 - 유진 추가
-		payservice.getOrderList(model, session);
-		return "order_list";
 	}
 
 	// 내가 쓴 글

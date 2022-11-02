@@ -402,6 +402,14 @@
 	where userid = #{userid}
 	</select>
 	
+	<!-- 카트에서 선택한 상품을 세션에 담으면서 필요한 정보 -->
+	<select id="findCart" resultType="CartVO" parameterType="CartVO">
+	select cart_num, userid , userName, id, item_name, count, color, size, pic1, 
+	pro_num
+	from cart
+	where cart_num = #{cartNum}
+	</select>
+	
 	<!-- 주문자 정보입력한것 추가해보기ㅇ -->
  	<insert id="orderUserInfor" parameterType="orderUser"> 
  	INSERT INTO orderuser
