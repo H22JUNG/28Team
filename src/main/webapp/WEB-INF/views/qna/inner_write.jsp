@@ -287,7 +287,7 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post" id="frm">
+					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/inner_write/good" method="post" id="frm">
 						<div class="title">
 							<dl>
 								<dt>문의유형</dt>
@@ -314,14 +314,13 @@ a {
 						</div>
 						<div class="cont">
 							<form:textarea path="content"/>
-							<%-- <textarea>
-        					</textarea>--%>
 						</div>
 					<div class="btn_wrap">
 						<button class="on" id="acc">등록</button>
 						<button type="button" id="cancel">취소</button>
-						<input type="hidden" name="code" id="code" value="${detailVO.id}">
 					</div>
+					<form:input path="code" type="hidden"/>
+					<input type="hidden" name="id" />							
 					</form:form>
 					</div>
 				</div>

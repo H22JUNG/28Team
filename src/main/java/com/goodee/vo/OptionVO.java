@@ -9,7 +9,6 @@ public class OptionVO {
 	private String size;
 	private String color;
 	private int stock;
-	private String name;
 
 	public int getId() {
 		return id;
@@ -49,14 +48,6 @@ public class OptionVO {
 
 	public void setStock(int stock) {
 		this.stock = stock;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	

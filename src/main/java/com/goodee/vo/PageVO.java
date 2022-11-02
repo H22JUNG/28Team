@@ -18,6 +18,8 @@ public class PageVO {
 	private int cntPerPage;
 	//처음 row
 	private int start;
+	// 끝 row
+	private int end;
 	//현재 블록
 	private int nowBlock;
 	//블록 당 페이지
@@ -161,6 +163,13 @@ public class PageVO {
 	public void setCntPerBlock(int cntPerBlock) {
 		this.cntPerBlock = cntPerBlock;
 	}
-	
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
 	
 }

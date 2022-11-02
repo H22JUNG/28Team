@@ -112,44 +112,45 @@ public interface ProjectDAO {
 	//리뷰 작성
 	public void writeReview(ReviewVO vo);
 	
-	
+	//수정
 	//상품 상세페이지 조회
-		public ProductVO selectDetail(String id);
-		public List<OptionVO> selectDetailOption(String id);
-		public List<OptionVO> selectOptionColor(String id);
-		public List<OptionVO> selectOptionSize(String id);
-		public OptionVO selectOption(String id);
-		
-		//장바구니 담기
-		public int addCart(CartVO cartvo);
-		
-		//Q&A 게시판
-		public List<QnaVO> QnaList();
-		//Q&A 타이틀 누르면 이동
-		public QnaVO selectQna(String id);
-		//Q&A 수정, 생성, 삭제
-		public int updateQna(QnaVO qnavo);
-		public int insertQna(QnaVO qnavo);
-		public int deleteQna(QnaVO qnavo);
-		//Q&A 조회수
-		public int qnaCount(String id);
-		
-		//Q&A 답글기능
-		public int insertReply(QnaCommentVO commentvo);
-		
-		//이너 Q&A 댓글기능
-		public List<QnaVO> selectBBSList();
-		public QnaVO selectBBS(String id);	
-		public List<QnaCommentVO> selectCommentList(@Param("root") int root);
-		public int insertComment(QnaCommentVO commentvo);
-		//이너 Q&A 댓글수
-		public void updateReplyCount(String id);
-		
-		//관리자 정보수정
-		public List<UserVO> adminList();
-		public UserVO adminListId(String id);
-		public int updateAdmin(UserVO uservo);
-		public int deleteAdmin(UserVO uservo);
+	public ProductVO selectDetail(String id);
+	public List<OptionVO> selectDetailOption(String id);
+	public List<OptionVO> selectOptionColor(String id);
+	public List<OptionVO> selectOptionSize(String id);
+	public OptionVO selectOption(String id);
+	public List<String> selectColorByIdAndSize(OptionVO optionVO);
+	public String selectProNumBySizeAndColor(OptionVO optionVO);
+	
+	//장바구니 담기
+	public int addCart(CartVO cartvo);
+	
+	//Q&A 게시판
+	public int selectQnaCount();  
+	public List<QnaVO> QnaList(PageVO pagevo);
+	//Q&A 타이틀 누르면 이동
+	public QnaVO selectQna(String id);
+	//Q&A 수정, 생성, 삭제
+	public int updateQna(QnaVO qnavo);
+	public int insertQna(QnaVO qnavo);
+	public int deleteQna(QnaVO qnavo);
+	//Q&A 조회수
+	public int qnaCount(String id);
+	
+	//Q&A 답글기능
+	public int insertReply(QnaCommentVO commentvo);
+	
+	//이너 Q&A 댓글기능
+	public List<QnaVO> selectBBSList();
+	public QnaVO selectBBS(String id);	
+	public List<QnaCommentVO> selectCommentList(@Param("root") int root);
+	public int insertComment(QnaCommentVO commentvo);
+	
+	//관리자 정보수정
+	public List<UserVO> adminList();
+	public UserVO adminListId(String id);
+	public int updateAdmin(UserVO uservo);
+	public int deleteAdmin(UserVO uservo);
 	
 	// 공지사항 게시판
 		public List<NoticeVO> selectNotice(int important);

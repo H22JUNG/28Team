@@ -193,9 +193,9 @@ a {
 									<td class="title">
 										<a href="${pageContext.request.contextPath}/inner_qna/${vo.id}">
 											${vo.title} 
-											<%-- <c:if test="${vo.reply_count ne 0}">--%>
-												<small><b>(&nbsp;<c:out value="${vo.replyCount}"/>&nbsp;)</b></small>
-											<%-- </c:if>--%>
+											<c:if test="${vo.replyCount ne 0}">
+												<small><b>(&nbsp;${vo.replyCount}&nbsp;)</b></small>
+											</c:if>
 										</a>
 									</td>
 									<td class="writer">${vo.owner}</td>
@@ -209,18 +209,55 @@ a {
 
 				<!--버튼-->
 				<div class="btn_wrap">
-					<%-- <c:if test="${qnaVO.ownerId eq userVO.id}"> --%>
-					<a href="${pageContext.request.contextPath}/inner_write" class="on">문의하기</a>
-					<%-- </c:if> --%>
+					<c:if test="${qnaVO.ownerId eq userVO.id}">
+					<a href="${pageContext.request.contextPath}/inner_write?code=${detailVO.id}" class="on">문의하기</a>
+					</c:if>
 				</div>
 
 				<!--페이지번호-->
 				<div class="qna_page">
-					<a href="#" class="btn first"><<</a> <a href="#" class="btn prev"><</a>
-					<a href="#" class="page on">1</a> <a href="#" class="page">2</a> <a
-						href="#" class="page">3</a> <a href="#" class="page">4</a> <a
-						href="#" class="page">5</a> <a href="#" class="btn next">></a> <a
-						href="#" class="btn last">>></a>
+					<c:choose>
+						<c:when test="${1 == page.startPage}">
+							<a href="#" class="btn first"><<</a> 
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/inner_qna?page=${page.startPage - 1}"><<</a>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${1 == page.nowPage}">
+							<a href="#" class="btn prev"><</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/inner_qna?page=${page.nowPage - 1}"><</a>
+						</c:otherwise>
+					</c:choose>
+					<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						<c:choose>
+							<c:when test="${page.nowPage eq i}">
+								<a href="#" class="page on">${i}</a> 
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/inner_qna?page=${i}" class="page">${i}</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${page.totalPage == page.nowPage}">
+							<a href="#" class="btn next">></a> 
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/inner_qna?page=${page.nowPage + 1}">></a>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${page.totalPage < page.endPage+page.cntPerBlock}">
+							<a href="#" class="btn last">>></a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/inner_qna?page=${page.endPage + 1}">>></a>
+						</c:otherwise>
+					</c:choose>	
 				</div>
 			</div>
 		</div>

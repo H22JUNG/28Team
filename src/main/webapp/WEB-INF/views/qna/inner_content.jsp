@@ -342,7 +342,7 @@ a {
     	});
     	
     	function initialize(){
-    		fetch("${pageContext.request.contextPath}/comment/${qnaVO.id}")
+    		fetch("${pageContext.request.contextPath}/inner_comment/${qnaVO.id}")
     		.then(response => response.json())
     		.then(data => {
     			originList = data;
@@ -414,7 +414,7 @@ a {
     			
     			const writeArea = document.createElement("textarea");
     			const wbtn = document.createElement("button");
-    			wbtn.innerText = "전송";
+    			wbtn.innerText = "댓글";
     			
     			wbtn.addEventListener("click",function(){
     				let str = writeArea.value;
@@ -429,7 +429,7 @@ a {
     					orderId : item.id
     				}
     				
-    				fetch("${pageContext.request.contextPath}/comment/", {
+    				fetch("${pageContext.request.contextPath}/inner_comment/", {
     					method: "POST",
     					headers: {
     						"Content-Type": "application/json",
@@ -483,7 +483,7 @@ a {
     			orderId : 0
     		}
     		
-    		fetch("${pageContext.request.contextPath}/comment/", {
+    		fetch("${pageContext.request.contextPath}/inner_comment/", {
     			method: "POST",
     			headers: {
     				"Content-Type": "application/json",

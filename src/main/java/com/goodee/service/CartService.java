@@ -30,36 +30,45 @@ public class CartService {
 		// 값이 모두 세팅된 cart 반환
 		return cart;
 	}
-	
+
 	// 카트 수량 수정
 	public void modifyCount(CartVO cvo) {
 		dao.modifyCount(cvo);
 	}
-	
+
 	// 카트 삭제
 	public void deleteCart(int cartNum) {
 		dao.deleteCart(cartNum);
 	}
-	
+
 	// 카트 선택 삭제
 	public void deleteAllCart(int cartNum) {
 		dao.deleteAllCart(cartNum);
 	}
 
+	// 수정
 	// 상품페이지 -> 상세페이지에 데이터 보내기
-		public void getDetailContent(Model model, String id) {
-			model.addAttribute("detailVO", dao.selectDetail(id));
-			model.addAttribute("detailOptionVO", dao.selectDetailOption(id));
-			model.addAttribute("selectOptionColor", dao.selectOptionColor(id));
-			model.addAttribute("selectOptionSize", dao.selectOptionColor(id));
-			model.addAttribute("optionVO", dao.selectOption(id));
-			
-			List<OptionVO> list = dao.selectDetailOption(id);
-		}
-		
-		// 상세페이지 -> 장바구니에 데이터 보내기
-		// 장바구니에 담기, 구매하기에 담기
-		public void addCart(CartVO cartvo) {
-			dao.addCart(cartvo);
-		}
+	public void getDetailContent(Model model, String id) {
+		model.addAttribute("detailVO", dao.selectDetail(id));
+		model.addAttribute("detailOptionVO", dao.selectDetailOption(id));
+		model.addAttribute("selectOptionColor", dao.selectOptionColor(id));
+		model.addAttribute("selectOptionSize", dao.selectOptionColor(id));
+		model.addAttribute("optionVO", dao.selectOption(id));
+
+		List<OptionVO> list = dao.selectDetailOption(id);
+	}
+
+	// 상세페이지 -> 장바구니에 데이터 보내기
+	// 장바구니에 담기, 구매하기에 담기
+	public void addCart(CartVO cartvo) {
+		dao.addCart(cartvo);
+	}
+
+	public List<String> selectColorByIdAndSize(OptionVO optionVO) {
+		return dao.selectColorByIdAndSize(optionVO);
+	}
+
+	public String selectProNumBySizeAndColor(OptionVO optionVO) {
+		return dao.selectProNumBySizeAndColor(optionVO);
+	}
 }

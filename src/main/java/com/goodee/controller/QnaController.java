@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,18 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.goodee.service.BbsService;
 import com.goodee.service.CartService;
-import com.goodee.service.LoginService;
-import com.goodee.service.PayService;
 import com.goodee.service.ReviewService;
 import com.goodee.service.UserService;
 import com.goodee.vo.QnaCommentVO;
-import com.goodee.vo.ProductVO;
 import com.goodee.vo.QnaVO;
 import com.goodee.vo.UserVO;
 
@@ -49,9 +47,15 @@ public class QnaController {
 	}
 
 		// 상품리스트P->QNA게시판P
+		// Q&A 게시글리스트 및 페이징
 		@GetMapping("/qna")
-		public String getQna(Model model, QnaVO qnavo) {
-			bbsservice.getQnaList(model);
+		public String getQna(HttpServletRequest request, Model model, QnaVO qnavo) {
+			int page = 1;
+			if(request.getParameter("page") != null) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
+			
+			bbsservice.getQnaList(page, request, model);
 			return "/qna/qna";
 		}
 
@@ -78,10 +82,11 @@ public class QnaController {
 
 		// 글쓰기 등록 버튼 눌렀을 때
 		@PostMapping("/write/good")
-		public String setBBSResult(@SessionAttribute("user") UserVO user, QnaVO qnavo) {
+		public String setBBSResult(@SessionAttribute("user") UserVO user, @ModelAttribute("qnaVO") QnaVO qnavo) {
 			if (user != null) {
 				qnavo.setOwnerId(user.getId());
 				qnavo.setOwner(user.getUsername());
+				qnavo.setRoot(qnavo.getId());
 				if (bbsservice.insertQna(qnavo)) {
 					return "redirect:/qna";
 				} else {
@@ -163,16 +168,12 @@ public class QnaController {
 		}
 		
 		// 상세페이지 내 Qna게시판
-		
 		// 상세페이지 inner - Q&A
 		@GetMapping("/inner_qna")
 		public String getBBS(@SessionAttribute("user") UserVO user, Model model, @ModelAttribute("qnaVO") QnaVO qnavo) {
-			if(user != null ) {
+			
 				bbsservice.getBBSList(model);
 				return "/qna/inner_qna";
-			}else {
-				return "login";			
-			}
 		}
 		
 		@GetMapping("/inner_qna/{id}")
@@ -187,20 +188,19 @@ public class QnaController {
 		}
 		
 		// inner-Q&A 답변
-		@GetMapping("/comment/{root}")
+		@GetMapping("/inner_comment/{root}")
 		@ResponseBody
 		public List<QnaCommentVO> getComments(@PathVariable("root")int root){
 			return bbsservice.getCommentList(root);
 		}
 		
-		@PostMapping("/comment")
+		@PostMapping("/inner_comment")
 		@ResponseBody
 		public ResponseEntity<Map<String, String>> setComments(@RequestBody QnaCommentVO commentvo, String id){
 			ResponseEntity<Map<String,String>> res = null;
 			Map<String, String> map = new HashMap<String, String>();
 			
 			if(bbsservice.setComment(commentvo) > 0) {
-				bbsservice.updateReplyCount(id); //댓글수
 				map.put("result", "성공적으로 전송되었습니다");
 				res = new ResponseEntity<Map<String,String>>(map, HttpStatus.OK);
 			}else {
@@ -261,15 +261,19 @@ public class QnaController {
 				}
 			}
 
-			// inner - 글쓰기 등록 버튼 눌렀을 때
+			// inner - 글쓰기페이지에서 등록 버튼 눌렀을 때
 			@PostMapping("/inner_write/good")
-			public String setInnerBBSResult(@SessionAttribute("user") UserVO user, QnaVO qnavo, @ModelAttribute ProductVO productvo) {
+			public String setInnerBBSResult(@SessionAttribute("user") UserVO user, @ModelAttribute QnaVO qnaVO) {
 				if (user != null) {
-					qnavo.setOwnerId(user.getId());
-					qnavo.setOwner(user.getUsername());
-					//qnavo.setCode(productvo.getId());
-					System.out.println("aa = " + qnavo.getId());
-					if (bbsservice.insertQna(qnavo)) {
+					qnaVO.setOwnerId(user.getId());
+					qnaVO.setOwner(user.getUsername());
+					System.out.println("inner_write/good code = " + qnaVO.getCode());
+					System.out.println("inner_write/good id = " + qnaVO.getId());
+					System.out.println("inner_write/good root = " + qnaVO.getRoot());
+					qnaVO.setCode(qnaVO.getCode());
+					qnaVO.setRoot(qnaVO.getId());
+
+					if (bbsservice.insertQna(qnaVO)) {
 						return "redirect:/inner_qna";
 					} else {
 						return "qna/inner_write";
@@ -278,4 +282,5 @@ public class QnaController {
 					return "redirect:/login";
 				}
 			}
+			
 }

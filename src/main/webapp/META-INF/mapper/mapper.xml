@@ -475,7 +475,7 @@
 	</select>
 
 		<select id="selectDetailOption" resultType="OptionVO"> 
-		select id, pro_num, size, color, stock, name from option where id = #{id}
+		select id, pro_num, size, color, stock from option where id = #{id}
 		</select> 
 		
 		<select id="selectOptionColor" resultType="OptionVO"> 
@@ -485,13 +485,21 @@
 		<select id="selectOptionSize" resultType="OptionVO"> 
 		SELECT id, color, GROUP_CONCAT(size) FROM option where id = #{id} GROUP BY id, color; 
 		</select>
+		
+		<select id="selectColorByIdAndSize" resultType="String"> 
+		select color from option where id=#{id} and size=#{size}
+		</select>
+		
+		<select id="selectProNumBySizeAndColor" resultType="String"> 
+		select pro_num from option where size=#{size} and color=#{color}
+		</select>
 
 	<!-- 상세페이지 장바구니 담기 -->
 	<insert id="addCart">
-		insert into cart(cartid, userid, userName, id, name, price, count, color,
-		size, pic1, pro_num)
-		values(null, #{userid}, #{userName}, #{id}, #{name}, #{price}, #{count}, #{color},
-		#{size}, #{pic1}, #{proNum})
+		insert into cart(cart_num, userid, userName, id, item_name, price, count, color,
+		size, pic1, pro_num, discount)
+		values(null, #{userid}, #{userName}, #{id}, #{itemName}, #{price}, #{count}, #{color},
+		#{size}, #{pic1}, #{proNum}, #{discount})
 	</insert>
 
 
@@ -500,20 +508,26 @@
 		A.ID = #{id} -->
 
 	<!--Q&A 게시글조회 -->
+	<select id="selectQnaCount" resultType="int">
+		select count(*) from qna;
+	</select>
+	
 	<select id="QnaList" resultType="QnaVO">
 		select id, code, qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, re_id, indent, hits from qna UNION ALL select id, code,
-		qna_category, password, owner, title, content,
+		owner_id, root, indent, hits 
+		from qna UNION ALL select id, code,qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, re_id, indent, hits from comment ORDER BY root DESC, re_id ASC;
+		owner_id, root, indent, hits 
+		from qnacomment 
+		ORDER BY root DESC, indent ASC limit #{start}, #{cntPerPage}
 	</select>
 
 	<!--Q&A 타이틀누를때 이동 -->
 	<select id="selectQna" resultType="QnaVO">
 		select id, code, qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, re_id, indent from qna where id = #{id}
+		owner_id, root, indent from qna where id = #{id}
 	</select>
 
 	<!-- Q&A update -->
@@ -526,10 +540,9 @@
 
 	<!-- Q&A insert -->
 	<insert id="insertQna">
-		insert into qna(qna_category, title, owner_id, owner,
-		content, password, root)
+		insert into qna(qna_category, title, owner_id, owner, content, password, code, root)
 		values(#{qnaCategory}, #{title}, #{ownerId},
-		#{owner}, #{content}, #{password}, root)
+		#{owner}, #{content}, #{password}, #{code}, #{id})
 	</insert>
 
 	<!-- Q&A delete -->
@@ -545,10 +558,10 @@
 
 	<!-- Q&A 답변 -->
 	<insert id="insertReply">
-		insert into comment(owner_id, owner, title, content,
-		password, re_id, root, indent)
+		insert into qnacomment(owner_id, owner, title, content,
+		password, root, indent)
 		values(#{ownerId}, #{owner}, #{title},
-		#{content}, #{password}, 1, #{root}, 1)
+		#{content}, #{password}, #{root}, 1)
 	</insert>
 
 	<!-- inner-Q&A : 유형이 상품문의만 출력 -->
@@ -556,40 +569,35 @@
 		select id, code,
 		qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, re_id, indent, hits, reply_count from qna where qna_category = '상품문의' order
+		owner_id, root, indent, hits, 
+		(select count(*) from qnacomment c where c.root = q.id) as reply_count from qna q where qna_category = '상품문의' order
 		by id desc
 	</select>
 
 	<select id="selectBBS" resultType="QnaVO">
 		select id, code, qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, re_id, indent, hits from qna WHERE qna_category = '상품문의' and id
+		owner_id, root, indent, hits from qna WHERE qna_category = '상품문의' and id
 		= #{id} ORDER BY id DESC
 	</select>
 
 	<!-- inner Q&A 댓글기능 -->
-	<select id="selectCommentList" resultType="CommentVO">
+	<select id="selectCommentList" resultType="QnaCommentVO">
 		select id, owner_id,
 		owner, content,
-		date_format(create_date, '%Y-%m-%d %T') create_date, order_id, re_id, root, indent
-		from comment
+		date_format(create_date, '%Y-%m-%d %T') create_date, order_id, root, indent
+		from qnacomment
 		where is_delete = 0
 		and root = #{root}
 	</select>
 
 	<insert id="insertComment">
-		insert into comment(owner_id, owner,
-		title, content, password, order_id, re_id, root, indent)
+		insert into qnacomment(owner_id, owner,
+		title, content, password, order_id, root, indent)
 		values
 		(#{ownerId},#{owner},#{title},#{content},#{password},#{orderId}, 1,
 		#{root}, 1);
 	</insert>
-	
-	<!-- inner-Q&A 댓글수 -->
-	<update id="updateReplyCount" parameterType="int">
-	update qna set reply_count = (select count(id) from comment where root = #{root})
-	where id = #{id}
-	</update>
 
 	<!-- 관리자 정보수정 -->
 	<select id="adminList" resultType="userVO">

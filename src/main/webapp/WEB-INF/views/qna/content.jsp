@@ -151,19 +151,20 @@ a {
 	margin-left: 10px;
 	min-width: 80px;
 	padding: 10px;
-	border: 1px solid #000;
-	border-radius: 2px;
+	border: 1px solid #21A5B5;
+	border-radius: 5px;
 	font-size: 14px;
+	color : #21A5B5
 }
 
 .btn_wrap a.on {
-	background: #000;
+	background: #21A5B5;
 	color: #fff;
 }
 
 .qna_content {
 	width: 100%;
-	border-top: 2px solid #000;
+	border-top: 2px solid #21A5B5;
 }
 
 .qna_content .title {
@@ -217,7 +218,7 @@ a {
 
 .qna_content .cont {
 	padding: 15px;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #21A5B5;
 	line-height: 160%;
 	font-size: 14px;
 }

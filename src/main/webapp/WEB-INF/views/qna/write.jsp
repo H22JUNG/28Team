@@ -141,7 +141,6 @@ a {
 }
 
 .btn_wrap {
-	margin-top: 30px;
 	text-align: center;
 	font-size: 0;
 	right: 0;
@@ -150,22 +149,23 @@ a {
 .btn_wrap button {
 	display: inline-block;
 	text-align: center;
-	margin-left: 10px;
+	margin: 30px 0px 0px 10px;
 	min-width: 80px;
 	padding: 10px;
-	border: 1px solid #000;
-	border-radius: 2px;
+	border: 1px solid #21A5B5;
+	border-radius: 5px;
 	font-size: 14px;
 	background: none;
+	color : #21A5B5;
 }
 
 .btn_wrap button.on {
-	background: #000;
+	background: #21A5B5;
 	color: #fff;
 }
 
 .qna_write {
-	border-top: 2px solid #000;
+	border-top: 2px solid #21A5B5;
 }
 
 .qna_write .title, .qna_write .info {
@@ -174,7 +174,7 @@ a {
 
 .qna_write .info {
 	border-top: 1px dashed #ddd;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #21A5B5;
 	font-size: 0;
 }
 
@@ -228,13 +228,19 @@ a {
 	padding: 10px;
 	box-sizing: border-box;
 }
+
+.title select:focus, .title options:focus, .qna_write .info input[type="text"]:focus,
+	.qna_write .title input[type="password"]:focus {
+	border : 1px solid #21A5B5;
+	outline : 1px solid #21A5B5;
+}
 /* .qna_write .title input[type="text"]{width: 80%;} */
 .qna_write .title dl {
 	font-size: 0;
 }
 
 .qna_write .cont {
-	border-bottom: 1px solid #000;
+	border-bottom: 2px solid #21A5B5;
 }
 
 .qna_write .cont textarea {
@@ -318,6 +324,7 @@ a {
 					<div class="btn_wrap">
 						<button class="on" id="acc">등록</button>
 						<button type="button" id="cancel">취소</button>
+						<input type="hidden" name="root" id="root" value="${qnaVO.root}">
 					</div>
 					</form:form>
 					</div>
