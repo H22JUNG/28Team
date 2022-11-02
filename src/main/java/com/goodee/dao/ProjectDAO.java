@@ -58,13 +58,18 @@ public interface ProjectDAO {
 	//내가 쓴 글
 	public List<WrotebbsVO> getwrote();
 	public List<WrotebbsVO> getwrote(UserVO vo);
-	public List<WrotebbsVO> getRewrote();
+	public List<WrotebbsVO> getRewrote(UserVO vo);
 	public List<WrotebbsVO> getsearch(@Param("category")String category, @Param("id")String id);
-	public WrotebbsVO getdetail(WrotebbsVO vo);
+	public List<QnaVO> getQnaDetail(int id);
+	public QnaVO getRewroteQnaDetail(int id);
+	public ReviewVO getReviewDetail(ReviewVO vo);
+	public List<ReviewVO> getReviewcomment(ReviewVO vo);	
+	public String getProName(int id);
 	public void modifyReview(WrotebbsVO vo);
 	public void modifyQna(WrotebbsVO vo);
 	public void deleteReview(WrotebbsVO vo);
-	public void deleteMyPageQna(WrotebbsVO vo);
+	public int deleteMyPageQna(WrotebbsVO vo);
+	public void isdelete(WrotebbsVO vo);
 	
 	//관리자페이지 회원조회
 	public int usercount(PageVO vo);

@@ -2,100 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        ul,
-        li {
-            list-style-type: none;
-        }
-
-       body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 0;
-        }
-
-        /* 헤더 */
-        header {
-            background-color: white;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 1200px;
-        }
-
-        header .header-top {
-            display: flex;
-            width: 100%;
-            justify-content: flex-end;
-        }
-
-        header .header-top .logo img {
-            width: 265px;
-        }
-
-        header .header-top .logo {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        header .header-top .side {
-            position: absolute;
-        }
-
-        header .header-top .side ul {
-            display: flex;
-            gap: 10px;
-            margin: 10px;
-        }
-        #main-image{
-            background: url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp") fixed;
-            background-size: cover;
-            background-position: top;
-            width: 100%;
-            height: 40vh;
-        }
-        /* 카테고리 */
-        header .category {
-            padding: 10px 20px;
-            width: 100%;
-        }
-
-        header .category ul {
-            display: flex;
-            gap: 30px;
-        }
-
-        header .category ul li {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        header .category ul li:first-child {
-            background: #FFECC8;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 5px 15px 7px;
-            gap: 10px;
-        }
-
         /* 마이페이지 */
         main {
             background-color: white;
@@ -277,80 +188,12 @@
         	border-radius: 10px;
         	padding : 10px;
         }
-        /* 푸터 */
-        footer {
-            width: 100%;
-            background-color: #FFECC8;
-            z-index: 10;
-            font-size: 12px;
-            padding: 20px 40px;
-            color: #848484;
-            display: flex;
-        }
-        .footer1 {
-            width: 70%;
-            border-right: 1px solid #848484;
-        }
-        footer p:nth-child(1) {
-            font-size: 15px;
-            color: #2C2C2C;
-        }
-        footer p:nth-child(2) {
-            font-size: 15px;
-        }
-        #footer-tel {
-            color:#21A5B5;
-            font-size: 25px;
-            font-weight: 900;
-        }
-        footer ul {
-            display: flex;
-        }
-        footer ul li {
-            padding: 10px 20px 0 0;
-        }
-        .footer2 {
-            width: 30%;
-            align-self: center;
-            display: flex;
-            justify-content: center;
-        }
-        .footer2 img{
-            width: 50px;
-            height: 50px;
-            margin: 15px;
-            cursor: pointer;
-        } 
     </style>
 </head>
 
 <body>
     <header>
-        <div class="header-top">
-            <div class="logo">
-                 <a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/image/KakaoTalk_20221012_170414651.png" alt=""></a>
-            </div>
-            <div class="side">
-                <ul>
-                    <li><a href=""><img src="" alt="">검색</a></li>
-                    <li><a href=""><img src="" alt="">장바구니</a></li>
-                    <li><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
-                    <li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-                </ul>
-            </div>
-        </div>
-        <nav class="category">
-            <ul>
-                <li>Category</li>
-                <li>가구</li>
-                <li>패브릭</li>
-                <li>수납용품</li>
-                <li>생활용품</li>
-                <li>공지사항</li>
-                <li>Q&A</li>
-                <li>이벤트</li>
-            </ul>
-        </nav>
+        <jsp:include page="../header.jsp"></jsp:include>
     </header>
 	<main>
 		<div class="mypage-container">
@@ -440,12 +283,12 @@
 								<td>${item.owner}</td>
 								<td>${item.createDate}</td>
 							</tr>
-								<c:forEach var="item2" items="${Relist}">
-									<c:if test="${item2.reId eq item.id}">
+								<c:forEach var="item2" items="${list2}">
+									<c:if test="${item2.root eq item.id}">
 									<tr>
 										<td>${item2.id}</td>
 										<td>${item2.category}</td>
-										<td> └ <a href="${pageContext.request.contextPath }/wrotedetail?id=${item2.id}">${item2.title}</a></td>
+										<td> └ <a href="${pageContext.request.contextPath }/RewroteQnaDetail?id=${item2.id}&category=${item2.category}">${item2.title}</a></td>
 										<td>${item2.owner}</td>
 										<td>${item2.createDate}</td>
 									</tr>
@@ -454,58 +297,12 @@
 						</c:forEach>
 						<c:if test="${empty list}"><tr><td colspan="5">작성된 글이 없습니다.</td></tr></c:if>
 					</tbody>
-					
-					
-					<!-- 관리자 내가 쓴 글 -->
-					<c:if test="${allList != null}">
-					<tbody>
-						<c:forEach var="item" items="${allList}">
-							<tr>
-								<td>${item.id}</td>
-								<td>${item.category}</td>
-								<td><a href="${pageContext.request.contextPath }/wrotedetail?id=${item.id}">${item.title}</a></td>
-								<td>${item.owner}</td>
-								<td>${item.createDate}</td>
-							</tr>
-								<c:forEach var="item2" items="${Relist}">
-								<c:if test="${item2.reId eq item.id}">
-									<tr>
-										<td>${item2.id}</td>
-										<td>${item2.category}</td>
-										<td> └ <a href="${pageContext.request.contextPath }/wrotedetail?id=${item2.id}">${item2.title}</a></td>
-										<td>${item2.owner}</td>
-										<td>${item2.createDate}</td>
-									</tr>
-								</c:if>
-								</c:forEach>
-								<!-- 관리자 마이페이지 -->
-						</c:forEach>
-					</tbody>
-					</c:if>
 				</table>
 			</section>
 		</div>
 	</main>
     <footer>
-        <div class="footer1">
-        <p>고객센터 : <span id="footer-tel">1234-1234</span></p>
-        <p>09:00 ~ 18:00 (주말 및 공휴일 휴무)</p>
-        <ul>
-            <li>상호명 : (주)내일의집</li>
-            <li>이메일 : h2jung6875@naver.com</li>
-            <li>공동대표 : 김희정 신유진 임수정 유승윤 조윤정</li>
-            <li>FAX : 02-222-4444</li>
-            <li>사업자등록번호 : 333-22-55555</li>
-            <li>주소 : 서울 금천구 가산동</li>
-        </ul>
-        <br>
-        <p>Copyright 2022. 28Team, Co., Ltd. All rights reserved</p>
-      </div>
-      <div class="footer2">
-        <img src="${pageContext.request.contextPath}/image/Instagram_icon.png" alt="">
-        <img src="${pageContext.request.contextPath}/image/facebook_icon.png" alt="">
-        <img src="${pageContext.request.contextPath}/image/Twitter_Logo.png" alt="">
-    </div>
+		<jsp:include page="../footer.jsp"></jsp:include>
     </footer>
 
 	<script>

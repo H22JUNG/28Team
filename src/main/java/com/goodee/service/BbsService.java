@@ -14,6 +14,7 @@ import com.goodee.vo.PageVO;
 import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.QnaVO;
 import com.goodee.vo.ReviewCommentVO;
+import com.goodee.vo.ReviewVO;
 import com.goodee.vo.UserVO;
 import com.goodee.vo.WrotebbsVO;
 
@@ -32,43 +33,49 @@ public class BbsService {
 	public List<WrotebbsVO> getwrote(Model model, HttpSession session) {
 		UserVO uservo = (UserVO) session.getAttribute("user");
 		model.addAttribute("list", dao.getwrote(uservo));
-		// 관리자계정일 경우 모두 보이게
-		if (session.getAttribute("admin") != null) {
-			model.addAttribute("allList", dao.getwrote());
-		}
+		model.addAttribute("list2", dao.getRewrote(uservo));
 		return dao.getwrote(uservo);
 	}
 
-	/*
-	 * public List<WrotebbsVO> getRewrote(Model model) {
-	 * model.addAttribute("Relist", dao.getRewrote()); return dao.getRewrote(); }
-	 */
-
 	public List<WrotebbsVO> getsearch(Model model, String category, HttpSession session) {
-		UserVO vo = (UserVO) session.getAttribute("user");
-		String id = Integer.toString(vo.getId());
+		UserVO uservo = (UserVO) session.getAttribute("user");
+		String id = Integer.toString(uservo.getId());
 		model.addAttribute("list", dao.getsearch(category, id));
+		model.addAttribute("list2", dao.getRewrote(uservo));
 		return dao.getsearch(category, id);
 	}
 
-	public WrotebbsVO getdetail(@RequestParam int id, String category, Model model) {
-		WrotebbsVO vo = new WrotebbsVO();
+	public void getReviewDetail(@RequestParam int id, Model model) {
+		ReviewVO vo = new ReviewVO();
 		vo.setId(id);
-		vo.setCategory(category);
-		model.addAttribute("detail", dao.getdetail(vo));
-		return dao.getdetail(vo);
+		vo.setCategory();
+		model.addAttribute("proName", dao.getProName(id));
+		model.addAttribute("detail", dao.getReviewDetail(vo));
+		model.addAttribute("comment", dao.getReviewcomment(vo));
 	}
-
+	public void getQnaDetail(@RequestParam int id, Model model) {
+		model.addAttribute("proName", dao.getProName(id));
+		model.addAttribute("detail", dao.getQnaDetail(id));
+	}
+	public void getRewroteQnaDetail(int id, Model model) {
+		model.addAttribute("proName", dao.getProName(id));
+		model.addAttribute("detail", dao.getRewroteQnaDetail(id));
+	}
+	public void Qnamodify(int id, Model model) {
+		model.addAttribute("proName", dao.getProName(id));
+		model.addAttribute("qnamodi", dao.getQnaDetail(id).get(0));
+	}
 	public void modify(WrotebbsVO vo) {
 		dao.modifyReview(vo);
 		dao.modifyQna(vo);
 	}
-
 	public void getdelete(WrotebbsVO vo) {
 		dao.deleteReview(vo);
-		dao.deleteMyPageQna(vo);
+		if(dao.deleteMyPageQna(vo) > 0) {
+			dao.isdelete(vo);
+		};
 	}
-
+	
 	// QnA - 수정
 	// QnA 리스트출력 및 페이징
 	public void getQnaList(int page, HttpServletRequest request, Model model) {

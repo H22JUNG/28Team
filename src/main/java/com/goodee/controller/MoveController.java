@@ -89,8 +89,7 @@ public class MoveController {
 			return "order_list";
 		} else {
 			bbsservice.getwrote(model, session);
-			// 답글가져오기
-			return "wrote";
+			return "wrote/wrote";
 		}
 	}
 
@@ -98,27 +97,37 @@ public class MoveController {
 	@GetMapping("/search") // 카테고리별 검색
 	public String search(@RequestParam String category, Model model, HttpSession session) {
 		bbsservice.getsearch(model, category, session);
-		// bbsservice.getRewrote(model); 답글
-		return "wrote";
+		return "wrote/wrote";
 	}
 
 	@GetMapping("/wrotedetail")
 	public String wrotedetail(@RequestParam int id, @RequestParam String category, Model model) {
-		bbsservice.getdetail(id, category, model);
-		return "wrotedetail";
+		if(category.equals("Review")) {
+			bbsservice.getReviewDetail(id, model);
+			return "wrote/reviewDetail";
+		} else {
+			bbsservice.getQnaDetail(id, model);
+			return "wrote/qnaDetail";
+		}
+	}
+	//답변 글 상세보기
+	@GetMapping("/RewroteQnaDetail")
+	public String RewroteDetail(@RequestParam int id, @RequestParam String category, Model model) {
+		bbsservice.getRewroteQnaDetail(id, model);
+		return "wrote/rewroteQnaDetail";
 	}
 
-	@PostMapping("/list")
-	public String list() {
-		// 상세보기->목록으로 돌아가기
-		return "redirect:/movemypage/3";
+	@GetMapping("/qnaModify/{id}") // 수정하기버튼
+	public String modify(@PathVariable("id") int id,
+			@ModelAttribute("qnamodi") QnaVO vo, Model model) {
+		bbsservice.Qnamodify(id, model);
+		return "wrote/wroteQnaModify";
 	}
-
-	@GetMapping("/modify/{id}") // 수정하기버튼
-	public String modify(@PathVariable("id") int id, @RequestParam String category,
-			@ModelAttribute("detail") WrotebbsVO vo, Model model) {
-		bbsservice.getdetail(id, category, model);
-		return "wroteModify";
+	@GetMapping("/reviewModify/{id}") // 수정하기버튼
+	public String reviewmodify(@PathVariable("id") int id,
+			@ModelAttribute("detail") QnaVO vo, Model model) {
+		bbsservice.getReviewDetail(id, model);
+		return "wrote/wroteReviewModify";
 	}
 
 	@PostMapping("/modify") // 수정완료버튼
@@ -138,7 +147,11 @@ public class MoveController {
 		bbsservice.getdelete(vo);
 		return "redirect:/movemypage/3";
 	}
-
+	@PostMapping("/list")
+	public String list() {
+		// 상세보기->목록으로 돌아가기
+		return "redirect:/movemypage/3";
+	}
 	// 관리자페이지 -회원관리
 	// 관리자페이지 - 회원조회
 	@GetMapping("/adminpage/{page}")

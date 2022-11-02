@@ -21,6 +21,13 @@ public class ReviewVO {
 	private int stargrade;
 	private int hits;
 	
+	private int commId;
+	private int productId;
+	private int reviewId;
+	private String userid;
+	private String username;
+	private String commContent;
+	
 	//상품별 review 총 갯수
 	private int reviewCount;
 	//별점별 갯수
@@ -154,6 +161,48 @@ public class ReviewVO {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
+	public int getCommId() {
+		return commId;
+	}
+	public void setCommId(int commId) {
+		this.commId = commId;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	public int getReviewId() {
+		return reviewId;
+	}
+	public void setReviewId(int reviewId) {
+		this.reviewId = reviewId;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getCommContent() {
+		return commContent;
+	}
+	public void setCommContent(String commContent) {
+		this.commContent = commContent;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	
 	
 	
 	

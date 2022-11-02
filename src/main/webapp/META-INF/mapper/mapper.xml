@@ -210,8 +210,12 @@
 		<if test="id != null">
 			where owner_id=#{id}
 		</if>
-		ORDER BY createDate desc;
-
+		ORDER BY createDate desc
+	</select>
+	<select id="getRewrote" resultType="wroteVO" parameterType="userVO">
+		select id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, root
+		FROM qnacomment where root IN (SELECT root FROM qna where owner_id=#{id})
+		ORDER BY createDate desc
 	</select>
 	<select id="getsearch" resultType="wroteVO" parameterType="String">
 		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate FROM qna
@@ -223,20 +227,35 @@
 		<if test="id != null">
 			where owner_id=#{id} and category=#{category}
 		</if>
-		ORDER BY createDate desc;
+		ORDER BY createDate desc
 	</select>
 	
-	<select id="getdetail" resultType="wroteVO" parameterType="wroteVO">
-		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate FROM qna
-		<if test="id != null">
-			where id=#{id} and category=#{category}
-		</if>
-		UNION
+	<!-- 상세보기 -->
+	<!-- 상품명 불러오기 -->
+	<select id="getProName" resultType="string" parameterType="int">
+		SELECT NAME FROM product WHERE id=(SELECT CODE FROM qna where id=#{id})
+	</select>
+	<!-- 큐엔에이 제목 눌렀을 때 답글까지 상세보기  -->
+	<select id="getQnaDetail" resultType="QnaVO" parameterType="int">
+		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qna
+		where id=#{id}
+		Union
+		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qnacomment
+		where root=#{id}
+	</select>
+	<!-- 큐엔에이 답글 눌렀을 때 해당 글만 상세보기  -->
+	<select id="getRewroteQnaDetail" resultType="QnaVO" parameterType="int">
+		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qnacomment
+		where id=#{id}
+	</select>
+	<!-- 리뷰 -->
+	<select id="getReviewDetail" resultType="reviewVO" parameterType="reviewVO">
 		SELECT id, category, title, content, owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
-		<if test="id != null">
-			where id=#{id} and category=#{category}
-		</if>
-		ORDER BY createDate desc;
+		where id=#{id} and category=#{category}
+	</select>
+	<select id="getReviewcomment" resultType="reviewVO" parameterType="reviewVO">
+		SELECT id commId, product_id, review_id, userid, username, content commContent FROM review_comment
+		where review_id=#{id}
 	</select>
 	
 	<update id="modifyReview" parameterType="wroteVO">
@@ -251,9 +270,12 @@
    	<delete id="deleteReview" parameterType="wroteVO">
 		delete from review where id=#{id} and category=#{category}
 	</delete>
-   	<delete id="deleteMyPageQna">
+   	<delete id="deleteMyPageQna" parameterType="wroteVO">
 		delete from qna where id=#{id} and category=#{category}
 	</delete>
+	<update id="isdelete" parameterType="wroteVO">
+		update qnacomment set is_delete = is_delete+1 where root=#{id};
+	</update>
 	
 	<!-- 관리자페이지 회원조회 -->
 	<select id="usercount" resultType="int" parameterType="pageVO">
@@ -545,7 +567,7 @@
 	<select id="selectQna" resultType="QnaVO">
 		select id, code, qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, indent from qna where id = #{id}
+		owner_id, root, indent, hits from qna where id = #{id}
 	</select>
 
 	<!-- Q&A update -->

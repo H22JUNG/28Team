@@ -11,7 +11,7 @@ public class WrotebbsVO {
 	private int ownerId;
 	private String owner;
 	private String createDate;
-	private int reId;
+	private int root;
 	
 	public int getId() {
 		return id;
@@ -55,11 +55,11 @@ public class WrotebbsVO {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	public int getReId() {
-		return reId;
+	public int getRoot() {
+		return root;
 	}
-	public void setReId(int reId) {
-		this.reId = reId;
+	public void setRoot(int root) {
+		this.root = root;
 	}
 	
 }
