@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -147,6 +148,8 @@
         }
         .itemImage img {
             width: 100px;
+    		height: 120px;
+    		object-fit: cover;
         }
         .itemboxText{
             flex: 1;
@@ -300,13 +303,13 @@
 									<h4>상품 이름 : ${vo.itemName}</h4>
 									<p>Size : ${vo.size}</p> 
 									<p>Color : ${vo.color}</p>
-									<h4>상품 가격 : ${vo.price}</h4>
+									<h4>상품 가격 : <fmt:formatNumber value="${vo.price}" pattern="###,###"/> 원</h4>
 								</div>
 							</div>
 						</div>
 					</c:forEach>
 							<div id="bottom">
-								<h3>결제 금액 : ${orderUser.totalPrice}</h3>
+								<h3>결제 금액 : <fmt:formatNumber value="${orderUser.totalPrice}" pattern="###,###" /> 원</h3>
 							</div>
 						</div>
 						<!--inRight끝-->

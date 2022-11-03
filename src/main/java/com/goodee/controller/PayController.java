@@ -61,6 +61,13 @@ public class PayController {
 
 			return "pay";
 		}
-	
-
+		// 바로 구매하기 상품을 누르면 오는 controller
+		@PostMapping("/NowBuyController")
+		public String NowBuy(CartVO vo,HttpSession session) {
+		System.out.println(vo);
+		List<CartVO> cartvo = new ArrayList<CartVO>();
+		cartvo.add(vo);
+		session.setAttribute("cartList",cartvo);
+		return"pay";
+		}
 }

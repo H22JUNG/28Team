@@ -147,6 +147,8 @@
         }
         .itemImage img {
             width: 100px;
+    		height: 120px;
+    		object-fit: cover;
         }
         .itemboxText{
             flex: 1;

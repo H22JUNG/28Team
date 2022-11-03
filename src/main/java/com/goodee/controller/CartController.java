@@ -81,19 +81,6 @@ public class CartController {
 		return result;
 	}
 
-	// 상세페이지->구매하기 담기
-	@ResponseBody
-	@PostMapping("/datailpay")
-	public int addPay(CartVO cartvo, HttpSession session) {
-		int result = 0;
-		UserVO user = (UserVO) session.getAttribute("user");
-		if (user != null) {
-			cartvo.setUserid(user.getUserid());
-			service.addCart(cartvo);
-			result = 1;
-		}
-		return result;
-	}
 	// 상세페이지 사이즈
 	@ResponseBody
 	@PostMapping("/colorbyidandsize")

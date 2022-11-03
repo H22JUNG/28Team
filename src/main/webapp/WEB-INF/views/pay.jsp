@@ -58,7 +58,8 @@
 
         .itemImage img {
             width: 100px;
-            height : 130px;
+    		height: 120px;
+    		object-fit: cover;
         }
 
         .itemImage {
