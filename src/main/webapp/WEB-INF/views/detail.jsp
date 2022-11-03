@@ -641,7 +641,7 @@ input {
 							<input type="hidden" name="salePrice" id="salePrice" value= "<fmt:parseNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}"/>" />
 				</form>
 				</div><!-- 옵션 끝 -->
-			</div>
+			</div><!-- 디테일-탑 -->
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">

@@ -251,7 +251,7 @@ input::-webkit-input-placeholder {
 	
 }
 
-.detail_top h2 #name{
+.detail_top h2 #itemName{
 	margin: 15px 0 15px;
 	width : 100%;
 	border : none;
@@ -499,7 +499,7 @@ input {
 	<main>
 		<div class="mypage-container">
 			<!--상세페이지 상단(사진슬라이드+옵션부분)-->
-			<div class="detail_top">
+						<div class="detail_top">
 				<!--상세페이지 윗부분의 좌측(사진슬라이드)-->
 				<div id="wrapper">
 					<div id="slider-wrap">
@@ -508,12 +508,10 @@ input {
 							<li><img src="${detailVO.pic2}" alt=""></li>
 							<li><img src="${detailVO.pic3}" alt=""></li>
 							<c:if test="${detailVO.pic4 != null}">
-							<li><img src="${detailVO.pic4}" alt=""></li>
+								<li><img src="${detailVO.pic4}" alt=""></li>
 							</c:if>
 						</ul>
-						<input type="hidden" name="pic1" id="pic1" value="${detailVO.pic1}"/>
-						<input type="hidden" value="${detailVO.price}" id="cost1">
-
+			
 						<!--사진슬라이드 버튼-->
 						<div class="btns" id="next">
 							<i class="fa fa-chevron-right"></i>
@@ -526,113 +524,126 @@ input {
 						</div>
 					</div>
 				</div>
-
+				
 				<!--상세페이지 상단의 우측(옵션부분)-->
 				<div class="go-btn" onclick="window.scrollTo(0, 0);">
 					<span><i class="fa fa-chevron-up"></i></span>
 				</div>
-				<div class="options">
-					<h2><input type="text" value="${detailVO.name}" id="name"></h2>
-						<table>
-							<colgroup>
-								<!--이름쪽은 변하지 않고, 옵션쪽은 유동적이게-->
-								<col style="width: 173px;">
-								<col>
-							</colgroup>
-							<tbody>
-								<tr>
-									<th><label>가격 </label></th>
-									<td><input type="text" value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원" id="cost"><label for="dc"></label>
-									<input type="text" value="${detailVO.discount}" name="dc"
-										id="dc"><span id="dc-span">%</span></td>
-								</tr>
-								<tr>
-									<th><label>판매가격 </label></th>
-									<td><input type="text"
-										value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
-										id="price"> <span>원</span></td>
-								</tr>
-								<tr>
-									<th><label>상품코드 </label></th>
-									<%-- <td><input type="text" value="${detailOptionVO.proNum}"
-										id="product_code"></td> --%>
-									<td>
-									
-										<select name="code" id="code" data-size="${vo.proNum}" data-size="${vo.color}">
+				<div class="options"><!-- 옵션시작 -->
+				<form action="${pageContext.request.contextPath}/NowBuyController" method="post" id="now-buy">
+				
+					<h2>
+						<input type="text" value="${detailVO.name}" id="itemName" name="itemName">
+					</h2>
+					<table id="productTable">
+						<colgroup>
+							<!--이름쪽은 변하지 않고, 옵션쪽은 유동적이게-->
+							<col style="width: 173px;">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th><label>가격 </label></th>
+								<td><input type="text"
+									value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원"
+									id="cost"><label for="discount"></label> <input type="text"
+									value="${detailVO.discount}" name="discount" id="discount"><span
+									id="discount-span">%</span></td>
+							</tr>
+							<tr>
+								<th><label>판매가격 </label></th>
+								<td><input type="text"
+									value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
+									id="price"> <span>원</span></td>
+							</tr>
+							<tr>
+								<th><label>상품코드 </label></th>
+								<%-- <td><input type="hidden" name="proNum" value="${detailOptionVO.proNum}"
+										id="product_code"></td>--%>
+								<td><select name="proNum" id="code">
 										<c:forEach var="vo" items="${detailOptionVO}">
 											<c:forTokens var="vo1" items="${vo.proNum}" delims=",">
-								 				<option value="${vo1}">${vo1}</option>
-								 			</c:forTokens>
-								 		</c:forEach>
-										</select>
-								
-									</td>
-									<td><input type="hidden" value="${detailVO.id}" id="id"></td>
-								</tr>
-								<tr>
-									<th>배송비</th>
-									<td><input type="text" value="2,500"><span>원</span></td>
-								</tr>
-								<tr>
-									<th><label>적립금 </label></th>
-									<td><input type="text"
-										value="<fmt:formatNumber value="${(detailVO.price - (detailVO.price * (detailVO.discount/100))) * 0.05}" pattern="#,###" />"
-										id="save"><span>원</span></td>
-								</tr>
-								
-								<%-- <c:if test="${not empty detailOptionVO[2].size}">--%>
+												<option value="${vo1}">${vo1}</option>
+											</c:forTokens>
+										</c:forEach>
+								</select></td>
+								<td><input type="hidden" value="${detailVO.id}" id="id"></td>
+							</tr>
+							<tr>
+								<th>배송비</th>
+								<td><input type="text" value="2,500"><span>원</span></td>
+							</tr>
+							<tr>
+								<th><label>적립금 </label></th>
+								<td><input type="text"
+									value="<fmt:formatNumber value="${(detailVO.price - (detailVO.price * (detailVO.discount/100))) * 0.05}" pattern="#,###" />"
+									id="save"><span>원</span></td>
+							</tr>
+
+							<%-- <c:if test="${detailOptionVO[1].size != null}">--%>
 								<tr>
 									<th>옵션선택(사이즈)</th>
-								 	<td>
-								 		<select name="opt_select_2" id="select_size" class="form-control opt_select_size">
-								 		<c:forEach var="vo2" items="${selectOptionSize}">
-								 			<c:forTokens var="vo3" items="${vo2.size}" delims=",">
-								 				<option value="${vo3}">${vo3}</option>
-								 			</c:forTokens>
-								 		</c:forEach>
-								 	</select>
-								 	</td>
-								</tr>
-								<%-- </c:if>--%>
-								
-								<%-- <c:if test="${not empty detailOptionVO[3].color}">--%>
-								<tr>
-									 <th>옵션선택(색상)</th>
-								<td>
-									<c:forEach var="vo" items="${selectOptionColor}">
-										<select name="opt_select_1" id="select_color" data-size="${vo.size}" class="form-control opt_select_color">
-								 			<c:forTokens var="vo1" items="${vo.color}" delims=",">
-								 				<option value="${vo1}">${vo1}</option>
-								 			</c:forTokens>
-								 		</select>
-								 	</c:forEach>
-								</td>
-								</tr>
-								<%--</c:if> --%>
-								
-								<tr>
-									<th><label>구매수량</label></th>
-									<td><select name="select_count" id="select_count"
-										class="form-control">
-											<%-- <c:forEach begin="1" end="${detailOptionVO.stock}" var="count">--%>
-											<c:forEach begin="1" end="10" var="count">
-												<option>${count}</option>
+									<td><select name="size" id="select_size"
+										class="form-control opt_select_size">
+											<option value="선택없음">-선택없음-</option>
+											<c:forEach var="vo2" items="${selectOptionSize}">
+												<c:forTokens var="vo3" items="${vo2.size}" delims=",">
+													<option value="${vo3}">${vo3}</option>
+												</c:forTokens>
 											</c:forEach>
 									</select></td>
 								</tr>
-							</tbody>
-						</table>
-						<input type="hidden" name="productId" value="${detailVO.id}">
-						<%-- <input type="hidden" name="productNum" value="${detailOptionVO.proNum}">--%>
-						<!--장바구니/구매하기 버튼-->
-						<div class="datail_top_btns">
-							<input type="submit" value="장바구니" id="btn1" />
-							<input type="submit" value="구매하기" id="btn2" />
-						</div>
-						<%--</div>--%>
-					<%-- </form>--%>
-				</div>
-			</div>
+							<%-- </c:if>--%>
+
+							<%--c:if test="${detailOptionVO[1].color != null}"--%>
+								<tr>
+									<th>옵션선택(색상)</th>
+									<td>
+										<select name="color" id="select_color"
+											data-size="10" class="form-control opt_select_color">
+											<option value="선택없음">-선택없음-</option>
+										</select>
+										</td>
+								</tr>
+							<%--/c:if--%>
+								<!--tr>
+									<th>옵션선택(색상)</th>
+									<td><select name="opt_select_1" id="select_color" class="form-control opt_select_color">
+													<option value="nochoice">-선택없음-</option>
+													<option value="${optionVO.color}">${optionVO.color}</option>
+											</select>
+									</td>
+								</tr-->
+								
+							<tr>
+								<th><label>구매수량</label></th>
+								<td><select name="count" id="select_count"
+									class="form-control">
+										<c:forEach begin="1" end="${detailOptionVO[1].stock}"
+											var="count">
+											<option>${count}</option>
+										</c:forEach>
+								</select></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="selectoption">
+					
+					</div>
+					<input type="hidden" name="productId" id="proid" value="${detailVO.id}">
+
+					<!--장바구니/구매하기 버튼-->
+					<div class="datail_top_btns">
+						<input type="submit" value="장바구니" id="btn1" /> 
+						<input type="submit" value="구매하기" id="btn2" />
+					</div>
+					<input type="hidden" name="pic1" id="pic1"
+							value="${detailVO.pic1}" /> <input type="hidden"
+							value="${detailVO.price}" id="cost1" name="price">
+							<input type="hidden" name="salePrice" id="salePrice" value= "<fmt:parseNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}"/>" />
+				</form>
+				</div><!-- 옵션 끝 -->
+			</div><!-- 디테일-탑 -->
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">
@@ -762,6 +773,7 @@ input {
 				</div>
             </c:forEach>
     </div>
+ 
 			<!-- =====================페이징========================== -->
             <div class="pageing">
 			<c:choose>
@@ -1180,7 +1192,7 @@ input {
 			var count = $("#select_count").val();
 			var size = $("#select_size").val();
 			var color = $("#select_color").val();
-			var name = $("#name").val();
+			var name = $("#itemName").val();
 			var code = $("#code").val();
 			var dc = $("#dc").val();
 			var price = $("#cost1").val();
@@ -1232,51 +1244,15 @@ input {
 			});
 		});
 		
-		// 구매하기 이동
-		$("#btn2").click(function() {
-			var id = $("#id").val();
-			var count = $("#select_count").val();
-			var size = $("#select_size").val();
-			var color = $("#select_color").val();
-			var name = $("#name").val();
-			var price = $("#cost").val();
-			var dc = $("#dc").val();
-			
-			console.log("id : " + id);
-			console.log("count : " + count);
-			console.log("size : " + size);
-			console.log("color : " + color);
-			console.log("name : " + name);
-			console.log("price : " + price);
-			console.log("dc : " + dc);
-
-			var data = {
-				id : id,
-				count : count,
-				size : size,
-				color : color,
-				name : name,
-				price : price,
-				dc : dc
-			};
-
-			$.ajax({
-				url : "${pageContext.request.contextPath}/pay",
-				type : "post",
-				data : data,
-				success : function(result) {
-					if(result ==1){
-						$("#select_count").val("1");
-					} else{
-						alert("로그인 후 이용해주세요.");
-						$("#select_count").val("1");
-					}
-					},
-					error : function() {
-					alert("죄송합니다. 구매하실 수 없습니다.");
-				}
-			});
+		document.getElementById("btn2").addEventListener("click",function(e){
+			e.preventDefault();
+			if("${sessionScope.user.userid}" == "") {
+				alert("로그인 후 이용해주세요.");
+			} else {
+				document.getElementById("now-buy").submit();
+			}
 		});
+	
 
 	</script>
 
