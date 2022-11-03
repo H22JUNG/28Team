@@ -493,10 +493,10 @@
 	where userid = #{userid}
 	</update>
 	
-		<!-- 장바구니에서 구매한 상품 cartDB에서 삭제하기 -->
+	<!-- 장바구니에서 구매한 상품 cartDB에서 삭제하기 -->
 	<delete id="cartDelete" parameterType="CartVO">
-		delete from cart 
-		where cart_num = #{cartNum}
+	delete from cart 
+	where cart_num = #{cartNum}
 	</delete>
 	<!-- 장바구니 정보 가져오기 -->
 	<select id="getCartInfor" resultType="CartVO">
