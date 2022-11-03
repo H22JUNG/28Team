@@ -11,8 +11,10 @@ public class ReviewVO {
 	private String category;
 	private String title;
 	private String content;
-	private MultipartFile[] pic1;
+	private String pic1;
 	private String pic2;
+	private MultipartFile pic1File;
+	private MultipartFile pic2File;
 	private String owner_id;
 	private String owner;
 	private String createDate;
@@ -65,10 +67,10 @@ public class ReviewVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public MultipartFile[] getPic1() {
+	public String getPic1() {
 		return pic1;
 	}
-	public void setPic1(MultipartFile[] pic1) {
+	public void setPic1(String pic1) {
 		this.pic1 = pic1;
 	}
 	public String getPic2() {
@@ -76,6 +78,18 @@ public class ReviewVO {
 	}
 	public void setPic2(String pic2) {
 		this.pic2 = pic2;
+	}
+	public MultipartFile getPic1File() {
+		return pic1File;
+	}
+	public void setPic1File(MultipartFile pic1File) {
+		this.pic1File = pic1File;
+	}
+	public MultipartFile getPic2File() {
+		return pic2File;
+	}
+	public void setPic2File(MultipartFile pic2File) {
+		this.pic2File = pic2File;
 	}
 	public String getOwner_id() {
 		return owner_id;

@@ -1,3 +1,5 @@
+<%@page import="java.util.ResourceBundle"%>
+<%@page import="java.io.File"%>
 <%@page import="com.goodee.vo.UserVO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.goodee.vo.ReviewCommentVO"%>
@@ -634,7 +636,7 @@ input {
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">
-				<a href="${pageContext.request.contextPath}//detail/${detailVO.id}"><label for="tab1">상세정보</label></a>
+				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a>
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}"><label for="tab2" style="color:#21A5B5;">리뷰</label></a>
 				<a href=""><label for="tab3">상품문의</label></a>
 				<div id="content1">
@@ -704,7 +706,7 @@ input {
 			</span>
 			<div class="imgPreview">
 				<c:forEach var="pic" items="${pic}">
-						<img src="${pic.pic1}" alt="">
+					<img src="${pageContext.request.contextPath}/upload/${pic.pic1}" alt="">
 				</c:forEach>
 			</div>
 		</div>
@@ -728,10 +730,10 @@ input {
          			</span>${review.title }</p>
                 <div id="review-content"><p>${review.content }</p></div>
          	   <c:if test="${review.pic1 != null}">
-              	  <img src="${review.pic1}" alt="">
+              	  <img src="${pageContext.request.contextPath}/upload/${review.pic1}" alt="">
                </c:if>
          	   <c:if test="${review.pic2 != null}">
-             	  <img src="${review.pic2}" alt="">
+             	  <img src="${pageContext.request.contextPath}/upload/${review.pic2}" alt="">
                </c:if>
             </div>
 				<div class="reviewComment">
@@ -914,7 +916,7 @@ input {
     	<div id="photo">
     		<c:if test="${pic != null}">
     		 <c:forEach var="review" items="${pic}"  varStatus="status">
-    		 	<a href="#" id="pic${status.count}" data-id="${review.id}"><img src="${review.pic1}" /></a>
+    		 	<a href="#" id="pic${status.count}" data-id="${review.id}"><img src="${pageContext.request.contextPath}/upload/${review.pic1}" /></a>
     		 </c:forEach>
     		 </c:if>
     		 <c:if test="${pic[0] == null}">
@@ -932,7 +934,7 @@ input {
 			</div>
 			<div id="image-box">
 				<c:forEach var="review" items="${pic}">
-					<a href="#"><img id="reviewInreview-img" src="${review.pic1}" title="이미지를 크게 보려면 클릭하세요"/></a>
+					<a href="#"><img id="reviewInreview-img" src="${pageContext.request.contextPath}/upload/${review.pic1}" title="이미지를 크게 보려면 클릭하세요"/></a>
 				</c:forEach>
 			</div>
 			<c:if test ="${review[0].title != null}">

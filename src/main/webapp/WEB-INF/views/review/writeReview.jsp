@@ -83,8 +83,27 @@
         option {
             color: #21A5B5;
         }
-        #code {
-        	display : hidden;
+        #pic1File, #pic2File {
+        	padding : 10px 0;
+        }
+        #fileadd {
+        	padding : 1px 6px;
+        }
+        #file1, #file2 {
+        	display : flex;
+        	border : 1px solid #21A5B5;
+        	margin : 10px 0;
+        	padding : 0 10px;
+        	border-radius : 5px;
+        	width : 60%;
+        	align-items : center;
+        }
+        #file1 #defile1, #file2 #defile2 {
+        	width : 90px;
+        	height: 30px;
+        }
+        #file2 {
+        	display : none;
         }
     </style>
 </head>
@@ -121,18 +140,23 @@
                 </tr>
                 <tr>
                     <td>제 목</td>
-                    <td><form:input path="title" type="text" placeholder="리뷰 제목을 입력해주세요" /></td>
+                    <td><form:input path="title" type="text" placeholder="리뷰 제목을 입력해주세요"  required="required"/></td>
                 </tr>
                 <tr>
                     <td>내 용</td>
-                    <td><form:textarea path="content" cols="85" rows="25" placeholder="리뷰 내용을 입력해주세요"></form:textarea></td>
+                    <td><form:textarea path="content" cols="85" rows="25" placeholder="리뷰 내용을 입력해주세요"  required="required"></form:textarea></td>
                 </tr>
                 <tr>
                     <td>사진첨부</td>
                     <td>
-                        <label for="file">최대 2개까지 첨부 가능합니다.</label><br />
-                        <label for="pic1">사진1</label><form:input type="file" path="pic1" />
-                        <label for="pic2">사진2</label><form:input type="file" path="pic2" />
+                        <label for="file">최대 2개까지 첨부 가능합니다. (이미지 파일만 업로드 가능)</label><br />
+                        <div id="file1">
+                        <form:input type="file" path="pic1File" accept="image/*" /> <button id="defile1">파일 삭제</button>
+                        </div>
+                        <button id="fileadd">파일 추가</button>
+                        <div id="file2">
+                        <form:input type="file" path="pic2File" accept="image/*"/> <button id="defile2">파일 삭제</button>
+                    	</div>
                     </td>
                 </tr>
             </table>
@@ -144,5 +168,21 @@
         </div>
     </main>
      <jsp:include page="../footer.jsp"></jsp:include>
+     <script>
+   	  document.getElementById("fileadd").addEventListener("click", function(e){
+   		e.preventDefault();
+   		document.getElementById("file2").style.display = "flex";
+   		document.getElementById("fileadd").style.display = "none";
+   	  });
+   	  
+	  document.getElementById("defile1").addEventListener("click", function(e){
+	  	e.preventDefault();
+	  	document.getElementById("pic1File").value = null;
+	  });
+	  document.getElementById("defile2").addEventListener("click", function(e){
+	  	e.preventDefault();
+	  	document.getElementById("pic2File").value = null;
+	  });
+     </script>
 </body>
 </html>

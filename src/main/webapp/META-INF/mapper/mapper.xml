@@ -416,8 +416,8 @@
 	</select>
 	<!-- 리뷰 등록하기 -->
 	<insert id="writeReview">
-		INSERT INTO review(category, title, content, owner_id, OWNER,CODE,stargrade)
-		VALUE(#{category},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade})
+		INSERT INTO review(category, title, content, owner_id, OWNER,CODE,stargrade, pic1, pic2)
+		VALUE(#{category},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade}, #{pic1, jdbcType=NULL}, #{pic2, jdbcType=NULL})
 	</insert>
 	
 	<!-- 유진 mapper, 주문페이지에서 입력한 정보 전송 -->

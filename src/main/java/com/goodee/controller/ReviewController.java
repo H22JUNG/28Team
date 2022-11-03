@@ -99,12 +99,14 @@ public class ReviewController {
 	
 	//리뷰쓰고 전송 눌렀을 때
 	@PostMapping("/writeReviewDone/{id}")
-	public String moveWriteReviewDone(@RequestParam("pic1") MultipartFile[] pic1,
-									@RequestParam("pic2") MultipartFile[] pic2,
-									@PathVariable("id")int id,
+	public String moveWriteReviewDone(@PathVariable("id")int id,
 									@ModelAttribute("reviewVO") ReviewVO vo,
+									@RequestParam("pic1File") MultipartFile pic1File,
+									@RequestParam("pic2File") MultipartFile pic2File,
 									Model model, HttpSession session) {
-		reviewservice.writeReview(pic1, pic2, id, vo, model, session);
+		
+		reviewservice.writeReview(pic1File, pic2File, id, vo, model, session);
+		
 		return "redirect:/moveReview/"+id;
 	}
 	
