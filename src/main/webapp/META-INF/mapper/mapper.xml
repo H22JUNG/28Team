@@ -492,6 +492,20 @@
 	update user set point = point-#{point}
 	where userid = #{userid}
 	</update>
+	
+		<!-- 장바구니에서 구매한 상품 cartDB에서 삭제하기 -->
+	<delete id="cartDelete" parameterType="CartVO">
+		delete from cart 
+		where cart_num = #{cartNum}
+	</delete>
+	<!-- 장바구니 정보 가져오기 -->
+	<select id="getCartInfor" resultType="CartVO">
+		select cart_num, userid, id, item_name, price, discount, count, color, size, pic1, pro_num
+		FROM cart 
+		WHERE userid = #{userid}
+	</select>
+	
+	
 	<!-- 위까지 유진 mapper -->
 	
 	<!-- 수정 -->

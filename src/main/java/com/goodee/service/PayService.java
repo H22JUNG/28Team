@@ -96,7 +96,16 @@ public class PayService {
 		dao.orderPoint(vo);
 	}
 	//카트에서 선택한 상품의 정보를 가져오기위한 서비스
-		public CartVO findCart(CartVO cartvo){
+	public CartVO findCart(CartVO cartvo){
 			return dao.findCart(cartvo);
-		}
+	}
+	//카트에서 결제한 상품들 cartDB에서 삭제
+	public void cartDelete(CartVO vo) {
+			dao.cartDelete(vo);
+	}
+	
+		//카트 리스트
+	public List<CartVO> getCartInfor(UserVO vo){
+			return dao.getCartInfor(vo);
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.goodee.service.PayService;
 import com.goodee.vo.CartSession;
 import com.goodee.vo.CartVO;
+import com.goodee.vo.UserVO;
 import com.goodee.vo.orderUser;
 
 @Controller
@@ -34,6 +35,19 @@ public class PayController {
 	service.orderInfor(vo,(List<CartVO>)session.getAttribute("cartList"), session, model);
 	service.orderStock((List<CartVO>)session.getAttribute("cartList"));
 	service.orderPoint(vo);
+	
+	//결제가 끝난 상품들 cartDB에서 삭제할것임 
+	service.getCartInfor((UserVO)session.getAttribute("user"));
+	for (int i = 0; i < service.getCartInfor((UserVO)session.getAttribute("user")).size(); i++) {
+		List<CartVO> cartlist = (List<CartVO>)session.getAttribute("cartList");
+		UserVO user = (UserVO)session.getAttribute("user");
+		for (int j = 0; j < cartlist.size(); j++) {
+			if (service.getCartInfor(user).get(i).getCartNum() == cartlist.get(j).getCartNum()) {
+			service.cartDelete(cartlist.get(j));
+			}
+		}
+	}
+	
 	// 위에 vo에 저장한것들을 출력
 	return "pay_result";
 		}
