@@ -169,11 +169,21 @@ public class QnaController {
 		
 		// 상세페이지 내 Qna게시판
 		// 상세페이지 inner - Q&A
-		@GetMapping("/inner_qna")
-		public String getBBS(@SessionAttribute("user") UserVO user, Model model, @ModelAttribute("qnaVO") QnaVO qnavo) {
+		@GetMapping("/detail_qna/{id}")
+		public String getBBS(Model model, @PathVariable("id")String id, HttpServletRequest request,
+				@ModelAttribute("qnaVO1") QnaVO qnavo) {
+			cartservice.getDetailContent(model, id); // 상세페이지 상품 데이터들
+			System.out.println("detail id : " + id);
 			
-				bbsservice.getBBSList(model);
-				return "/qna/inner_qna";
+			int page = 1;
+			if(request.getParameter("page") != null) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
+			
+				bbsservice.getBBSList(model);  // 이너Q&A데이터
+				//model.addAttribute("move_product_qna", request.getParameter("move_product_qna"));  //qna페이지 이동
+				
+				return "/qna/detail_qna";
 		}
 		
 		@GetMapping("/inner_qna/{id}")
