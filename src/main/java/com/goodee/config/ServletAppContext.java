@@ -107,7 +107,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 		
 		return sqlSessionFactoryBean.getObject();
 	}
-	private final int MAX_SIZE = 10 * 1024 * 1024;
+	private final int MAX_SIZE = 5 * 1024 * 1024;
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -115,7 +115,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 		// 디폴트 인코딩 타입 설정
 		multipartResolver.setDefaultEncoding("UTF-8");
 		// 전체 올릴 수 있는 파일들의 총 용량 최대치
-		multipartResolver.setMaxUploadSize(MAX_SIZE*10);
+		multipartResolver.setMaxUploadSize(MAX_SIZE*2);
 		// 파일 한개 당 올릴 수 있는 용량 최대치
 		multipartResolver.setMaxUploadSizePerFile(MAX_SIZE);
 		

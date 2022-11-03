@@ -43,7 +43,7 @@
             width: 180px;
             font-weight: 900;
         }
-        table tr:last-child td:last-child{
+        table tr:nth-child(4) td:nth-child(4){
             height : 400px; 
         }
         #btn {
@@ -77,6 +77,25 @@
         }
         input:focus {
             outline: none;
+        }
+        #pic1File, #pic2File {
+        	padding : 10px 0;
+        }
+        #fileadd {
+        	padding : 1px 6px;
+        }
+        #file1, #file2 {
+        	display : flex;
+        	border : 1px solid #21A5B5;
+        	margin : 10px 0;
+        	padding : 0 10px;
+        	border-radius : 5px;
+        	width : 31%;
+        	align-items : center;
+        }
+        #file1 #defile1, #file2 #defile2 {
+        	width : 90px;
+        	height: 30px;
         }
     </style>
 </head>
@@ -112,6 +131,18 @@
 					<td>내용</td>
 					<td><form:textarea type="text" path="content"/></td>
 				</tr>
+				<tr>
+					<td>사진첨부</td>
+					<td>
+                        <label for="file">최대 2개까지 첨부 가능합니다. (이미지 파일만 업로드 가능)</label><br />
+	                    <div id="file1">
+	                       <form:input type="file" path="pic1File" accept="image/*" /> <button id="defile1">파일 삭제</button>
+	                    </div>
+	                    <div id="file2">
+	                        <form:input type="file" path="pic2File" accept="image/*"/> <button id="defile2">파일 삭제</button>
+	                    </div>
+                    </td>
+				</tr>
 			</table>
 			<div id="btn">
 				<button id="modify">수 정</button>
@@ -123,5 +154,15 @@
 	<footer>
 		<jsp:include page="../footer.jsp"></jsp:include>
     </footer>
+      <script>
+	  document.getElementById("defile1").addEventListener("click", function(e){
+	  	e.preventDefault();
+	  	document.getElementById("pic1File").value = null;
+	  });
+	  document.getElementById("defile2").addEventListener("click", function(e){
+	  	e.preventDefault();
+	  	document.getElementById("pic2File").value = null;
+	  });
+     </script>
 </body>
 </html>

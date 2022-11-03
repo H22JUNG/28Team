@@ -122,6 +122,11 @@
         .comment:last-child {
         	border-bottom : 1px solid gray;
         }
+        #reviewPhoto img{
+        	width : 220px;
+        	height : 220px;
+        	padding : 10px;
+        }
     </style>
 </head>
 <body>
@@ -153,6 +158,10 @@
 				<tr>
 					<td>내용</td>
 					<td>${detail.content}</td>
+				</tr>
+				<tr>
+					<td>사진</td>
+					<td id="reviewPhoto"><img src="${pageContext.request.contextPath}/upload/${detail.pic1}" alt="" /><img src="${pageContext.request.contextPath}/upload/${detail.pic2}" alt="" /></td>
 				</tr>
 			</table>
 			<c:if test="${not empty comment}">

@@ -12,7 +12,21 @@ public class WrotebbsVO {
 	private String owner;
 	private String createDate;
 	private int root;
+	private String pic1;
+	private String pic2;
 	
+	public String getPic1() {
+		return pic1;
+	}
+	public void setPic1(String pic1) {
+		this.pic1 = pic1;
+	}
+	public String getPic2() {
+		return pic2;
+	}
+	public void setPic2(String pic2) {
+		this.pic2 = pic2;
+	}
 	public int getId() {
 		return id;
 	}

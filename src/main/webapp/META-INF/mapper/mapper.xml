@@ -250,7 +250,7 @@
 	</select>
 	<!-- 리뷰 -->
 	<select id="getReviewDetail" resultType="reviewVO" parameterType="reviewVO">
-		SELECT id, category, title, content, owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
+		SELECT id, category, title, content, pic1, pic2, owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
 		where id=#{id} and category=#{category}
 	</select>
 	<select id="getReviewcomment" resultType="reviewVO" parameterType="reviewVO">
@@ -259,7 +259,7 @@
 	</select>
 	
 	<update id="modifyReview" parameterType="wroteVO">
-		update review set title=#{title}, content=#{content}
+		update review set title=#{title}, content=#{content}, pic1=#{pic1, jdbcType=NULL},  pic2=#{pic2, jdbcType=NULL}
 		where id=#{id} and category=#{category}
 	</update>
 	<update id="modifyQna" parameterType="wroteVO">
