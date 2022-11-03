@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -65,6 +67,8 @@ public class ServletAppContext implements WebMvcConfigurer{
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:///D:/reviewImage/");
+
 	}
 	
 	// 데이터 베이스 접속 정보 관리
@@ -103,6 +107,19 @@ public class ServletAppContext implements WebMvcConfigurer{
 		
 		return sqlSessionFactoryBean.getObject();
 	}
-
+	private final int MAX_SIZE = 10 * 1024 * 1024;
+	@Bean
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		
+		// 디폴트 인코딩 타입 설정
+		multipartResolver.setDefaultEncoding("UTF-8");
+		// 전체 올릴 수 있는 파일들의 총 용량 최대치
+		multipartResolver.setMaxUploadSize(MAX_SIZE*10);
+		// 파일 한개 당 올릴 수 있는 용량 최대치
+		multipartResolver.setMaxUploadSizePerFile(MAX_SIZE);
+		
+		return multipartResolver;
+	}
 }
 

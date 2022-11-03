@@ -1,8 +1,12 @@
 package com.goodee.service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +23,9 @@ import com.goodee.vo.UserVO;
 public class ReviewService {
 
 	public ProjectDAO dao;
+	
+	@Value("${file.upload.path}")
+	private String Path;
 
 	public ReviewService(ProjectDAO dao) {
 		super();
@@ -102,14 +109,39 @@ public class ReviewService {
 	}
 	
 	//리뷰 DB로 전송
-	public void writeReview(@RequestParam("pic1") MultipartFile[] pic1,
-							@RequestParam("pic2") MultipartFile[] pic2,
+	public void writeReview(MultipartFile pic1File, MultipartFile pic2File,
 							int id, ReviewVO vo, Model model, HttpSession session) {
+		
+		if(!pic1File.getOriginalFilename().isEmpty()) {	//파일이름이 있으면
+			Path path1 = Paths.get(Path+pic1File.getOriginalFilename());
+			try {
+				pic1File.transferTo(path1);
+				//vo.setPic1(Path + pic1File.getOriginalFilename());
+				vo.setPic1(pic1File.getOriginalFilename());
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(!pic2File.getOriginalFilename().isEmpty()) {	//파일이름이 있으면
+			Path path2 = Paths.get(Path +pic2File.getOriginalFilename());
+			try {
+				pic2File.transferTo(path2);
+				vo.setPic2(pic2File.getOriginalFilename());
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		//카테고리
 		vo.setCategory();
-		System.out.println("세션");
 		UserVO uservo = (UserVO)session.getAttribute("user");
-		System.out.println("tptus");
 		//작성자id
 		vo.setOwner_id(Integer.toString(uservo.getId()));
 		//작성자이름
@@ -118,13 +150,6 @@ public class ReviewService {
 		String id1 = Integer.toString(id);
 		ProductVO provo = dao.selectDetail(id1);
 		vo.setCode(provo.getId());
-		
-		for(MultipartFile file : pic1) {
-			if(!file.getOriginalFilename().isEmpty()) {
-				//file.transferTo(vo.setPic1(file.getOriginalFilename()));
-			}
-		}
-		
 		dao.writeReview(vo);
 	}
 }
