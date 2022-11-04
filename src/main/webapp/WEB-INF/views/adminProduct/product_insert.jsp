@@ -248,6 +248,11 @@ form div label {
 	text-decoration: none;
 	color: #000;
 }
+
+.side-menu a span {
+	color: #21A5B5;
+	font-weight: bold;
+}
 </style>
 </head>
 
@@ -261,17 +266,17 @@ form div label {
 					<div class="menu">
 						<li>
 							<h4>
-								<a href="">✔ 회원관리</a>
+								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=" class="menu1">✔ 회원관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>
@@ -281,7 +286,7 @@ form div label {
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 관리자 정보수정</a>
+								<a href="${pageContext.request.contextPath}/admin-admin-list" class="menu1">✔ 관리자 정보수정</a>
 							</h4>
 						</li>
 						<li>
@@ -302,7 +307,7 @@ form div label {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_insert">상품정보 등록</a>
+								<a href="${pageContext.request.contextPath}/admin_product_insert"><span>상품정보 등록</span></a>
 							</h4>
 						</li>
 					</ul>
@@ -381,7 +386,7 @@ form div label {
 										</div>
 										<div class="btns">
 											<button class="btn btn-default final_btn" id="btn_product_insert">등록하기</button>
-											<button class="btn btn-default final_btn" id="btn_product_back">돌아가기</button>
+											<button class="btn btn-default final_btn" id="btn_product_back" type="button">돌아가기</button>
 										</div>
 									</div>
 								</div>

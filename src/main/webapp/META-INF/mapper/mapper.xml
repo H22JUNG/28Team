@@ -103,7 +103,7 @@
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->
 	<!-- 관리자 페이지 - product 전체 list 뽑기 - 윤정 -->
 	 <select id="selectProductList" resultType="map">
-	 	SELECT product.id, product.NAME, price, view, create_date, option.pro_num, size, color, stock
+	 	SELECT product.id, category1, category2, product.NAME, price, view, create_date, option.pro_num, size, color, stock
 		FROM option INNER JOIN product
 		ON option.id = product.id;
 	 </select>
@@ -731,9 +731,57 @@
 	</select>
 	
 	<!-- ==================== 관리자 페이지 - 주문 관리 ==================== -->
+	<sql id="delivstate">
+		<!-- 물품 준비중 -->
+		<if test="delivstate == null">
+			delivstate = 1 and pay_result = 1
+		</if>
+		<if test="delivstate == ''">
+			delivstate = 1 and pay_result = 1
+		</if>
+		<if test="delivstate == 1">
+			delivstate = 1 and pay_result = 1
+		</if>
+		
+		<!-- 배송중 -->
+		<if test="delivstate == 2">
+			delivstate = 2 and pay_result = 1
+		</if>
+		<!-- 배송완료 -->
+		<if test="delivstate == 3">
+			delivstate = 3 and pay_result = 1
+		</if>
+		
+		<!-- 취소신청 -->
+		<if test="delivstate == 4">
+			pay_result = 2
+		</if>
+		<!-- 환불 -->
+		<if test="delivstate == 5">
+			pay_result = 3
+		</if>
+		<!-- 교환 -->
+		<if test="delivstate == 6">
+			pay_result = 4
+		</if>
+	</sql>
+	
 	<select id="selectAdminOrder" resultType="orderUser">
 		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num, userid, total_price, delivstate, pay_result
 		from orderuser
+		where
+			<include refid="delivstate"/>
+	</select>
+	
+	
+	
+	<!-- 모달창으로 가져올 상세정보 -->
+	<select id="selectOrderModal" resultType="detailVO">
+		SELECT order_name, date_format(order_date,'%Y-%m-%d') 'orderDate', pay, address, detailAddress, extraAddress, order_tel, total_price, point,
+		item_name, COUNT, size, item_price, color, pic1, order_num, pro_num
+		FROM orderuser u INNER JOIN orderitem i
+		ON u.cart_listnum = i.cart_listnum
+		WHERE order_num = #{orderNum};
 	</select>
 	
 	<!-- delivnum Update -->
@@ -742,6 +790,7 @@
 		set delivnum = #{delivnum}
 		where order_num = #{orderNum}
 	</update>
+	<!-- 송장번호가 들어가있지 않으면 배송 준비중으로 뜨도록 -->
 	<update id="delivstatUpdate2">
 		update orderuser
 		set delivstate = 2
@@ -754,14 +803,28 @@
 	</update>
 	
 	<select id="orderState1" resultType="int">
-		select count(*) from orderuser where delivstate = 1 AND pay_result = "완료"
+		select count(*) from orderuser where delivstate = 1 AND pay_result = 1
 	</select>
 	
 	<select id="orderState2" resultType="int">
-		select count(*) from orderuser where delivstate = 2 AND pay_result = "완료"
+		select count(*) from orderuser where delivstate = 2 AND pay_result = 1
 	</select>
 	
 	<select id="orderState3" resultType="int">
-		select count(*) from orderuser where pay_result = "취소"
+		select count(*) from orderuser where pay_result = 2
 	</select>
+	
+	<!-- 주문교환 -->
+	<update id="orderExchange">
+		update orderuser set pay_result = "교환신청";
+		where order_num = #{orderNum}
+	</update>
+	
+	<!-- 주문 취소 -->
+	<update id="orderCancel">
+		update orderuser set pay_result = "취소완료"
+		where order_num = #{orderNum}
+	</update>
+	
+	<!-- 환불처리 -->
 </mapper>

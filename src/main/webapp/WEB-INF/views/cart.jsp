@@ -30,7 +30,7 @@
 			display: flex;
 			width: 80%;
 			justify-content: center;
-			align-items: center
+    		align-items: flex-start;
 		}
 		
         /* 마이페이지 메뉴 */
