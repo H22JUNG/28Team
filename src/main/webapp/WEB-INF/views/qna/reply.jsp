@@ -294,6 +294,7 @@ a {
 								<dd>
 									<input type="password" name="password" id="" value="${qnaVO.password}"/>
 									<input type="hidden" name="root" id="root" value="${qnaVO.id}">
+									<input type="hidden" name="qnaCategory" id="qnaCategory" value="${qnaVO.qnaCategory}">
 								</dd>
 							</dl>
 						</div>
@@ -303,7 +304,6 @@ a {
 								<dd>
 									Re: ${qnaVO.title}
 									<input type="hidden" name="title" id="" value="Re: ${qnaVO.title}"/>
-									<input type="hidden" name="root" id="" value="${qnaVO.id}"/>
 								</dd>
 							</dl>
 						</div>

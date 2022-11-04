@@ -185,8 +185,9 @@ table {
 
 th {
 	color: black;
-	padding: 10px 0 10px 0;
+	padding: 10px 3px 10px 3px;
 	border-bottom: 3px solid #616161;
+	font-size : 14px;
 }
 
 #admin-email {
@@ -195,8 +196,9 @@ th {
 
 td {
 	border-bottom: 1px solid #616161;
-	padding: 10px 0 10px 0;
+	padding: 10px 3px 10px 3px;
 	text-align: center;
+	font-size : 14px;
 }
 
 .modify-btn {
@@ -228,7 +230,7 @@ td {
 
 .side-menu a {
 	text-decoration: none;
-	color: #000;
+	color: #21A5B5;
 }
 
 .admin-popup {

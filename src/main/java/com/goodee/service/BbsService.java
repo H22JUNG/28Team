@@ -53,29 +53,35 @@ public class BbsService {
 		model.addAttribute("detail", dao.getReviewDetail(vo));
 		model.addAttribute("comment", dao.getReviewcomment(vo));
 	}
+
 	public void getQnaDetail(@RequestParam int id, Model model) {
 		model.addAttribute("proName", dao.getProName(id));
 		model.addAttribute("detail", dao.getQnaDetail(id));
 	}
+
 	public void getRewroteQnaDetail(int id, Model model) {
 		model.addAttribute("proName", dao.getProName(id));
 		model.addAttribute("detail", dao.getRewroteQnaDetail(id));
 	}
+
 	public void Qnamodify(int id, Model model) {
 		model.addAttribute("proName", dao.getProName(id));
 		model.addAttribute("qnamodi", dao.getQnaDetail(id).get(0));
 	}
+
 	public void modify(WrotebbsVO vo) {
 		dao.modifyReview(vo);
 		dao.modifyQna(vo);
 	}
+
 	public void getdelete(WrotebbsVO vo) {
 		dao.deleteReview(vo);
-		if(dao.deleteMyPageQna(vo) > 0) {
+		if (dao.deleteMyPageQna(vo) > 0) {
 			dao.isdelete(vo);
-		};
+		}
+		;
 	}
-	
+
 	// QnA - 수정
 	// QnA 리스트출력 및 페이징
 	public void getQnaList(int page, HttpServletRequest request, Model model) {
@@ -130,16 +136,40 @@ public class BbsService {
 		return dao.qnaCount(id);
 	}
 
-	// QnA 답글기능
+	// QnA 답변기능
 	public boolean insertReply(QnaCommentVO commentvo) {
 		return (dao.insertReply(commentvo) > 0) ? true : false;
 	}
 
-	// 이너 QnA 댓글기능
-
+	// 상세페이지 QnA 댓글기능
 	// 이너Q&A 조회
-	public void getBBSList(Model model) {
-		model.addAttribute("qnaVO1", dao.selectBBSList());
+	public void getBBSList(int page, HttpServletRequest request, Model model) {
+		PageVO pagevo = new PageVO();
+		pagevo.setTotal(dao.selectQnaCount());
+		pagevo.setNowPage(page);
+		pagevo.setCntPerPage(10);
+		pagevo.setStart((page - 1) * pagevo.getCntPerPage());
+		pagevo.setEnd(page * pagevo.getCntPerPage());
+
+		pagevo.setCntPerBlock(5);
+		// 전체페이지
+		int totalPage = pagevo.getTotal() / pagevo.getCntPerPage();
+		totalPage = (pagevo.getTotal() % pagevo.getCntPerPage() == 0) ? totalPage : totalPage + 1;
+		pagevo.setTotalPage(totalPage);
+		// 페이지 설정
+		int initPage = (pagevo.getNowPage() - 1) / pagevo.getCntPerBlock() * pagevo.getCntPerBlock();
+		// 시작페이지
+		int startPage = initPage + 1;
+		pagevo.setStartPage(startPage);
+		// 끝 페이지
+		int endPage = initPage + pagevo.getCntPerBlock();
+		if (endPage > pagevo.getTotalPage()) {
+			endPage = pagevo.getTotalPage();
+		}
+		pagevo.setEndPage(endPage);
+
+		model.addAttribute("page", pagevo);
+		model.addAttribute("qnaVO1", dao.selectBBSList(pagevo));
 	}
 
 	// 이너Q&A 타이틀클릭

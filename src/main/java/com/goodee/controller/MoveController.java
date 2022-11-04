@@ -84,7 +84,6 @@ public class MoveController {
 			return "redirect:/cart/" + ((UserVO) session.getAttribute("user")).getUserid();
 		} else if (path == 2) {
 
-	
 			payservice.getOrderList(model, session);
 			return "order_list";
 		} else {
@@ -102,7 +101,7 @@ public class MoveController {
 
 	@GetMapping("/wrotedetail")
 	public String wrotedetail(@RequestParam int id, @RequestParam String category, Model model) {
-		if(category.equals("Review")) {
+		if (category.equals("Review")) {
 			bbsservice.getReviewDetail(id, model);
 			return "wrote/reviewDetail";
 		} else {
@@ -110,7 +109,8 @@ public class MoveController {
 			return "wrote/qnaDetail";
 		}
 	}
-	//답변 글 상세보기
+
+	// 답변 글 상세보기
 	@GetMapping("/RewroteQnaDetail")
 	public String RewroteDetail(@RequestParam int id, @RequestParam String category, Model model) {
 		bbsservice.getRewroteQnaDetail(id, model);
@@ -118,14 +118,13 @@ public class MoveController {
 	}
 
 	@GetMapping("/qnaModify/{id}") // 수정하기버튼
-	public String modify(@PathVariable("id") int id,
-			@ModelAttribute("qnamodi") QnaVO vo, Model model) {
+	public String modify(@PathVariable("id") int id, @ModelAttribute("qnamodi") QnaVO vo, Model model) {
 		bbsservice.Qnamodify(id, model);
 		return "wrote/wroteQnaModify";
 	}
+
 	@GetMapping("/reviewModify/{id}") // 수정하기버튼
-	public String reviewmodify(@PathVariable("id") int id,
-			@ModelAttribute("detail") QnaVO vo, Model model) {
+	public String reviewmodify(@PathVariable("id") int id, @ModelAttribute("detail") QnaVO vo, Model model) {
 		bbsservice.getReviewDetail(id, model);
 		return "wrote/wroteReviewModify";
 	}
@@ -147,11 +146,13 @@ public class MoveController {
 		bbsservice.getdelete(vo);
 		return "redirect:/movemypage/3";
 	}
+
 	@PostMapping("/list")
 	public String list() {
 		// 상세보기->목록으로 돌아가기
 		return "redirect:/movemypage/3";
 	}
+
 	// 관리자페이지 -회원관리
 	// 관리자페이지 - 회원조회
 	@GetMapping("/adminpage/{page}")
@@ -270,20 +271,15 @@ public class MoveController {
 	}
 
 	// 상세페이지
-	// 메인P 상품id -> 상품id 갖고 상세P 가서 DetailVO데이터 넣기
+	// 메인페이지 -> 상품상세페이지(id)
 	@GetMapping("/detail/{id}")
-	public String productId(@PathVariable("id") String id, Model model, @ModelAttribute("qnaVO1") QnaVO qnavo,
-			HttpServletRequest req) {
-		bbsservice.getBBSList(model);
-		cartservice.getDetailContent(model, id);
-
-		model.addAttribute("move_product_qna", req.getParameter("move_product_qna")); // qna페이지 이동
-
+	public String productId(@PathVariable("id") String id, Model model) {
+		cartservice.getDetailContent(model, id); // 상세페이지 상품 데이터들
 		return "detail";
 	}
 
 	// 관리자의 관리자정보수정
-	// 관리자메인P -> 관리자 정보수정 이동 //유저정보 담아야됨.
+	// 관리자정보수정으로 이동
 	@GetMapping("admin-admin-list")
 	public String adminList(@SessionAttribute("user") UserVO user, Model model, String id) {
 		if (user != null) {
@@ -294,7 +290,7 @@ public class MoveController {
 		}
 	}
 
-	// 관리자정보수정에서 수정버튼 눌렀을 때
+	// 관리자정보수정 수정버튼
 	@GetMapping("/admin_modify/{id}")
 	public String adminListId(@PathVariable("id") String id, Model model, @SessionAttribute("user") UserVO user) {
 		if (user != null) {
@@ -306,7 +302,7 @@ public class MoveController {
 
 	}
 
-	// 관리자정보 수정완료버튼 눌렀을 때
+	// 관리자정보수정 수정완료버튼
 	@PostMapping("/modifyBtn")
 	public String updateAdmin(@SessionAttribute("user") UserVO user, @ModelAttribute("userVO") UserVO uservo) {
 		String returnUrl = "";
@@ -315,7 +311,7 @@ public class MoveController {
 			uservo.setUserid(user.getUserid());
 			boolean result = bbsservice.updateAdmin(uservo);
 			if (result == true) {
-				returnUrl = "/admin-admin";
+				returnUrl = "redirect:/admin-admin-list";
 			} else {
 				returnUrl = "redirect:/admin_modify/" + uservo.getId();
 			}
@@ -325,14 +321,19 @@ public class MoveController {
 		return returnUrl;
 	}
 
-	// 관리자정보 조회P -> 삭제하기
+	// 관리자정보수정 관리자삭제
 	@GetMapping("/admin_delete/{id}")
-	public String deleteAdmin(@SessionAttribute("user") UserVO user, @ModelAttribute("userVO") UserVO uservo,
-			@PathVariable("id") String id) {
-		uservo.setUsername(user.getUsername());
-		uservo.setUserid(user.getUserid());
+	public String deleteAdmin(@SessionAttribute("user") UserVO user, UserVO uservo, @PathVariable("id") String id) {
 		bbsservice.deleteAdmin(uservo);
-		return "redirect:/admin_admin";
+		return "redirect:/admin-admin-list";
+	}
+
+	// 관리자 로그아웃
+	@GetMapping("/admin-logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		// session.removeAttribute("user");
+		return "redirect:/";
 	}
 
 	// 공지사항
@@ -347,19 +348,5 @@ public class MoveController {
 	public String moveDetailNotice(@PathVariable("page") int page, Model model) {
 		bbsservice.selectDetailNotice(model, page);
 		return "notice/notice_detail";
-	}
-
-	// 관리자메인P -> 관리자 정보수정 이동 //유저정보 담아야됨.
-	@GetMapping("/admin_admin")
-	public String adminAdmin() {
-		return "/admin_admin";
-	}
-
-	// 관리자 로그아웃
-	@GetMapping("/admin-logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		// session.removeAttribute("user");
-		return "redirect:/";
 	}
 }

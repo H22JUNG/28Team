@@ -17,7 +17,14 @@ public class QnaCommentVO {
 	private int orderId;
 	private int isDelete;
 	private int qnaId;
+	private String qnaCategory;
 	
+	public String getQnaCategory() {
+		return qnaCategory;
+	}
+	public void setQnaCategory(String qnaCategory) {
+		this.qnaCategory = qnaCategory;
+	}
 	public int getIsDelete() {
 		return isDelete;
 	}

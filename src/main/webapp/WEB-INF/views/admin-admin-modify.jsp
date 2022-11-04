@@ -65,7 +65,7 @@ table {
 th {
 	color: #616161;
 	padding: 10px 5px 10px 5px;
-	border-bottom: 3px solid #616161;
+	border-bottom: 3px solid #21A5B5;
 }
 
 td {
@@ -75,6 +75,12 @@ td {
 }
 
 td input{
+	height : 30px;
+	text-align: center;
+}
+
+.admin{
+	width : 80px;
 	height : 30px;
 	text-align: center;
 }
@@ -117,12 +123,22 @@ td input{
 
 .side-menu a {
 	text-decoration: none;
-	color: #000;
+	color: #21A5B5;
 }
 
-.admin-popup {
-	display: none;
+.title select:focus, .title options:focus, .qna_write .info input[type="text"]:focus,
+	.qna_write .title input[type="password"]:focus, #content:focus  {
+	border : none;
+	outline : 1px solid #21A5B5;
+	border-radius : 5px;
 }
+
+td input:focus, .admin:focus{
+	border : none;
+	outline : 2px solid #21A5B5;
+	border-radius : 5px;
+}
+
 </style>
 </head>
 
@@ -177,9 +193,12 @@ td input{
 										placeholder="주소" value="${uservo.address}" /></td>
 									<td><input type="text" name="email" class="email"
 										placeholder="이메일" value="${uservo.email}" /></td>
-									<td><input type="number" name="admin" class="admin"
-										placeholder="사용자:0 관리자:1" max="1" min="0"
-										value="${uservo.admin}" /></td>
+									<td>
+										<select name="admin" class="admin">
+											<option value="1">관리자</option>
+											<option value="0">사용자</option>
+										</select>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -235,8 +254,8 @@ $(document).ready(function(){
 			$('input[name=pwConfirm]').focus();
 			return false;
 		}
-		if ( $('input[name=admin]').val() == 0) {
-			alert('해당 관리자는 사용자로 변경됩니다.(사용자:0 관리자:1)');
+		if ( $('select[name=admin]').val() == 0) {
+			alert('해당 관리자는 사용자로 변경됩니다.');
 		}
 	});
 	

@@ -80,15 +80,15 @@ public class CartController {
 		}
 		return result;
 	}
-
-	// 상세페이지 사이즈
+	
+	// 사이즈선택 후 색상
 	@ResponseBody
 	@PostMapping("/colorbyidandsize")
 	public List<String> colorbyidandsize(OptionVO optionVO, HttpSession session) {
 		return service.selectColorByIdAndSize(optionVO);
 	}
 	
-	// 상세페이지 색상
+	// 색상선택 후 상품코드
 	@ResponseBody
 	@PostMapping("/pronumbysizeandcolor")
 	public String pronumbysizeandcolor(OptionVO optionVO, HttpSession session) {
