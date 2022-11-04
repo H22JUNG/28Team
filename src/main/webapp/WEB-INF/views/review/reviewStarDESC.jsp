@@ -530,7 +530,7 @@ input {
 					<span><i class="fa fa-chevron-up"></i></span>
 				</div>
 				<div class="options">
-					<h2><input type="text" value="${detailVO.name}" id="name"></h2>
+					<h2><input type="text" value="${detailVO.name}" id="itemName"></h2>
 						<table>
 							<colgroup>
 								<!--이름쪽은 변하지 않고, 옵션쪽은 유동적이게-->
@@ -636,7 +636,7 @@ input {
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}//detail/${detailVO.id}"><label for="tab1">상세정보</label></a>
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}"><label for="tab2" style="color:#21A5B5;">리뷰</label></a>
-				<a href="#"><label for="tab3">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
 				<div id="content1">
 <div id="reviewContainer">
     <div id="REVIEW">
