@@ -7,10 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css">
 <style>
 
+@keyframes slide-right {
+  from {
+  	transform: translateX(0%);
+  }
+
+  to {
+  }
+}
+@keyframes slide-left {
+  from {
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
 /* 메인페이지 */
 main {
 	background-color: white;
@@ -25,7 +39,7 @@ main {
 
 /* 카테고리 메뉴바 */
 main aside {
-	width: 300px;
+	width: 20%;
     min-height: 600px;
 	background: #FFFFFF;
 	border-width: 1px 1px 1px 0px;
@@ -38,6 +52,8 @@ main aside {
 	left: 0;
 	display: flex;
 	flex-direction: column;
+	z-index: 1;
+/* 	display: none; */
 }
 
 main aside .outer-cate {
@@ -126,7 +142,43 @@ main .item-container {
 	display: flex;
 	gap: 30px;
 	flex-direction: column;
+	margin-left: 20%;
 }
+
+/* 베스트 아이템 스크롤 */
+
+.bestitem-container {
+	position: relative;
+}
+
+.bestitem-container #scroll-left {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+	padding: 10px;
+	font-weight: bold;
+    font-size: 24px;
+    transform: translateX(-100%);
+    
+}
+.bestitem-container #scroll-right {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    cursor: pointer;
+	padding: 10px;
+	font-weight: bold;
+    font-size: 24px;
+}
+
+.slide-right {
+	animation: slide-right 1s forwards;
+}
+.slide-left {
+	animation: slide-left 1s forwards;
+}
+
+
 /* 베스트 아이템 */
 main .bestitem-box >div {
 	width: 240px;
@@ -149,12 +201,21 @@ main .bestitem-container .bestitem-list {
     overflow: hidden;
 }
 
+.bestitem-wrap {
+	width: fit-content;
+    font-size: 0;
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+
 .bestitem-box{
 	width: 240px;
 	display: inline-block;
 	margin: 10px;
 	white-space: normal;
+	font-size: 16px;
 }
+
 
 .bestitem-box .bestitem-image{
 	width: 100%;
@@ -176,6 +237,7 @@ main .bestitem-container .bestitem-list {
 	height: 120px;
 	padding: 10px;
 	gap: 10px;
+	margin: 0;
 }
 
 .bestitem-name a{
@@ -372,6 +434,8 @@ main .item-container .item-list>p {
             display: none;
         }
 </style>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
@@ -442,10 +506,13 @@ main .item-container .item-list>p {
 
 		<div class="item-container">
 			<div class="bestitem-container">
+				<span id="scroll-left">〈</span>
+				<span id="scroll-right">〉</span>
 				<p>
 					${best[0].category} <span>Best</span>
 				</p>
-				<div class="bestitem-list">
+				<div class="bestitem-list" id="bestlist">
+				<div class="bestitem-wrap" id="bestwrap">
 					<c:forEach var="vo" items="${best}">
 						<div class="bestitem-box">
 						<div class="bestitem-image">
@@ -498,6 +565,7 @@ main .item-container .item-list>p {
 						</div>
 					</div>
 					</c:forEach>
+					</div>
 					</div>
 			</div>
 			<div class="item-list">
@@ -613,5 +681,48 @@ main .item-container .item-list>p {
 		</div>
 	</main>
 	<jsp:include page="footer.jsp"></jsp:include>
+	
+	<script type="text/javascript">
+		// 베스트아이템 슬라이드
+		
+		
+		
+		const bestList = document.getElementById("bestlist");
+		const bestWrap = document.getElementById("bestwrap");
+		const rScroll = document.getElementById("scroll-right");
+		const lScroll = document.getElementById("scroll-left");
+	
+		lScroll.style.visibility="hidden";
+		rScroll.style.visibility="hidden";
+		
+		
+		let rSlide = document.styleSheets[0].cssRules[0];
+		rSlide.appendRule('100% { transform: translateX(-'+(bestWrap.offsetWidth-bestList.offsetWidth)+'px);}');
+		let lSlide = document.styleSheets[0].cssRules[1];
+		lSlide.appendRule('from { transform: translateX(-'+(bestWrap.offsetWidth-bestList.offsetWidth)+'px);}');
+	
+		if(bestList.offsetWidth < bestWrap.offsetWidth) {
+			rScroll.style.visibility="visible";
+		
+			rScroll.addEventListener("click",function(){
+				bestWrap.classList.remove("slide-left");
+				bestWrap.classList.add("slide-right");
+				lScroll.style.visibility="visible";
+				rScroll.style.visibility="hidden";
+			});
+		}
+		
+		lScroll.addEventListener("click",function(){
+		
+			if(bestWrap.classList.contains("slide-right")){
+				bestWrap.classList.remove("slide-right");
+				bestWrap.classList.add("slide-left");
+				rScroll.style.visibility="visible";
+				lScroll.style.visibility="hidden";
+			}
+		});
+		
+	
+	</script>
 </body>
 </html>
