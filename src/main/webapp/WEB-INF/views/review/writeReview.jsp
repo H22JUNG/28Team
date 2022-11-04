@@ -169,6 +169,23 @@
     </main>
      <jsp:include page="../footer.jsp"></jsp:include>
      <script>
+     const maxSize = 2 * 1024 * 1024;
+     document.getElementById("pic1File").onchange = function(){
+ 	    //사진 용량검사
+ 	    if(document.getElementById("pic1File").files[0].size > maxSize) {
+ 	    	alert("파일 용량을 확인해주세요.");
+ 	    	document.getElementById("pic1File").value = null;
+ 	    }    	 
+     };
+     document.getElementById("pic2File").onchange = function(){
+ 	    //사진 용량검사
+ 	    if(document.getElementById("pic2File").files[0].size > maxSize) {
+ 	    	alert("파일 용량을 확인해주세요.");
+ 	    	document.getElementById("pic2File").value = null;
+ 	    }    	 
+     };
+     
+     
    	  document.getElementById("fileadd").addEventListener("click", function(e){
    		e.preventDefault();
    		document.getElementById("file2").style.display = "flex";

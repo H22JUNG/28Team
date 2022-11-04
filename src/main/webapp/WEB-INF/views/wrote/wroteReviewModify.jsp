@@ -177,8 +177,14 @@
 		<jsp:include page="../footer.jsp"></jsp:include>
     </footer>
       <script>
+    	const maxSize = 2 * 1024 * 1024;
      // pic1File에 파일 추가가 되면 input태그 value를 그 값으로 바꾸기
     	document.getElementById("pic1File").onchange = function(){
+    	    //사진 용량검사
+    	    if(document.getElementById("pic1File").files[0].size > maxSize) {
+    	    	alert("파일 용량을 확인해주세요.");
+    	    	document.getElementById("pic1File").value = null;
+    	    }    	 
     		if(document.getElementById("pic1File").value != null) {
     			document.getElementById("pic1").value= document.getElementById("pic1File").value;
     		} else {
@@ -186,6 +192,10 @@
     		}
     	};
     	document.getElementById("pic2File").onchange = function(){
+    	    if(document.getElementById("pic2File").files[0].size > maxSize) {
+    	    	alert("파일 용량을 확인해주세요.");
+    	    	document.getElementById("pic2File").value = null;
+    	    }  
     		if(document.getElementById("pic2File").value != null) {
     			document.getElementById("pic2").value = document.getElementById("pic2File").value;
     		} else {
@@ -212,6 +222,7 @@
 	  	 	window.history.back();
   	  });
       
+
      </script>
 </body>
 </html>
