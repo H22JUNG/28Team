@@ -591,13 +591,14 @@
 		date_format(order_date,'%Y-%m-%d') 'orderDate', order_num, total_price
 		from orderuser
 		where userid = #{userid}
+		order by orderDate desc
 	</select>
 
 	<!-- 주문내역에서 해당 주문번호 누르면 해당 주문 상세내역 만 뜨는페이지 -->
 	<select id="detailOrderInfor" resultType="detailVO">
 		SELECT order_name, date_format(order_date,'%Y-%m-%d') 'orderDate', pay,
 		address, detailAddress, extraAddress, order_tel, total_price, POINT,
-		item_name, COUNT, size, item_price, color, pic1, order_num
+		item_name, COUNT, size, item_price, color, pic1, order_num,pay_result
 		FROM orderuser u INNER JOIN orderitem i
 		ON u.cart_listnum = i.cart_listnum
 		WHERE order_num = #{orderNum};
