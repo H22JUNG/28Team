@@ -38,21 +38,46 @@ main {
 }
 
 /* 카테고리 메뉴바 */
+
+@keyframes asideout {
+	from {
+		transform: translateX(-70%);
+	}
+	to {
+		transform: translateX(0%);
+	}
+}
+@keyframes asidein {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-70%);
+	}
+}
+
+.asideout {
+	animation: asideout 0.6s forwards;
+}
+.asidein {
+	animation: asidein 0.6s forwards;
+}
+
 main aside {
-	width: 20%;
-    min-height: 600px;
-	background: #FFFFFF;
-	border-width: 1px 1px 1px 0px;
-	border-style: solid;
-	border-color: #28BACE;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	padding: 50px 20px;
+    min-height: 100vh;
+    background: #FFFFFF;
+    border-width: 0px 1px 0px 0px;
+    border-style: solid;
+    border-color: #28BACE;
+    box-shadow: 2px 0px 5px rgb(0 0 0 / 25%);
+    padding: 50px 20px;
 	position: absolute;
 	top: 0;
 	left: 0;
 	display: flex;
 	flex-direction: column;
 	z-index: 1;
+	transform: translateX(-70%);
 /* 	display: none; */
 }
 
@@ -75,7 +100,14 @@ main aside .outer-cate>li:first-child {
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-	padding: 15px 0;
+	padding: 10px 10px 10px 0;
+}
+
+#aside-search {
+	visibility: hidden;
+	padding: 5px;
+    outline: none;
+    border: 1px solid #939393;
 }
 
 main aside .outer-cate>li:last-child {
@@ -92,7 +124,7 @@ main aside .outer-cate>li>a {
 	min-height: 50px;
 }
 
-main aside .outer-cate>li>a img {
+main aside .outer-cate>li img {
 	width: 30px;
 	height: 30px;
 	opacity: 0.6;
@@ -105,7 +137,7 @@ main aside .outer-cate>li:hover>a img {
 
 
 main aside .outer-cate>li>.inner-cate {
-/*  	display: none; */
+  	display: none;
 }
 
 
@@ -196,7 +228,7 @@ main .bestitem-container > p span {
 }
 
 main .bestitem-container .bestitem-list {
-	height: 340px;
+	height: 370px;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -234,7 +266,7 @@ main .bestitem-container .bestitem-list {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 120px;
+	height: 150px;
 	padding: 10px;
 	gap: 10px;
 	margin: 0;
@@ -257,6 +289,12 @@ main .bestitem-container .bestitem-list {
 .bestitem-name .price {
 	font-weight: 700;
 	cursor: default;
+}
+.bestitem-name .price .viewprice{
+	text-decoration: line-through;
+    font-size: 15px;
+    text-align: center;
+    color: #b2b2b2;
 }
 
 .bestitem-name .item-info{
@@ -292,7 +330,7 @@ main .item-container .item-list>p {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 120px;
+	height: 150px;
 	padding: 10px;
 	gap: 10px;
 }
@@ -314,6 +352,12 @@ main .item-container .item-list>p {
 .itemname .price {
 	font-weight: 700;
 	cursor: default;
+}
+.itemname .price .viewprice{
+	text-decoration: line-through;
+    font-size: 15px;
+    text-align: center;
+    color: #b2b2b2;
 }
 
 .itemname .item-info {
@@ -443,8 +487,10 @@ main .item-container .item-list>p {
 	<main>
 		<aside>
 			<ul class="outer-cate">
-				<li><input type="text" />
-				<button>검색</button></li>
+				<li><input type="text" name="search" id="aside-search" placeholder="검색어를 입력해 주세요"/>
+				<img
+						src="${pageContext.request.contextPath}/image/search.png"
+						alt="" /></li>
 				<li><a
 					href="${pageContext.request.contextPath}/category/furniture">가구<img
 						src="${pageContext.request.contextPath}/image/icons/bed-icon.png" alt="" /></a>
@@ -526,7 +572,10 @@ main .item-container .item-list>p {
 									<span class="discount">${vo.discount}%</span>
 								</c:if> <span> ${vo.name} </span>
 							</a>
-							<p class="price">${vo.viewPrice}원</p>
+							<div class="price">
+							<p class="viewprice">${vo.viewPrice}</p>
+							<p class="saleprice">${vo.salePrice}원</p>
+							</div>
 							<div class="item-info">
 
 								<p class="star">
@@ -638,7 +687,10 @@ main .item-container .item-list>p {
 									<span class="discount">${vo.discount}%</span>
 								</c:if> <span> ${vo.name} </span>
 							</a>
-							<p class="price">${vo.viewPrice}원</p>
+							<div class="price">
+							<p class="viewprice">${vo.viewPrice}</p>
+							<p class="saleprice">${vo.salePrice}원</p>
+							</div>
 							<div class="item-info">
 
 								<p class="star">
@@ -683,10 +735,8 @@ main .item-container .item-list>p {
 	<jsp:include page="footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
+		
 		// 베스트아이템 슬라이드
-		
-		
-		
 		const bestList = document.getElementById("bestlist");
 		const bestWrap = document.getElementById("bestwrap");
 		const rScroll = document.getElementById("scroll-right");
@@ -722,7 +772,64 @@ main .item-container .item-list>p {
 			}
 		});
 		
-	
+		
+		// aside
+		const header = document.querySelector("header");
+		const footer = document.querySelector("footer");
+		const aside = document.querySelector("aside");
+		const itemContainer = document.querySelector(".item-container");
+		const asideSearch = document.querySelector("#aside-search");
+		
+		for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
+			document.querySelectorAll(".inner-cate")[i].style.display = "none";
+		}
+		
+		aside.classList.remove("asideout");
+		aside.style.position="absolute";	
+		if (window.scrollY-header.offsetHeight > 0) {
+			aside.style.top = window.scrollY-header.offsetHeight +"px";
+			
+		} else {
+			aside.style.top ="0";
+		}
+		
+		
+		
+		function scrollAside(){
+			aside.style.position="absolute";	
+			aside.style.top="0";
+			
+			if(window.scrollY > header.offsetHeight && (window.scrollY + aside.offsetHeight) < footer.offsetTop) {
+				aside.style.position="fixed";
+			}else if((window.scrollY + aside.offsetHeight) >= footer.offsetTop) {
+				aside.style.position="absolute";
+				aside.style.top="calc( 100% - "+aside.offsetHeight+"px )";
+			}
+			
+		}
+		
+		window.addEventListener("scroll", scrollAside);
+		function mousemove(event){
+			if(event.pageX < aside.offsetWidth+100 && event.pageY >= header.offsetHeight ){
+				for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
+					document.querySelectorAll(".inner-cate")[i].style.display = "block";
+				}
+				aside.classList.remove("asidein");
+				aside.classList.add("asideout");
+				asideSearch.style.visibility = "visible";
+			} else {
+				if(aside.classList.contains("asideout")){
+				for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
+					document.querySelectorAll(".inner-cate")[i].style.display = "none";
+				}
+				aside.classList.remove("asideout");
+				aside.classList.add("asidein");
+				asideSearch.style.visibility = "hidden";
+				}
+			}
+		}
+
+		window.addEventListener('mousemove', mousemove);
 	</script>
 </body>
 </html>

@@ -23,6 +23,7 @@ public class ProductVO {
 	public int order;
 	public String viewPrice;
 	public String search;
+	public String salePrice;
 	
 	public int getId() {
 		return id;
@@ -166,6 +167,14 @@ public class ProductVO {
 	public void setSearch(String search) {
 		this.search = search;
 	}
+	
+	public String getSalePrice() {
+		return salePrice;
+	}
+	public void setSalePrice(String salePrice) {
+		this.salePrice = salePrice;
+	}
+	
 	
 	
 }

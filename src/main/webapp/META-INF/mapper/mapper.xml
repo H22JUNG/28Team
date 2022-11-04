@@ -37,16 +37,10 @@
 
 	<!-- product list -->
 	<!-- 카테고리별 -->
-	<select id="selectCategory" resultType="productVO"
-		parameterType="productVO">
-		SELECT p.id, category1 'category', p.pic1, p.pic2, p.pic3, p.pic4,
-		p.name, format(price,0) viewPrice, discount, view,
-		DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
-		sum(stock)
-		totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT
-		COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
-		FROM option o
-		right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
+	<select id="selectCategory" resultType="productVO" parameterType="productVO">
+		SELECT p.id, category1 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name,format(price-(price*(discount/100)),0) salePrice,format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
+		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
 		<where>
 			<if test='category1 != null and category1 != ""'>
@@ -81,29 +75,25 @@
 					createDate desc
 				</otherwise>
 			</choose>
-		</trim>
+		</trim>	
 	</select>
-
+	
 	<select id="selectBest" resultType="productVO">
-		SELECT p.id,
-		<choose>
-			<when test='category1 != null and category1 != ""'>
-				category1 'category',
-			</when>
-			<when test='category2 != null and category2 != ""'>
-				category2 'category',
-			</when>
-			<otherwise>
-				category1 'category',
-			</otherwise>
-		</choose>
-		p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice,
-		discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
-		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade',
-		(SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
-		FROM
-		option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id
-		= r.code)
+	SELECT p.id, 
+	<choose>
+		<when test='category1 != null and category1 != ""'>
+			category1 'category',
+		</when>
+		<when test='category2 != null and category2 != ""'>
+			category2 'category',
+		</when>
+		<otherwise>
+			category1 'category',
+		</otherwise>
+	</choose>
+ 		p.pic1, p.pic2, p.pic3, p.pic4, p.name,format(price-(price*(discount/100)),0) salePrice, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
+		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
 		<where>
 			<if test='category1 != null and category1 != ""'>
