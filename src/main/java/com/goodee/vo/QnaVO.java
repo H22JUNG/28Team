@@ -15,7 +15,14 @@ public class QnaVO {
 	private int code;
 	private int hits;
 	private int replyCount;
+	private String category;
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	public int getReplyCount() {
 		return replyCount;
 	}
