@@ -320,10 +320,9 @@
 	</select>
 
 	<update id="modifyReview" parameterType="wroteVO">
-		update review set
-		title=#{title}, content=#{content}, pic1=#{pic1, jdbcType=NULL},
-		pic2=#{pic2, jdbcType=NULL}
-		where id=#{id} and category=#{category}
+		update review set title=#{title}, content=#{content}, 
+		pic1=IF(#{pic1}='',NULL,#{pic1}),  pic2=IF(#{pic2}='',NULL,#{pic2})
+		where id=#{id}
 	</update>
 	<update id="modifyQna" parameterType="wroteVO">
 		update qna set

@@ -70,8 +70,11 @@ public class BbsService {
 	}
 
 	public void modify(WrotebbsVO vo) {
-		dao.modifyReview(vo);
-		dao.modifyQna(vo);
+		if(vo.getCategory().equals("Review")) {
+			dao.modifyReview(vo);			
+		} else {
+			dao.modifyQna(vo);
+		}
 	}
 
 	public void getdelete(WrotebbsVO vo) {

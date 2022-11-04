@@ -1,8 +1,13 @@
 package com.goodee.controller;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.goodee.service.BbsService;
 import com.goodee.service.CartService;
@@ -39,6 +45,9 @@ public class MoveController {
 	public CartService cartservice;
 	public ReviewService reviewservice;
 
+	@Value("${file.upload.path}")
+	private String Path;
+	
 	public MoveController(BbsService bbsservice, UserService userservice, LoginService loginservice,
 			PayService payservice, CartService cartservice, ReviewService reviewservice) {
 		super();
@@ -130,8 +139,39 @@ public class MoveController {
 	}
 
 	@PostMapping("/modify") // 수정완료버튼
-	public String modifydone(@ModelAttribute("detail") WrotebbsVO vo, @RequestParam("category") String category,
-			@RequestParam("id") int id) {
+	public String modifydone(@ModelAttribute("detail") WrotebbsVO vo,
+							@RequestParam("category") String category,
+							@RequestParam("id") int id,
+							@RequestParam("pic1File") MultipartFile pic1File,
+							@RequestParam("pic2File") MultipartFile pic2File) {
+		
+			if(!pic1File.getOriginalFilename().isEmpty()) {	//파일이름이 있으면
+				Path path1 = Paths.get(Path+pic1File.getOriginalFilename());
+				try {
+					pic1File.transferTo(path1);
+					//vo.setPic1(Path + pic1File.getOriginalFilename());
+					vo.setPic1(pic1File.getOriginalFilename());
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(!pic2File.getOriginalFilename().isEmpty()) {	//파일이름이 있으면
+				Path path2 = Paths.get(Path +pic2File.getOriginalFilename());
+				try {
+					pic2File.transferTo(path2);
+					vo.setPic2(pic2File.getOriginalFilename());
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
 		vo.setId(id);
 		vo.setCategory(category);
 		bbsservice.modify(vo);
