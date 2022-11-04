@@ -112,79 +112,83 @@
             margin-bottom: 5%;
         }
         
-
-        #right{
-            border: 1px solid #D9D9D9;
+  #right{
+            border: 1px solid #FFFAEE;
             border-radius: 20px 20px;
-            padding-top: 20px;
-            
-            
-            
+            height: 100%;
+            background-color: #FFFAEE;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+
         }
-        #rightTop{
+        #top{
+            background-color: white;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 5px;
+
+        }
+        #top div{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #dateDiv{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #center{
+            background-color: white;
+            width: 80%;
+            padding: 10px;
+        }
+        #center div{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #bottom{
+            background-color: white;
+            width: 80%;
+            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            padding:  15px 30px;
+        }
+        .bottomIn{
+            display: flex;
+            gap: 10px;
+       
+        }
+        .bottomText{
+            font-size: 12px;
+        
+        }
+        .bottomText div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 35px;
+        }
+       
+        .bottomIn div img{
+            width: 100px;
+            height: 130px;
+            object-fit: cover;
+        }
+        .imageBox{
+            justify-content: center;
+            align-items: center;
             display: flex;
         }
        
-        #inleft{
-            width: 40%;
-            line-height: 200%;
-            text-align: center;
-            font-size: 14px;
-        }
-        #inRight{
-            
-            flex: 1;
-        }
-        .Itembox{
-            border-bottom: 1px solid  #D9D9D9;
-            padding: 10px 0;
-        }
-        .smallItembox{
-            display: flex;
-        }
-        .number{
-            text-align: right;
-        }
-        .itemImage img {
-            width: 100px;
-    		height: 120px;
-    		object-fit: cover;
-        }
-        .itemboxText{
-            flex: 1;
-            line-height: 200%;
-            font-size: 12px;
-            padding:0 10px;
-        }
-        #bottom{
-            margin-top: 20px;
-            border: 1px solid   #71B2B4;
-            border-radius: 20px 20px;
-            background-color:   #71B2B4;
-            color: white;
-            width: 80%;
-            height: 50px;
-            align-items: center;
-            justify-content: center;
-            display: flex;
-        }
-      
-        #lastBottom{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80px;
-        }
-        #lastBottom h3{
-            border: 1px solid  #71B2B4;
-            border-radius: 20px 20px;
-            background-color:  #71B2B4;
-            color: white;
-            height: 50px;
-            width: 70%;
-            text-align: center;
-            padding-top: 10px;
-        }
+        
         @media (max-width: 700px) {
             .mypage-container{
                 flex-direction: column;
@@ -194,17 +198,46 @@
             }
             #right{
                 width: 600px;
+                flex-direction: column;
+                font-size: 14px;
             }
-            #inleft{
-                width: 20%;
+            #top{
+                height: 40%;
+                flex-direction: column;
+                display: flex;
             }
+            #center{
+            padding: 0;
+    		font-size: 12px;
+            }
+         	#center div{
+         	padding: 10px;
+         	}
         }
         @media (max-width: 500px) {
             #right{
                 width: 400px;
-                padding-left: 20px;
+                
+                font-size: 12px;
             }
-		
+            #top{
+                
+                width:350px;
+            }
+            #center div{
+                gap: 5px;
+            }
+			#center{
+            padding: 0;
+            width:350px;
+            
+            }
+            #bottom{
+            width:350px;
+            }
+            .bottomText div{
+            gap:3px;
+            }
         }
        
     </style>
@@ -270,15 +303,15 @@
 			</aside>
 			<section>
 				<div id="right">
-					<div id="rightTop">
-						<div id="inleft">
-					<h4>주문자 이름</h4>
-							<p>${detailOrderInfor[0].orderName}</p>
-							<h4>주문 날짜</h4>
-							<p>${detailOrderInfor[0].orderDate}</p>
-							<h4>주문 수량</h4>
-							<p>${detailOrderInfor[0].count}</p>
-							<h4>결제 수단</h4>
+					<div id="top">
+                        <div><p>주문번호 ${detailOrderInfor[0].orderNum}</p></div>
+                       <div id="dateDiv"><h4>주문날짜</h4><p>${detailOrderInfor[0].orderDate}</p>
+                    </div> 
+                   <div><h4>주문자</h4><p>${detailOrderInfor[0].orderName}</p></div> 
+                    <div><h4>연락처</h4><p>${detailOrderInfor[0].orderTel}</p></div> 
+                    <div><h4>배송지</h4><p>${detailOrderInfor[0].address} ${detailOrderInfor[0].detailAddress} ${detailOrderInfor[0].extraAddress}</p></div> 
+                	<div>
+                		<h4>결제 수단</h4>
 							<c:choose>
 							<c:when test="${detailOrderInfor[0].pay eq 'cash'}">
 							<p>
@@ -291,38 +324,44 @@
 							</p>
 							</c:otherwise>
 							</c:choose>
-
-
-						</div>
-						<div id="inRight">
-						<c:forEach var="vo" items="${detailOrderInfor}">
-						<div class="itembox">
-							<div class="smallItembox">
-								<div class="itemImage">
-									<img
-										src="${vo.pic1}">
-								</div>
-								<div class="itemboxText">
-									<h4>상품 이름 : ${vo.itemName}</h4>
-									<p>Size : ${vo.size}</p> 
-									<p>Color : ${vo.color}</p>
-									<p>수량 : ${vo.count}</p>
-									<h4>상품 가격 : ${vo.itemPrice}</h4>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-							<div id="bottom">
-									<h3>결제 금액 : ${detailOrderInfor[0].totalPrice} 원</h3>
-							</div>
-						</div>
-						<!--inRight끝-->
-					</div>
-					<div id="lastBottom">
-						<h3>주문 번호 : ${detailOrderInfor[0].orderNum}</h3>
-							
-					</div>
-				</div>
+                	</div>
+                </div><!--intop 끝-->
+				<div id="center">
+                  <div>
+                  <h4>결제 금액 ${detailOrderInfor[0].totalPrice} 원</h4> <h4>사용한 적립금</h4><p>${detailOrderInfor[0].point}원</p>
+                  <h4>결제상태</h4>
+                  <c:choose>
+                  <c:when test="${detailOrderInfor[0].payResult eq '1'}">
+                  <p>주문 완료</p>
+                  </c:when>
+                  <c:when test="${detailOrderInfor[0].payResult eq '2'}">
+                  <p>취소 신청</p>
+                  </c:when>
+                  <c:when test="${detailOrderInfor[0].payResult eq '3'}">
+                  <p>환불</p>
+                  </c:when>
+                  <c:otherwise>
+                  <p>교환</p>
+                  </c:otherwise>
+                  </c:choose>
+                  </div>
+                </div><!--center 끝-->
+                <div id="bottom">
+                <c:forEach var="vo" items="${detailOrderInfor}">
+                    <div class="bottomIn">
+                        <div class="imageBox">
+                            <img src="${vo.pic1}" alt="">
+                        </div>
+                        <div class="bottomText">
+                     <div><h4>상품명</h4><p>${vo.itemName}</p></div>   
+                     <div><h4>컬러</h4><p>${vo.color}</p></div>
+                    <div><h4>수량</h4><p>${vo.count}</p></div>
+                    <div><h4>상품가격</h4><p>${vo.itemPrice}</p></div>
+                        </div>
+                    </div><!-- bottomIn-->
+                    </c:forEach>
+                </div>
+				</div><!-- right 끝 -->
 				<!--컨테이너 끝-->
 		</section>
 		</div>

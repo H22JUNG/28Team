@@ -20,6 +20,14 @@ public class detailOrderVO {
 	private String color;
 	private String pic1;
 	private String orderNum;
+	private int payResult;
+	
+	public int getPayResult() {
+		return payResult;
+	}
+	public void setPayResult(int payResult) {
+		this.payResult = payResult;
+	}
 	public String getOrderName() {
 		return orderName;
 	}
