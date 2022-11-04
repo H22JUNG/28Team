@@ -111,8 +111,9 @@ main section {
 
 .row {
 	display: flex;
-    flex-direction: column;
-    align-items: end;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 h1 {
@@ -135,6 +136,11 @@ th {
     padding-bottom: 10px;
     color: gray;
 }
+
+th:nth-child(5) {
+	width: 40%;
+}
+
 td {
     padding: 10px 1px 10px 1px;
     text-align: center;
@@ -143,7 +149,9 @@ td {
 	text-align: left;
 }
 .choice {
-	color: blue;
+    color: #21A5B5;
+    font-weight: bold;
+    text-decoration: underline;
 }
 #insert_btn {
     border: none;
@@ -171,6 +179,11 @@ td {
 	text-decoration: none;
 	color: #000;
 }
+
+.side-menu a span {
+	color: #21A5B5;
+	font-weight: bold;
+}
 </style>
 </head>
 
@@ -184,17 +197,17 @@ td {
 					<div class="menu">
 						<li>
 							<h4>
-								<a href="">✔ 회원관리</a>
+								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=" class="menu1">✔ 회원관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/adminOrder">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>
@@ -204,7 +217,7 @@ td {
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 관리자 정보수정</a>
+								<a href="${pageContext.request.contextPath}/admin-admin-list" class="menu1">✔ 관리자 정보수정</a>
 							</h4>
 						</li>
 						<li>
@@ -220,7 +233,7 @@ td {
 					<ul class="side-menu">
                         <li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list">상품정보 조회</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list"><span>상품정보 조회</span></a>
 							</h4>
 						</li>
 						<li>
@@ -235,15 +248,14 @@ td {
                     <div class="container admin_container">
                             <h1 class="jumbotron" style="text-align: center;">상품 리스트</h1>
                         <div class="row">
-                            
+	                        <button id="insert_btn">상품 등록</button>
                             <div id="search">
                                 <form action="" method="get">
                                     <select name="" id="">
-                                        <option value="">첫번째</option>
-                                        <option value="">두번째</option>
-                                        <option value="">세번째</option>
-                                        <option value="">네번째</option>
-                                        <option value="">첫번째</option>
+                                        <option value="">카테고리1</option>
+                                        <option value="">카테고리2</option>
+                                        <option value="">상품코드</option>
+                                        <option value="">상품명</option>
                                     </select> <input type="text" placeholder="검색어를 입력하세요">
                                     <button>검색</button>
                                 </form>
@@ -253,12 +265,13 @@ td {
                                 <thead>
                                     <tr>
                                     	<th>번호</th>
-                                        <th>상품ID</th>
+                                        <th>카테고리1</th>
+                                        <th>카테고리2</th>
                                         <th>상품 코드</th>
                                         <th>상품명</th>
                                         <th>상품가격</th>
                                         <th>재고</th>
-                                        <th>조회수</th>
+                                        <!-- <th>조회수</th> -->
                                         <th>상품 등록일</th>
                                     </tr>
                                 </thead>
@@ -267,20 +280,65 @@ td {
                                 	<c:set var="cnt" value="${i=i+1}"/>
                                     <tr>
                                     	<td>${cnt}</td>
-                                        <td>${productVO.id}</td>
+                                        <td>
+                                        	<c:if test="${productVO.category1 eq 'furniture'}">
+                                        		가구
+                                        	</c:if>
+                                        	<c:if test="${productVO.category1 eq 'fabric'}">
+                                        		패브릭
+                                        	</c:if>
+                                        	<c:if test="${productVO.category1 eq 'storage'}">
+                                        		수납용품
+                                        	</c:if>
+                                        	<c:if test="${productVO.category1 eq 'supplies'}">
+                                        		생활용품
+                                        	</c:if>
+                                        </td>
+                                        <td>
+                                        	<c:if test="${productVO.category2 eq 'bed'}">
+                                        		침대
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'sofa'}">
+                                        		소파
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'mirror'}">
+                                        		거울
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'chair'}">
+                                        		의자
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'curtain'}">
+                                        		커튼
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'bedding'}">
+                                        		침구
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'rug'}">
+                                        		러그
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'storage store'}">
+                                        		수납장
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'organization'}">
+                                        		옷걸이
+                                        	</c:if>
+                                        	<c:if test="${productVO.category2 eq 'supplies'}">
+                                        		생활용품
+                                        	</c:if>
+                                        </td>
                                         <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.pro_num}" class="choice">${productVO.pro_num}</a></td>
                                         <td class="text_left">${productVO.NAME}</td>
                                         <td><fmt:parseNumber var="n" type="number" value="${productVO.price}" />
                                         <fmt:formatNumber value="${n}" pattern="#,###"></fmt:formatNumber>원
                                         </td>
                                         <td>${productVO.stock}개</td>
-                                        <td>${productVO.view}</td>
+                                        <!-- <td>${productVO.view}</td>  -->
                                         <td><fmt:formatDate value="${productVO.create_date}" type="date" pattern="yyyy-MM-dd"/></td>
                                     </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <button id="insert_btn">상품 등록</button>
+
                         </div>
                         <!-- class = row -->
                     </div>

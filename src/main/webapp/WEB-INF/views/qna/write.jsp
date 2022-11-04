@@ -230,9 +230,10 @@ a {
 }
 
 .title select:focus, .title options:focus, .qna_write .info input[type="text"]:focus,
-	.qna_write .title input[type="password"]:focus {
-	border : 1px solid #21A5B5;
+	.qna_write .title input[type="password"]:focus, #content:focus  {
+	border : none;
 	outline : 1px solid #21A5B5;
+	border-radius : 5px;
 }
 /* .qna_write .title input[type="text"]{width: 80%;} */
 .qna_write .title dl {
@@ -307,6 +308,7 @@ a {
 								<dt>비밀번호</dt>
 								<dd>
 									<form:password path="password" placeholder="패스워드 입력" maxlength="4"/>
+									<form:hidden path="root"/>
 								</dd>
 							</dl>
 						</div>
@@ -324,7 +326,6 @@ a {
 					<div class="btn_wrap">
 						<button class="on" id="acc">등록</button>
 						<button type="button" id="cancel">취소</button>
-						<input type="hidden" name="root" id="root" value="${qnaVO.root}">
 					</div>
 					</form:form>
 					</div>

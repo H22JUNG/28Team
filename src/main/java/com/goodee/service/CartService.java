@@ -51,15 +51,10 @@ public class CartService {
 	public void getDetailContent(Model model, String id) {
 		model.addAttribute("detailVO", dao.selectDetail(id));
 		model.addAttribute("detailOptionVO", dao.selectDetailOption(id));
-		model.addAttribute("selectOptionColor", dao.selectOptionColor(id));
 		model.addAttribute("selectOptionSize", dao.selectOptionColor(id));
-		model.addAttribute("optionVO", dao.selectOption(id));
-
-		List<OptionVO> list = dao.selectDetailOption(id);
 	}
 
-	// 상세페이지 -> 장바구니에 데이터 보내기
-	// 장바구니에 담기, 구매하기에 담기
+	// 상세페이지 장바구니에 담기
 	public void addCart(CartVO cartvo) {
 		dao.addCart(cartvo);
 	}

@@ -5,34 +5,48 @@
 <mapper namespace="com.goodee.dao.ProjectDAO">
 
 	<select id="login" resultType="int" parameterType="userVO">
-		select count(*) from user
+		select
+		count(*) from user
 		where userid = #{userid} and password = #{password}
 	</select>
 	<select id="getUser" resultType="userVO" parameterType="userVO">
-		select id, userid, username, tel, email, point from user
-		where userid = #{userid} and password = #{password}
+		select
+		id, userid, username, tel, email, point from user
+		where userid =
+		#{userid} and password = #{password}
 	</select>
 	<select id="isAdmin" resultType="int" parameterType="userVO">
-		select count(*) from user
-		where userid = #{userid} and password = #{password} and admin = 1
+		select
+		count(*) from user
+		where userid = #{userid} and password = #{password}
+		and admin = 1
 	</select>
-	
+
 	<!-- 회원가입 -->
 	<insert id="addUser" parameterType="userVO">
-		insert into user(userid, password, username, tel, address, email, admin)
-		values (#{userid}, #{password}, #{username}, #{tel}, #{address}, #{email}, 0)
+		insert into user(userid,
+		password, username, tel, address, email, admin)
+		values (#{userid},
+		#{password}, #{username}, #{tel}, #{address}, #{email}, 0)
 	</insert>
 	<select id="checkid" resultType="int" parameterType="userVO">
-		select count(*) from user
+		select
+		count(*) from user
 		where userid = #{userid}
 	</select>
-	
+
 	<!-- product list -->
 	<!-- 카테고리별 -->
-	<select id="selectCategory" resultType="productVO" parameterType="productVO">
-		SELECT p.id, category1 'category', p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
-		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
-		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
+	<select id="selectCategory" resultType="productVO"
+		parameterType="productVO">
+		SELECT p.id, category1 'category', p.pic1, p.pic2, p.pic3, p.pic4,
+		p.name, format(price,0) viewPrice, discount, view,
+		DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+		sum(stock)
+		totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT
+		COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
+		FROM option o
+		right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
 		on p.id = o.id
 		<where>
 			<if test='category1 != null and category1 != ""'>
@@ -67,25 +81,29 @@
 					createDate desc
 				</otherwise>
 			</choose>
-		</trim>	
+		</trim>
 	</select>
-	
+
 	<select id="selectBest" resultType="productVO">
-	SELECT p.id, 
-	<choose>
-		<when test='category1 != null and category1 != ""'>
-			category1 'category',
-		</when>
-		<when test='category2 != null and category2 != ""'>
-			category2 'category',
-		</when>
-		<otherwise>
-			category1 'category',
-		</otherwise>
-	</choose>
- 		p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice, discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
-		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade', (SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
-		FROM option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id = r.code)
+		SELECT p.id,
+		<choose>
+			<when test='category1 != null and category1 != ""'>
+				category1 'category',
+			</when>
+			<when test='category2 != null and category2 != ""'>
+				category2 'category',
+			</when>
+			<otherwise>
+				category1 'category',
+			</otherwise>
+		</choose>
+		p.pic1, p.pic2, p.pic3, p.pic4, p.name, format(price,0) viewPrice,
+		discount, view, DATE_FORMAT(p.create_date, '%Y-%m-%d %T') createDate,
+		sum(stock) totalStock, ifnull(floor(AVG(stargrade)),0) 'stargrade',
+		(SELECT COUNT(*) FROM review r2 WHERE code = p.id) 'reviewCount'
+		FROM
+		option o right OUTER JOIN (product p left OUTER JOIN review r ON p.id
+		= r.code)
 		on p.id = o.id
 		<where>
 			<if test='category1 != null and category1 != ""'>
@@ -99,66 +117,78 @@
 		order by view
 		limit 8;
 	</select>
-	
+
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->
 	<!-- 관리자 페이지 - product 전체 list 뽑기 - 윤정 -->
-	 <select id="selectProductList" resultType="map">
-	 	SELECT product.id, product.NAME, price, view, create_date, option.pro_num, size, color, stock
-		FROM option INNER JOIN product
+	<select id="selectProductList" resultType="map">
+		SELECT product.id, category1, category2, product.NAME, price, view,
+		create_date, option.pro_num, size, color, stock
+		FROM option INNER JOIN
+		product
 		ON option.id = product.id;
-	 </select>
-	 
-	 <!-- product 수정 불러오기 -->
-	 <select id="selectUpdateList" resultType="map">
-	 	SELECT option.pro_num, product.pic1, product.pic2, product.pic3, product.pic4, product.NAME, product.price, 
-	 	product.discount, product.category1, product.category2, product.view, product.create_date, option.size, option.color, option.stock
-		FROM option INNER JOIN product
+	</select>
+
+	<!-- product 수정 불러오기 -->
+	<select id="selectUpdateList" resultType="map">
+		SELECT option.pro_num, product.pic1, product.pic2, product.pic3,
+		product.pic4, product.NAME, product.price,
+		product.discount, product.category1, product.category2, product.view,
+		product.create_date, option.size, option.color, option.stock
+		FROM
+		option INNER JOIN product
 		ON option.id = product.id
-		where pro_num = #{pro_num};
-	 </select>
-	
+		where pro_num =
+		#{pro_num};
+	</select>
+
 	<!-- update를 서비스에 한번에 담아준다. -->
 	<update id="update1">
 		UPDATE product INNER JOIN option o
-		ON product.id = o.id
-		SET 
-			category1 = #{category1},
-			category2 = #{category2},
-			product.name = #{name},
-			price = #{price},
-			discount = #{discount},
-			category_id = (SELECT id FROM category WHERE category1 = #{category1} AND category2 = #{category2})
+		ON product.id =
+		o.id
+		SET
+		category1 = #{category1},
+		category2 = #{category2},
+		product.name = #{name},
+		price = #{price},
+		discount = #{discount},
+		category_id = (SELECT id FROM category WHERE category1 = #{category1} AND
+		category2 = #{category2})
 		WHERE o.pro_num = #{proNum}
 	</update>
-	
+
 	<update id="update2">
-		UPDATE option o INNER JOIN (product INNER JOIN category ON product.category_id = category.id)
+		UPDATE option o INNER JOIN (product INNER JOIN
+		category ON product.category_id = category.id)
 		ON o.id = product.id
-		SET 
-			o.id = product.id,
-			size = #{size},
-			color = #{color},
-			stock = #{stock}
+		SET
+		o.id = product.id,
+		size = #{size},
+		color = #{color},
+		stock = #{stock}
 		WHERE o.pro_num = #{proNum}
 	</update>
-	
+
 	<update id="update3">
-		UPDATE option o 
+		UPDATE option o
 		INNER JOIN (product p INNER JOIN category c ON p.category_id = c.id)
-		ON p.id = o.id
-		SET o.pro_num = CONCAT(o.id,category_code1,category_code2,UPPER(ifnull(size,'')),UPPER(left(ifnull(color,''),3)))
+		ON p.id
+		= o.id
+		SET o.pro_num =
+		CONCAT(o.id,category_code1,category_code2,UPPER(ifnull(size,'')),UPPER(left(ifnull(color,''),3)))
 	</update>
-	
+
 	<!-- category_id 업데이트 -->
 	<update id="update4">
 		UPDATE product INNER JOIN category
-		ON product.category_id = category.id
+		ON
+		product.category_id = category.id
 		SET
-			product.category_id = category.id
+		product.category_id = category.id
 		WHERE
-			product.category1 = category.category1 AND product.category2 = category.category2
+		product.category1 = category.category1 AND product.category2 = category.category2
 	</update>
-	
+
 	<!-- 관리자 페이지 product 삭제 - 윤정 -->
 	<delete id="productDelete">
 		delete from option
@@ -169,114 +199,152 @@
 		DELETE FROM product
 		USING product
 		LEFT JOIN option
-		ON product.id = option.id
+		ON
+		product.id = option.id
 		WHERE option.id IS NULL;
 	</delete>
-	
-	<!-- product insert - 윤정-->
-	<insert id="productInsert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO product(category1, category2, pic1, pic2, pic3, pic4, name, price, discount)
-		VALUES (#{category1}, #{category2}, #{pic1}, #{pic2}, #{pic3}, #{pic4}, #{name}, #{price}, #{discount})
+
+	<!-- product insert - 윤정 -->
+	<insert id="productInsert" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO product(category1, category2, pic1, pic2,
+		pic3, pic4, name, price, discount)
+		VALUES (#{category1}, #{category2},
+		#{pic1}, #{pic2}, #{pic3}, #{pic4}, #{name}, #{price}, #{discount})
 	</insert>
-	
+
 	<insert id="optionInsert">
 		INSERT INTO option (id, size, color, stock)
-		VALUES (#{id}, #{size}, #{color}, #{stock})
+		VALUES
+		(#{id}, #{size}, #{color}, #{stock})
 	</insert>
 	<update id="categoryIdUpdate">
 		UPDATE product LEFT JOIN category
-		ON product.category_id = category.id
+		ON
+		product.category_id = category.id
 		SET
-			product.category_id = (SELECT id FROM category WHERE product.category1 = category.category1 AND product.category2 = category.category2)
-		WHERE 
-			product.category_id IS NULL
+		product.category_id = (SELECT id FROM category WHERE product.category1 =
+		category.category1 AND product.category2 = category.category2)
+		WHERE
+		product.category_id IS NULL
 	</update>
 	<update id="proNumUpdate">
-		UPDATE option o 
+		UPDATE option o
 		INNER JOIN (product p INNER JOIN category c ON p.category_id = c.id)
-		ON p.id = o.id
-		SET o.pro_num = CONCAT(o.id,category_code1,category_code2,UPPER(ifnull(size,'')),UPPER(left(ifnull(color,''),3)))
+		ON p.id
+		= o.id
+		SET o.pro_num =
+		CONCAT(o.id,category_code1,category_code2,UPPER(ifnull(size,'')),UPPER(left(ifnull(color,''),3)))
 	</update>
-	
+
 	<!-- =======================희정=============== -->
 	<!-- 내가 쓴 글 -->
-	<select id="getwrote" resultType="wroteVO" parameterType="userVO">
-		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate FROM qna
+	<select id="getwrote" resultType="wroteVO"
+		parameterType="userVO">
+		SELECT id, category, title, content, owner_id, OWNER,
+		date_format(create_date, '%Y-%m-%d') createDate FROM qna
 		<if test="id != null">
 			where owner_id=#{id}
 		</if>
 		UNION
-		SELECT id, category, title, content, owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
+		SELECT id, category, title, content, owner_id, OWNER,
+		DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
 		<if test="id != null">
 			where owner_id=#{id}
 		</if>
 		ORDER BY createDate desc
 	</select>
-	<select id="getRewrote" resultType="wroteVO" parameterType="userVO">
-		select id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, root
-		FROM qnacomment where root IN (SELECT root FROM qna where owner_id=#{id})
-		ORDER BY createDate desc
+	<select id="getRewrote" resultType="wroteVO"
+		parameterType="userVO">
+		select id, category, title, content, owner_id, OWNER,
+		date_format(create_date, '%Y-%m-%d') createDate, root
+		FROM qnacomment
+		where root IN (SELECT root FROM qna where owner_id=#{id})
+		ORDER BY
+		createDate desc
 	</select>
-	<select id="getsearch" resultType="wroteVO" parameterType="String">
-		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate FROM qna
+	<select id="getsearch" resultType="wroteVO"
+		parameterType="String">
+		SELECT id, category, title, content, owner_id, OWNER,
+		date_format(create_date, '%Y-%m-%d') createDate FROM qna
 		<if test="id != null">
 			where owner_id=#{id} and category=#{category}
 		</if>
 		UNION
-		SELECT id, category, title, content, owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
+		SELECT id, category, title, content, owner_id, OWNER,
+		DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
 		<if test="id != null">
 			where owner_id=#{id} and category=#{category}
 		</if>
 		ORDER BY createDate desc
 	</select>
-	
+
 	<!-- 상세보기 -->
 	<!-- 상품명 불러오기 -->
 	<select id="getProName" resultType="string" parameterType="int">
-		SELECT NAME FROM product WHERE id=(SELECT CODE FROM qna where id=#{id})
+		SELECT NAME FROM product WHERE id=(SELECT CODE FROM qna where
+		id=#{id})
 	</select>
-	<!-- 큐엔에이 제목 눌렀을 때 답글까지 상세보기  -->
+	<!-- 큐엔에이 제목 눌렀을 때 답글까지 상세보기 -->
 	<select id="getQnaDetail" resultType="QnaVO" parameterType="int">
-		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qna
+		SELECT id, category, title, content, owner_id, OWNER,
+		date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qna
 		where id=#{id}
 		Union
-		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qnacomment
+		SELECT id, category, title, content, owner_id,
+		OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category
+		FROM qnacomment
 		where root=#{id}
 	</select>
-	<!-- 큐엔에이 답글 눌렀을 때 해당 글만 상세보기  -->
-	<select id="getRewroteQnaDetail" resultType="QnaVO" parameterType="int">
-		SELECT id, category, title, content, owner_id, OWNER, date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM qnacomment
+	<!-- 큐엔에이 답글 눌렀을 때 해당 글만 상세보기 -->
+	<select id="getRewroteQnaDetail" resultType="QnaVO"
+		parameterType="int">
+		SELECT id, category, title, content, owner_id, OWNER,
+		date_format(create_date, '%Y-%m-%d') createDate, qna_category FROM
+		qnacomment
 		where id=#{id}
 	</select>
 	<!-- 리뷰 -->
-	<select id="getReviewDetail" resultType="reviewVO" parameterType="reviewVO">
-		SELECT id, category, title, content, pic1, pic2, owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM review
+	<select id="getReviewDetail" resultType="reviewVO"
+		parameterType="reviewVO">
+		SELECT id, category, title, content, pic1, pic2,
+		owner_id, OWNER, DATE_FORMAT(create_date, '%Y-%m-%d') createDate FROM
+		review
 		where id=#{id} and category=#{category}
 	</select>
-	<select id="getReviewcomment" resultType="reviewVO" parameterType="reviewVO">
-		SELECT id commId, product_id, review_id, userid, username, content commContent FROM review_comment
+	<select id="getReviewcomment" resultType="reviewVO"
+		parameterType="reviewVO">
+		SELECT id commId, product_id, review_id, userid,
+		username, content commContent FROM review_comment
 		where review_id=#{id}
 	</select>
-	
+
 	<update id="modifyReview" parameterType="wroteVO">
-		update review set title=#{title}, content=#{content}, pic1=#{pic1, jdbcType=NULL},  pic2=#{pic2, jdbcType=NULL}
+		update review set
+		title=#{title}, content=#{content}, pic1=#{pic1, jdbcType=NULL},
+		pic2=#{pic2, jdbcType=NULL}
 		where id=#{id} and category=#{category}
 	</update>
 	<update id="modifyQna" parameterType="wroteVO">
-		update qna set title=#{title}, content=#{content}
-		where id=#{id} and category=#{category}
+		update qna set
+		title=#{title}, content=#{content}
+		where id=#{id} and
+		category=#{category}
 	</update>
-	
-   	<delete id="deleteReview" parameterType="wroteVO">
-		delete from review where id=#{id} and category=#{category}
+
+	<delete id="deleteReview" parameterType="wroteVO">
+		delete from review where
+		id=#{id} and category=#{category}
 	</delete>
-   	<delete id="deleteMyPageQna" parameterType="wroteVO">
-		delete from qna where id=#{id} and category=#{category}
+	<delete id="deleteMyPageQna" parameterType="wroteVO">
+		delete from qna where
+		id=#{id} and category=#{category}
 	</delete>
 	<update id="isdelete" parameterType="wroteVO">
-		update qnacomment set is_delete = is_delete+1 where root=#{id};
+		update qnacomment set
+		is_delete = is_delete+1 where root=#{id};
 	</update>
-	
+
 	<!-- 관리자페이지 회원조회 -->
 	<select id="usercount" resultType="int" parameterType="pageVO">
 		select count(id) from user where admin=0
@@ -317,271 +385,322 @@
 		</if>
 		limit #{start}, #{cntPerPage}
 	</select>
-	
+
 	<select id="userListdetail" resultType="userVO">
-		select id, userid, username, tel, address, email, point from user where admin=0
-		and id=#{id}
+		select id, userid,
+		username, tel, address, email, point from user where admin=0
+		and
+		id=#{id}
 	</select>
 	<update id="adminUserUpdate" parameterType="userVO">
-		update user set username=#{username}, tel=#{tel}, address=#{address}, email=#{email}, point=#{point}
+		update user set
+		username=#{username}, tel=#{tel}, address=#{address}, email=#{email},
+		point=#{point}
 		where id=#{id}
 	</update>
 	<delete id="adminUserDelete" parameterType="userVO">
-		delete from user where userid=#{userid}
+		delete from user
+		where userid=#{userid}
 	</delete>
-	
-	
-	<!-- Review 게시글 조회-->
-	<select id="getReview" parameterType="pageVO" resultType="reviewVO">
-		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
+
+
+	<!-- Review 게시글 조회 -->
+	<select id="getReview" parameterType="pageVO"
+		resultType="reviewVO">
+		select id, title, content, pic1, pic2, owner_id, owner,
+		date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
 		from review
 		where code=#{id}
 		ORDER BY createDate DESC
-		limit #{start}, #{cntPerPage}
+		limit #{start},
+		#{cntPerPage}
 	</select>
-	<select id="getReviewStar" parameterType="pageVO" resultType="reviewVO">
-		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
-		from review	where code=#{id} ORDER BY stargrade DESC limit #{start}, #{cntPerPage}
+	<select id="getReviewStar" parameterType="pageVO"
+		resultType="reviewVO">
+		select id, title, content, pic1, pic2, owner_id, owner,
+		date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
+		from review where code=#{id} ORDER BY stargrade DESC limit #{start},
+		#{cntPerPage}
 	</select>
-	<select id="getReviewHits" parameterType="pageVO" resultType="reviewVO">
-		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
-		from review	where code=#{id} ORDER BY hits DESC limit #{start}, #{cntPerPage}
+	<select id="getReviewHits" parameterType="pageVO"
+		resultType="reviewVO">
+		select id, title, content, pic1, pic2, owner_id, owner,
+		date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
+		from review where code=#{id} ORDER BY hits DESC limit #{start},
+		#{cntPerPage}
 	</select>
-	
+
 	<!-- Review 총 갯수 뽑아오기 -->
-	<select id="getReviewCount" parameterType="string" resultType="int">
+	<select id="getReviewCount" parameterType="string"
+		resultType="int">
 		SELECT COUNT(id) reviewCount FROM review WHERE CODE=#{id}
-	</select> 
+	</select>
 	<!-- Review 별점 별 리뷰 갯수 뽑아오기 -->
- 	<select id="getStarGradeCount1" parameterType="string" resultType="int">
-		SELECT COUNT(id) star1 FROM review WHERE CODE=#{id} and stargrade=1
-	</select> 
- 	<select id="getStarGradeCount2" parameterType="string" resultType="int">
-		SELECT COUNT(id) star2 FROM review WHERE CODE=#{id} and stargrade=2
-	</select> 
- 	<select id="getStarGradeCount3" parameterType="string" resultType="int">
-		SELECT COUNT(id) star3 FROM review WHERE CODE=#{id} and stargrade=3
-	</select> 
- 	<select id="getStarGradeCount4" parameterType="string" resultType="int">
-		SELECT COUNT(id) star4 FROM review WHERE CODE=#{id} and stargrade=4
-	</select> 
- 	<select id="getStarGradeCount5" parameterType="string" resultType="int">
-		SELECT COUNT(id) star5 FROM review WHERE CODE=#{id} and stargrade=5
-	</select> 
+	<select id="getStarGradeCount1" parameterType="string"
+		resultType="int">
+		SELECT COUNT(id) star1 FROM review WHERE CODE=#{id} and
+		stargrade=1
+	</select>
+	<select id="getStarGradeCount2" parameterType="string"
+		resultType="int">
+		SELECT COUNT(id) star2 FROM review WHERE CODE=#{id} and
+		stargrade=2
+	</select>
+	<select id="getStarGradeCount3" parameterType="string"
+		resultType="int">
+		SELECT COUNT(id) star3 FROM review WHERE CODE=#{id} and
+		stargrade=3
+	</select>
+	<select id="getStarGradeCount4" parameterType="string"
+		resultType="int">
+		SELECT COUNT(id) star4 FROM review WHERE CODE=#{id} and
+		stargrade=4
+	</select>
+	<select id="getStarGradeCount5" parameterType="string"
+		resultType="int">
+		SELECT COUNT(id) star5 FROM review WHERE CODE=#{id} and
+		stargrade=5
+	</select>
 	<!-- Review 별점 평균 뽑아오기 -->
- 	<select id="getStarGradeAvg" parameterType="string" resultType="double">
-		SELECT if((count(stargrade)) = 0, 0,(SELECT round(AVG(stargrade),1)
-		FROM review WHERE CODE=#{id})) avg FROM review WHERE CODE=#{id}
-	</select> 
-	<!-- 사진 리뷰 전체보기  -->
+	<select id="getStarGradeAvg" parameterType="string"
+		resultType="double">
+		SELECT if((count(stargrade)) = 0, 0,(SELECT
+		round(AVG(stargrade),1)
+		FROM review WHERE CODE=#{id})) avg FROM review
+		WHERE CODE=#{id}
+	</select>
+	<!-- 사진 리뷰 전체보기 -->
 	<select id="getPic" parameterType="string" resultType="reviewVO">
-		SELECT id, pic1, create_date frOM review WHERE CODE=#{id} AND pic1 IS NOT NULL
+		SELECT id,
+		pic1, create_date frOM review WHERE CODE=#{id} AND pic1 IS NOT NULL
 		union
-		SELECT id, pic2, create_date frOM review WHERE CODE=#{id} AND pic2 is nOT NULL
+		SELECT id, pic2, create_date frOM review WHERE CODE=#{id} AND
+		pic2 is nOT NULL
 		ORDER BY create_date DESC;
 	</select>
 	<!-- 사진 갯수 뽑아오기 -->
 	<select id="getPicCount" parameterType="string" resultType="int">
 		SELECT COUNT(pic1) + COUNT(pic2) FROM review WHERE CODE=#{id}
-	</select> 
+	</select>
 	<!-- 댓글 가져오기 -->
-	<select id="getComment" parameterType="string" resultType="commentVO">
-		select product_id, review_id, userid, username, content from review_comment where product_id=#{id}
+	<select id="getComment" parameterType="string"
+		resultType="commentVO">
+		select product_id, review_id, userid, username, content
+		from review_comment where product_id=#{id}
 	</select>
 	<!-- 댓글 몇갠지 가져오기 -->
 	<select id="commentCount" resultType="commentVO">
-		SELECT review.id 'reviewId', COUNT(review_comment.id) 'commentCount'
-		FROM review left outer JOIN review_comment
+		SELECT review.id
+		'reviewId', COUNT(review_comment.id) 'commentCount'
+		FROM review left
+		outer JOIN review_comment
 		ON review.id = review_comment.review_id
-		GROUP BY review.id;
+		GROUP
+		BY review.id;
 	</select>
 	<!-- hits +1 -->
 	<update id="hitsPlus" parameterType="int">
-		UPDATE review SET hits=#{hits} WHERE id=#{id}
+		UPDATE review SET
+		hits=#{hits} WHERE id=#{id}
 	</update>
 	<select id="afterPlus" parameterType="int">
-		select hits from review where id=#{id}
+		select hits from review
+		where id=#{id}
 	</select>
-	
+
 	<!-- 리뷰에 댓글달기 -->
 	<insert id="putComment" parameterType="commentVO">
-		insert into review_comment(product_id, review_id, userid, username, content)
-		value (#{productId}, #{reviewId}, #{userid}, #{username}, #{content})
+		insert into
+		review_comment(product_id, review_id, userid, username, content)
+		value
+		(#{productId}, #{reviewId}, #{userid}, #{username}, #{content})
 	</insert>
 	<!-- 리뷰 모달창에서 사진 선택하면 해당 리뷰만 조회하기 -->
-	<select id="getSelectReview" parameterType="int" resultType="reviewVO">
-		select id, title, content, pic1, pic2, owner_id, owner, date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
+	<select id="getSelectReview" parameterType="int"
+		resultType="reviewVO">
+		select id, title, content, pic1, pic2, owner_id, owner,
+		date_format(create_date, '%Y-%m-%d') createDate, code, stargrade, hits
 		from review
 		where id=#{id}
 	</select>
 	<!-- 리뷰 등록하기 -->
 	<insert id="writeReview">
-		INSERT INTO review(category, title, content, owner_id, OWNER,CODE,stargrade, pic1, pic2)
-		VALUE(#{category},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade}, #{pic1, jdbcType=NULL}, #{pic2, jdbcType=NULL})
+		INSERT INTO review(category, title, content,
+		owner_id, OWNER,CODE,stargrade, pic1, pic2)
+		VALUE(#{category},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade},
+		#{pic1, jdbcType=NULL}, #{pic2, jdbcType=NULL})
 	</insert>
-	
+
 	<!-- 유진 mapper, 주문페이지에서 입력한 정보 전송 -->
 	<!-- 결제하기위해 DB에서 내 정보 받아옴 -->
-	<select id="payUserInfor" resultType="userVO" parameterType="String">
-		select userid, username, tel, address, email 
+	<select id="payUserInfor" resultType="userVO"
+		parameterType="String">
+		select userid, username, tel, address, email
 		from user
 		where userid = #{userid}
 	</select>
-	
+
 	<select id="cartList" resultType="CartVO" parameterType="userVO">
-	select item_name, size, price,count,color,pic1
-	from cart
-	where userid = #{userid}
+		select item_name, size, price,count,color,pic1
+		from cart
+		where userid = #{userid}
 	</select>
-	
+
 	<!-- 카트에서 선택한 상품을 세션에 담으면서 필요한 정보 -->
 	<select id="findCart" resultType="CartVO" parameterType="CartVO">
-	select cart_num, userid , userName, id, item_name, count, color, size, pic1, 
-	pro_num
-	from cart
-	where cart_num = #{cartNum}
+		select cart_num, userid , userName, id, item_name, count, color, size, pic1,
+		pro_num
+		from cart
+		where cart_num = #{cartNum}
 	</select>
-	
+
 	<!-- 주문자 정보입력한것 추가해보기ㅇ -->
- 	<insert id="orderUserInfor" parameterType="orderUser"> 
- 	INSERT INTO orderuser
-	(userid, cart_listnum, order_name, order_date,pay, address, detailAddress, extraAddress, order_tel,order_num, total_price, POINT)
-	VALUES(#{userid}, #{cartListNum}, #{orderName}, NOW(), #{pay}, #{address},#{detailAddress},#{extraAddress},#{orderTel},#{orderNum},#{totalPrice}, #{point});
-		</insert>
-	
-	<!-- 주문한 상품 저장할 매퍼 하나더  -->
-	<insert id="orderItemInfor" parameterType="CartVO">
-	INSERT INTO orderitem
-	(userid, cart_listnum, item_name, size, item_price, color,pro_num,pic1,count)
-	VALUES(#{userid},#{cartListNum},#{itemName},#{size},#{price},#{color},#{proNum},#{pic1},${count});
+	<insert id="orderUserInfor" parameterType="orderUser">
+		INSERT INTO orderuser
+		(userid, cart_listnum, order_name, order_date,pay, address, detailAddress,
+		extraAddress, order_tel,order_num, total_price, POINT)
+		VALUES(#{userid}, #{cartListNum}, #{orderName}, NOW(), #{pay},
+		#{address},#{detailAddress},#{extraAddress},#{orderTel},#{orderNum},#{totalPrice},
+		#{point});
 	</insert>
-	
-	<select id="selectCartListNum" resultType="int" >
-		SELECT ifnull(max(cart_listnum),0)+1 FROM orderuser WHERE userid = #{userid}
+
+	<!-- 주문한 상품 저장할 매퍼 하나더 -->
+	<insert id="orderItemInfor" parameterType="CartVO">
+		INSERT INTO orderitem
+		(userid, cart_listnum, item_name, size, item_price, color,pro_num,pic1,count)
+		VALUES(#{userid},#{cartListNum},#{itemName},#{size},#{price},#{color},#{proNum},#{pic1},${count});
+	</insert>
+
+	<select id="selectCartListNum" resultType="int">
+		SELECT
+		ifnull(max(cart_listnum),0)+1 FROM orderuser WHERE userid = #{userid}
 	</select>
 
 	<!-- 결제완료 페이지에 출력되는 내용 -->
-	<select id="orderUserResult" resultType="orderUser" parameterType="String">
-		select order_name,date_format(order_date,'%Y-%m-%d') 'orderDate',pay,order_num
+	<select id="orderUserResult" resultType="orderUser"
+		parameterType="String">
+		select order_name,date_format(order_date,'%Y-%m-%d')
+		'orderDate',pay,order_num
 		from orderuser
 		where userid = #{userid}
 	</select>
-	
+
 	<!-- 마이페이지에서 주문별(장바구니)로 출력하기 -->
 	<select id="getOrderList" resultType="orderUser">
-		select cart_listnum, pay, date_format(order_date,'%Y-%m-%d') 'orderDate', order_num, total_price
+		select cart_listnum, pay,
+		date_format(order_date,'%Y-%m-%d') 'orderDate', order_num, total_price
 		from orderuser
 		where userid = #{userid}
 	</select>
-	
+
 	<!-- 주문내역에서 해당 주문번호 누르면 해당 주문 상세내역 만 뜨는페이지 -->
-	<select  id="detailOrderInfor" resultType="detailVO">
-	SELECT order_name, date_format(order_date,'%Y-%m-%d') 'orderDate', pay, address, detailAddress, extraAddress, order_tel, total_price, POINT,
-	item_name, COUNT, size, item_price, color, pic1, order_num
-	FROM orderuser u INNER JOIN orderitem i
-	ON u.cart_listnum = i.cart_listnum
-	WHERE order_num = #{orderNum};
+	<select id="detailOrderInfor" resultType="detailVO">
+		SELECT order_name, date_format(order_date,'%Y-%m-%d') 'orderDate', pay,
+		address, detailAddress, extraAddress, order_tel, total_price, POINT,
+		item_name, COUNT, size, item_price, color, pic1, order_num
+		FROM orderuser u INNER JOIN orderitem i
+		ON u.cart_listnum = i.cart_listnum
+		WHERE order_num = #{orderNum};
 	</select>
 	<!-- 결제하고서 재고에서 갯수만큼 차감시키기 -->
 	<update id="orderStock">
-	UPDATE option SET stock = stock-#{count}
-	WHERE pro_num = #{proNum}
+		UPDATE option SET stock = stock-#{count}
+		WHERE pro_num = #{proNum}
 	</update>
 	<!-- 결제후 사용한 적립금 만큼 적립금에서 차감하기 -->
 	<update id="orderPoint">
-	update user set point = point-#{point}
-	where userid = #{userid}
+		update user set point = point-#{point}
+		where userid = #{userid}
 	</update>
-	
+
 	<!-- 장바구니에서 구매한 상품 cartDB에서 삭제하기 -->
 	<delete id="cartDelete" parameterType="CartVO">
-	delete from cart 
-	where cart_num = #{cartNum}
+		delete from cart
+		where cart_num = #{cartNum}
 	</delete>
 	<!-- 장바구니 정보 가져오기 -->
 	<select id="getCartInfor" resultType="CartVO">
-		select cart_num, userid, id, item_name, price, discount, count, color, size, pic1, pro_num
-		FROM cart 
+		select cart_num, userid,
+		id, item_name, price, discount, count, color, size, pic1, pro_num
+		FROM
+		cart
 		WHERE userid = #{userid}
 	</select>
-	
-	
+
+
 	<!-- 위까지 유진 mapper -->
-	
+
 	<!-- 수정 -->
 	<!-- 상품 상세페이지 조회 -->
 	<select id="selectDetail" resultType="ProductVO">
-		select id, pic1, pic2, pic3, pic4, name, price, discount from product where
+		select id, pic1, pic2,
+		pic3, pic4, name, price, discount from product where
 		id = #{id}
 	</select>
 
-	<select id="selectOption" resultType="OptionVO">
-		SELECT
-		B.PRO_NUM
-		, B.COLOR
-		FROM PRODUCT A
-		LEFT JOIN OPTION B
-		ON A.ID = B.ID
-		AND SIZE = #{size}
-		WHERE IFNULL(B.id, '') &lt;&gt; ''
-		AND A.ID = #{id}
-		GROUP BY B.PRO_NUM, B.COLOR
+	<select id="selectDetailOption" resultType="OptionVO">
+		select id, pro_num, size, color, stock from option where id = #{id}
 	</select>
 
-		<select id="selectDetailOption" resultType="OptionVO"> 
-		select id, pro_num, size, color, stock from option where id = #{id}
-		</select> 
-		
-		<select id="selectOptionColor" resultType="OptionVO"> 
-		SELECT id, size, GROUP_CONCAT(color) color FROM option where id = #{id} GROUP BY id, size; 
-		</select> 
-		
-		<select id="selectOptionSize" resultType="OptionVO"> 
-		SELECT id, color, GROUP_CONCAT(size) FROM option where id = #{id} GROUP BY id, color; 
-		</select>
-		
-		<select id="selectColorByIdAndSize" resultType="String"> 
+	<select id="selectOptionColor" resultType="OptionVO">
+		SELECT id, size, GROUP_CONCAT(color) color FROM option where id = #{id}
+		GROUP BY id, size;
+	</select>
+
+	<select id="selectColorByIdAndSize" resultType="String">
 		select color from option where id=#{id} and size=#{size}
-		</select>
-		
-		<select id="selectProNumBySizeAndColor" resultType="String"> 
-		select pro_num from option where size=#{size} and color=#{color}
-		</select>
+	</select>
+
+	<select id="selectProNumBySizeAndColor" resultType="String">
+		select pro_num from option where id=#{id}
+		<if test='size !=null'>
+			and size=#{size}
+		</if>
+		and color=#{color}
+	</select>
 
 	<!-- 상세페이지 장바구니 담기 -->
 	<insert id="addCart">
-		insert into cart(cart_num, userid, userName, id, item_name, price, count, color,
+		insert into cart(cart_num, userid, userName, id,
+		item_name, price, count, color,
 		size, pic1, pro_num, discount)
-		values(null, #{userid}, #{userName}, #{id}, #{itemName}, #{price}, #{count}, #{color},
+		values(null, #{userid}, #{userName}, #{id}, #{itemName}, #{price},
+		#{count}, #{color},
 		#{size}, #{pic1}, #{proNum}, #{discount})
 	</insert>
-
-
-	<!-- SELECT B.pro_num FROM PRODUCT A LEFT JOIN OPTION B ON A.ID = B.ID and 
-		size = #{size} and color = #{color} WHERE IFNULL(B.id, '') &lt;&gt; '' AND 
-		A.ID = #{id} -->
 
 	<!--Q&A 게시글조회 -->
 	<select id="selectQnaCount" resultType="int">
 		select count(*) from qna;
 	</select>
-	
+
 	<select id="QnaList" resultType="QnaVO">
-		select id, code, qna_category, password, owner, title, content,
+		SELECT *
+		from
+		(
+		(select id, code, qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, indent, hits 
-		from qna UNION ALL select id, code,qna_category, password, owner, title, content,
+		owner_id, root, id as root2, indent, hits
+		from qna
+		)
+		UNION ALL
+		(
+		select id, code,qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, indent, hits 
-		from qnacomment 
-		ORDER BY root DESC, indent ASC limit #{start}, #{cntPerPage}
+		owner_id, root, root AS root2, indent, hits
+		from qnacomment
+		)
+		) Temp
+		ORDER BY root2 DESC, indent ASC LIMIT #{start}, #{cntPerPage}
 	</select>
 
 	<!--Q&A 타이틀누를때 이동 -->
 	<select id="selectQna" resultType="QnaVO">
-		select id, code, qna_category, password, owner, title, content,
-		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, indent, hits from qna where id = #{id}
+		select id, code, qna_category,
+		password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d')
+		create_date,
+		owner_id, root, indent from qna where id = #{id}
 	</select>
 
 	<!-- Q&A update -->
@@ -594,9 +713,11 @@
 
 	<!-- Q&A insert -->
 	<insert id="insertQna">
-		insert into qna(qna_category, title, owner_id, owner, content, password, code, root)
-		values(#{qnaCategory}, #{title}, #{ownerId},
-		#{owner}, #{content}, #{password}, #{code}, #{id})
+		insert into qna(qna_category, title, owner_id, owner,
+		content, password, code, root)
+		values(#{qnaCategory}, #{title},
+		#{ownerId},
+		#{owner}, #{content}, #{password}, #{code}, #{root})
 	</insert>
 
 	<!-- Q&A delete -->
@@ -612,10 +733,13 @@
 
 	<!-- Q&A 답변 -->
 	<insert id="insertReply">
-		insert into qnacomment(owner_id, owner, title, content,
-		password, root, indent)
-		values(#{ownerId}, #{owner}, #{title},
-		#{content}, #{password}, #{root}, 1)
+		insert into qnacomment(owner_id, owner, title,
+		content,
+		password, root, indent, qna_category)
+		values(#{ownerId},
+		#{owner}, #{title},
+		#{content}, #{password}, #{root}, 1,
+		#{qnaCategory})
 	</insert>
 
 	<!-- inner-Q&A : 유형이 상품문의만 출력 -->
@@ -623,15 +747,21 @@
 		select id, code,
 		qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, indent, hits, 
-		(select count(*) from qnacomment c where c.root = q.id) as reply_count from qna q where qna_category = '상품문의' order
-		by id desc
+		owner_id, root,
+		indent, hits,
+		(select count(*) from qnacomment c where c.root = q.id) as reply_count from
+		qna q where qna_category = '상품문의' order
+		by id desc limit #{start},
+		#{cntPerPage}
 	</select>
 
 	<select id="selectBBS" resultType="QnaVO">
-		select id, code, qna_category, password, owner, title, content,
-		date_format(create_date, '%Y-%m-%d') create_date,
-		owner_id, root, indent, hits from qna WHERE qna_category = '상품문의' and id
+		select id, code, qna_category,
+		password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d')
+		create_date,
+		owner_id, root, indent, hits from qna WHERE qna_category =
+		'상품문의' and id
 		= #{id} ORDER BY id DESC
 	</select>
 
@@ -639,18 +769,21 @@
 	<select id="selectCommentList" resultType="QnaCommentVO">
 		select id, owner_id,
 		owner, content,
-		date_format(create_date, '%Y-%m-%d %T') create_date, order_id, root, indent
+		date_format(create_date, '%Y-%m-%d %T') create_date,
+		order_id, root, indent
 		from qnacomment
 		where is_delete = 0
-		and root = #{root}
+		and root =
+		#{root}
 	</select>
 
 	<insert id="insertComment">
 		insert into qnacomment(owner_id, owner,
-		title, content, password, order_id, root, indent)
+		title,
+		content, password, order_id, root, indent, qna_category)
 		values
-		(#{ownerId},#{owner},#{title},#{content},#{password},#{orderId}, 1,
-		#{root}, 1);
+		(#{ownerId},#{owner},#{title},#{content},#{password},#{orderId},
+		#{root}, 1, '상품문의')
 	</insert>
 
 	<!-- 관리자 정보수정 -->
@@ -665,103 +798,190 @@
 	</select>
 	<update id="updateAdmin" parameterType="userVO">
 		update user
-		set password = #{password}
+		set password =
+		#{password}
 		, username = #{username}
 		, tel = #{tel}
-		, address = #{address}
+		, address =
+		#{address}
 		, email = #{email}
 		, admin= #{admin}
 		where id = #{id}
 	</update>
 	<delete id="deleteAdmin">
-		delete from user where id = #{id} and userid =
-		#{userid}
+		delete from user where id = #{id}
 	</delete>
-	
+
 	<!-- 수정끝 -->
-	
+
 	<!-- 공지 list -->
 	<select id="selectNotice" resultType="noticeVO">
-		select id, title, date_format(create_date, "%Y-%m-%d %T") 'createDate', view, important from notice
+		select id, title,
+		date_format(create_date, "%Y-%m-%d %T") 'createDate', view, important
+		from notice
 		where important = #{important}
 		order by createDate desc
 	</select>
-	
+
 	<select id="selectDetailNotice" resultType="noticeVO">
-		select id, title, content, date_format(create_date, "%Y-%m-%d %T") 'createDate', view, important from notice
+		select id, title,
+		content, date_format(create_date, "%Y-%m-%d %T") 'createDate', view,
+		important from notice
 		where id = #{id}
 	</select>
-	
+
 	<!-- 공지 insert -->
 	<insert id="insertNotice">
-		insert into notice (title, content, create_date, important)
+		insert into notice (title, content, create_date,
+		important)
 		values(#{title}, #{content}, now(), #{important})
 	</insert>
-	
+
 	<!-- ====================장바구니==================== -->
 	<!-- 카트 삭제 -->
 	<delete id="deleteCart">
 		delete from cart
 		where cart_num = #{cartNum}
 	</delete>
-	
+
 	<delete id="deleteAllCart">
 		delete from cart
 		where cart_num = #{cartNum}
 	</delete>
-	
+
 	<!-- 카트 수량 수정 -->
 	<update id="modifyCount">
 		update cart
 		set count = #{count}
-		where cart_num = #{cartNum}
+		where cart_num =
+		#{cartNum}
 	</update>
-	
-	<!-- 카트 목록 / 흠 애매해-->
+
+	<!-- 카트 목록 / 흠 애매해 -->
 	<select id="getCart" resultType="CartVO">
-		select c.cart_num, c.userid, c.id, c.item_name, c.price, c.discount, c.count, c.color, c.size, c.pic1, c.pro_num
+		select c.cart_num, c.userid,
+		c.id, c.item_name, c.price, c.discount, c.count, c.color, c.size,
+		c.pic1, c.pro_num
 		FROM cart c
 		WHERE userid = #{userid}
 	</select>
-	
+
 	<!-- 카트 확인 -->
 	<select id="checkCart" resultType="CartVO">
 		select * from cart
-		where userid = #{userid} and pro_num = #{proNum}
+		where userid
+		= #{userid} and pro_num = #{proNum}
 	</select>
-	
+
 	<!-- ==================== 관리자 페이지 - 주문 관리 ==================== -->
+	<sql id="delivstate">
+		<!-- 물품 준비중 -->
+		<if test="delivstate == null">
+			delivstate = 1 and pay_result = 1
+		</if>
+		<if test="delivstate == ''">
+			delivstate = 1 and pay_result = 1
+		</if>
+		<if test="delivstate == 1">
+			delivstate = 1 and pay_result = 1
+		</if>
+
+		<!-- 배송중 -->
+		<if test="delivstate == 2">
+			delivstate = 2 and pay_result = 1
+		</if>
+		<!-- 배송완료 -->
+		<if test="delivstate == 3">
+			delivstate = 3 and pay_result = 1
+		</if>
+
+		<!-- 취소신청 -->
+		<if test="delivstate == 4">
+			pay_result = 2
+		</if>
+		<!-- 환불 -->
+		<if test="delivstate == 5">
+			pay_result = 3
+		</if>
+		<!-- 교환 -->
+		<if test="delivstate == 6">
+			pay_result = 4
+		</if>
+	</sql>
+
 	<select id="selectAdminOrder" resultType="orderUser">
-		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num, userid, total_price, delivstate, pay_result
+		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num,
+		userid, total_price, delivstate, pay_result
 		from orderuser
+		where
+		<include refid="delivstate" />
 	</select>
-	
+
+
+
+	<!-- 모달창으로 가져올 상세정보 -->
+	<select id="selectOrderModal" resultType="detailVO">
+		SELECT order_name,
+		date_format(order_date,'%Y-%m-%d') 'orderDate', pay, address,
+		detailAddress, extraAddress, order_tel, total_price, point,
+		item_name,
+		COUNT, size, item_price, color, pic1, order_num, pro_num
+		FROM orderuser
+		u INNER JOIN orderitem i
+		ON u.cart_listnum = i.cart_listnum
+		WHERE
+		order_num = #{orderNum};
+	</select>
+
 	<!-- delivnum Update -->
 	<update id="delivNumberUpdate">
 		update orderuser
 		set delivnum = #{delivnum}
-		where order_num = #{orderNum}
+		where
+		order_num = #{orderNum}
 	</update>
+	<!-- 송장번호가 들어가있지 않으면 배송 준비중으로 뜨도록 -->
 	<update id="delivstatUpdate2">
 		update orderuser
 		set delivstate = 2
-		where delivnum is not null or delivnum != ''
+		where delivnum is
+		not null or delivnum != ''
 	</update>
 	<update id="delivstatUpdate1">
 		update orderuser
 		set delivstate = 1
-		where delivnum is null or delivnum = ''
+		where delivnum is
+		null or delivnum = ''
 	</update>
-	
+
 	<select id="orderState1" resultType="int">
-		select count(*) from orderuser where delivstate = 1 AND pay_result = "완료"
+		select count(*) from
+		orderuser where delivstate = 1 AND pay_result = 1
 	</select>
-	
+
 	<select id="orderState2" resultType="int">
-		select count(*) from orderuser where delivstate = 2 AND pay_result = "완료"
+		select count(*) from
+		orderuser where delivstate = 2 AND pay_result = 1
 	</select>
-	
+
 	<select id="orderState3" resultType="int">
-		select count(*) from orderuser where pay_result = "취소"
+		select count(*) from
+		orderuser where pay_result = 2
 	</select>
+
+	<!-- 주문교환 -->
+	<update id="orderExchange">
+		update orderuser set pay_result = "교환신청";
+		where
+		order_num = #{orderNum}
+	</update>
+
+	<!-- 주문 취소 -->
+	<update id="orderCancel">
+		update orderuser set pay_result = "취소완료"
+		where
+		order_num = #{orderNum}
+	</update>
+
+	<!-- 환불처리 -->
 </mapper>

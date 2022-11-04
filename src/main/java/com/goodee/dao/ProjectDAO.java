@@ -124,14 +124,12 @@ public interface ProjectDAO {
 	public ProductVO selectDetail(String id);
 	public List<OptionVO> selectDetailOption(String id);
 	public List<OptionVO> selectOptionColor(String id);
-	public List<OptionVO> selectOptionSize(String id);
-	public OptionVO selectOption(String id);
 	public List<String> selectColorByIdAndSize(OptionVO optionVO);
 	public String selectProNumBySizeAndColor(OptionVO optionVO);
-	
+			
 	//장바구니 담기
 	public int addCart(CartVO cartvo);
-	
+			
 	//Q&A 게시판
 	public int selectQnaCount();  
 	public List<QnaVO> QnaList(PageVO pagevo);
@@ -143,16 +141,16 @@ public interface ProjectDAO {
 	public int deleteQna(QnaVO qnavo);
 	//Q&A 조회수
 	public int qnaCount(String id);
-	
+			
 	//Q&A 답글기능
 	public int insertReply(QnaCommentVO commentvo);
-	
+			
 	//이너 Q&A 댓글기능
-	public List<QnaVO> selectBBSList();
+	public List<QnaVO> selectBBSList(PageVO pagevo);
 	public QnaVO selectBBS(String id);	
 	public List<QnaCommentVO> selectCommentList(@Param("root") int root);
 	public int insertComment(QnaCommentVO commentvo);
-	
+			
 	//관리자 정보수정
 	public List<UserVO> adminList();
 	public UserVO adminListId(String id);
@@ -160,33 +158,35 @@ public interface ProjectDAO {
 	public int deleteAdmin(UserVO uservo);
 	
 	// 공지사항 게시판
-		public List<NoticeVO> selectNotice(int important);
-		public NoticeVO selectDetailNotice(int id);
+	public List<NoticeVO> selectNotice(int important);
+	public NoticeVO selectDetailNotice(int id);
 	
-		// ================ 장바구니 ================
-		// 장바구니 삭제 - 지정한 row를 삭제하는 메서드
-		public int deleteCart(int cartNum);
-		//public void deleteCart(CartVO cvo);
-		// 장바구니 선택 삭제
-		public void deleteAllCart(int cartNum);
-		// 장바구니 수량 수정 - 지정한 row의 수량을 변경하는 메서드(cartNum, count 필요)
-		public void modifyCount(CartVO cvo);
-		// 장바구니 목록
-		public List<CartVO> getCart(String userid);
-		// 장바구니 확인 - 회원정보와 상품정보를 넘겨서 해당하는 row가 있는지 확인하기 위해 작성한 메서드(userid, itemid 필요)
-		public CartVO checkCart(CartVO cvo);
-		// 장바구니 전체 삭제
-		public void deleteAll(String userid);
+	// ================ 장바구니 ================
+	// 장바구니 삭제 - 지정한 row를 삭제하는 메서드
+	public int deleteCart(int cartNum);
+	//public void deleteCart(CartVO cvo);
+	// 장바구니 선택 삭제
+	public void deleteAllCart(int cartNum);
+	// 장바구니 수량 수정 - 지정한 row의 수량을 변경하는 메서드(cartNum, count 필요)
+	public void modifyCount(CartVO cvo);
+	// 장바구니 목록
+	public List<CartVO> getCart(String userid);
+	// 장바구니 확인 - 회원정보와 상품정보를 넘겨서 해당하는 row가 있는지 확인하기 위해 작성한 메서드(userid, itemid 필요)
+	public CartVO checkCart(CartVO cvo);
+	// 장바구니 전체 삭제
+	public void deleteAll(String userid);
 			
-		// =============== 관리자페이지 - 주문관리 =====================
-		// 결제완료된 리스트 뽑아오기
-		public List<orderUser> selectAdminOrder();
-		// delivnum Update
-		public void delivNumberUpdate(orderUser ovo);
-		public void delivstatUpdate2();
-		public void delivstatUpdate1();
-		// orderState
-		public int orderState1();
-		public int orderState2();
-		public int orderState3();
+	// =============== 관리자페이지 - 주문관리 =====================
+	// 결제완료된 리스트 뽑아오기
+	public List<orderUser> selectAdminOrder(@Param("delivstate") int delivstate);
+	// 모달창
+	public List<detailOrderVO> selectOrderModal(detailOrderVO dvo);
+	// delivnum Update
+	public void delivNumberUpdate(orderUser ovo);
+	public void delivstatUpdate2();
+	public void delivstatUpdate1();
+	// orderState
+	public int orderState1();
+	public int orderState2();
+	public int orderState3();
 }

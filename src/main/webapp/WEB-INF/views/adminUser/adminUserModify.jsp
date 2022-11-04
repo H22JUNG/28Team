@@ -245,12 +245,12 @@ tr:last-child>td, tr:last-child>th {
 						</li>
 						<li>
 							<h4>
-								<a href="" class="menu1">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="" class="menu1">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>

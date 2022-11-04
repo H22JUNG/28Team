@@ -246,6 +246,10 @@ form div label {
 	text-decoration: none;
 	color: #000;
 }
+.side-menu a span {
+	color: #21A5B5;
+	font-weight: bold;
+}
 </style>
 </head>
 
@@ -259,17 +263,17 @@ form div label {
 					<div class="menu">
 						<li>
 							<h4>
-								<a href="">✔ 회원관리</a>
+								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=" class="menu1">✔ 회원관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>
@@ -279,7 +283,7 @@ form div label {
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 관리자 정보수정</a>
+								<a href="${pageContext.request.contextPath}/admin-admin-list" class="menu1">✔ 관리자 정보수정</a>
 							</h4>
 						</li>
 						<li>
@@ -295,7 +299,7 @@ form div label {
 					<ul class="side-menu">
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list">상품정보 조회</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list"><span>상품정보 조회</span></a>
 							</h4>
 						</li>
 						<li>

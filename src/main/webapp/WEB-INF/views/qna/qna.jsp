@@ -311,7 +311,7 @@ a {
 									<td class="num">${vo.id}</td>
 									<td class="category">${vo.qnaCategory}</td>
 									<td class="title">
-										<c:if test="${Comme}">
+										<c:if test="${vo.getIndent()>0 }">
 											<c:forEach var="i" begin="1" end="${vo.getIndent()}">
                									&nbsp;&nbsp;&nbsp;
               								</c:forEach>

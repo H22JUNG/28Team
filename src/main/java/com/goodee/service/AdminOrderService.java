@@ -1,9 +1,12 @@
 package com.goodee.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.goodee.dao.ProjectDAO;
+import com.goodee.vo.detailOrderVO;
 import com.goodee.vo.orderUser;
 
 @Service
@@ -16,8 +19,19 @@ public class AdminOrderService {
 	}
 	
 	// 결제 완료 리스트 가져오기
-	public void selectAdminOrder(Model model) {
-		model.addAttribute("orderList",dao.selectAdminOrder());
+	public void selectAdminOrder(int delivstate, Model model) {
+		try {
+			if(dao.selectAdminOrder(delivstate).size() != 0) {
+				model.addAttribute("orderList",dao.selectAdminOrder(delivstate));
+			}
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 모달
+	public List<detailOrderVO> selectOrderModal(detailOrderVO dvo) {
+		return dao.selectOrderModal(dvo);
 	}
 	
 	// delivnum update
