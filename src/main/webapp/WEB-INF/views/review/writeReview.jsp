@@ -149,13 +149,13 @@
                 <tr>
                     <td>사진첨부</td>
                     <td>
-                        <label for="file">최대 2개까지 첨부 가능합니다. (이미지 파일만 업로드 가능)</label><br />
+                        <label for="file">최대 2MB, 2개까지 첨부 가능합니다. (이미지 파일만 업로드 가능)</label><br />
                         <div id="file1">
-                        <form:input type="file" path="pic1File" accept="image/*" /> <button id="defile1">파일 삭제</button>
+                       		<form:input type="file" path="pic1File" accept="image/*" /> <button id="defile1">파일 삭제</button>
                         </div>
                         <button id="fileadd">파일 추가</button>
                         <div id="file2">
-                        <form:input type="file" path="pic2File" accept="image/*"/> <button id="defile2">파일 삭제</button>
+                      		<form:input type="file" path="pic2File" accept="image/*"/> <button id="defile2">파일 삭제</button>
                     	</div>
                     </td>
                 </tr>

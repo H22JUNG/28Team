@@ -107,7 +107,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 		
 		return sqlSessionFactoryBean.getObject();
 	}
-	private final int MAX_SIZE = 5 * 1024 * 1024;
+	private final int MAX_SIZE = 2 * 1024 * 1024;
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();

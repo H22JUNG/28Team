@@ -41,7 +41,7 @@
             width: 180px;
             font-weight: 900;
         }
-        table tr:last-child td:last-child{
+        table #nth-child-content td{
             height : 30vh; 
         }
         #btn {
@@ -60,50 +60,6 @@
             border: none;
             cursor: pointer;
             color: white;
-        }
-        /* 푸터 */
-        footer {
-            width: 100%;
-            background-color: #FFECC8;
-            z-index: 10;
-            font-size: 12px;
-            padding: 20px 40px;
-            color: #848484;
-            display: flex;
-        }
-        .footer1 {
-            width: 70%;
-            border-right: 1px solid #848484;
-        }
-        footer p:nth-child(1) {
-            font-size: 15px;
-            color: #2C2C2C;
-        }
-        footer p:nth-child(2) {
-            font-size: 15px;
-        }
-        #footer-tel {
-            color:#21A5B5;
-            font-size: 25px;
-            font-weight: 900;
-        }
-        footer ul {
-            display: flex;
-        }
-        footer ul li {
-            padding: 10px 20px 0 0;
-        }
-        .footer2 {
-            width: 30%;
-            align-self: center;
-            display: flex;
-            justify-content: center;
-        }
-        .footer2 img{
-            width: 50px;
-            height: 50px;
-            margin: 15px;
-            cursor: pointer;
         }
         #comment-container{
         	padding : 30px;
@@ -155,13 +111,23 @@
 					<td>작성일자</td>
 					<td>${detail.createDate}</td>
 				</tr>
-				<tr>
+				<tr id="nth-child-content">
 					<td>내용</td>
 					<td>${detail.content}</td>
 				</tr>
 				<tr>
 					<td>사진</td>
-					<td id="reviewPhoto"><img src="${pageContext.request.contextPath}/upload/${detail.pic1}" alt="" /><img src="${pageContext.request.contextPath}/upload/${detail.pic2}" alt="" /></td>
+					<td id="reviewPhoto">
+						<c:if test="${not empty detail.pic1}">
+							<img src="${pageContext.request.contextPath}/upload/${detail.pic1}" alt="" />
+						</c:if>
+						<c:if test="${not empty detail.pic2}">
+							<img src="${pageContext.request.contextPath}/upload/${detail.pic2}" alt="" />
+						</c:if>
+						<c:if test="${empty detail.pic1 && empty detail.pic2}">
+							첨부된 사진이 없습니다.
+						</c:if>
+						</td>
 				</tr>
 			</table>
 			<c:if test="${not empty comment}">

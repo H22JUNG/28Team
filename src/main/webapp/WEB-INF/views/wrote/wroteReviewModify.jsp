@@ -86,16 +86,28 @@
         }
         #file1, #file2 {
         	display : flex;
+        	flex-direction : column;
         	border : 1px solid #21A5B5;
         	margin : 10px 0;
-        	padding : 0 10px;
+        	padding : 10px;
         	border-radius : 5px;
-        	width : 31%;
-        	align-items : center;
+        	width : 45%;
+        	align-items : start;
         }
         #file1 #defile1, #file2 #defile2 {
         	width : 90px;
         	height: 30px;
+        }
+        #pic1del, #pic2del {
+        	margin : 0px 0px 10px 0px;
+        	padding : 1px 5px;
+        }
+        #pic1, #pic2 {
+        	border :none;
+        	outline: none;
+        	padding : 0;
+ 			height : 20px;
+ 			font-size : 14px;
         }
     </style>
 </head>
@@ -107,7 +119,7 @@
       <div id="container">
 			
 			<h2>${qnamodi.category}</h2>
-			<form:form modelAttribute="detail" action="${pageContext.request.contextPath}/modify?category=${detail.category}&id=${detail.id}" method="post">
+			<form:form modelAttribute="detail" action="${pageContext.request.contextPath}/modify?category=${detail.category}&id=${detail.id}" method="post" enctype="multipart/form-data">
 			<table>
 				<c:if test="${not empty proName}">
 				<tr>
@@ -134,35 +146,72 @@
 				<tr>
 					<td>사진첨부</td>
 					<td>
-                        <label for="file">최대 2개까지 첨부 가능합니다. (이미지 파일만 업로드 가능)</label><br />
+                        <label for="file">최대 2MB, 2개까지 첨부 가능합니다. (이미지 파일만 업로드 가능)</label><br />
 	                    <div id="file1">
-	                       <form:input type="file" path="pic1File" accept="image/*" /> <button id="defile1">파일 삭제</button>
+	                    	<div>
+	                    		<p>첨부된 이미지 : <form:input type="text" value="${detail.pic1}" path="pic1" readonly="readonly"/></p>
+	                       	</div>
+	                        <div>
+	                       		 <form:input type="file" path="pic1File" accept="image/*" /> <button id="defile1">파일 삭제</button>
+	                        </div>
 	                    </div>
 	                    <div id="file2">
-	                        <form:input type="file" path="pic2File" accept="image/*"/> <button id="defile2">파일 삭제</button>
+	                    	<div>
+	                   	 		<p>첨부된 이미지 : <form:input type="text" value="${detail.pic2}" path="pic2" readonly="readonly"/></p>
+	                    	</div>
+	                    	<div>
+	                      		<form:input type="file" path="pic2File" accept="image/*"/> <button id="defile2">파일 삭제</button>
+	                        </div>
 	                    </div>
                     </td>
 				</tr>
 			</table>
 			<div id="btn">
+				<button id="exit">취 소</button>
 				<button id="modify">수 정</button>
 			</div>
 			</form:form>
-			
         </div>
     </div>
 	<footer>
 		<jsp:include page="../footer.jsp"></jsp:include>
     </footer>
       <script>
+     // pic1File에 파일 추가가 되면 input태그 value를 그 값으로 바꾸기
+    	document.getElementById("pic1File").onchange = function(){
+    		if(document.getElementById("pic1File").value != null) {
+    			document.getElementById("pic1").value= document.getElementById("pic1File").value;
+    		} else {
+    			document.getElementById("pic1").value = null;
+    		}
+    	};
+    	document.getElementById("pic2File").onchange = function(){
+    		if(document.getElementById("pic2File").value != null) {
+    			document.getElementById("pic2").value = document.getElementById("pic2File").value;
+    		} else {
+    			document.getElementById("pic2").value = null;
+    		}
+    	};
+      
+    //파일 삭제버튼 누르면 값 없애기
 	  document.getElementById("defile1").addEventListener("click", function(e){
 	  	e.preventDefault();
+	  	document.getElementById("pic1").value = null;
 	  	document.getElementById("pic1File").value = null;
+	  	
 	  });
 	  document.getElementById("defile2").addEventListener("click", function(e){
 	  	e.preventDefault();
+		document.getElementById("pic2").value = null;
 	  	document.getElementById("pic2File").value = null;
 	  });
+      
+      //뒤로가기
+      document.getElementById("exit").addEventListener("click", function(e){
+	  	 	e.preventDefault();
+	  	 	window.history.back();
+  	  });
+      
      </script>
 </body>
 </html>
