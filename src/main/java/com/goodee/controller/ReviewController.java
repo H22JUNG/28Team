@@ -1,9 +1,5 @@
 package com.goodee.controller;
 
-import java.net.http.HttpRequest;
-import java.security.Provider.Service;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,12 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.goodee.service.CartService;
 import com.goodee.service.ReviewService;
-import com.goodee.vo.PageVO;
 import com.goodee.vo.ProductVO;
 import com.goodee.vo.ReviewCommentVO;
 import com.goodee.vo.ReviewVO;
@@ -40,26 +34,29 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/moveReview/{id}")
-	public String moveReview(Model model, @PathVariable("id")String id, HttpServletRequest request) {
+	public String moveReview(Model model, @PathVariable("id")String id, HttpServletRequest request, HttpSession session) {
 		cartservice.getDetailContent(model, id);
 		int page =1;
 		if(request.getParameter("page") != null ) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
+		//상품명, 세션의 아이디 담아서 리뷰쓰기 권한 설정
+		int id1 = Integer.parseInt(id);
+		reviewservice.getAuthority(model, id1, session);
 		
 		String desc = request.getParameter("desc");
 		if(desc==null) {
 			desc = "recent";
 		}
-		if(desc.equals("star")) {
+		if(desc.equals("star")) {	//별점순
 			reviewservice.getReview(model, id, page, desc);
 			reviewservice.getComment(model, id);
 			return "review/reviewStarDESC";
-		} else if(desc.equals("hits")) {
+		} else if(desc.equals("hits")) {	//추천순
 			reviewservice.getReview(model, id, page, desc);
 			reviewservice.getComment(model, id);
 			return "review/reviewHitsDESC";
-		} else {
+		} else {	//최신순
 			reviewservice.getReview(model, id, page, desc);
 			reviewservice.getComment(model, id);
 			return "review/review";

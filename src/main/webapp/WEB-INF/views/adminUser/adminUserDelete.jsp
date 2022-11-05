@@ -213,7 +213,6 @@ tr:last-child>td, tr:last-child>th {
 </head>
 
 <body>
-<<<<<<< HEAD
 	<jsp:include page="../header.jsp"></jsp:include>
 
 	<main>

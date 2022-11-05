@@ -843,9 +843,13 @@ input {
     
     document.getElementById("writeReview").addEventListener("click", function() {
     	<% if(session.getAttribute("user") != null) {%>
-    		location.href = "${pageContext.request.contextPath}/writeReview/${detailVO.id}";
+				if(${not empty authority}) {
+	    			location.href = "${pageContext.request.contextPath}/writeReview/${detailVO.id}";		
+				} else {
+					alert("리뷰 쓰기 권한이 없습니다.");
+				}
     	<%} else {%>
-   			alert("로그인 후 이용하실 수 있습니다.");
+   				alert("로그인 후 이용하실 수 있습니다.");
    		<%} %>
     });
     

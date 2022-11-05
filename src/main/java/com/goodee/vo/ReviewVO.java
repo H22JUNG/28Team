@@ -1,7 +1,5 @@
 package com.goodee.vo;
 
-import java.io.File;
-
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ReviewVO {
 	private int id;
 	private String category;
+	private String orderNum;
+	private String itemName;
 	private String title;
 	private String content;
 	private String pic1;
@@ -48,6 +48,19 @@ public class ReviewVO {
 	}
 	public void setCategory() {
 		this.category = "Review";
+	}
+	
+	public String getOrderNum() {
+		return orderNum;
+	}
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 	public int getId() {
 		return id;

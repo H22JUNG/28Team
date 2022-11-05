@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.goodee.dao.ProjectDAO;
@@ -98,6 +97,9 @@ public class ReviewService {
 	public void commnetInsert(ReviewCommentVO vo) {
 		dao.putComment(vo);
 	}
+	
+	
+	
 	//리뷰쓰기 창에서 상품명 불러오기
 	public void getProductName(Model model, int id) {
 		String id1 = Integer.toString(id);
@@ -106,6 +108,25 @@ public class ReviewService {
 	//리뷰쓰기 창에서 작성자 불러오기
 	public void getSession(HttpSession session) {
 		session.getAttribute("user");
+	}
+	//상품명, 세션의 아이디 담아서 리뷰쓰기 권한 설정
+	public void getAuthority(Model model, int id, HttpSession session) {
+		ReviewVO vo = new ReviewVO();
+		this.getProductName(model, id);
+		ProductVO provo = (ProductVO) model.getAttribute("proVO");
+		String itemName = provo.getName();
+		
+		this.getSession(session);
+		UserVO uservo = (UserVO) session.getAttribute("user");
+		if(uservo != null) {
+			String userId = uservo.getUserid();
+			vo.setOwner_id(userId);
+		} else {
+			vo.setOwner_id("");
+		}
+		vo.setItemName(itemName);
+
+		model.addAttribute("authority", dao.getAuthority(vo));
 	}
 	
 	//리뷰 DB로 전송

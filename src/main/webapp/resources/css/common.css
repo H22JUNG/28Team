@@ -78,7 +78,7 @@
            header .header-top .side ul .mymenu::after {
         	content: "";
             display: inline-block;
-            background: linear-gradient(90deg, #21A5B5 0%, #71B2B4 100%);
+            /* background: linear-gradient(90deg, #21A5B5 0%, #71B2B4 100%); */
             width: 1px;
             height: 15px;
         }

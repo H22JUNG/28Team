@@ -117,6 +117,7 @@ public interface ProjectDAO {
 	//리뷰 모달창
 	public ReviewVO getSelectReview(int id);
 	//리뷰 작성
+	public List<ReviewVO> getAuthority(ReviewVO vo);
 	public void writeReview(ReviewVO vo);
 	
 	//수정
