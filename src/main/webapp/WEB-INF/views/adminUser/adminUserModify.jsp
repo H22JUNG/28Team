@@ -408,7 +408,7 @@ tr:last-child>td, tr:last-child>th {
 	%>
 	if(document.getElementById("modify<%=vo.get(i).getId()%>") != null) {
 	    document.getElementById("modify<%=vo.get(i).getId() %>").addEventListener("click", function () {
-	        openWin = window.open("${pageContext.request.contextPath}/adminuserpopup?id=<%=vo.get(i).getId()%>", "_blank",`resizable=yes,left=500,width=420,height=550`);
+	        openWin = window.open("${pageContext.request.contextPath}/adminuserpopup?id=<%=vo.get(i).getId()%>", "_blank",`resizable=yes,left=500,top=150,width=460,height=480`);
 	    });
 	}
 	<% }} %>

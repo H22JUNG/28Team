@@ -78,15 +78,15 @@ tr:nth-child(6) td, tr:nth-child(6) th, tr:nth-child(7) td, tr:nth-child(7) th
           </tr>
           <tr>
             <th>회원명</th>
-            <td><input type="text" id="name" name="username" value="${list[0].username}"/></td>
+            <td><input type="text" id="name" name="username" value="${list[0].username}" required/></td>
           </tr>
           <tr>
             <th>회원연락처</th>
-            <td><input type="tel" id="tel" name="tel" value="${list[0].tel}"/></td>
+            <td><input type="tel" id="tel" name="tel" value="${list[0].tel}" required/></td>
           </tr>
           <tr>
             <th>회원주소</th>
-            <td><input type="text" id="address" name="address" value="${list[0].address }"/></td>
+            <td><input type="text" id="address" name="address" value="${list[0].address }" required/></td>
           </tr>
           <tr>
             <th>회원이메일</th>
@@ -94,7 +94,7 @@ tr:nth-child(6) td, tr:nth-child(6) th, tr:nth-child(7) td, tr:nth-child(7) th
           </tr>
           <tr>
             <th>적립금</th>
-            <td><input type="text" id="point" name="point" value="${list[0].point }"/></td>
+            <td><input type="number" id="point" name="point" value="${list[0].point }" required/></td>
           </tr>
           <tr>
             <td></td>
@@ -107,12 +107,45 @@ tr:nth-child(6) td, tr:nth-child(6) th, tr:nth-child(7) td, tr:nth-child(7) th
     <script>
         document.getElementById("modi").addEventListener("click", function(e) {
         	e.preventDefault();
-        	var name=document.getElementById('name').value;
-        	var tel = document.getElementById('tel').value;
-			var address =document.getElementById('address').value;
-			var email =document.getElementById('email').value;
-			var point=document.getElementById('point').value;
         	
+        	const name_reg = /^[가-힣a-zA-Z]+$/;	//한글, 영문
+        	const tel_reg = /^\d{3}-\d{4}-\d{4}$/; 	//000-0000-0000
+        	const email_reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;	//id@site.com
+        	const point_reg = /^[0-9]$/;	//숫자
+        	
+        	var name = document.getElementById('name').value;
+        	var tel = document.getElementById('tel').value;
+			var address = document.getElementById('address').value;
+			var email = document.getElementById('email').value;
+			var point = document.getElementById('point').value;
+        	
+			if(!name_reg.test(name)) {
+				alert("이름을 형식에 맞게 입력하세요(한글, 영문)");
+				document.getElementById('name').focus();
+				return false;
+			}
+			if(!tel_reg.test(tel)) {
+				alert("전화번호를 형식에 맞게 입력하세요('-'를 포함한 숫자 11자리)");
+				document.getElementById('tel').focus();
+				return false;
+			}
+			if(address == null || address=="") {
+				alert("회원의 주소를 입력해주세요");
+				document.getElementById('address').focus();
+				return false;
+			}
+			if(!email_reg.test(email)) {
+				alert("이메일 주소를 형식에 맞게 입력하세요");
+				document.getElementById('email').focus();
+				return false;
+			}
+			if(!point_reg.test(point)) {
+				alert("적립금을 형식에 맞게 입력하세요(0이상의 숫자)");
+				document.getElementById('point').focus();
+				return false;
+			}
+			
+			
         	let simple_data = { "id":"${list[0].id}",
         						"username":name,
         						"tel":tel,
