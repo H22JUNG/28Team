@@ -119,6 +119,9 @@ public interface ProjectDAO {
 	//리뷰 작성
 	public List<ReviewVO> getAuthority(ReviewVO vo);
 	public void writeReview(ReviewVO vo);
+	public void writeReviewAfter(ReviewVO vo);
+	public void writeReviewPoint1000(ReviewVO vo);
+	public void writeReviewPoint(ReviewVO vo);
 	
 	//수정
 	//상품 상세페이지 조회

@@ -113,8 +113,8 @@ public class ReviewController {
 	@GetMapping("/selectOrderNum/{id}")
 	public String selectOrderNum(Model model, @PathVariable("id")String id, HttpSession session) {
 		int id1 = Integer.parseInt(id);
+		reviewservice.getProductName(model, id1);
 		reviewservice.getAuthority(model, id1, session);
-		//reviewservice.orderNumList(model, id);
 		return "review/selectOrderNum";
 	}
 	

@@ -525,11 +525,29 @@
 	</select>
 	<!-- 리뷰 등록하기 -->
 	<insert id="writeReview">
-		INSERT INTO review(category, title, content,
+		INSERT INTO review(category, order_num, item_name, title, content,
 		owner_id, OWNER,CODE,stargrade, pic1, pic2)
-		VALUE(#{category},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade},
+		VALUE(#{category},#{orderNum},#{itemName},#{title},#{content},#{owner_id},#{owner},#{code},#{stargrade},
 		#{pic1, jdbcType=NULL}, #{pic2, jdbcType=NULL})
 	</insert>
+	<update id="writeReviewAfter">
+		UPDATE orderitem SET review='Y'
+		WHERE cart_listnum=
+		(SELECT cart_listnum FROM orderuser where order_num=#{orderNum} GROUP BY cart_listnum)
+		AND item_name=#{itemName}
+	</update>
+	<update id="writeReviewPoint">
+		UPDATE user set
+		<choose>
+			<when test="pic1 == null and pic2 == null">
+				POINT=POINT+1000
+			</when>
+			<otherwise>
+				POINT=POINT+2000
+			</otherwise>
+		</choose>
+		WHERE id=#{owner_id}
+	</update>
 
 	<!-- 유진 mapper, 주문페이지에서 입력한 정보 전송 -->
 	<!-- 결제하기위해 DB에서 내 정보 받아옴 -->

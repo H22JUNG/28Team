@@ -200,5 +200,7 @@ public class ReviewService {
 		ProductVO provo = dao.selectDetail(id1);
 		vo.setCode(provo.getId());
 		dao.writeReview(vo);
+		dao.writeReviewAfter(vo); //리뷰 작성 후 권한 삭제
+		dao.writeReviewPoint(vo); //리뷰 작성 후 포인트 적립
 	}
 }

@@ -122,7 +122,7 @@
             	</tr>
                 <tr>
                     <td>상품명</td>
-                    <td>${proVO.name}</td>
+                    <td><form:input path="itemName" type="text" readonly="true" value="${proVO.name}"></form:input></td>
                 </tr>
                 <tr>
                     <td>작성자</td>

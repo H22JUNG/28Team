@@ -87,7 +87,7 @@
 
                             <tr>
                                 <td>해당 상품명</td>
-                                <td>${detail.itemName}</td>
+                                <td>${proVO.name}</td>
                             </tr>
                             <tr>
                                 <td>총 주문금액</td>
