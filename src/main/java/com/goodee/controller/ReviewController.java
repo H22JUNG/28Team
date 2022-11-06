@@ -86,11 +86,13 @@ public class ReviewController {
 	@GetMapping("/writeReview/{id}")
 	public String moveWriteReview(Model model, @PathVariable("id")int id,
 								@ModelAttribute("proVO") ProductVO vo,
-								HttpSession session) {
+								HttpSession session,
+								@RequestParam String orderNum) {
 		ReviewVO revo = new ReviewVO();
 		model.addAttribute("revo", revo);
 		reviewservice.getProductName(model, id);
 		reviewservice.getSession(session);
+		model.addAttribute("orderNum", orderNum);
 		return "review/writeReview";
 	}
 	
@@ -105,6 +107,15 @@ public class ReviewController {
 		reviewservice.writeReview(pic1File, pic2File, id, vo, model, session);
 		
 		return "redirect:/moveReview/"+id;
+	}
+	
+	//쓸 수 있는 리뷰 여러 개 일 때 주문번호 선택
+	@GetMapping("/selectOrderNum/{id}")
+	public String selectOrderNum(Model model, @PathVariable("id")String id, HttpSession session) {
+		int id1 = Integer.parseInt(id);
+		reviewservice.getAuthority(model, id1, session);
+		//reviewservice.orderNumList(model, id);
+		return "review/selectOrderNum";
 	}
 	
 }

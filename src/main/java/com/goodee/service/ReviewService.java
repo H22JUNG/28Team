@@ -3,6 +3,8 @@ package com.goodee.service;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,7 @@ import com.goodee.vo.ProductVO;
 import com.goodee.vo.ReviewCommentVO;
 import com.goodee.vo.ReviewVO;
 import com.goodee.vo.UserVO;
+import com.goodee.vo.detailOrderVO;
 
 @Service
 public class ReviewService {
@@ -115,6 +118,7 @@ public class ReviewService {
 		this.getProductName(model, id);
 		ProductVO provo = (ProductVO) model.getAttribute("proVO");
 		String itemName = provo.getName();
+		vo.setItemName(itemName);
 		
 		this.getSession(session);
 		UserVO uservo = (UserVO) session.getAttribute("user");
@@ -124,9 +128,33 @@ public class ReviewService {
 		} else {
 			vo.setOwner_id("");
 		}
-		vo.setItemName(itemName);
-
+		//리뷰 쓸 수 있는 주문내역 있는지 없는지 확인(List)
 		model.addAttribute("authority", dao.getAuthority(vo));
+		
+		
+		//-- 쓸 수 있는 리뷰 여러 개 일 떄--
+		if(dao.getAuthority(vo).size() > 1) {
+			//리뷰 쓰러 이동할 떄 상품 id 함께 전송
+			model.addAttribute("id", id);
+			//여러 개 리뷰 중 선택할 수 있도록 정보 제공
+			List<ReviewVO> revivo = dao.getAuthority(vo);	//리뷰 작성가능한 주문번호 불러오기
+			//작성할 수 있는 주문번호들에 대한 상세정보 불러오기
+			List<detailOrderVO> detailvo = new ArrayList<detailOrderVO>();
+			String orderNum;
+			for(int i=0; i<revivo.size(); i++ ) {
+				orderNum = revivo.get(i).getOrderNum();
+				//System.out.println(orderNum);
+				//detailvo.add(
+				detailvo.add((detailOrderVO) dao.detailOrderInfor(orderNum).get(0));
+				//System.out.println(dao.detailOrderInfor(orderNum).toString());
+			}
+			//System.out.println(detailvo.size());
+			if(detailvo != null) {
+				model.addAttribute("detail", detailvo);
+			}
+		}
+		
+		
 	}
 	
 	//리뷰 DB로 전송

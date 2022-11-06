@@ -41,7 +41,7 @@
         table tr>td:nth-child(2) {
             width: 80%;
         }
-        table tr:nth-child(5)>td:nth-child(2) {
+        table tr:nth-child(6)>td:nth-child(2) {
             height: 50vh;
 
         }
@@ -116,6 +116,10 @@
 
 			<form:form modelAttribute="revo" action="${pageContext.request.contextPath}/writeReviewDone/${proVO.id}" method="post" enctype="multipart/form-data">
             <table>
+            	<tr>
+            		<td>주문번호</td>
+            		<td><form:input path="orderNum" type="text" readonly="true" value="${orderNum}"></form:input></td>
+            	</tr>
                 <tr>
                     <td>상품명</td>
                     <td>${proVO.name}</td>

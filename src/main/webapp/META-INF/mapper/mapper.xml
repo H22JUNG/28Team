@@ -514,12 +514,14 @@
 	</select>
 	<!-- 리뷰 권한 확인 -->
 	<select id="getAuthority" parameterType="reviewVO" resultType="reviewVO">
-		SELECT orderitem.userid, orderuser.cart_listnum, delivstate, review, order_num FROM
+		SELECT orderitem.userid, orderuser.cart_listnum, delivstate, review, order_num, item_name
+		FROM
 		orderitem INNER JOIN orderuser
 		ON orderitem.cart_listnum = orderuser.cart_listnum
 		WHERE item_name=#{itemName} and orderitem.userid=#{owner_id}
+		and delivstate=3
 		GROUP BY cart_listnum HAVING review='N'
-		and delivstate=3;
+		
 	</select>
 	<!-- 리뷰 등록하기 -->
 	<insert id="writeReview">

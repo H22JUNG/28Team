@@ -843,8 +843,10 @@ input {
     
     document.getElementById("writeReview").addEventListener("click", function() {
     	<% if(session.getAttribute("user") != null) {%>
-				if(${not empty authority}) {
-	    			location.href = "${pageContext.request.contextPath}/writeReview/${detailVO.id}";		
+				if(${authority.size() eq 1}) {
+	    			location.href = "${pageContext.request.contextPath}/writeReview/${detailVO.id}?orderNum=${authority[0].orderNum}";		
+				} else if(${authority.size() gt 1}) {
+					window.open("${pageContext.request.contextPath}/selectOrderNum/${detailVO.id}", "_blank",`resizable=yes,left=500,top=150,width=900,height=450`);
 				} else {
 					alert("리뷰 쓰기 권한이 없습니다.");
 				}
