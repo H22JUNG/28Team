@@ -110,12 +110,30 @@
 
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->
 	<!-- 관리자 페이지 - product 전체 list 뽑기 - 윤정 -->
-	<select id="selectProductList" resultType="map">
-		SELECT product.id, category1, category2, product.NAME, price, view,
-		create_date, option.pro_num, size, color, stock
-		FROM option INNER JOIN
-		product
-		ON option.id = product.id;
+	 <select id="selectProductList" resultType="ProductListVO">
+	 	SELECT product.id, category1, category2, product.name, price, view,  date_format(create_date,'%Y-%m-%d') 'createDate', option.pro_num, size, color, stock
+		FROM option INNER JOIN product
+		ON option.id = product.id
+	</select>
+	
+	<select id="serchProductList" resultType="ProductListVO">
+		SELECT product.id, category1, category2, product.name, price, view, date_format(create_date,'%Y-%m-%d') 'createDate', option.pro_num, size, color, stock
+		FROM option INNER JOIN product
+		ON option.id = product.id
+		<where>
+			<if test="category1 != null and category1 != ''">
+			and category1 like #{category1}
+			</if>
+			<if test="category2 != null and category2 != ''">
+			and category2 like #{category2}
+			</if>
+			<if test="proNum != null and proNum != ''">
+			and pro_num like CONCAT('%',#{proNum},'%')
+			</if>
+			<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+			</if>
+		</where>
 	</select>
 
 	<!-- product 수정 불러오기 -->
@@ -134,16 +152,18 @@
 	<!-- update를 서비스에 한번에 담아준다. -->
 	<update id="update1">
 		UPDATE product INNER JOIN option o
-		ON product.id =
-		o.id
-		SET
-		category1 = #{category1},
-		category2 = #{category2},
-		product.name = #{name},
-		price = #{price},
-		discount = #{discount},
-		category_id = (SELECT id FROM category WHERE category1 = #{category1} AND
-		category2 = #{category2})
+		ON product.id = o.id
+		SET 
+			category1 = #{category1},
+			category2 = #{category2},
+			pic1 = #{pic1},
+			pic2 = #{pic2},
+			pic3 = #{pic3},
+			pic4 = #{pic4},
+			product.name = #{name},
+			price = #{price},
+			discount = #{discount},
+			category_id = (SELECT id FROM category WHERE category1 = #{category1} AND category2 = #{category2})
 		WHERE o.pro_num = #{proNum}
 	</update>
 

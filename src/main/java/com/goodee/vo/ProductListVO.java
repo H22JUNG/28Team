@@ -118,6 +118,14 @@ public class ProductListVO {
 		this.stock = stock;
 	}
 	
+	@Override
+	public String toString() {
+		return "ProductListVO [id=" + id + ", category1=" + category1 + ", category2=" + category2 + ", pic1=" + pic1
+				+ ", pic2=" + pic2 + ", pic3=" + pic3 + ", pic4=" + pic4 + ", name=" + name + ", price=" + price
+				+ ", discount=" + discount + ", view=" + view + ", createDate=" + createDate + ", proNum=" + proNum
+				+ ", size=" + size + ", color=" + color + ", stock=" + stock + "]";
+	}
+	
 	
 
 	

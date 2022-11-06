@@ -209,7 +209,11 @@ public class CartVO {
 
 	// 금액이 변경될때 쓰는 메서드
 	public void initSaleTotal() {
-		this.salePrice = (int)((double)this.price * ((double)this.discount/(double)100));
+		if((double)this.discount/(double)100 == (double)0) {
+			this.salePrice = this.price;
+		}else {
+			this.salePrice = Math.round((int)((double)this.price * ((double)1-(double)this.discount/(double)100)));
+		}
 		this.resultPrice = this.salePrice*count;
 		//this.point = (int)(Math.floor(this.salePrice*0.05));
 		//this.totalPoint = this.point * this.count;

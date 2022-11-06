@@ -198,11 +198,21 @@ form div label {
 	width: 180px;
 }
 
+.innerinput {
+	position: relative;
+}
+
+.input_input_input {
+	position: absolute;
+	z-index: -100;
+}
+
 .form-control {
 	border: none;
 	background-color: rgb(255, 245, 233);
 	border-radius: 10px;
 	height: 30px;
+	padding: 3px;
 }
 
 .form-inline {
@@ -323,31 +333,34 @@ form div label {
 							<form action="${pageContext.request.contextPath}/admin/insertInfo" method="post">
 								<div id="fileDrop">
 									<label>상품 이미지 url을 입력하세요.</label>
+                                    <label>최소 1장 이상 입력하세요.</label>
                                     <label>(최대 4장까지 가능)</label>
 									<div class="fileDrop">
 									<ul class="clearfix">
 										<li>
                                             <h4>사진1</h4>
-											<input type="text" name="pic1" id=""/>
+											<input type="text" name="pic1" id="" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진2</h4>
-											<input type="text" name="pic2" id=""/>
+											<input type="text" name="pic2" id="" placeholder="url을 입력하세요."/>
                                             <h4>사진3</h4>
-											<input type="text" name="pic3" id=""/>
+											<input type="text" name="pic3" id="" placeholder="url을 입력하세요."/>
                                             <h4>사진4</h4>
-											<input type="text" name="pic4" id=""/>
+											<input type="text" name="pic4" id="" placeholder="url을 입력하세요."/>
 										</li>
 									</ul>
 									</div>
 								</div>
 								<div class="form-group productInfo">
 									<div>
-										<label>상품명</label> <input name="name" class="form-control">
+										<label>상품명</label> <input name="name" class="form-control" required="required" placeholder="상품명을 입력하세요.">
 									</div>
 									<div>
-										<label>상품가격</label> <input name="price" class="form-control">
+										<label>상품가격</label> <input name="price" class="form-control" required="required"
+										onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 									</div>
 									<div>
-										<label>할인율</label> <input name="discount" class="form-control">
+										<label>할인율</label> <input type="number" min="1" max="100" name="discount" class="form-control" required="required"
+										onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 									</div>
 									<div>
 										<!--대분류가 뭐가 선택되느냐에 따라서 소분류가 달라져야 하는데?-->
@@ -360,7 +373,10 @@ form div label {
 												<option value="supplies">4. 생활용품</option>-->
 											</select>
 											<button class="btn btn-default btn_productDist1 input_btn">입력</button>
-											<input name="category1" class="form-control input_input" readonly>
+											<div class="innerinput">
+											<input name="category1" class="form-control input_input" disabled="disabled">
+											<input name="category1" class="form-control input_input input_input_input" required="required">
+											</div>
 										</div>
 										<div>
 											<label>소분류</label>
@@ -372,17 +388,21 @@ form div label {
 													<option value="chair">4. 의자</option>-->
 												</select>
 												<button class="btn btn-default btn_productDist2 input_btn">입력</button>
-												<input name="category2" class="form-control input_input" readonly>
+												<div class="innerinput">
+												<input name="category2" class="form-control input_input" disabled="disabled">
+												<input name="category2" class="form-control input_input input_input_input" required="required">
+												</div>
 											</div>
 										</div>
 										<div>
-											<label>재고</label> <input name="stock" class="form-control">
+											<label>재고</label> <input name="stock" class="form-control" required="required"
+											onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 										</div>
 										<div>
-											<label>사이즈</label><input name="size" class="form-control">
+											<label>사이즈</label><input name="size" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요.">
 										</div>
 										<div>
-										<label>컬러</label> <input name="color" class="form-control">
+										<label>컬러</label> <input name="color" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요.">
 										</div>
 										<div class="btns">
 											<button class="btn btn-default final_btn" id="btn_product_insert">등록하기</button>
@@ -476,14 +496,16 @@ form div label {
 				event.preventDefault();
 				var productDist1 = $("#category1 option:selected").val();
 				$("input[name='category1']").val(productDist1);
-	            /* 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨 */
+				// category1이 변경되면 category2가 초기화되게 만듬
+				$("input[name='category2']").val('');
+	            // 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨
 			});
 			
 			$(".btn_productDist2").on('click', function(event) {
 				event.preventDefault();
 				var productDist2 = $("#category2 option:selected").val();
 				$("input[name='category2']").val(productDist2);
-	            /* 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨 */
+	            // 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨
 			});
 		});
 		

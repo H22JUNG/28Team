@@ -131,6 +131,10 @@ table {
 	width: 100%
 }
 
+table tr:hover {
+	background-color: #ddd;
+}
+
 th {
     border-bottom: 1px solid rgb(183, 183, 183);
     padding-bottom: 10px;
@@ -138,7 +142,7 @@ th {
 }
 
 th:nth-child(5) {
-	width: 40%;
+	width: 30%;
 }
 
 td {
@@ -164,7 +168,6 @@ td {
     margin-top: 20px;
     cursor: pointer;
 }
-
 
 /* 컨텐츠 메뉴 */
 .side-menu {
@@ -250,14 +253,15 @@ td {
                         <div class="row">
 	                        <button id="insert_btn">상품 등록</button>
                             <div id="search">
-                                <form action="" method="get">
-                                    <select name="" id="">
-                                        <option value="">카테고리1</option>
-                                        <option value="">카테고리2</option>
-                                        <option value="">상품코드</option>
-                                        <option value="">상품명</option>
-                                    </select> <input type="text" placeholder="검색어를 입력하세요">
-                                    <button>검색</button>
+                                <form action="${pageContext.request.contextPath}/serch" method="post">
+                                    <select name="order" id="order">
+                                        <option value="category1">대분류</option>
+                                        <option value="category2">소분류</option>
+                                        <option value="proNum">상품코드</option>
+                                        <option value="name">상품명</option>
+                                    </select>
+                                    <input type="text" name="content" id="content" placeholder="검색어를 입력하세요">
+                                    <button id="submit">검색</button>
                                 </form>
                             </div>
 
@@ -265,10 +269,12 @@ td {
                                 <thead>
                                     <tr>
                                     	<th>번호</th>
-                                        <th>카테고리1</th>
-                                        <th>카테고리2</th>
+                                        <th>대분류</th>
+                                        <th>소분류</th>
                                         <th>상품 코드</th>
                                         <th>상품명</th>
+                                        <th>사이즈</th>
+                                        <th>컬러</th>
                                         <th>상품가격</th>
                                         <th>재고</th>
                                         <!-- <th>조회수</th> -->
@@ -280,60 +286,18 @@ td {
                                 	<c:set var="cnt" value="${i=i+1}"/>
                                     <tr>
                                     	<td>${cnt}</td>
-                                        <td>
-                                        	<c:if test="${productVO.category1 eq 'furniture'}">
-                                        		가구
-                                        	</c:if>
-                                        	<c:if test="${productVO.category1 eq 'fabric'}">
-                                        		패브릭
-                                        	</c:if>
-                                        	<c:if test="${productVO.category1 eq 'storage'}">
-                                        		수납용품
-                                        	</c:if>
-                                        	<c:if test="${productVO.category1 eq 'supplies'}">
-                                        		생활용품
-                                        	</c:if>
-                                        </td>
-                                        <td>
-                                        	<c:if test="${productVO.category2 eq 'bed'}">
-                                        		침대
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'sofa'}">
-                                        		소파
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'mirror'}">
-                                        		거울
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'chair'}">
-                                        		의자
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'curtain'}">
-                                        		커튼
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'bedding'}">
-                                        		침구
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'rug'}">
-                                        		러그
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'storage store'}">
-                                        		수납장
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'organization'}">
-                                        		옷걸이
-                                        	</c:if>
-                                        	<c:if test="${productVO.category2 eq 'supplies'}">
-                                        		생활용품
-                                        	</c:if>
-                                        </td>
-                                        <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.pro_num}" class="choice">${productVO.pro_num}</a></td>
-                                        <td class="text_left">${productVO.NAME}</td>
+                                        <td>${productVO.category1}</td>
+                                        <td>${productVO.category2}</td>
+                                        <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.proNum}" class="choice">${productVO.proNum}</a></td>
+                                        <td class="text_left">${productVO.name}</td>
+                                        <td>${productVO.size}</td>
+                                        <td>${productVO.color}</td>
                                         <td><fmt:parseNumber var="n" type="number" value="${productVO.price}" />
-                                        <fmt:formatNumber value="${n}" pattern="#,###"></fmt:formatNumber>원
+                                        \ <fmt:formatNumber value="${n}" pattern="#,###"></fmt:formatNumber>
                                         </td>
                                         <td>${productVO.stock}개</td>
                                         <!-- <td>${productVO.view}</td>  -->
-                                        <td><fmt:formatDate value="${productVO.create_date}" type="date" pattern="yyyy-MM-dd"/></td>
+                                        <td>${productVO.createDate}</td>
                                     </tr>
                                     </c:forEach>
                                 </tbody>

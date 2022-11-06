@@ -201,6 +201,7 @@ form div label {
 	background-color: rgb(255, 245, 233);
 	border-radius: 10px;
 	height: 30px;
+	padding: 3px;
 }
 
 .form-inline {
@@ -231,6 +232,23 @@ form div label {
 	font-weight: bold;
 	cursor: pointer;
 	margin-right: 5px;
+}
+
+#category1 {
+	padding-right: 10px;
+}
+
+#category2 {
+	padding-right: 39px;
+}
+
+/* input창이 수정 안될 경우 css */
+input:read-only {
+  background-color: rgb(236 231 224);
+}
+
+.form-inline> select, option {
+  background-color: rgb(236 231 224);
 }
 
 /* 컨텐츠 메뉴 */
@@ -319,13 +337,13 @@ form div label {
 							<!--form태그의 위치를 옮겼음--><!-- /admin/product/update -->
 							<form action="${pageContext.request.contextPath}/admin/updateInfo/${productUpdateList.get(0).pro_num}" method="post">
 								<div id="fileDrop">
-									<label>상품 이미지</label>
+									<label>상품 이미지 (url 입력 가능)</label>
 									<div class="fileDrop">
 									<ul class="clearfix">
 										<!-- <li><input type="file" name="" id="" /></li>  -->
 										<li>
 											<img class="imgli" src="${productUpdateList.get(0).pic1}" alt="" />
-											<input type="text" name="pic1" id="" value="${productUpdateList.get(0).pic1}"/>
+											<input type="text" name="pic1" id="" value="${productUpdateList.get(0).pic1}" required="required"/>
 										</li>
 										<li>
 											<img class="imgli" src="${productUpdateList.get(0).pic2}" alt="" />
@@ -345,55 +363,59 @@ form div label {
 								<div class="form-group productInfo">
 									<div>
 										<label>상품명</label> <input name="name"
-											value="${productUpdateList.get(0).NAME}" class="form-control">
+											value="${productUpdateList.get(0).NAME}" class="form-control" required="required" placeholder="상품명을 입력하세요.">
 									</div>
 									<div>
 										<label>상품가격</label> <input name="price"
-											value="${productUpdateList.get(0).price}" class="form-control">
+											value="${productUpdateList.get(0).price}" class="form-control" required="required"
+											onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 									</div>
 									<div>
-										<label>할인율</label> <input name="discount"
-											value="${productUpdateList.get(0).discount}" class="form-control">
+										<label>할인율</label> <input type="number" min="1" max="100" name="discount"
+											value="${productUpdateList.get(0).discount}" class="form-control" required="required"
+											onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 									</div>
 									<div>
 										<!--대분류가 뭐가 선택되느냐에 따라서 소분류가 달라져야 하는데?-->
 										<label>대분류</label>
 										<div class="form-inline">
 											<select class="form-control form_input" id="category1">
-												<!--  <option value="furniture">1. 가구</option>
+												<option value="furniture">1. 가구</option>
 												<option value="fabric">2. 패브릭</option>
 												<option value="storage">3. 수납용품</option>
-												<option value="supplies">4. 생활용품</option>-->
+												<option value="supplies">4. 생활용품</option>
 											</select>
-											<button class="btn btn-default btn_productDist1 input_btn">입력</button>
-											<input name="category1" value="${productUpdateList.get(0).category1}"
+											<button class="btn btn-default btn_productDist1 input_btn" type="button">입력</button>
+											<input type="text" name="category1" value="${productUpdateList.get(0).category1}"
 												class="form-control input_input" readonly>
 										</div>
 										<div>
 											<label>소분류</label>
 											<div class="form-inline">
 												<select class="form-control form_input" id="category2">
-													<!--<option value="bed">1. 침대</option>
+													<option value="bed">1. 침대</option>
 													<option value="sofa">2. 소파</option>
 													<option value="mirror">3. 거울</option>
-													<option value="chair">4. 의자</option>-->
+													<option value="chair">4. 의자</option>
 												</select>
-												<button class="btn btn-default btn_productDist2 input_btn">입력</button>
-												<input name="category2" value="${productUpdateList.get(0).category2}"
+												<button class="btn btn-default btn_productDist2 input_btn" type="button">입력</button>
+												<input type="text" name="category2" value="${productUpdateList.get(0).category2}"
 													class="form-control input_input" readonly>
 											</div>
 										</div>
+										
 										<div>
 											<label>재고</label> <input name="stock"
-												value="${productUpdateList.get(0).stock}" class="form-control">
+												value="${productUpdateList.get(0).stock}" class="form-control" required="required"
+												onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 										</div>
 										<div>
-											<label>사이즈</label><input name="size" value="${productUpdateList.get(0).size}"
-												class="form-control">
+											<label>사이즈</label><input type="text" name="size" value="${productUpdateList.get(0).size}"
+												class="form-control size" readonly>
 										</div>
 										<div>
-										<label>컬러</label> <input name="color" value="${productUpdateList.get(0).color}"
-												class="form-control">
+										<label>컬러</label><input type="text" name="color" value="${productUpdateList.get(0).color}"
+												class="form-control color" readonly>
 										</div>
 										<div class="btns">
 											<button class="btn btn-default final_btn" id="btn_product_update">수정하기</button>
@@ -412,7 +434,33 @@ form div label {
 	<jsp:include page="../footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
-    	
+		// 카테고리 입력 버튼 막기
+		let selects = document.querySelectorAll('.form_input');
+		let btns = document.querySelectorAll('.input_btn');
+		for (let i = 0; i < btns.length; i++) {
+			btns[i].addEventListener("click",function(){
+	    		alert("카카테고리는 수정하실 수 없습니다.");
+			});
+		}
+		
+		// input:readonly 막기
+		for (let i = 0; i < selects.length; i++) {
+			selects[i].addEventListener("click",function(e){
+				e.preventDefault();
+				alert("카카테고리는 수정하실 수 없습니다.");
+			});
+		}	
+		
+		// 사이즈, 컬러 막기
+		document.querySelector(".size").addEventListener("click",function(){
+			alert("사이즈는 수정하실 수 없습니다. 새 상품으로 등록하세요.")
+		});
+		
+		document.querySelector(".color").addEventListener("click",function(){
+			alert("컬러는 수정하실 수 없습니다. 새 상품으로 등록하세요.")
+		});
+	
+	
     	// 삭제하기 버튼
     	document.getElementById("btn_product_delete").addEventListener("click",function(e){
     		e.preventDefault;
@@ -428,6 +476,8 @@ form div label {
         	location.href = "${pageContext.request.contextPath}/admin_product_list";
     	});
     	
+    	
+    	/*
     	
     	// 대분류 소분류
     	// 대분류는 key가 되고, 소분류는 value로
@@ -490,28 +540,30 @@ form div label {
         		$('select[id=category2]').val('');
         	});
     	
-    	
-    	// select 버튼 설정
+        	*/
+        	
+        /*
+        	
+        // select 버튼 설정
 		$(document).ready(function(){
 			$(".btn_productDist1").on('click', function(event) {
 				event.preventDefault();
 				var productDist1 = $("#category1 option:selected").val();
 				$("input[name='category1']").val(productDist1);
-	            /* 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨 */
+	            // 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨 
 			});
 			
 			$(".btn_productDist2").on('click', function(event) {
 				event.preventDefault();
 				var productDist2 = $("#category2 option:selected").val();
 				$("input[name='category2']").val(productDist2);
-	            /* 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨 */
+	            // 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨
 			});
 		});
+        	
+        */
 		
-    	
-    	
 
-		
 	</script>
 </body>
 

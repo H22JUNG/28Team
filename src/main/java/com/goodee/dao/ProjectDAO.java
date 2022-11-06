@@ -37,7 +37,8 @@ public interface ProjectDAO {
 	public List<ProductVO> selectBest(ProductVO vo);	
 	
 	//product List 출력 - 윤정
-	public List<Map<String,Object>> selectProductList();
+	public List<ProductListVO> selectProductList();
+	public List<ProductListVO> serchProductList(ProductListVO vo);
 	//product 수정페이지 리스트 불러오기
 	public List<Map<String,Object>> selectUpdateList(String pro_num);
 	//product 수정하기
