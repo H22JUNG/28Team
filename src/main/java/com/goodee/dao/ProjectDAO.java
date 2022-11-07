@@ -70,7 +70,6 @@ public interface ProjectDAO {
 	public void modifyQna(WrotebbsVO vo);
 	public void deleteReview(WrotebbsVO vo);
 	public int deleteMyPageQna(WrotebbsVO vo);
-	public void isdelete(WrotebbsVO vo);
 	
 	//관리자페이지 회원조회
 	public int usercount(PageVO vo);

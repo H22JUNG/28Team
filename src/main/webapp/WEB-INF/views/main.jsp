@@ -81,7 +81,10 @@
         </div>
     </main>
    <jsp:include page="footer.jsp"></jsp:include>
-    
+    <div id="popup1">
+   		<img src="image/event2" alt="" />	 
+ 		
+    </div>
      <script>
         var slideIndex = 0;
 

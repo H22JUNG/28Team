@@ -349,11 +349,7 @@
 		delete from qna where
 		id=#{id} and category=#{category}
 	</delete>
-	<update id="isdelete" parameterType="wroteVO">
-		update qnacomment set
-		is_delete = is_delete+1 where root=#{id};
-	</update>
-
+	
 	<!-- 관리자페이지 회원조회 -->
 	<select id="usercount" resultType="int" parameterType="pageVO">
 		select count(id) from user where admin=0

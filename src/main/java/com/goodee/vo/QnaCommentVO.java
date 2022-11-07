@@ -15,7 +15,6 @@ public class QnaCommentVO {
 	private int hits;
 	private String category;
 	private int orderId;
-	private int isDelete;
 	private int qnaId;
 	private String qnaCategory;
 	
@@ -24,12 +23,6 @@ public class QnaCommentVO {
 	}
 	public void setQnaCategory(String qnaCategory) {
 		this.qnaCategory = qnaCategory;
-	}
-	public int getIsDelete() {
-		return isDelete;
-	}
-	public void setIsDelete(int isDelete) {
-		this.isDelete = isDelete;
 	}
 	public int getQnaId() {
 		return qnaId;

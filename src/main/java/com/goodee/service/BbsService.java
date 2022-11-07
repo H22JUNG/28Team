@@ -79,10 +79,7 @@ public class BbsService {
 
 	public void getdelete(WrotebbsVO vo) {
 		dao.deleteReview(vo);
-		if (dao.deleteMyPageQna(vo) > 0) {
-			dao.isdelete(vo);
-		}
-		;
+		dao.deleteMyPageQna(vo);
 	}
 
 	// QnA - 수정
