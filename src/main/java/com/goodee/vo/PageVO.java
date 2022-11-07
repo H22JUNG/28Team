@@ -24,6 +24,8 @@ public class PageVO {
 	private int nowBlock;
 	//블록 당 페이지
 	private int cntPerBlock;
+	//총 블록 개수
+	private int totalBlock;
 
 	// 검색 변수
 	private String userInfo;
@@ -38,6 +40,12 @@ public class PageVO {
 	
 	//큐앤에이 코드
 	private Integer code;
+	
+	//공지사항 게시판
+	private int important;
+	private String option;
+	private String search;
+	private int page;
 	
 	public Integer getCode() {
 		return code;
@@ -181,6 +189,46 @@ public class PageVO {
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+	public int getTotalBlock() {
+		return totalBlock;
+	}
+
+	public void setTotalBlock(int totalBlock) {
+		this.totalBlock = totalBlock;
+	}
+
+	public int getImportant() {
+		return important;
+	}
+
+	public void setImportant(int important) {
+		this.important = important;
+	}
+
+	public String getOption() {
+		return option;
+	}
+
+	public void setOption(String option) {
+		this.option = option;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
 	}
 	
 }

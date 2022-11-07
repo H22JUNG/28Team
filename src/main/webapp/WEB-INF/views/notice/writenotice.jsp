@@ -44,6 +44,11 @@ main {
 .title {
 	border-top: 3px solid #D9D9D9;
 	padding: 10px;
+	border-bottom: 2px solid #D9D9D9;
+}
+
+.title>input[type="text"] {
+	border: 0;
 }
 
 .info {
@@ -65,6 +70,12 @@ main {
 .content {
 	padding: 50px 20px;
 	min-height: 50vh;
+}
+
+.content #content {
+	width: 100%;
+	height: 100%;
+	border: 0;
 }
 
 #golist {
@@ -113,6 +124,7 @@ main {
 	padding: 8px 10px;
 	font-size: 15px;
 }
+
 .update button:active {
 	background-color: #eaf7fb;
 }
@@ -121,66 +133,77 @@ main {
 <body>
 
 	<jsp:include page="../header.jsp"></jsp:include>
-	<main>
-		<div class="container">
-
-			<div class="head">
-				<h1>공지사항</h1>
-				<nav>
-					<ul>
-						<li><a href="${pageContext.request.contextPath}/">홈</a></li>
-						<li>〉</li>
-						<li>공지사항</li>
-					</ul>
-				</nav>
-			</div>
-
-			<div class="content-box">
-				<div class="title">
-					<span>제목</span>${notice.title}
+	<form action="${pageContext.request.contextPath}/insertNotice"
+		method="post">
+		<main>
+			<div class="container">
+				<div class="head">
+					<h1>공지사항</h1>
+					<nav>
+						<ul>
+							<li><a href="${pageContext.request.contextPath}/">홈</a></li>
+							<li>〉</li>
+							<li>공지사항</li>
+						</ul>
+					</nav>
 				</div>
-				<div class="info">
-					<span>작성일</span>${notice.createDate} <span>조회수</span>${notice.view}
-				</div>
-				<div class="content">${notice.content}</div>
-
-				<div class="buttons">
-					<c:if test="${admin != null}">
-					<div class="update">
-					<button id="delete">삭제</button>
-					<button id="update">수정하기</button>
+				<div class="content-box">
+					<div class="title">
+						<span>제목</span><input type="text" name="title" id="title"
+							value="${notice.title}" />
 					</div>
-					</c:if>
-					<div id="golist">목록으로</div>
-				</div>
-			</div>
+					<div class="content">
+						<textarea rows="" cols="" id="content" name="content"
+							onkeydown="resize" onkeyup="resize">${notice.content}</textarea>
+					</div>
 
-			<div class="controll">
-				<div class="prev">
-					<span>이전 페이지</span>
-					<p><a href="${pageContext.request.contextPath}/notice/${prevnotice.no}">${prevnotice.title}</a></p>
+					<div class="buttons">
+						<c:if test="${admin != null}">
+							<div class="update">
+								<button id="update">글쓰기</button>
+							</div>
+						</c:if>
+					</div>
 				</div>
-				<div class="next">
-					<span>다음 페이지</span>
-					<p><a href="${pageContext.request.contextPath}/notice/${nextnotice.no}">${nextnotice.title}</a></p>
+
+				<div class="controll">
+					<div class="prev">
+						<span>이전 페이지</span>
+						<p>
+							<a
+								href="${pageContext.request.contextPath}/notice/${prevnotice.no}">${prevnotice.title}</a>
+						</p>
+					</div>
+					<div class="next">
+						<span>다음 페이지</span>
+						<p>
+							<a
+								href="${pageContext.request.contextPath}/notice/${nextnotice.no}">${nextnotice.title}</a>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</main>
+		</main>
+	</form>
 	<jsp:include page="../footer.jsp"></jsp:include>
 
 	<script type="text/javascript">
 		document.getElementById("golist").addEventListener("click", function() {
 			location.href = "${pageContext.request.contextPath}/notice";
 		});
-		document.getElementById("update").addEventListener("click",function() {
-			location.href = "${pageContext.request.contextPath}/updateNotice/${notice.no}";
-		});
-		document.getElementById("delete").addEventListener("click",function() {
-			if(confirm("정말 삭제하시겠습니까?")) {
-			location.href = "${pageContext.request.contextPath}/deleteNotice?id="+${notice.id};
-			};
-		});
+
+		function resize() {
+			let textarea = document.querySelector('#content');
+
+			if (textarea.scrollHeight > document.querySelector(".content").offsetHeight) {
+				textarea.style.height = 'auto';
+				let height = textarea.scrollHeight; // 높이
+				textarea.style.height = `${height + 8}px`;
+			}
+		};
+
+		
+		
 	</script>
 </body>
 </html>

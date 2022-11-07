@@ -36,6 +36,9 @@ public interface ProjectDAO {
 	public List<ProductVO> selectCategory(ProductVO vo);
 	public List<ProductVO> selectBest(ProductVO vo);	
 	
+	// 메인페이지 베스트 리뷰
+	public List<ReviewVO> selectBestReview();
+	
 	//product List 출력 - 윤정
 	public List<ProductListVO> selectProductList();
 	public List<ProductListVO> serchProductList(ProductListVO vo);
@@ -165,8 +168,13 @@ public interface ProjectDAO {
 	public int deleteAdmin(UserVO uservo);
 	
 	// 공지사항 게시판
-	public List<NoticeVO> selectNotice(int important);
-	public NoticeVO selectDetailNotice(int id);
+	public int countNotice(PageVO vo);
+	public List<NoticeVO> selectNotice(PageVO vo);
+	public NoticeVO selectDetailNotice(int no);
+	public void updateNoticeView(int no);
+	public void insertNotice(NoticeVO vo);
+	public void updateNotice(NoticeVO vo);
+	public void deleteNotice(NoticeVO vo);
 	
 	// ================ 장바구니 ================
 	// 장바구니 삭제 - 지정한 row를 삭제하는 메서드

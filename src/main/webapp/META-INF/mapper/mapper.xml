@@ -107,6 +107,17 @@
 		order by view
 		limit 8;
 	</select>
+	
+	
+	<!-- 메인페이지 베스트 리뷰 -->
+	<select id="selectBestReview" resultType="reviewVO">
+		select content, review.pic1, review.pic2, stargrade, hits, code, product.name 'itemName'
+		from review inner join product  
+		on review.code = product.id
+		where stargrade = 5 and review.pic1 is not null
+		order by hits desc
+		limit 8;
+	</select>
 
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->
 	<!-- 관리자 페이지 - product 전체 list 뽑기 - 윤정 -->
@@ -869,28 +880,82 @@
 	<!-- 수정끝 -->
 
 	<!-- 공지 list -->
+	<select id="countNotice" resultType="int">
+	select count(*) from notice
+	where important = 0
+	<if test="important == 0 and option != null and !option.equals('') and search != null and !search.equals('')">
+			<choose>
+				<when test="option.equals('title')">
+					and title like concat('%',#{search},'%')
+				</when>
+				<when test="option.equals('content')">
+					and content like concat('%',#{search},'%')
+				</when>
+				<otherwise>
+					and (title like concat('%',#{search},'%') or content like concat('%',#{search},'%'))	
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	
 	<select id="selectNotice" resultType="noticeVO">
-		select id, title,
-		date_format(create_date, "%Y-%m-%d %T") 'createDate', view, important
-		from notice
+		WITH notice_rows AS(
+			SELECT *, ROW_NUMBER() over(ORDER BY create_date) 'no'
+			FROM notice)
+		SELECT id, title, content, date_format(create_date, "%Y-%m-%d %T") 'createDate', view, important, no
+		FROM notice_rows
 		where important = #{important}
-		order by createDate desc
+		<if test="important == 0 and option != null and !option.equals('') and search != null and !search.equals('')">
+			<choose>
+				<when test="option.equals('title')">
+					and title like concat('%',#{search},'%')
+				</when>
+				<when test="option.equals('content')">
+					and content like concat('%',#{search},'%')
+				</when>
+				<otherwise>
+					and (title like concat('%',#{search},'%') or content like concat('%',#{search},'%'))	
+				</otherwise>
+			</choose>
+		</if>
+		ORDER BY create_date desc
+		<if test="important == 0">
+			limit #{start}, #{cntPerPage}
+		</if>
 	</select>
 
 	<select id="selectDetailNotice" resultType="noticeVO">
-		select id, title,
-		content, date_format(create_date, "%Y-%m-%d %T") 'createDate', view,
-		important from notice
-		where id = #{id}
+		WITH notice_rows AS(
+			SELECT *, ROW_NUMBER() over(ORDER BY create_date) 'no'
+			FROM notice)
+		SELECT id, title,content, date_format(create_date, "%Y-%m-%d %T") 'createDate', view, important, no
+		FROM notice_rows
+		where no = #{no}
 	</select>
 
-	<!-- 공지 insert -->
+	<update id="updateNoticeView">
+		UPDATE notice INNER JOIN (SELECT n.id, ROW_NUMBER() over(ORDER BY create_date) 'no' FROM notice n) sub 
+		ON notice.id = sub.id
+		SET VIEW = VIEW +1
+		WHERE sub.no = #{no}
+	</update>
+
+	<!-- 공지 수정 삭제-->
 	<insert id="insertNotice">
-		insert into notice (title, content, create_date,
-		important)
+		insert into notice (title, content, create_date, important)
 		values(#{title}, #{content}, now(), #{important})
 	</insert>
-
+	<update id="updateNotice">
+		update notice INNER JOIN (SELECT n.id, ROW_NUMBER() over(ORDER BY create_date) 'no' FROM notice n) sub 
+		ON notice.id = sub.id
+		set title = #{title}, content = #{content}, important = #{important} 
+		where sub.no = #{no}
+	</update>
+	<delete id="deleteNotice">
+		delete from notice 
+		where id = #{id}
+	</delete>
+	
 	<!-- ====================장바구니==================== -->
 	<!-- 카트 삭제 -->
 	<delete id="deleteCart">

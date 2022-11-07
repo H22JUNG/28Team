@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.dao.ProjectDAO;
+import com.goodee.vo.NoticeVO;
 import com.goodee.vo.PageVO;
 import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.QnaVO;
@@ -217,16 +218,68 @@ public class BbsService {
 			return (dao.deleteAdmin(uservo) > 0) ? true : false;
 		}
 
-	// 공지사항
-	public void selectNotice(Model model) {
-		model.addAttribute("impnotice", dao.selectNotice(1));
-		model.addAttribute("notice", dao.selectNotice(0));
-	}
+		// 공지사항
+				public void selectNotice(Model model, PageVO vo) {
+					
+					// 중요 공지
+					vo.setImportant(1);
+					model.addAttribute("impnotice", dao.selectNotice(vo));
+					
+					// 일반 공지
+					vo.setImportant(0);
+					vo.setTotal(dao.countNotice(vo));
+					vo.setNowPage(vo.getPage());
+					vo.setCntPerPage(15);
+					vo.setCntPerBlock(5);
+					
+					
+					int totalPage = vo.getTotal() / vo.getCntPerPage();
+					totalPage = (vo.getTotal() % vo.getCntPerBlock() == 0)? totalPage : totalPage + 1;
+					vo.setTotalPage(totalPage);
+					
+					vo.setStart((vo.getPage() - 1) * vo.getCntPerPage());
+					vo.setEnd(vo.getPage() * vo.getCntPerPage());
+					
+					int initPage = (vo.getNowPage() - 1) / vo.getCntPerBlock() * vo.getCntPerBlock();
+					int startPage = initPage + 1;
+					vo.setStartPage(startPage);
+					
+					int endPage = initPage + vo.getCntPerBlock();
+					if (endPage > vo.getTotalPage()) {
+						endPage = vo.getTotalPage();
+					}
+					vo.setEndPage(endPage);
+					
+					int nowBlock = (vo.getNowPage() / vo.getCntPerBlock());
+					nowBlock = (vo.getNowPage() % vo.getCntPerBlock() == 0)? nowBlock : nowBlock + 1;  
+					vo.setNowBlock(nowBlock);
+					
+					int totalBlock = vo.getTotalPage()/vo.getCntPerBlock();
+					totalBlock = (vo.getTotalPage() % vo.getCntPerBlock() == 0)? totalBlock : totalBlock + 1;
+					vo.setTotalBlock(totalBlock);
+					
+					model.addAttribute("page", vo);
+					model.addAttribute("notice", dao.selectNotice(vo));
+				}
 
-	public void selectDetailNotice(Model model, int id) {
-		model.addAttribute("notice", dao.selectDetailNotice(id));
-		model.addAttribute("prevnotice", dao.selectDetailNotice(id - 1));
-		model.addAttribute("nextnotice", dao.selectDetailNotice(id + 1));
-	}
+				public void selectDetailNotice(Model model, int no) {
+					dao.updateNoticeView(no);
+					model.addAttribute("notice", dao.selectDetailNotice(no));
+					model.addAttribute("prevnotice", dao.selectDetailNotice(no - 1));
+					model.addAttribute("nextnotice", dao.selectDetailNotice(no + 1));
+				}
+				
+				public void insertNotice(NoticeVO vo) {
+					dao.insertNotice(vo);
+				}
+				public void updateNotice(NoticeVO vo) {
+					dao.updateNotice(vo);
+				}
+				public void deleteNotice(int id) {
+					NoticeVO vo = new NoticeVO();
+					vo.setId(id);
+					dao.deleteNotice(vo);
+				}
+
 
 }

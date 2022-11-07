@@ -1,15 +1,10 @@
 package com.goodee.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.goodee.dao.ProjectDAO;
-import com.goodee.vo.OptionVO;
-import com.goodee.vo.ProductListVO;
 import com.goodee.vo.ProductVO;
 
 @Service
@@ -21,11 +16,19 @@ public class ListService {
 		this.dao = dao;
 	}
 
+	public void selectTotalBest(Model model) {
+		ProductVO vo = new ProductVO();
+		model.addAttribute("best", dao.selectBest(vo));
+	}
 	public void selectCategory(ProductVO vo, Model model) {
 		model.addAttribute("list" , dao.selectCategory(vo));
 	}
 	public void selectBest(ProductVO vo, Model model) {
 		model.addAttribute("best", dao.selectBest(vo));
+	}
+	// 메인페이지 베스트 리뷰
+	public void selectBestReview(Model model) {
+		model.addAttribute("bestReview", dao.selectBestReview());
 	}
 	
 }

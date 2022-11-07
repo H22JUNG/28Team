@@ -29,6 +29,7 @@ import com.goodee.service.PayService;
 import com.goodee.service.ReviewService;
 import com.goodee.service.UserService;
 import com.goodee.vo.CartVO;
+import com.goodee.vo.NoticeVO;
 import com.goodee.vo.OptionVO;
 import com.goodee.vo.PageVO;
 import com.goodee.vo.ProductVO;
@@ -374,16 +375,47 @@ public class MoveController {
 	}
 
 	// 공지사항
+		@GetMapping("/notice")
+		public String moveNotice(Model model, PageVO vo) {
+			if(vo.getPage() == 0) {
+				vo.setPage(1);
+			}
+			bbsservice.selectNotice(model, vo);
+			return "notice/notice";
+		}
 
-	@GetMapping("/notice")
-	public String moveNotice(Model model) {
-		bbsservice.selectNotice(model);
-		return "notice/notice";
-	}
-
-	@GetMapping("/notice/{page}")
-	public String moveDetailNotice(@PathVariable("page") int page, Model model) {
-		bbsservice.selectDetailNotice(model, page);
-		return "notice/notice_detail";
-	}
+		@GetMapping("/notice/{no}")
+		public String moveDetailNotice(@PathVariable("no") int no, Model model) {
+			bbsservice.selectDetailNotice(model, no);
+			return "notice/notice_detail";
+		}
+		
+		@GetMapping("/updateNotice/{no}")
+		public String updateNotice(@PathVariable("no") int no, Model model) {
+			bbsservice.selectDetailNotice(model, no);
+			return "notice/updateNotice";
+		}
+		@PostMapping("/setNotice")
+		public String setNotice(NoticeVO vo) {
+			bbsservice.updateNotice(vo);
+			return "redirect:/notice";
+		}
+		@GetMapping("/writeNotice")
+		public String writeNotice(NoticeVO vo) {
+			return "notice/writenotice";
+		}
+		
+		@PostMapping("/insertNotice")
+		public String insertNotice(NoticeVO vo) {
+			bbsservice.insertNotice(vo);
+			return "redirect:/notice";
+		}
+		
+		@GetMapping("/deleteNotice")
+		public String deleteNotice(@RequestParam("id") int[] ids) {
+			for (int id : ids) {
+				bbsservice.deleteNotice(id);
+			}
+			return "redirect:/notice";
+		}
 }

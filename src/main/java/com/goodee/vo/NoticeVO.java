@@ -5,12 +5,14 @@ import org.apache.ibatis.type.Alias;
 @Alias("noticeVO")
 public class NoticeVO {
 
-	public int id;
-	public String title;
-	public String content;
-	public String createDate;
-	public int important;
-	public int view;
+	private int id;
+	private String title;
+	private String content;
+	private String createDate;
+	private int important;
+	private int view;
+	private int no;
+	
 	
 	public int getId() {
 		return id;
@@ -48,6 +50,13 @@ public class NoticeVO {
 	public void setView(int view) {
 		this.view = view;
 	}
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
+	
 	
 	
 }
