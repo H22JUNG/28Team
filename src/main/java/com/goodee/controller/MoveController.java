@@ -368,10 +368,9 @@ public class MoveController {
 
 	// 관리자 로그아웃
 	@GetMapping("/admin-logout")
-	public String logout(HttpSession session) {
+	public String adminlogout(HttpSession session) {
 		session.invalidate();
-		// session.removeAttribute("user");
-		return "redirect:/";
+		return "main";
 	}
 
 	// 공지사항
