@@ -164,7 +164,15 @@
             cursor: pointer;
         }
         
-                /* 장바구니 */
+        /* 장바구니 */
+        
+        /* 비어있을 경우 */
+        .cartEmpty {
+        	font-size: 300px;
+        	text-align: center;
+        	color: #4a4a4a;
+        }
+        
 		.cart_container {
             width: 70%;
             min-width: 800px;
@@ -609,7 +617,16 @@
         </aside>
         <section>
 
-		<!-- <p>${cartInfo} - 정보 제대로 넘어오는지 확인</p>  -->
+				<!-- 장바구니가 비었을 때 -->
+				<c:if test="${empty cartInfo}">
+					<div class="cartEmpty">
+						<h1>텅</h1>
+					</div>
+				</c:if>
+				
+				<!-- 장바구니 품목이 있을 때 -->
+				<c:if test="${!empty cartInfo}">
+				<!-- <p>${cartInfo} - 정보 제대로 넘어오는지 확인</p>  -->
 				<div class="cart_container">
 					<!-- 장바구니 header -->
 					<div class="ct_header">
@@ -771,6 +788,7 @@
 						<button type="button" class="order_btn">구매하기</button>
 					</div>
 				</div>
+				</c:if>
 				
                 <!-- 수량 조정 form -->
                 <form action="${pageContext.request.contextPath}/cart/update" method="post" class="quantity_update_form">
