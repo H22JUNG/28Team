@@ -49,16 +49,16 @@ main {
 	text-align: center;
 }
 
-.thead .th:nth-child(1){
+.thead .index{
 	flex: 1;
 }
-.thead .th:nth-child(2){
+.thead .title{
 	flex: 7;
 }
-.thead .th:nth-child(3){
+.thead .create{
 	flex: 1;
 }
-.thead .th:nth-child(4){
+.thead .view{
 	flex: 1;
 }
 
@@ -80,18 +80,18 @@ main {
 	text-align: center;
 }
 
-.tr .td:nth-child(1){
+.tr .index{
 	flex: 1;
 }
-.tr .td:nth-child(2){
+.tr .title{
 	text-align: left;
 	flex: 7;
 }
-.tr .td:nth-child(3){
+.tr .create{
 	flex: 1;
 	font-size: 13px;
 }
-.tr .td:nth-child(4){
+.tr .view{
 	flex: 1;
 }
 
@@ -207,26 +207,26 @@ input[type="text"] {
 			</nav>
 			</div>
 			<div class="table">
-				<div class="thead">
-					<div class="th">번호</div>
-					<div class="th">제목</div>
-					<div class="th">작성일</div>
-					<div class="th">조회</div>
+				<div class="thead" id="thead">
+					<div class="th index">번호</div>
+					<div class="th title">제목</div>
+					<div class="th create">작성일</div>
+					<div class="th view">조회</div>
 				</div>
 				<c:forEach var="impvo" items="${impnotice}">
 					<div class="tr important">
-						<div class="td">[공지]</div>
-						<div class="td"><a href="${pageContext.request.contextPath}/notice/${impvo.no}">${impvo.title}</a></div>
-						<div class="td">${impvo.createDate}</div>
-						<div class="td">${impvo.view}</div>
+						<div class="td index">[공지]</div>
+						<div class="td title"><a href="${pageContext.request.contextPath}/notice/${impvo.no}">${impvo.title}</a></div>
+						<div class="td create">${impvo.createDate}</div>
+						<div class="td view">${impvo.view}</div>
 					</div>
 				</c:forEach>
 				<c:forEach var="vo" items="${notice}" varStatus="status">
-					<div class="tr">
-						<div class="td">${page.total - page.start - status.index}</div>
-						<div class="td"><a href="${pageContext.request.contextPath}/notice/${vo.no}">${vo.title}</a></div>
-						<div class="td">${vo.createDate}</div>
-						<div class="td">${vo.view}</div>
+					<div class="tr vo">
+						<div class="td index">${page.total - page.start - status.index}</div>
+						<div class="td title"><a href="${pageContext.request.contextPath}/notice/${vo.no}">${vo.title}</a></div>
+						<div class="td create">${vo.createDate}</div>
+						<div class="td view">${vo.view}</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -306,6 +306,22 @@ input[type="text"] {
 		</div>
 	</main>
 	<jsp:include page="../footer.jsp"></jsp:include>
+
+
+	<script type="text/javascript">
+	var impids = new Array();
+	var ids = new Array();
+	</script>	
+	<c:forEach items="${impnotice}" var="impvo">
+	<script type="text/javascript">
+	impids.push("${impvo.id}");
+	</script>
+	</c:forEach>
+	<c:forEach items="${notice}" var="vo">
+	<script type="text/javascript">
+	ids.push("${vo.id}");
+	</script>
+	</c:forEach>
 	
 	<script type="text/javascript">
 		const pagebox = document.querySelectorAll(".pagebox");
@@ -337,8 +353,81 @@ input[type="text"] {
 		};
 		
 		document.getElementById("write").addEventListener("click",function() {
-			location.href="${pageContext.request.contextPath}/writenotice";
+			location.href="${pageContext.request.contextPath}/writeNotice";
 		});
+		
+		document.getElementById("delete").addEventListener("click",function(){
+			const thead = document.getElementById("thead");
+				let input = document.createElement("input");
+				input.setAttribute("type", "checkbox");
+				input.setAttribute("name","select-all");
+				input.setAttribute("id","select-all");
+				input.setAttribute("checked",true);
+				input.setAttribute("onchange", "selectAll()");
+				thead.prepend(input);
+			
+			
+			const importantDiv = document.getElementsByClassName("important");
+			
+			
+			for (let i = 0; i < importantDiv.length; i++) {
+									
+				let input = document.createElement("input");
+				input.setAttribute("type", "checkbox");
+				input.setAttribute("name", "id");
+				input.setAttribute("checked", true);
+				input.setAttribute("id","impid"+impids[i]);
+				input.setAttribute("value", impids[i]);
+				importantDiv[i].prepend(input);
+			}
+			
+			const voDiv = document.getElementsByClassName("vo");
+			for (let i = 0; i < voDiv.length; i++) {
+				let input = document.createElement("input");
+				input.setAttribute("type", "checkbox");
+				input.setAttribute("name", "id");
+				input.setAttribute("checked", true);
+				input.setAttribute("id","id"+ids[i]);
+				input.setAttribute("value", ids[i]);
+				voDiv[i].prepend(input);
+			}
+			
+			const button = document.createElement("button");
+			button.setAttribute("id","selectDelete");
+			button.innerText = "선택삭제"
+			document.querySelector(".update").prepend(button);
+			
+			document.getElementById("selectDelete").addEventListener("click",function(){
+				if(confirm("정말 삭제하시겠습니까?")) {
+					const checked = document.querySelectorAll("input[name=id]");
+					var str = "";
+					for (var i = 0; i < checked.length; i++) {
+						if(checked[i].checked) {
+							str += "id=";
+							str += checked[i].value;
+							str += "&";
+						}			
+					}
+					
+					location.href = "${pageContext.request.contextPath}/deleteNotice?"+str.slice(0, -1);
+				};
+			});
+		});
+		
+		function selectAll() {
+			let cks = document.querySelectorAll("input[name='id']");
+			if(document.querySelector("#select-all").checked) {
+				for (var i = 0; i < cks.length; i++) {
+					cks[i].checked = true;
+				}
+			} else {
+				for (var i = 0; i < cks.length; i++) {
+					cks[i].checked= false;
+				}
+			}
+		};
+		
+		
 	</script>
 </body>
 </html>

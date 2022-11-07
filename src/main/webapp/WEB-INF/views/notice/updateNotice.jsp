@@ -74,8 +74,10 @@ main {
 
 .content #content {
 	width: 100%;
-	height: 100%;
+	height: 500px;
 	border: 0;
+	resize: none;
+	padding: 10px;
 }
 
 #golist {
@@ -135,6 +137,7 @@ main {
 	<jsp:include page="../header.jsp"></jsp:include>
 	<form action="${pageContext.request.contextPath}/setNotice"
 		method="post">
+		<input type="hidden" name="no" id="no" value="${notice.no}" readonly="readonly"/>
 		<main>
 			<div class="container">
 				<div class="head">
@@ -154,16 +157,15 @@ main {
 					</div>
 					<div class="content">
 						<textarea rows="" cols="" id="content" name="content"
-							onkeydown="resize" onkeyup="resize">${notice.content}</textarea>
+							onkeydown="resize()" onkeyup="resize()">${notice.content}</textarea>
 					</div>
 
 					<div class="buttons">
-						<c:if test="${admin != null}">
+					<input type="checkbox" id="important" name="important" value="1"/><label for="important">중요한 공지로 설정</label>						
 							<div class="update">
 								<button id="delete">삭제</button>
 								<button id="update">확인</button>
 							</div>
-						</c:if>
 						<div id="golist">목록으로</div>
 					</div>
 				</div>
@@ -197,18 +199,18 @@ main {
 		function resize() {
 			let textarea = document.querySelector('#content');
 
-			if (textarea.scrollHeight > document.querySelector(".content").offsetHeight) {
+			if (textarea.scrollHeight > textarea.offsetHeight) {
 				textarea.style.height = 'auto';
 				let height = textarea.scrollHeight; // 높이
-				textarea.style.height = `${height + 8}px`;
+				textarea.style.height = ''+(height + 8)+'px';
 			}
 		};
 
-		document.getElementById("delete").addEvenetListener("click",function(e) {
+		document.getElementById("delete").addEventListener("click",function(e) {
 					e.preventDefault();
 					if(confirm("정말 삭제하시겠습니까?")) {
 					location.href = "${pageContext.request.contextPath}/deleteNotice?id="+${notice.id};
-					};
+			};
 		});
 		
 	</script>

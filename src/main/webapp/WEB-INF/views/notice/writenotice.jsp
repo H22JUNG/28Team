@@ -74,8 +74,10 @@ main {
 
 .content #content {
 	width: 100%;
-	height: 100%;
+	height: 500px;
 	border: 0;
+	resize: none;
+	padding: 10px;
 }
 
 #golist {
@@ -154,34 +156,18 @@ main {
 					</div>
 					<div class="content">
 						<textarea rows="" cols="" id="content" name="content"
-							onkeydown="resize" onkeyup="resize">${notice.content}</textarea>
+							onkeydown="resize()" onkeyup="resize()">${notice.content}</textarea>
 					</div>
 
 					<div class="buttons">
-						<c:if test="${admin != null}">
+						<input type="checkbox" id="important" name="important" value="1"/><label for="important">중요한 공지로 설정</label>	
 							<div class="update">
 								<button id="update">글쓰기</button>
 							</div>
-						</c:if>
 					</div>
 				</div>
 
-				<div class="controll">
-					<div class="prev">
-						<span>이전 페이지</span>
-						<p>
-							<a
-								href="${pageContext.request.contextPath}/notice/${prevnotice.no}">${prevnotice.title}</a>
-						</p>
-					</div>
-					<div class="next">
-						<span>다음 페이지</span>
-						<p>
-							<a
-								href="${pageContext.request.contextPath}/notice/${nextnotice.no}">${nextnotice.title}</a>
-						</p>
-					</div>
-				</div>
+				
 			</div>
 		</main>
 	</form>
@@ -195,13 +181,12 @@ main {
 		function resize() {
 			let textarea = document.querySelector('#content');
 
-			if (textarea.scrollHeight > document.querySelector(".content").offsetHeight) {
+			if (textarea.scrollHeight > textarea.offsetHeight) {
 				textarea.style.height = 'auto';
 				let height = textarea.scrollHeight; // 높이
-				textarea.style.height = `${height + 8}px`;
+				textarea.style.height = ''+(height + 8)+'px';
 			}
 		};
-
 		
 		
 	</script>

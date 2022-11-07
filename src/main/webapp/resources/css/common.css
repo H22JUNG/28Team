@@ -75,6 +75,9 @@
         	justify-content: center;
         	align-items: center;
         }
+       	header .header-top .side ul li:first-child {
+       		gap: 15px;
+       	}
            header .header-top .side ul .mymenu::after {
         	content: "";
             display: inline-block;
