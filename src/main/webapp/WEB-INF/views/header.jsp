@@ -8,11 +8,15 @@
             <div class="side">
                 <ul>
                     <c:if test="${admin != null}">
-                    <li><a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=">관리자페이지</a></li>
+                    <li><a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=" style="font-weight:900;">관리자페이지</a></li>
                     </c:if>
+                    <c:if test="${empty admin}">
                     <li><img src="${pageContext.request.contextPath}/image/search.png" alt="" id="search-logo" onclick="search()"></li>
+                    </c:if>
                     <c:if test="${user != null}">
-                    	<li><a href="${pageContext.request.contextPath}/cart/${user.userid}"><img src="${pageContext.request.contextPath}/image/bag_buy_cart.png" alt="" id="cart-logo"></a></li>
+                    	<c:if test="${empty admin}">
+                    		<li><a href="${pageContext.request.contextPath}/cart/${user.userid}"><img src="${pageContext.request.contextPath}/image/bag_buy_cart.png" alt="" id="cart-logo"></a></li>
+                    	</c:if>
                     </c:if>
                     <c:if test="${user eq null}">
                     <li class="mymenu"><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
@@ -20,7 +24,9 @@
                     <c:if test="${user != null}">
                     <li class="mymenu"><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
                     </c:if>
-                    <li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
+                    <c:if test="${empty admin}">
+                    	<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
+                	</c:if>
                 </ul>
             </div>
         </div>

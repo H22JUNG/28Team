@@ -272,6 +272,40 @@ main .best-review {
 	width: 100%;
 	text-align: right;
 }
+
+/* 팝업 */
+#popup1 {
+   	position : absolute;
+   	top : 100px;
+   	left : 500px;
+   	background-color : #FFECC8;
+}
+#popup1  img{
+   	width : 650px;
+   	height : 500px;
+}
+#popup-close {
+   	padding : 4px 10px;
+   	display : flex;
+   	justify-content : space-between;
+}
+#popup-close label{
+   	padding-left : 7px;
+  	font-size : 16px;
+  	color : #111F36;
+}
+#popup-close #popup-button{
+   	padding : 5px 8px;
+   	margin-bottom : 1px;
+   	background-color : #B28F3A;
+   	color : white;
+   	border : none;
+   	font-weight : 900;
+   	cursor : pointer;
+}
+#popup-close #popup-button:hover {
+   	background-color : #9D7E33;
+}
 </style>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/common.css">
@@ -393,7 +427,13 @@ main .best-review {
 		</div>
 	</main>
 	<jsp:include page="footer.jsp"></jsp:include>
-
+	<div id="popup1">
+   		<a href="${pageContext.request.contextPath}/notice/13"><img src="image/popup1.png" alt="" /></a>
+   	<div id="popup-close">
+   		<div><input type="checkbox" id="1days" value="check"/><label for="1days">오늘 하루 보지않기</label></div>
+   		<div><button id="popup-button">닫기</button></div>
+   	</div>	
+    </div>
 	<script>
         var slideIndex = 0;
 
@@ -482,6 +522,22 @@ main .best-review {
 			}
 		});
 		
+		
+		//------팝업 쿠키설정------
+        document.getElementById("popup-button").addEventListener("click", function(){
+        	if(document.getElementById("1days").checked==true) {
+        		fetch("${pageContext.request.contextPath}/makeCookie");
+        	}
+        	document.getElementById("popup1").style.display = "none";
+        });
+       
+		 window.addEventListener("DOMContentLoaded", function(){
+			if(${empty cookie}){
+				document.getElementById("popup1").style.display = "";
+			} else {
+				document.getElementById("popup1").style.display = "none";
+			}
+		}); 
     </script>
 </body>
 

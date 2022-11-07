@@ -37,7 +37,7 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
+	min-width: 500px;
 	max-width: 100%;
 }
 
@@ -247,10 +247,6 @@ input::-webkit-input-placeholder {
 	border: none;
 }
 
-.detail_top h2 {
-	
-}
-
 .detail_top h2 #itemName{
 	margin: 15px 0 15px;
 	width : 100%;
@@ -344,10 +340,6 @@ input::-webkit-input-placeholder {
 	text-align: center;
 }
 
-.tabmenu input[type="radio"] {
-	display: none;
-}
-
 .tabmenu label {
 	display: inline-block;
 	width: 33%;
@@ -358,6 +350,10 @@ input::-webkit-input-placeholder {
 	font-size: 20px;
 	text-align: center;
 	cursor: pointer;
+}
+
+#detaillabel{
+	color: #21A5B5;
 }
 
 .tabmenu label:nth-of-type(2) {
@@ -371,23 +367,19 @@ input::-webkit-input-placeholder {
 /*탭의 내용부분*/
 .tabmenu>div {
 	display: none;
-	font-size: 30px;
+	font-size: 28px;
+	padding: 20px;
 	min-height: 300px;
-	display:block;
-}
-/* 
-.tabmenu #tab1:checked ~ #content1, .tabmenu #tab2:checked ~ #content2,
-	.tabmenu #tab3:checked ~ #content3 {
 	display: block;
-} 
- */
+}
+
 hr {
 	margin-top: 20px;
 }
 
 /*상세정보 내용*/
-#content1 {
-	width: 70vw;
+#content1 img {
+	width: 70%;
 }
 
 /* 리뷰 */
@@ -425,6 +417,7 @@ summary {
 	text-align: left;
 }
 
+
 /* go-btn */
 .go-btn {
 	position: fixed;
@@ -456,10 +449,16 @@ input {
 	width: 50px;
 }
 
-.dc {
-	width: 80px;
+#discount {
+	width: 30px;
 	padding: 0px;
 	margin: 0px;
+	color: #21A5B5;
+	font-size: 23px;
+	font-weight: bold;
+}
+
+#discount-span {
 	color: #21A5B5;
 	font-size: 23px;
 	font-weight: bold;
@@ -477,9 +476,9 @@ input {
 	}
 }
 
-.cost {
+#cost {
 	text-decoration: line-through;
-	width: 70px;
+	width: 71px;
 }
 
 .selected_option {
@@ -488,8 +487,12 @@ input {
 	height: 100px;
 	border: 1px solid black;
 }
-.options #itemName:focus{
+
+.options #name:focus{
 	outline : none;
+}
+#procode{
+	display : none;
 }
 #recentDESC{
 	background : #21A5B5;
@@ -502,7 +505,7 @@ input {
 	<main>
 		<div class="mypage-container">
 			<!--상세페이지 상단(사진슬라이드+옵션부분)-->
-						<div class="detail_top">
+			<div class="detail_top">
 				<!--상세페이지 윗부분의 좌측(사진슬라이드)-->
 				<div id="wrapper">
 					<div id="slider-wrap">
@@ -559,10 +562,8 @@ input {
 									value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
 									id="price"> <span>원</span></td>
 							</tr>
-							<tr>
+							<tr id = "procode">
 								<th><label>상품코드 </label></th>
-								<%-- <td><input type="hidden" name="proNum" value="${detailOptionVO.proNum}"
-										id="product_code"></td>--%>
 								<td><select name="proNum" id="code">
 										<c:forEach var="vo" items="${detailOptionVO}">
 											<c:forTokens var="vo1" items="${vo.proNum}" delims=",">
@@ -583,7 +584,7 @@ input {
 									id="save"><span>원</span></td>
 							</tr>
 
-							<%-- <c:if test="${detailOptionVO[1].size != null}">--%>
+							<c:if test="${detailOptionVO[1].size != null}">
 								<tr>
 									<th>옵션선택(사이즈)</th>
 									<td><select name="size" id="select_size"
@@ -596,33 +597,45 @@ input {
 											</c:forEach>
 									</select></td>
 								</tr>
-							<%-- </c:if>--%>
+							</c:if>
 
-							<%--c:if test="${detailOptionVO[1].color != null}"--%>
-								<tr>
-									<th>옵션선택(색상)</th>
-									<td>
-										<select name="color" id="select_color"
-											data-size="10" class="form-control opt_select_color">
-											<option value="선택없음">-선택없음-</option>
-										</select>
-										</td>
-								</tr>
-							<%--/c:if--%>
-								<!--tr>
-									<th>옵션선택(색상)</th>
-									<td><select name="opt_select_1" id="select_color" class="form-control opt_select_color">
-													<option value="nochoice">-선택없음-</option>
-													<option value="${optionVO.color}">${optionVO.color}</option>
+							<c:if test="${detailOptionVO[1].color != null}">
+							<c:choose>
+								<c:when test="${detailOptionVO[1].size != null}">
+									<tr>
+										<th>옵션선택(색상)</th>
+										<td>
+											<select name="color" id="select_color"
+												data-size="10" class="form-control opt_select_color">
+												<option value="선택없음">-선택없음-</option>
 											</select>
-									</td>
-								</tr-->
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise> 
+									<tr>
+										<th>옵션선택(색상)</th>
+										<td>
+											<select name="color" id="select_color"
+												data-size="10" class="form-control opt_select_color">
+												<option value="선택없음">-선택없음-</option>
+												<c:forEach var="vo2" items="${selectOptionSize}">
+													<c:forTokens var="vo3" items="${vo2.color}" delims=",">
+														<option value="${vo3}">${vo3}</option>
+													</c:forTokens>
+												</c:forEach>
+											</select>
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+							</c:if>
 								
 							<tr>
 								<th><label>구매수량</label></th>
 								<td><select name="count" id="select_count"
 									class="form-control">
-										<c:forEach begin="1" end="${detailOptionVO[1].stock}"
+										<c:forEach begin="1" end="${detailOptionVO[0].stock}"
 											var="count">
 											<option>${count}</option>
 										</c:forEach>
@@ -640,10 +653,9 @@ input {
 						<input type="submit" value="장바구니" id="btn1" /> 
 						<input type="submit" value="구매하기" id="btn2" />
 					</div>
-					<input type="hidden" name="pic1" id="pic1"
-							value="${detailVO.pic1}" /> <input type="hidden"
-							value="${detailVO.price}" id="cost1" name="price">
-							<input type="hidden" name="salePrice" id="salePrice" value= "<fmt:parseNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}"/>" />
+					<input type="hidden" name="pic1" id="pic1" value="${detailVO.pic1}" /> 
+					<input type="hidden" value="${detailVO.price}" id="cost1" name="price">
+					<input type="hidden" name="salePrice" id="salePrice" value= "<fmt:parseNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}"/>" />
 				</form>
 				</div><!-- 옵션 끝 -->
 			</div><!-- 디테일-탑 -->
@@ -653,129 +665,129 @@ input {
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a>
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}"><label for="tab2" style="color:#21A5B5;">리뷰</label></a>
 				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
-				<div id="content1">
-<div id="reviewContainer">
-    <div id="REVIEW">
-        <h2>REVIEW</h2>
-        <p>상품의 사용후기를 적어주세요</p>
-    </div> 
-	
-
-     <h3>REVIEW(${review.size()}개)</h3>
-    <div class="Allstar">
-        <div class="starsScore">
-            <span id="star">★</span><span id="grade">${starGradeAvg}</span>
-            <c:if test="${review.size() != 0}">
-	           <h3>
-	     	      <fmt:parseNumber var="percent" value="${(starGradeCount[4] + starGradeCount[3] + starGradeCount[2]) /reviewCount * 100}" integerOnly="true" />
-	      	      ${percent}%의 구매자가 이 상품을 좋아합니다</h3>
-	           </c:if>
-	           <c:if test="${review.size() == 0}">
-	           	<h3> 아직 리뷰를 남긴 구매자가 없습니다</h3>
-	           </c:if>
-            <button id="writeReview" style="cursor : pointer;">상품 리뷰 작성하기</button>
-        </div>
-        <div class="starsGrade">
-            <div class="starsGrade-detail">
-                <p class="starsGrade-detail-p">아주 좋아요</p>
-                <div class="starsBack">
-                    <div class="starsfront" style="width: ${starGradeCount[4] / reviewCount * 100}%;"></div>
-                </div>
-                <p class="starsGrade-detail-p">${starGradeCount[4]}</p>
-            </div>
-            <div class="starsGrade-detail">
-                <p class="starsGrade-detail-p">맘에 들어요</p>
-                <div class="starsBack">
-                    <div class="starsfront" style="width: ${starGradeCount[3] / reviewCount * 100}%;"></div>
-                </div>
-                <p class="starsGrade-detail-p">${starGradeCount[3]}</p>
-            </div>
-            <div class="starsGrade-detail">
-                <p class="starsGrade-detail-p">보통이에요&nbsp;</p>
-                <div class="starsBack">
-                    <div class="starsfront" style="width: ${starGradeCount[2] / reviewCount * 100}%;"></div>
-                </div>
-                <p class="starsGrade-detail-p">${starGradeCount[2]}</p>
-            </div>
-            <div class="starsGrade-detail">
-                <p class="starsGrade-detail-p">그냥 그래요</p>
-                <div class="starsBack">
-                    <div class="starsfront" style="width: ${starGradeCount[1] / reviewCount * 100}%;"></div>
-                </div>
-                <p class="starsGrade-detail-p">${starGradeCount[1]}</p>
-            </div>
-            <div class="starsGrade-detail">
-                <p class="starsGrade-detail-p">별로에요&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                <div class="starsBack">
-                    <div class="starsfront" style="width: ${starGradeCount[0] / reviewCount * 100}%;"></div>
-                </div>
-                <p class="starsGrade-detail-p">${starGradeCount[0]}</p>
-            </div>
-        </div>
-    </div>
-
-		<div class="image">
-			<span>
-				<h3>사진(${picCount}개)</h3> <a href="#" id="allpic">사진 리뷰 전체보기</a>
-			</span>
-			<div class="imgPreview">
-				<c:forEach var="pic" items="${pic}">
-					<img src="${pageContext.request.contextPath}/upload/${pic.pic1}" alt="">
-				</c:forEach>
-			</div>
-		</div>
+		<div id="content2">
+		<div id="reviewContainer">
+		    <div id="REVIEW">
+		        <h2>REVIEW</h2>
+		        <p>상품의 사용후기를 적어주세요</p>
+		    </div> 
+			
 		
-		<!-- 최신순 기본 -->
-		<div class="review">
-		<c:if test="${review.size() !=0 }">
-	        <button id="recentDESC">최신순</button>
-	        <button id="starDESC">별점순</button>
-	        <button id="hitDESC">추천순</button>
-		</c:if>
-		<c:if test="${review.size() eq 0 }">
-	      	<h6 style="text-align:center; padding-top:30px;">아직 작성된 리뷰가 없습니다</h6>
-		</c:if>
-        <c:forEach var="review" items="${review}">
-        <div class="review-container">
-            <div class="reviewContentBox">
-                <p id="review-title">
-                	<span class="title-star">
-         			<c:forEach begin="1" end="${review.stargrade }">★</c:forEach>
-         			</span>${review.title }</p>
-                <div id="review-content"><p>${review.content }</p></div>
-         	   <c:if test="${review.pic1 != null}">
-              	  <img src="${pageContext.request.contextPath}/upload/${review.pic1}" alt="">
-               </c:if>
-         	   <c:if test="${review.pic2 != null}">
-             	  <img src="${pageContext.request.contextPath}/upload/${review.pic2}" alt="">
-               </c:if>
-            </div>
-				<div class="reviewComment">
-					<p id="hits${review.id}" style="cursor:pointer;">👍🏻 도움돼요(${review.hits})</p>
-					<p>	
-					<!-- 	commentCount.id=review.id 일치하면  -->
-						<c:forEach var="count" items="${commentCount}">
-							<c:if test="${count.reviewId eq review.id}">
-								<a href="" class="commCount" id="commCount">댓글보기(${count.commentCount}개)</a>
-							</c:if>
+		     <h3>REVIEW(${review.size()}개)</h3>
+		    <div class="Allstar">
+		        <div class="starsScore">
+		            <span id="star">★</span><span id="grade">${starGradeAvg}</span>
+		            <c:if test="${review.size() != 0}">
+			           <h3>
+			     	      <fmt:parseNumber var="percent" value="${(starGradeCount[4] + starGradeCount[3] + starGradeCount[2]) /reviewCount * 100}" integerOnly="true" />
+			      	      ${percent}%의 구매자가 이 상품을 좋아합니다</h3>
+			           </c:if>
+			           <c:if test="${review.size() == 0}">
+			           	<h3> 아직 리뷰를 남긴 구매자가 없습니다</h3>
+			           </c:if>
+		            <button id="writeReview" style="cursor : pointer;">상품 리뷰 작성하기</button>
+		        </div>
+		        <div class="starsGrade">
+		            <div class="starsGrade-detail">
+		                <p class="starsGrade-detail-p">아주 좋아요</p>
+		                <div class="starsBack">
+		                    <div class="starsfront" style="width: ${starGradeCount[4] / reviewCount * 100}%;"></div>
+		                </div>
+		                <p class="starsGrade-detail-p">${starGradeCount[4]}</p>
+		            </div>
+		            <div class="starsGrade-detail">
+		                <p class="starsGrade-detail-p">맘에 들어요</p>
+		                <div class="starsBack">
+		                    <div class="starsfront" style="width: ${starGradeCount[3] / reviewCount * 100}%;"></div>
+		                </div>
+		                <p class="starsGrade-detail-p">${starGradeCount[3]}</p>
+		            </div>
+		            <div class="starsGrade-detail">
+		                <p class="starsGrade-detail-p">보통이에요&nbsp;</p>
+		                <div class="starsBack">
+		                    <div class="starsfront" style="width: ${starGradeCount[2] / reviewCount * 100}%;"></div>
+		                </div>
+		                <p class="starsGrade-detail-p">${starGradeCount[2]}</p>
+		            </div>
+		            <div class="starsGrade-detail">
+		                <p class="starsGrade-detail-p">그냥 그래요</p>
+		                <div class="starsBack">
+		                    <div class="starsfront" style="width: ${starGradeCount[1] / reviewCount * 100}%;"></div>
+		                </div>
+		                <p class="starsGrade-detail-p">${starGradeCount[1]}</p>
+		            </div>
+		            <div class="starsGrade-detail">
+		                <p class="starsGrade-detail-p">별로에요&nbsp;&nbsp;&nbsp;&nbsp;</p>
+		                <div class="starsBack">
+		                    <div class="starsfront" style="width: ${starGradeCount[0] / reviewCount * 100}%;"></div>
+		                </div>
+		                <p class="starsGrade-detail-p">${starGradeCount[0]}</p>
+		            </div>
+		        </div>
+		    </div>
+		
+				<div class="image">
+					<span>
+						<h3>사진(${picCount}개)</h3> <a href="#" id="allpic">사진 리뷰 전체보기</a>
+					</span>
+					<div class="imgPreview">
+						<c:forEach var="pic" items="${pic}">
+							<img src="${pageContext.request.contextPath}/upload/${pic.pic1}" alt="">
 						</c:forEach>
-					</p>
-					<div class="dropdown" id="dropdown${review.id}">
-						<c:forEach var="comment" items="${comment}">
-							<c:if test="${comment.reviewId eq review.id}">
-								<p>${comment.username}: ${comment.content}</p>
-							</c:if>
-						</c:forEach>
-						<form action="" method="post">
-							<textarea name="recomm" id="commentContent${review.id}" cols="40" rows="3"
-								placeholder="댓글을 남겨주세요"></textarea>
-							<button id="commentInsert${review.id}">등록</button>
-						</form>
 					</div>
 				</div>
-				</div>
-            </c:forEach>
-    </div>
+				
+				<!-- 최신순 기본 -->
+				<div class="review">
+				<c:if test="${review.size() !=0 }">
+			        <button id="recentDESC">최신순</button>
+			        <button id="starDESC">별점순</button>
+			        <button id="hitDESC">추천순</button>
+				</c:if>
+				<c:if test="${review.size() eq 0 }">
+			      	<h6 style="text-align:center; padding-top:30px;">아직 작성된 리뷰가 없습니다</h6>
+				</c:if>
+		        <c:forEach var="review" items="${review}">
+		        <div class="review-container">
+		            <div class="reviewContentBox">
+		                <p id="review-title">
+		                	<span class="title-star">
+		         			<c:forEach begin="1" end="${review.stargrade }">★</c:forEach>
+		         			</span>${review.title }</p>
+		                <div id="review-content"><p>${review.content }</p></div>
+		         	   <c:if test="${review.pic1 != null}">
+		              	  <img src="${pageContext.request.contextPath}/upload/${review.pic1}" alt="">
+		               </c:if>
+		         	   <c:if test="${review.pic2 != null}">
+		             	  <img src="${pageContext.request.contextPath}/upload/${review.pic2}" alt="">
+		               </c:if>
+		            </div>
+						<div class="reviewComment">
+							<p id="hits${review.id}" style="cursor:pointer;">👍🏻 도움돼요(${review.hits})</p>
+							<p>	
+							<!-- 	commentCount.id=review.id 일치하면  -->
+								<c:forEach var="count" items="${commentCount}">
+									<c:if test="${count.reviewId eq review.id}">
+										<a href="" class="commCount" id="commCount">댓글보기(${count.commentCount}개)</a>
+									</c:if>
+								</c:forEach>
+							</p>
+							<div class="dropdown" id="dropdown${review.id}">
+								<c:forEach var="comment" items="${comment}">
+									<c:if test="${comment.reviewId eq review.id}">
+										<p>${comment.username}: ${comment.content}</p>
+									</c:if>
+								</c:forEach>
+								<form action="" method="post">
+									<textarea name="recomm" id="commentContent${review.id}" cols="40" rows="3"
+										placeholder="댓글을 남겨주세요"></textarea>
+									<button id="commentInsert${review.id}">등록</button>
+								</form>
+							</div>
+						</div>
+						</div>
+		            </c:forEach>
+		    </div>
  
 			<!-- =====================페이징========================== -->
             <div class="pageing">
@@ -1079,189 +1091,209 @@ input {
 	<jsp:include page="../footer.jsp"></jsp:include>
 
 
-	<script type="text/javascript">
+<script type="text/javascript">
 	
-	// 옵션 및 사이즈 중복 제거하기
-	window.addEventListener("DOMContentLoaded", function(){
-		let size = document.getElementById("select_size").value;
-		const colorSelects = document.querySelectorAll("select[name='opt_select_1']");
-		
-		for (let cselect of colorSelects) {
-			
-			if(size != cselect.dataset.size){
-				cselect.style.display = "none";
-			}
-		}
+$(document).ready(function(){
+	
+	var move_product_qna = '${move_product_qna}';
+	if ( move_product_qna ) {
+		$('#tab3').click();	
+	}
+});
+	// 상품코드 선택
+	$("#select_color option:eq(1)").prop("selected",true);
+	$("#select_color option:eq(2)").prop("selected",true);
+
+	// 사진슬라이드 
+	var slideWrapper = document.getElementById('slider-wrap');
+	var slideIndex = 0;
+	var slides = document.querySelectorAll('#slider-wrap ul li');
+	var totalSlides = slides.length;
+	var sliderWidth = slideWrapper.clientWidth;
+	slides.forEach(function(element) {
+		element.style.width = sliderWidth + 'px';
+	})
+	var slider = document.querySelector('#slider-wrap ul#slider');
+	slider.style.width = sliderWidth * totalSlides + 'px';
+	var nextBtn = document.getElementById('next');
+	var prevBtn = document.getElementById('previous');
+	nextBtn.addEventListener('click', function() {
+		plusSlides(1);
 	});
-	
-	document.querySelector("select[name='opt_select_2']").addEventListener("change", function(){
-		let size = document.getElementById("select_size").value;
-		const colorSelects = document.querySelectorAll("select[name='opt_select_1']");
-		
-		for (let cselect of colorSelects) {
-			if(size != cselect.dataset.size){
-				cselect.style.display = "none";
-			}else{
-				cselect.style.display = "block";
-			}
-		}
+	prevBtn.addEventListener('click', function() {
+		plusSlides(-1);
 	});
-	
-	window.addEventListener("DOMContentLoaded", function(){
-		let color = document.getElementById("select_color").value;
-		let size = document.getElementById("select_size").value;
-		
-		const codeSelects = document.querySelectorAll("select[name='code']");
-		
-		for (let cselect of codeSelects) {
-			
-			if(size != cselect.dataset.size){
-				cselect.style.display = "none";
-			}
-		}
-	});
-	
-	document.querySelector("select[name='code']").addEventListener("change", function(){
-		let size = document.getElementById("select_size").value;
-		let color = document.getElementById("select_color").value;
 
-		const codeSelects = document.querySelectorAll("select[name='code']");
-		
-		for (let cselect of codeSelects) {
-			if(size != cselect.dataset.color){
-				cselect.style.display = "none";
-			}else{
-				cselect.style.display = "block";
-			}
-		}
-	});
-	
-		// 사진슬라이드
-		var slideWrapper = document.getElementById('slider-wrap');
-		var slideIndex = 0;
-		var slides = document.querySelectorAll('#slider-wrap ul li');
-		var totalSlides = slides.length;
-		var sliderWidth = slideWrapper.clientWidth;
-		slides.forEach(function(element) {
-			element.style.width = sliderWidth + 'px';
-		})
-		var slider = document.querySelector('#slider-wrap ul#slider');
-		slider.style.width = sliderWidth * totalSlides + 'px';
-		var nextBtn = document.getElementById('next');
-		var prevBtn = document.getElementById('previous');
-		nextBtn.addEventListener('click', function() {
-			plusSlides(1);
-		});
-		prevBtn.addEventListener('click', function() {
-			plusSlides(-1);
-		});
+	function plusSlides(n) {
+		showSlides(slideIndex += n);
+	}
 
-		function plusSlides(n) {
-			showSlides(slideIndex += n);
+	function currentSlides(n) {
+		showSlides(slideIndex = n);
+	}
+
+	function showSlides(n) {
+		slideIndex = n;
+		if (slideIndex == -1) {
+			slideIndex = totalSlides - 1;
+		} else if (slideIndex === totalSlides) {
+			slideIndex = 0;
 		}
 
-		function currentSlides(n) {
-			showSlides(slideIndex = n);
-		}
-
-		function showSlides(n) {
-			slideIndex = n;
-			if (slideIndex == -1) {
-				slideIndex = totalSlides - 1;
-			} else if (slideIndex === totalSlides) {
-				slideIndex = 0;
-			}
-
-			slider.style.left = -(sliderWidth * slideIndex) + 'px';
-			pagination();
-		}
-
-		slides.forEach(function() {
-			var li = document.createElement('li');
-			document.querySelector('#pagination-wrap ul').appendChild(li);
-		})
-
-		function pagination() {
-			var dots = document.querySelectorAll('#pagination-wrap ul li');
-			dots.forEach(function(element) {
-				element.classList.remove('active');
-			});
-			dots[slideIndex].classList.add('active');
-		}
-
+		slider.style.left = -(sliderWidth * slideIndex) + 'px';
 		pagination();
-		var autoSlider = setInterval(function() {
-			plusSlides(1);
-		}, 3000);
-		
-		
-		// 장바구니 이동
-		$("#btn1").click(function() {
-			var id = $("#id").val();
-			var count = $("#select_count").val();
-			var size = $("#select_size").val();
-			var color = $("#select_color").val();
-			var name = $("#itemName").val();
-			var code = $("#code").val();
-			var dc = $("#dc").val();
-			var price = $("#cost1").val();
-			var pic1 = $("#pic1").val();
-			
-			
-			console.log("id : " + id);
-			console.log("count : " + count);
-			console.log("size : " + size);
-			console.log("color : " + color);
-			console.log("name : " + name);
-			console.log("code : " + code);
-			console.log("dc : " + dc);
-			console.log("price : " + price);
-			console.log("pic1 : " + pic1);
-			
+	}
 
-			var data = {
-				id : id,
-				count : count,
-				size : size,
-				color : color,
-				name : name,
-				code : code,
-				dc : dc,
-				price : price,
-				pic1 : pic1
-				
-			};
+	slides.forEach(function() {
+		var li = document.createElement('li');
+		document.querySelector('#pagination-wrap ul').appendChild(li);
+	})
 
-			$.ajax({
-				url : "${pageContext.request.contextPath}/cart",
-				type : "post",
-				data : data,
-				success : function(result) {
-					if(result ==1){
-						if(confirm("장바구니에 담으시겠습니까?")){
-							alert("장바구니에 담았습니다.");
-							$("#select_count").val("1");
-						}
-					} else{
-						alert("로그인 후 이용해주세요.");
-						$("#select_count").val("1");
-					}
-					},
-					error : function() {
-					alert("장바구니에 담을 수 없습니다.");
-				}
-			});
+	function pagination() {
+		var dots = document.querySelectorAll('#pagination-wrap ul li');
+		dots.forEach(function(element) {
+			element.classList.remove('active');
 		});
+		dots[slideIndex].classList.add('active');
+	}
+
+	pagination();
+	var autoSlider = setInterval(function() {
+		plusSlides(1);
+	}, 3000);
+	
+	// 장바구니 이동
+	$("#btn1").click(function(e) {
+		e.preventDefault();
+		var id = $("#id").val();
+		var count = $("#select_count").val();
+		var size = $("#select_size").val();
+		var color = $("#select_color").val();
+		var itemName = $("#itemName").val();
+		var proNum = $("#code").val();
+		var discount = $("#discount").val();
+		var price = $("#cost1").val();
+		var pic1 = $("#pic1").val();
 		
-		document.getElementById("btn2").addEventListener("click",function(e){
-			e.preventDefault();
-			if("${sessionScope.user.userid}" == "") {
-				alert("로그인 후 이용해주세요.");
-			} else {
+		
+		console.log("id : " + id);
+		console.log("count : " + count);
+		console.log("size : " + size);
+		console.log("color : " + color);
+		console.log("itemName : " + itemName);
+		console.log("proNum : " + proNum);
+		console.log("discount : " + discount);
+		console.log("price : " + price);
+		console.log("pic1 : " + pic1);
+		
+
+		var data = {
+			id : id,
+			count : count,
+			size : size,
+			color : color,
+			itemName : itemName,
+			proNum : proNum,
+			discount : discount,
+			price : price,
+			pic1 : pic1
+			
+		};
+
+		$.ajax({
+			url : "${pageContext.request.contextPath}/detailcart",
+			type : "post",
+			data : data,
+			success : function(result) {
+				if(result ==1){
+					if(confirm("장바구니에 담으시겠습니까?")){
+						alert("장바구니에 담았습니다.");
+						$("#select_count").val("1");
+						if(confirm("장바구니로 이동하시겠습니까?")){
+							cancelButton:'다음에'
+							location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
+						}
+					}
+				} else{
+					alert("로그인 후 이용해주세요.");
+					$("#select_count").val("1");
+				}
+				},
+				error : function() {
+				alert("장바구니에 담을 수 없습니다.");
+			}
+		});
+	});
+	
+	// 구매하기 이동
+	document.getElementById("btn2").addEventListener("click",function(e){
+		e.preventDefault();
+		if("${sessionScope.user.userid}" == "") {
+			alert("로그인 후 이용해주세요.");
+		} else {
+			if(confirm("바로 구매하시겠습니까?")){
 				document.getElementById("now-buy").submit();
 			}
-		});
+		}
+	});
 	
+	
+	// 선택한상품 div창
+	document.querySelector("select[name='count']").addEventListener("change", function(){
+		let size = document.getElementById("select_size").value;
+		let color = document.getElementById("select_color").value;
+		let count = document.getElementById("select_count").value;
+		
+		//html 추가로 생성 작업
+		$('.optionSize').remove();
+		var html = '';
+		html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
+		html += '<div class="optionSize">사이즈 : '+ size +'</div>';
+		html += '<div class="optionSize">색상 : '+ color +'</div>';
+		html += '<div class="optionSize">수량 : '+ count +'</div>';
+		
+		$('#selectoption').append(html);
+		
+		 $(".optionSize").css("width", 500);
+		
+	});
+	
+	// 사이즈선택 시 색상select창
+	$( "#select_size" ).change(function() {
+		  $('#select_color').empty();
+		  let option = $("<option value='선택없음'>-선택없음-</option>");                
+		  $('#select_color').append(option);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/colorbyidandsize",
+			type : "post",
+			data : {id: $("#proid").val(), size: $("#select_size").val()},
+			success : function(result) {
+				result.forEach(function(item) {
+					let option = $("<option value='"+item+"'>"+item+"</option>");                
+					$('#select_color').append(option);
+				});
+			},
+			error : function() {
+				alert("죄송합니다. 구매하실 수 없습니다.");
+			}
+		});	  
+	});
+	
+	//색상선택 시 상품코드 정해짐
+	$( "#select_color" ).change(function() {
+		$.ajax({
+			url : "${pageContext.request.contextPath}/pronumbysizeandcolor",
+			type : "post",
+			data : {id: $("#proid").val(), size: $("#select_size").val(), color: $("#select_color").val()},
+			success : function(result) {
+				console.log(result);
+				$("#code").val(result).prop("selected", true);
+			},
+			error : function() {
+				alert("죄송합니다. 구매하실 수 없습니다.");
+			}
+		});	  
+	});
 
 	</script>
 
