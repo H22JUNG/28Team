@@ -101,12 +101,23 @@ main section {
 	color: #616161;
 	font-size: 12px;
 	width: 40px;
+	height: 25px;
+	background-color: white;
+    border: 2px solid #21A5B5;
+    color: #21A5B5;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 #search select {
 	color: #616161;
 	font-size: 13px;
-	width: 100px;
+	width: 110px;
+    height: 25px;
+}
+
+#content {
+	height: 25px;
 }
 
 .row {
@@ -250,6 +261,7 @@ td {
                             <div id="search">
                                 <form action="${pageContext.request.contextPath}/serch" method="post">
                                     <select name="order" id="order">
+                                    	<option value="" selected>카테고리 선택</option>
                                         <option value="category1">대분류</option>
                                         <option value="category2">소분류</option>
                                         <option value="proNum">상품코드</option>

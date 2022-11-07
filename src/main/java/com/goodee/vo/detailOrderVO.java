@@ -4,6 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("detailVO")
 public class detailOrderVO {
+	private String userid;
 	private String orderName;
 	private String orderDate;
 	private String pay;
@@ -22,6 +23,14 @@ public class detailOrderVO {
 	private String orderNum;
 	private int payResult;
 	
+	
+	
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 	public int getPayResult() {
 		return payResult;
 	}

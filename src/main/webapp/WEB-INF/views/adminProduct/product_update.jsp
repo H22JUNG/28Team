@@ -358,7 +358,7 @@ input:read-only {
 								<div class="form-group productInfo">
 									<div>
 										<label>상품명</label> <input name="name"
-											value="${productUpdateList.get(0).NAME}" class="form-control" required="required" placeholder="상품명을 입력하세요.">
+											value="${productUpdateList.get(0).NAME}" class="form-control" readonly="readonly">
 									</div>
 									<div>
 										<label>상품가격</label> <input name="price"

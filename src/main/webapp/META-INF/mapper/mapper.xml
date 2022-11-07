@@ -1040,7 +1040,7 @@
 
 	<!-- 모달창으로 가져올 상세정보 -->
 	<select id="selectOrderModal" resultType="detailVO">
-		SELECT order_name,
+		SELECT i.userid, i.cart_listnum, order_name,
 		date_format(order_date,'%Y-%m-%d') 'orderDate', pay, address,
 		detailAddress, extraAddress, order_tel, total_price, point,
 		item_name,
@@ -1049,7 +1049,9 @@
 		u INNER JOIN orderitem i
 		ON u.cart_listnum = i.cart_listnum
 		WHERE
-		order_num = #{orderNum};
+		order_num = #{orderNum}
+		and
+		i.userid = #{userid}
 	</select>
 
 	<!-- delivnum Update -->

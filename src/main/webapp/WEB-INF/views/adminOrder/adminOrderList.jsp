@@ -422,7 +422,10 @@ table {
                             	<c:forEach var="vo" items="${orderList}" varStatus="vs">
 	                                <tr>
 	                                	<td>${vo.orderDate}</td>
-	                                    <td><a class="btn-open-popup" data-value="${vo.orderNum}">${vo.orderNum}</a></td>
+	                                    <td>
+	                                    	<a class="btn-open-popup" data-value="${vo.orderNum}">${vo.orderNum}</a>
+	                                    	<input type="hidden" class="user-id" data-value="${vo.userid}"/>
+	                                    </td>
 	                                    <td>${vo.userid}</td>
 	                                    <td>\ <fmt:formatNumber value="${vo.totalPrice}" pattern="#,###"></fmt:formatNumber></td>
 	                                    <td>
@@ -525,6 +528,9 @@ table {
 		//모달 스크립트
 		let modal = document.querySelector('.modal');
 		let btnOpenPopups = document.querySelectorAll('.btn-open-popup');	//얘가 foreach로 도는 주문번호
+		
+		let userids = document.querySelectorAll('.user-id');
+		
 		let modalCloseBtn = document.querySelector('.modal_close_btn');
 		
 		/*
@@ -545,10 +551,13 @@ table {
 				modal.style.display = 'block';
 				
 				let orderNum = btnOpenPopups[i].getAttribute('data-value');
+				let userid  = userids[i].getAttribute('data-value');
 				console.log(orderNum);
+				console.log("userid : "+userid);
+				
 				
 				// orderNum과 일치하는 쿼리문 가져오기
-				const simple_data = {orderNum};
+				const simple_data = {orderNum, userid};
 				console.log(simple_data);
 				
 				$.ajax({
