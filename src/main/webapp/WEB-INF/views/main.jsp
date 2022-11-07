@@ -531,13 +531,13 @@ main .best-review {
         	document.getElementById("popup1").style.display = "none";
         });
        
-		 window.addEventListener("DOMContentLoaded", function(){
+		 /* window.addEventListener("DOMContentLoaded", function(){
 			if(${empty cookie}){
 				document.getElementById("popup1").style.display = "";
 			} else {
-				document.getElementById("popup1").style.display = "none";
+				document.getElementById("popup1").style.display = "";
 			}
-		}); 
+		});  */
     </script>
 </body>
 

@@ -34,7 +34,6 @@ public class HomeController {
 			if(cookies != null) {
 				for(int i = 0; i<cookies.length; i++){
 					String name = cookies[i].getName(); // 쿠키 이름
-					//String value = cookies[i].getValue(); // 쿠키 값
 					if(name.equals("popupClose")){
 						model.addAttribute("cookie", name);
 					}

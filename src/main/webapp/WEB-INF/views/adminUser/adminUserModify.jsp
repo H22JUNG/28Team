@@ -240,7 +240,7 @@ tr:last-child>td, tr:last-child>th {
 					<div class="menu">
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=" class="menu1">✔ 회원관리</a>
+								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=" class="menu1" style="color: #21A5B5;">✔ 회원관리</a>
 							</h4>
 						</li>
 						<li>
