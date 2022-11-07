@@ -488,9 +488,10 @@ input {
 	border: 1px solid black;
 }
 
-.options #name:focus{
+.options #itemName:focus{
 	outline : none;
 }
+
 #procode{
 	display : none;
 }
