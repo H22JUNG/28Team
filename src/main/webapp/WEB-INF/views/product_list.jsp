@@ -295,6 +295,7 @@ main .bestitem-container .bestitem-list {
     font-size: 15px;
     text-align: center;
     color: #b2b2b2;
+    font-weight: normal;
 }
 
 .bestitem-name .item-info{
@@ -358,6 +359,7 @@ main .item-container .item-list>p {
     font-size: 15px;
     text-align: center;
     color: #b2b2b2;
+    font-weight: normal;
 }
 
 .itemname .item-info {
@@ -488,9 +490,8 @@ main .item-container .item-list>p {
 		<aside>
 			<ul class="outer-cate">
 				<li><input type="text" name="search" id="aside-search" placeholder="검색어를 입력해 주세요"/>
-				<img
-						src="${pageContext.request.contextPath}/image/search.png"
-						alt="" /></li>
+				<img src="${pageContext.request.contextPath}/image/search.png" alt="" id="search-button"/></li>
+				
 				<li><a
 					href="${pageContext.request.contextPath}/category/furniture">가구<img
 						src="${pageContext.request.contextPath}/image/icons/bed-icon.png" alt="" /></a>
@@ -549,8 +550,19 @@ main .item-container .item-list>p {
 						alt="" /></a></li>
 			</ul>
 		</aside>
+		<script type="text/javascript">
+			document.querySelector("#search-button").addEventListener("click",function(){
+				let search = document.getElementById("aside-search").value;
+				if(search != "") {
+					location.href = "${pageContext.request.contextPath}/searchProduct?search="+search;
+				}
+			});		
+		</script>
 
 		<div class="item-container">
+		
+		<c:choose>
+		<c:when test="${best != null}">
 			<div class="bestitem-container">
 				<span id="scroll-left">〈</span>
 				<span id="scroll-right">〉</span>
@@ -617,6 +629,11 @@ main .item-container .item-list>p {
 					</div>
 					</div>
 			</div>
+			</c:when>
+			<c:otherwise>
+				<p id="search-result"><span>${productVO.search}</span> 에 대한 검색 결과 입니다.</p> 
+			</c:otherwise>
+			</c:choose>
 			<div class="item-list">
 				<div class="select-box">
 					<p>전체 ${fn:length(list)}개</p>
@@ -735,7 +752,65 @@ main .item-container .item-list>p {
 	<jsp:include page="footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
+	// aside
+	const header = document.querySelector("header");
+	const footer = document.querySelector("footer");
+	const aside = document.querySelector("aside");
+	const itemContainer = document.querySelector(".item-container");
+	const asideSearch = document.querySelector("#aside-search");
+	
+	for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
+		document.querySelectorAll(".inner-cate")[i].style.display = "none";
+	}
+	
+	aside.classList.remove("asideout");
+	aside.style.position="absolute";	
+	if (window.scrollY-header.offsetHeight > 0) {
+		aside.style.top = window.scrollY-header.offsetHeight +"px";
 		
+	} else {
+		aside.style.top ="0";
+	}
+	
+	
+	
+	function scrollAside(){
+		aside.style.position="absolute";	
+		aside.style.top="0";
+		
+		if(window.scrollY > header.offsetHeight && (window.scrollY + aside.offsetHeight) < footer.offsetTop) {
+			aside.style.position="fixed";
+		}else if((window.scrollY + aside.offsetHeight) >= footer.offsetTop) {
+			aside.style.position="absolute";
+			aside.style.top="calc( 100% - "+aside.offsetHeight+"px )";
+		}
+		
+	}
+	
+	window.addEventListener("scroll", scrollAside);
+	function mousemove(event){
+		if(event.pageX < aside.offsetWidth+100 && event.pageY >= header.offsetHeight ){
+			for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
+				document.querySelectorAll(".inner-cate")[i].style.display = "block";
+			}
+			aside.classList.remove("asidein");
+			aside.classList.add("asideout");
+			asideSearch.style.visibility = "visible";
+		} else {
+			if(aside.classList.contains("asideout")){
+			for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
+				document.querySelectorAll(".inner-cate")[i].style.display = "none";
+			}
+			aside.classList.remove("asideout");
+			aside.classList.add("asidein");
+			asideSearch.style.visibility = "hidden";
+			}
+		}
+	}
+
+	window.addEventListener('mousemove', mousemove);	
+	
+	
 		// 베스트아이템 슬라이드
 		const bestList = document.getElementById("bestlist");
 		const bestWrap = document.getElementById("bestwrap");
@@ -768,68 +843,12 @@ main .item-container .item-list>p {
 				bestWrap.classList.remove("slide-right");
 				bestWrap.classList.add("slide-left");
 				rScroll.style.visibility="visible";
+
 				lScroll.style.visibility="hidden";
 			}
 		});
 		
 		
-		// aside
-		const header = document.querySelector("header");
-		const footer = document.querySelector("footer");
-		const aside = document.querySelector("aside");
-		const itemContainer = document.querySelector(".item-container");
-		const asideSearch = document.querySelector("#aside-search");
-		
-		for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
-			document.querySelectorAll(".inner-cate")[i].style.display = "none";
-		}
-		
-		aside.classList.remove("asideout");
-		aside.style.position="absolute";	
-		if (window.scrollY-header.offsetHeight > 0) {
-			aside.style.top = window.scrollY-header.offsetHeight +"px";
-			
-		} else {
-			aside.style.top ="0";
-		}
-		
-		
-		
-		function scrollAside(){
-			aside.style.position="absolute";	
-			aside.style.top="0";
-			
-			if(window.scrollY > header.offsetHeight && (window.scrollY + aside.offsetHeight) < footer.offsetTop) {
-				aside.style.position="fixed";
-			}else if((window.scrollY + aside.offsetHeight) >= footer.offsetTop) {
-				aside.style.position="absolute";
-				aside.style.top="calc( 100% - "+aside.offsetHeight+"px )";
-			}
-			
-		}
-		
-		window.addEventListener("scroll", scrollAside);
-		function mousemove(event){
-			if(event.pageX < aside.offsetWidth+100 && event.pageY >= header.offsetHeight ){
-				for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
-					document.querySelectorAll(".inner-cate")[i].style.display = "block";
-				}
-				aside.classList.remove("asidein");
-				aside.classList.add("asideout");
-				asideSearch.style.visibility = "visible";
-			} else {
-				if(aside.classList.contains("asideout")){
-				for (var i = 0; i < document.querySelectorAll(".inner-cate").length; i++) {
-					document.querySelectorAll(".inner-cate")[i].style.display = "none";
-				}
-				aside.classList.remove("asideout");
-				aside.classList.add("asidein");
-				asideSearch.style.visibility = "hidden";
-				}
-			}
-		}
-
-		window.addEventListener('mousemove', mousemove);
 	</script>
 </body>
 </html>
