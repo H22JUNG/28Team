@@ -274,12 +274,7 @@ form div label {
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 이벤트관리</a>
-							</h4>
-						</li>
-						<li>
-							<h4>
-								<a href="">✔ 관리자 정보수정</a>
+								<a href="${pageContext.request.contextPath}/admin-admin-list">✔ 관리자 정보수정</a>
 							</h4>
 						</li>
 						<li>

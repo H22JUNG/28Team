@@ -131,31 +131,34 @@ public interface ProjectDAO {
 	public List<OptionVO> selectOptionColor(String id);
 	public List<String> selectColorByIdAndSize(OptionVO optionVO);
 	public String selectProNumBySizeAndColor(OptionVO optionVO);
-			
+				
 	//장바구니 담기
 	public int addCart(CartVO cartvo);
-			
+				
 	//Q&A 게시판
 	public int selectQnaCount();  
 	public List<QnaVO> QnaList(PageVO pagevo);
 	//Q&A 타이틀 누르면 이동
 	public QnaVO selectQna(String id);
+	public QnaCommentVO selectQnaComment(String id); //답변글
 	//Q&A 수정, 생성, 삭제
-	public int updateQna(QnaVO qnavo);
+	public int updateQna(QnaVO qnavo); //원글수정
 	public int insertQna(QnaVO qnavo);
-	public int deleteQna(QnaVO qnavo);
+	public int deleteQna(QnaVO qnavo); //원글삭제
+	public int deleteQnaComment(QnaCommentVO commentvo); //답변삭제
 	//Q&A 조회수
 	public int qnaCount(String id);
-			
+	public int selectQnaCommentCount(String id);
+				
 	//Q&A 답글기능
 	public int insertReply(QnaCommentVO commentvo);
-			
+				
 	//이너 Q&A 댓글기능
 	public List<QnaVO> selectBBSList(PageVO pagevo);
 	public QnaVO selectBBS(String id);	
 	public List<QnaCommentVO> selectCommentList(@Param("root") int root);
 	public int insertComment(QnaCommentVO commentvo);
-			
+				
 	//관리자 정보수정
 	public List<UserVO> adminList();
 	public UserVO adminListId(String id);

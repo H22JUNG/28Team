@@ -31,7 +31,6 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
 	max-width: 100%;
 }
 
@@ -241,7 +240,7 @@ input::-webkit-input-placeholder {
 	border: none;
 }
 
-.detail_top h2 #name {
+.detail_top h2 #itemName {
 	margin: 15px 0 15px;
 	width: 100%;
 	border: none;
@@ -334,10 +333,6 @@ input::-webkit-input-placeholder {
 	text-align: center;
 }
 
-.tabmenu input[type="radio"] {
-	display: none;
-}
-
 .tabmenu label {
 	display: inline-block;
 	width: 33%;
@@ -348,6 +343,10 @@ input::-webkit-input-placeholder {
 	font-size: 20px;
 	text-align: center;
 	cursor: pointer;
+}
+
+#detaillabel {
+	color: #21A5B5;
 }
 
 .tabmenu label:nth-of-type(2) {
@@ -361,15 +360,11 @@ input::-webkit-input-placeholder {
 /*탭의 내용부분*/
 .tabmenu>div {
 	display: none;
-	font-size: 60px;
+	font-size: 14px;
 	padding: 20px;
 	display: block;
 }
 
-/*.tabmenu #tab1:checked ~ #content1, .tabmenu #tab2:checked ~ #content2,
-	.tabmenu #tab3:checked ~ #content3 {
-	display: block;
-}*/
 hr {
 	margin-top: 20px;
 }
@@ -377,12 +372,12 @@ hr {
 /*상세정보 내용*/
 #content1 img {
 	width: 70%;
-	padding : 0px;
+	padding: 0px;
 }
 
 #content2 {
 	width: 70vw;
-	padding : 0px;
+	padding: 0px;
 }
 
 #content3 {
@@ -486,8 +481,12 @@ input {
 	border: 1px solid black;
 }
 
-.options #name:focus {
+.options #itemName:focus {
 	outline: none;
+}
+
+#procode {
+	display: none;
 }
 
 /* QNA css*/
@@ -566,11 +565,11 @@ a {
 }
 
 .qna_list .category, .date {
-	width: 15%;
+	width: 18%;
 }
 
 .qna_list .title {
-	width: 50%;
+	width: 47%;
 }
 
 .qna_list tbody .title {
@@ -585,7 +584,6 @@ a {
 .qna_page {
 	margin-top: 30px;
 	text-align: center;
-	font-size: 0;
 }
 
 .qna_page a {
@@ -593,9 +591,6 @@ a {
 	width: 32px;
 	box-sizing: border-box;
 	height: 32px;
-	border: 1px solid #ddd;
-	border-left: 0;
-	vertical-align: middle;
 	line-height: 100%;
 }
 
@@ -610,14 +605,74 @@ a {
 	padding-top: 9px;
 }
 
-.qna_page a:first-child {
-	border-left: 1px solid #ddd;
+.qna_page a {
+	color: #21A5B5;
 }
 
 .qna_page a.page.on {
 	border-color: #21A5B5;
 	background: #21A5B5;
 	color: #fff;
+}
+
+#modal{
+	background-color: #d3d3d3;
+	position : fixed;
+	top : 30%;
+	left : 33%;
+	width : 27.5%;
+	opacity : 80%;
+	text-align: center;
+	display : none;
+}
+
+#modal #modalfont{
+	padding-top: 20px;
+}
+
+#modal>#content{
+	width: 350px;
+	height : 100px;
+	margin : 15px auto;
+	padding: 15px;
+	background-color: #fff;
+}
+
+#modal .close{
+	position : absolute;
+	top: 4px;
+	right : 5px;
+	font-size: 20px;
+	border: 0;
+	background-color: #d3d3d3;
+}
+
+#modal #btnCheck{
+	background-color: white;
+	color: #21A5B5;
+	border : 1px solid #21A5B5;
+	border-radius : 10px;
+	width : 50px;
+}
+
+#password{
+	border : 1px solid #21A5B5;
+	border-radius : 5px;
+	width : 30%;
+}
+
+#password:focus{
+	outline: 1px solid #21A5B5;
+}
+
+#modal .close:hover, #modal .close:focus{
+	color : #21A5B5;
+	cursor: pointer;
+}
+
+#modal #btnCheck:hover{
+	background-color: #21A5B5;
+	color : white;
 }
 </style>
 </head>
@@ -638,9 +693,6 @@ a {
 								<li><img src="${detailVO.pic4}" alt=""></li>
 							</c:if>
 						</ul>
-						<input type="hidden" name="pic1" id="pic1"
-							value="${detailVO.pic1}" /> <input type="hidden"
-							value="${detailVO.price}" id="cost1">
 
 						<!--사진슬라이드 버튼-->
 						<div class="btns" id="next">
@@ -660,107 +712,140 @@ a {
 					<span><i class="fa fa-chevron-up"></i></span>
 				</div>
 				<div class="options">
-					<h2>
-						<input type="text" value="${detailVO.name}" id="name">
-					</h2>
-					<table id="productTable">
-						<colgroup>
-							<!--이름쪽은 변하지 않고, 옵션쪽은 유동적이게-->
-							<col style="width: 173px;">
-							<col>
-						</colgroup>
-						<tbody>
-							<tr>
-								<th><label>가격 </label></th>
-								<td><input type="text"
-									value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원"
-									id="cost"><label for="discount"></label> <input
-									type="text" value="${detailVO.discount}" name="discount"
-									id="discount"><span id="discount-span">%</span></td>
-							</tr>
-							<tr>
-								<th><label>판매가격 </label></th>
-								<td><input type="text"
-									value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
-									id="price"> <span>원</span></td>
-							</tr>
-							<tr>
-								<th><label>상품코드 </label></th>
-								<td><select name="code" id="code">
-										<c:forEach var="vo" items="${detailOptionVO}">
-											<c:forTokens var="vo1" items="${vo.proNum}" delims=",">
-												<option value="${vo1}">${vo1}</option>
-											</c:forTokens>
-										</c:forEach>
-								</select></td>
-								<td><input type="hidden" value="${detailVO.id}" id="id"></td>
-							</tr>
-							<tr>
-								<th>배송비</th>
-								<td><input type="text" value="2,500"><span>원</span></td>
-							</tr>
-							<tr>
-								<th><label>적립금 </label></th>
-								<td><input type="text"
-									value="<fmt:formatNumber value="${(detailVO.price - (detailVO.price * (detailVO.discount/100))) * 0.05}" pattern="#,###" />"
-									id="save"><span>원</span></td>
-							</tr>
+					<!-- 옵션시작 -->
+					<form action="${pageContext.request.contextPath}/NowBuyController"
+						method="post" id="now-buy">
 
-							<%-- <c:if test="${detailOptionVO[1].size != null}">--%>
-							<tr>
-								<th>옵션선택(사이즈)</th>
-								<td><select name="opt_select_2" id="select_size"
-									class="form-control opt_select_size">
-										<option value="선택없음">-선택없음-</option>
-										<c:forEach var="vo2" items="${selectOptionSize}">
-											<c:forTokens var="vo3" items="${vo2.size}" delims=",">
-												<option value="${vo3}">${vo3}</option>
-											</c:forTokens>
-										</c:forEach>
-								</select></td>
-							</tr>
-							<%-- </c:if>--%>
+						<h2>
+							<input type="text" value="${detailVO.name}" id="itemName"
+								name="itemName">
+						</h2>
+						<table id="productTable">
+							<colgroup>
+								<!--이름쪽은 변하지 않고, 옵션쪽은 유동적이게-->
+								<col style="width: 173px;">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th><label>가격 </label></th>
+									<td><input type="text"
+										value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원"
+										id="cost"><label for="discount"></label> <input
+										type="text" value="${detailVO.discount}" name="discount"
+										id="discount"><span id="discount-span">%</span></td>
+								</tr>
+								<tr>
+									<th><label>판매가격 </label></th>
+									<td><input type="text"
+										value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
+										id="price"> <span>원</span></td>
+								</tr>
+								<tr id="procode">
+									<th><label>상품코드 </label></th>
+									<td><select name="proNum" id="code">
+											<c:forEach var="vo" items="${detailOptionVO}">
+												<c:forTokens var="vo1" items="${vo.proNum}" delims=",">
+													<option value="${vo1}">${vo1}</option>
+												</c:forTokens>
+											</c:forEach>
+									</select></td>
+									<td><input type="hidden" value="${detailVO.id}" id="id"></td>
+								</tr>
+								<tr>
+									<th>배송비</th>
+									<td><input type="text" value="2,500"><span>원</span></td>
+								</tr>
+								<tr>
+									<th><label>적립금 </label></th>
+									<td><input type="text"
+										value="<fmt:formatNumber value="${(detailVO.price - (detailVO.price * (detailVO.discount/100))) * 0.05}" pattern="#,###" />"
+										id="save"><span>원</span></td>
+								</tr>
 
-							<%--c:if test="${detailOptionVO[1].color != null}"--%>
-							<tr>
-								<th>옵션선택(색상)</th>
-								<td><select name="opt_select_1" id="select_color"
-									data-size="10" class="form-control opt_select_color">
-										<option value="선택없음">-선택없음-</option>
-								</select></td>
-							</tr>
-							<%--/c:if--%>
+								<c:if test="${detailOptionVO[1].size != null}">
+									<tr>
+										<th>옵션선택(사이즈)</th>
+										<td><select name="size" id="select_size"
+											class="form-control opt_select_size">
+												<option value="선택없음">-선택없음-</option>
+												<c:forEach var="vo2" items="${selectOptionSize}">
+													<c:forTokens var="vo3" items="${vo2.size}" delims=",">
+														<option value="${vo3}">${vo3}</option>
+													</c:forTokens>
+												</c:forEach>
+										</select></td>
+									</tr>
+								</c:if>
 
-							<tr>
-								<th><label>구매수량</label></th>
-								<td><select name="select_count" id="select_count"
-									class="form-control">
-										<option value="선택없음">-수량선택-</option>
-										<c:forEach begin="1" end="${detailOptionVO[1].stock}"
-											var="count">
-											<option>${count}</option>
-										</c:forEach>
-								</select></td>
-							</tr>
-						</tbody>
-					</table>
-					<div id="selectoption"></div>
-					<input type="hidden" name="productId" id="proid"
-						value="${detailVO.id}">
+								<c:if test="${detailOptionVO[1].color != null}">
+									<c:choose>
+										<c:when test="${detailOptionVO[1].size != null}">
+											<tr>
+												<th>옵션선택(색상)</th>
+												<td><select name="color" id="select_color"
+													data-size="10" class="form-control opt_select_color">
+														<option value="선택없음">-선택없음-</option>
+												</select></td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<tr>
+												<th>옵션선택(색상)</th>
+												<td><select name="color" id="select_color"
+													data-size="10" class="form-control opt_select_color">
+														<option value="선택없음">-선택없음-</option>
+														<c:forEach var="vo2" items="${selectOptionSize}">
+															<c:forTokens var="vo3" items="${vo2.color}" delims=",">
+																<option value="${vo3}">${vo3}</option>
+															</c:forTokens>
+														</c:forEach>
+												</select></td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
 
-					<!--장바구니/구매하기 버튼-->
-					<div class="datail_top_btns">
-						<input type="submit" value="장바구니" id="btn1" />
-						 <input type="submit" value="구매하기" id="btn2" />
-					</div>
+								<tr>
+									<th><label>구매수량</label></th>
+									<td><select name="count" id="select_count"
+										class="form-control">
+											<c:forEach begin="1" end="${detailOptionVO[0].stock}"
+												var="count">
+												<option>${count}</option>
+											</c:forEach>
+									</select></td>
+								</tr>
+							</tbody>
+						</table>
+						<div id="selectoption"></div>
+						<input type="hidden" name="productId" id="proid"
+							value="${detailVO.id}">
+
+						<!--장바구니/구매하기 버튼-->
+						<div class="datail_top_btns">
+							<input type="submit" value="장바구니" id="btn1" /> <input
+								type="submit" value="구매하기" id="btn2" />
+						</div>
+						<input type="hidden" name="pic1" id="pic1"
+							value="${detailVO.pic1}" /> <input type="hidden"
+							value="${detailVO.price}" id="cost1" name="price"> <input
+							type="hidden" name="salePrice" id="salePrice"
+							value="<fmt:parseNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}"/>" />
+					</form>
 				</div>
+				<!-- 옵션 끝 -->
 			</div>
+			<!-- 디테일-탑 -->
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">
-				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
-				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label
+					for="tab1">상세정보</label></a> <a
+					href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label
+					for="tab2">리뷰</label></a> <a
+					href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label
+					for="tab3" id="detaillabel">상품문의</label></a>
 				<div id="content1"></div>
 				<div id="content2"></div>
 				<div id="content3">
@@ -783,46 +868,71 @@ a {
 										</tr>
 									</thead>
 									<tbody>
+										<!-- code와 상세페이지id가 같으면 -->
 										<c:forEach var="vo" items="${qnaVO1}">
-											<tr>
-												<td class="num">${vo.id}</td>
-												<td class="category">${vo.qnaCategory}</td>
-												<td class="title">
-													<a href="${pageContext.request.contextPath}/detail_qna/${vo.id}/${detailVO.id}">
+											<c:if test="${vo.code eq detailVO.id}">
+												<tr>
+													<td class="num">${vo.id}</td>
+													<td class="category">${vo.qnaCategory}</td>
+													<td class="title">
+													 <a href="${pageContext.request.contextPath}/detail_qna/${vo.id}/${detailVO.id}">
+													<%--<a href="#link" onclick="event.preventDefault();movetitlefn('${vo.id}', '${vo.ownerId}', '${vo.password}')">--%>
 															${vo.title} 
 															<c:if test="${vo.replyCount ne 0}">
 																<small><b>(&nbsp;${vo.replyCount}&nbsp;)</b></small>
 															</c:if>
 													</a>
+													</td>
+													<c:choose>
+														<c:when test="${vo.indent > 0}">
+															<td class="writer">${vo.owner}</td>
+														</c:when>
+														<c:otherwise>
+															<td class="writer">${fn:substring(vo.owner,0,fn:length(vo.owner)-2)}**</td>
+														</c:otherwise>
+													</c:choose>
+													<td class="date">${vo.createDate}</td>
+													<td class="count">${vo.hits}</td>
+												</tr>
+											</c:if>
+										</c:forEach>
+										<!-- code와 상세페이지id가 같지않으면 -->
+										<c:forEach var="vo" items="${qnaVO1}">
+											<c:if test="${vo.code} eq ${datailVO.id}">
+												<td>
+													<p>등록된 글이 없습니다.</p>
 												</td>
-												<td class="writer">${vo.owner}</td>
-												<td class="date">${vo.createDate}</td>
-												<td class="count">${vo.hits}</td>
-											</tr>
+											</c:if>
 										</c:forEach>
 									</tbody>
 								</table>
+								<!-- 패스워드 모달창 -->
+								<%-- <div id="modal">
+									<div id="modalfont">
+										<h4>비밀글 입니다.</h4>
+										<h5>작성자와 관리자만 열람하실 수 있습니다.</h5>
+									</div>
+									<div id="content">
+										<input type="button" value="X" class="close" id="btnClose" />
+										<label>비밀번호</label> <input type="password" maxlength="4"
+											id="password" name="password" /> <input type="button"
+											value="확인" id="btnCheck" />
+									</div>
+								</div>--%>
 							</div>
+
 
 							<!--버튼-->
 							<div class="btn_wrap">
 								<c:if test="${qnaVO.ownerId eq userVO.id}">
-									<a href="${pageContext.request.contextPath}/detail_write/${detailVO.id}?code=${detailVO.id}"
+									<a
+										href="${pageContext.request.contextPath}/detail_write/${detailVO.id}?code=${detailVO.id}"
 										class="on">문의하기</a>
 								</c:if>
 							</div>
 
 							<!--페이지번호-->
 							<div class="qna_page">
-								<c:choose>
-									<c:when test="${1 == page.startPage}">
-										<a href="#" class="btn first"><<</a>
-									</c:when>
-									<c:otherwise>
-										<a
-											href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}?page=${page.startPage - 1}"><<</a>
-									</c:otherwise>
-								</c:choose>
 								<c:choose>
 									<c:when test="${1 == page.nowPage}">
 										<a href="#" class="btn prev"><</a>
@@ -854,16 +964,6 @@ a {
 											href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}?page=${page.nowPage + 1}">></a>
 									</c:otherwise>
 								</c:choose>
-								<c:choose>
-									<c:when
-										test="${page.totalPage < page.endPage+page.cntPerBlock}">
-										<a href="#" class="btn last">>></a>
-									</c:when>
-									<c:otherwise>
-										<a
-											href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}?page=${page.endPage + 1}">>></a>
-									</c:otherwise>
-								</c:choose>
 							</div>
 						</div>
 					</div>
@@ -875,16 +975,12 @@ a {
 
 
 	<script type="text/javascript">
+		// 페이지 스크롤	
 		$(document).ready(function() {
-
-			var move_product_qna = '${move_product_qna}';
-			if (move_product_qna) {
-				$('#tab3').click();
-			}
+			$('html, body').animate({
+				scrollTop : $('#content3').offset().top
+			}, 'default');
 		});
-		// 상품코드 선택
-		$("#select_color option:eq(1)").prop("selected", true);
-		$("#select_color option:eq(2)").prop("selected", true);
 
 		// 사진슬라이드   //컬러&색상&재고에 조건 배열값으로 넣었더니 컬러색상이 null이 있으면 슬라이드 안됨.
 		var slideWrapper = document.getElementById('slider-wrap');
@@ -943,117 +1039,133 @@ a {
 		var autoSlider = setInterval(function() {
 			plusSlides(1);
 		}, 3000);
+		
+		//패스워드 모달창
+		<%--let thePassword = "";
+		let theId="";
+		$(function(){
+			
+			var btnCheck = document.getElementById('btnCheck');
+			var btnClose = document.getElementById('btnClose');
+
+			// modal 창을 감춤
+			var closeRtn = function(){
+			  var modal = document.getElementById('modal');
+			  modal.style.display = 'none';
+			  thePassword = "";
+			  theId="";
+			}
+
+
+			let checkPass = function(){
+				if( thePassword !== "" && thePassword ===$("#password").val() ){
+					location.href = '${pageContext.request.contextPath}/qna/'+theId;
+				} else {
+					alert("비밀번호가 올바르지 않습니다.");
+				}
+				closeRtn();
+			}
+			
+			btnCheck.onclick = checkPass;
+			btnClose.onclick = closeRtn;
+			
+			
+		});
+		// 모달창 나오는 조건
+		var movetitlefn = function(id, ownerId, pwd){
+		  	if("${sessionScope.user.userid}" == "") {
+		  		alert("로그인 후 이용해주세요.");
+		  	} else {
+		  		if(ownerId === '${user.id}' || '${user.admin}' === '1'){
+		  			location.href = '${pageContext.request.contextPath}/qna/'+id;	
+		  		} else{
+			  		var modal = document.getElementById('modal');
+			  	    modal.style.display = 'block';
+			  	    thePassword = pwd;
+			  	    theId = id 
+		  		}
+		  	} 
+		}--%>
 
 		// 장바구니 이동
-		$("#btn1").click(function() {
-			var id = $("#id").val();
-			var count = $("#select_count").val();
-			var size = $("#select_size").val();
-			var color = $("#select_color").val();
-			var itemName = $("#name").val();
-			var proNum = $("#code").val();
-			var discount = $("#discount").val();
-			var price = $("#cost1").val();
-			var pic1 = $("#pic1").val();
+		$("#btn1")
+				.click(
+						function(e) {
+							e.preventDefault();
+							var id = $("#id").val();
+							var count = $("#select_count").val();
+							var size = $("#select_size").val();
+							var color = $("#select_color").val();
+							var itemName = $("#itemName").val();
+							var proNum = $("#code").val();
+							var discount = $("#discount").val();
+							var price = $("#cost1").val();
+							var pic1 = $("#pic1").val();
 
-			console.log("id : " + id);
-			console.log("count : " + count);
-			console.log("size : " + size);
-			console.log("color : " + color);
-			console.log("itemName : " + itemName);
-			console.log("proNum : " + proNum);
-			console.log("discount : " + discount);
-			console.log("price : " + price);
-			console.log("pic1 : " + pic1);
+							console.log("id : " + id);
+							console.log("count : " + count);
+							console.log("size : " + size);
+							console.log("color : " + color);
+							console.log("itemName : " + itemName);
+							console.log("proNum : " + proNum);
+							console.log("discount : " + discount);
+							console.log("price : " + price);
+							console.log("pic1 : " + pic1);
 
-			var data = {
-				id : id,
-				count : count,
-				size : size,
-				color : color,
-				itemName : itemName,
-				proNum : proNum,
-				discount : discount,
-				price : price,
-				pic1 : pic1
+							var data = {
+								id : id,
+								count : count,
+								size : size,
+								color : color,
+								itemName : itemName,
+								proNum : proNum,
+								discount : discount,
+								price : price,
+								pic1 : pic1
 
-			};
+							};
 
-			$.ajax({
-				url : "${pageContext.request.contextPath}/detailcart",
-				type : "post",
-				data : data,
-				success : function(result) {
-					if (result == 1) {
-						if (confirm("장바구니에 담으시겠습니까?")) {
-							alert("장바구니에 담았습니다.");
-							$("#select_count").val("1");
-						}
-					} else {
-						alert("로그인 후 이용해주세요.");
-						$("#select_count").val("1");
-					}
-				},
-				error : function() {
-					alert("장바구니에 담을 수 없습니다.");
-				}
-			});
-		});
+							$
+									.ajax({
+										url : "${pageContext.request.contextPath}/detailcart",
+										type : "post",
+										data : data,
+										success : function(result) {
+											if (result == 1) {
+												if (confirm("장바구니에 담으시겠습니까?")) {
+													alert("장바구니에 담았습니다.");
+													$("#select_count").val("1");
+													if (confirm("장바구니로 이동하시겠습니까?")) {
+														cancelButton: '다음에'
+														location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
+													}
+												}
+											} else {
+												alert("로그인 후 이용해주세요.");
+												$("#select_count").val("1");
+											}
+										},
+										error : function() {
+											alert("장바구니에 담을 수 없습니다.");
+										}
+									});
+						});
 
 		// 구매하기 이동
-		$("#btn2").click(function() {
-			var id = $("#id").val();
-			var count = $("#select_count").val();
-			var size = $("#select_size").val();
-			var color = $("#select_color").val();
-			var itemName = $("#name").val();
-			var proNum = $("#code").val();
-			var discount = $("#discount").val();
-			var price = $("#cost1").val();
-			var pic1 = $("#pic1").val();
-
-			console.log("id : " + id);
-			console.log("count : " + count);
-			console.log("size : " + size);
-			console.log("color : " + color);
-			console.log("itemName : " + itemName);
-			console.log("proNum : " + proNum);
-			console.log("discount : " + discount);
-			console.log("price : " + price);
-			console.log("pic1 : " + pic1);
-
-			var data = {
-				id : id,
-				count : count,
-				size : size,
-				color : color,
-				itemName : itemName,
-				proNum : proNum,
-				discount : discount,
-				price : price,
-				pic1 : pic1
-			};
-
-			$.ajax({
-				url : "${pageContext.request.contextPath}/datailpay",
-				type : "post",
-				data : data,
-				success : function(result) {
-					if (result == 1) {
-						$("#select_count").val("1");
-					} else {
-						alert("로그인 후 이용해주세요.");
-						$("#select_count").val("1");
-					}
-				},
-				error : function() {
-					alert("죄송합니다. 구매하실 수 없습니다.");
+		document.getElementById("btn2").addEventListener("click", function(e) {
+			e.preventDefault();
+			if ("${sessionScope.user.userid}" == "") {
+				alert("로그인 후 이용해주세요.");
+			} else {
+				if (confirm("바로 구매하시겠습니까?")) {
+					document.getElementById("now-buy").submit();
 				}
-			});
+			}
 		});
-		
+
+		// 선택한상품 div창
 		document
-				.querySelector("select[name='select_count']")
+				.querySelector("select[name='count']")
 				.addEventListener(
 						"change",
 						function() {
@@ -1078,11 +1190,10 @@ a {
 
 						});
 
+		// 사이즈선택 시 색상select창
 		$("#select_size")
 				.change(
 						function() {
-							//alert( "Handler for .change() called." );
-							//console.log($("#proid").val(), $("#select_size").val());
 							$('#select_color').empty();
 							let option = $("<option value='선택없음'>-선택없음-</option>");
 							$('#select_color').append(option);
@@ -1095,10 +1206,8 @@ a {
 											size : $("#select_size").val()
 										},
 										success : function(result) {
-											//console.log(result);
 											result
 													.forEach(function(item) {
-														//console.log(item);
 														let option = $("<option value='"+item+"'>"
 																+ item
 																+ "</option>");
@@ -1112,16 +1221,16 @@ a {
 									});
 						});
 
+		//색상선택 시 상품코드 정해짐
 		$("#select_color")
 				.change(
 						function() {
-							//alert( "Handler for .change() called." );
-							//console.log($("#select_size").val(), $("#select_color").val());
 							$
 									.ajax({
 										url : "${pageContext.request.contextPath}/pronumbysizeandcolor",
 										type : "post",
 										data : {
+											id : $("#proid").val(),
 											size : $("#select_size").val(),
 											color : $("#select_color").val()
 										},
@@ -1135,13 +1244,6 @@ a {
 										}
 									});
 						});
-		
-		
-		$(document).ready(function () {
-			$('html, body').animate({
-			scrollTop: $('#content3').offset().top
-			}, 'default');
-			});
 	</script>
 
 </body>

@@ -1,99 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
+<script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <style type="text/css">
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul, li {
-	list-style-type: none;
-}
-
-body {
-	background:
-		url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp")
-		0% 300% fixed;
-	background-size: cover;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	z-index: 0;
-}
-
-/* 헤더 */
-header {
-	background-color: white;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 1200px;
-}
-
-header .header-top {
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-}
-
-header .header-top .logo img {
-	width: 265px;
-}
-
-header .header-top .logo {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .header-top .side {
-	position: absolute;
-}
-
-header .header-top .side ul {
-	display: flex;
-	gap: 10px;
-	margin: 10px;
-}
-
-/* 카테고리 */
-header .category {
-	padding: 10px 20px;
-	width: 100%;
-}
-
-header .category ul {
-	display: flex;
-	gap: 30px;
-}
-
-header .category ul li {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .category ul li:first-child {
-	background: #FFECC8;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	padding: 5px 15px 7px;
-	gap: 10px;
-}
-
 /*main*/
 main {
 	background-color: white;
@@ -104,7 +21,7 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
+	min-width: 500px;
 }
 
 main .mypage-container {
@@ -121,7 +38,9 @@ a {
 }
 
 .qna_wrap {
-	width: 1000px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 	margin: 100px auto;
 }
 
@@ -184,20 +103,16 @@ a {
 	text-align: center;
 }
 
-.qna_list .num, .count {
-	width: 5%;
-}
-
 .qna_list .writer {
 	width: 10%;
 }
 
 .qna_list .category, .date {
-	width: 15%;
+	width: 18%;
 }
 
 .qna_list .title {
-	width: 50%;
+	width: 47%;
 }
 
 .qna_list tbody .title {
@@ -216,7 +131,6 @@ a {
 .qna_page {
 	margin-top: 30px;
 	text-align: center;
-	font-size: 0;
 }
 
 .qna_page a {
@@ -224,9 +138,6 @@ a {
 	width: 32px;
 	box-sizing: border-box;
 	height: 32px;
-	border: 1px solid #ddd;
-	border-left: 0;
-	vertical-align: middle;
 	line-height: 100%;
 }
 
@@ -241,10 +152,6 @@ a {
 	padding-top: 9px;
 }
 
-.qna_page a:first-child {
-	border-left: 1px solid #ddd;
-}
-
 .qna_page a {
 	color: #21A5B5;
 }
@@ -254,38 +161,70 @@ a {
 	background: #21A5B5;
 	color: #fff;
 }
+
+#modal{
+	background-color: #d3d3d3;
+	position : fixed;
+	top : 30%;
+	left : 33%;
+	width : 27.5%;
+	opacity : 80%;
+	text-align: center;
+	display : none;
+}
+
+#modal #modalfont{
+	padding-top: 20px;
+}
+
+#modal>#content{
+	width: 350px;
+	height : 100px;
+	margin : 15px auto;
+	padding: 15px;
+	background-color: #fff;
+}
+
+#modal .close{
+	position : absolute;
+	top: 4px;
+	right : 5px;
+	font-size: 20px;
+	border: 0;
+	background-color: #d3d3d3;
+}
+
+#modal #btnCheck{
+	background-color: white;
+	color: #21A5B5;
+	border : 1px solid #21A5B5;
+	border-radius : 10px;
+	width : 50px;
+}
+
+#password{
+	border : 1px solid #21A5B5;
+	border-radius : 5px;
+	width : 30%;
+}
+
+#password:focus{
+	outline: 1px solid #21A5B5;
+}
+
+#modal .close:hover, #modal .close:focus{
+	color : #21A5B5;
+	cursor: pointer;
+}
+
+#modal #btnCheck:hover{
+	background-color: #21A5B5;
+	color : white;
+}
 </style>
 </head>
 <body>
-	<header>
-		<div class="header-top">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath}/"><img
-					src="${pageContext.request.contextPath}/image/KakaoTalk_20221012_170414651.png"
-					alt=""></a>
-			</div>
-			<div class="side">
-				<ul>
-					<li><a href=""><img src="" alt="">검색</a></li>
-					<li><a href=""><img src="" alt="">장바구니</a></li>
-					<li><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-		<nav class="category">
-			<ul>
-				<li>Category</li>
-				<li>가구</li>
-				<li>패브릭</li>
-				<li>수납용품</li>
-				<li>생활용품</li>
-				<li>공지사항</li>
-				<li>Q&A</li>
-				<li>이벤트</li>
-			</ul>
-		</nav>
-	</header>
+	<jsp:include page="../header.jsp"></jsp:include>
 	<main>
 		<div class="mypage-container">
 			<div class="qna_wrap">
@@ -311,21 +250,47 @@ a {
 									<td class="num">${vo.id}</td>
 									<td class="category">${vo.qnaCategory}</td>
 									<td class="title">
+										<!-- 답변일경우 -->
 										<c:if test="${vo.getIndent()>0 }">
 											<c:forEach var="i" begin="1" end="${vo.getIndent()}">
                									&nbsp;&nbsp;&nbsp;
               								</c:forEach>
-                             					↳
+                             					<img alt="" src="https://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif">
              							</c:if> 
-             							<a href="${pageContext.request.contextPath}/qna/${vo.id}">${vo.title}</a>
-									</td>
-									<td class="writer">${vo.owner}</td>
+             							
+             							<!-- 본인이 아니면 모달창(패스워드) -->
+             							<a href="#link" onclick="event.preventDefault();movetitlefn('${vo.id}', '${vo.ownerId}', '${vo.password}')">${vo.title}</a>
+             								
+										</td>
+									
+									<!-- 작성자명 ** -->
+									<c:choose>
+										<c:when test="${vo.indent > 0}">
+											<td class="writer">${vo.owner}</td>
+										</c:when>
+										<c:otherwise>
+											<td class="writer">${fn:substring(vo.owner,0,fn:length(vo.owner)-2)}**</td>
+										</c:otherwise>
+									</c:choose>
 									<td class="date">${vo.createDate}</td>
 									<td class="count">${vo.hits}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
+					<!-- 패스워드 모달창 -->
+					<div id="modal">
+						<div id="modalfont">
+						<h4>비밀글 입니다.</h4>
+             			<h5>작성자와 관리자만 열람하실 수 있습니다.</h5>
+             			</div>
+             			<div id="content">
+             				<input type="button" value="X" class="close" id="btnClose"/>
+             				<label>비밀번호</label>
+             				<input type="password" maxlength="4" id="password" name="password"/>
+             				<input type="button" value="확인" id="btnCheck"/>
+             			</div>
+             		</div>					
 				</div>
 
 				<!--버튼-->
@@ -337,14 +302,6 @@ a {
 
 				<!--페이지번호-->
 				<div class="qna_page">
-					<c:choose>
-						<c:when test="${1 == page.startPage}">
-							<a href="#" class="btn first"><<</a> 
-						</c:when>
-						<c:otherwise>
-							<a href="${pageContext.request.contextPath}/qna?page=${page.startPage - 1}"><<</a>
-						</c:otherwise>
-					</c:choose>
 					<c:choose>
 						<c:when test="${1 == page.nowPage}">
 							<a href="#" class="btn prev"><</a>
@@ -370,19 +327,61 @@ a {
 						<c:otherwise>
 							<a href="${pageContext.request.contextPath}/qna?page=${page.nowPage + 1}">></a>
 						</c:otherwise>
-					</c:choose>
-					<c:choose>
-						<c:when test="${page.totalPage < page.endPage+page.cntPerBlock}">
-							<a href="#" class="btn last">>></a>
-						</c:when>
-						<c:otherwise>
-							<a href="${pageContext.request.contextPath}/qna?page=${page.endPage + 1}">>></a>
-						</c:otherwise>
-					</c:choose>									
+					</c:choose>								
 				</div>
 			</div>
 		</div>
 	</main>
-	<footer> </footer>
+	<jsp:include page="../footer.jsp"></jsp:include>
+
+<script type="text/javascript">
+//패스워드 모달창
+let thePassword = "";
+let theId="";
+$(function(){
+	
+	var btnCheck = document.getElementById('btnCheck');
+	var btnClose = document.getElementById('btnClose');
+
+	// modal 창을 감춤
+	var closeRtn = function(){
+	  var modal = document.getElementById('modal');
+	  modal.style.display = 'none';
+	  thePassword = "";
+	  theId="";
+	}
+
+
+	let checkPass = function(){
+		if( thePassword !== "" && thePassword ===$("#password").val() ){
+			location.href = '${pageContext.request.contextPath}/qna/'+theId;
+		} else {
+			alert("비밀번호가 올바르지 않습니다.");
+		}
+		closeRtn();
+	}
+	
+	btnCheck.onclick = checkPass;
+	btnClose.onclick = closeRtn;
+	
+	
+});
+
+var movetitlefn = function(id, ownerId, pwd){
+  	if("${sessionScope.user.userid}" == "") {
+  		alert("로그인 후 이용해주세요.");
+  	} else {
+  		if(ownerId === '${user.id}' || '${user.admin}' === '1'){
+  			location.href = '${pageContext.request.contextPath}/qna/'+id;	
+  		} else{
+	  		var modal = document.getElementById('modal');
+	  	    modal.style.display = 'block';
+	  	    thePassword = pwd;
+	  	    theId = id 
+  		}
+  	} 
+}
+
+</script>
 </body>
 </html>

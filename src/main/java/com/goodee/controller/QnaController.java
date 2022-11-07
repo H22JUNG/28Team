@@ -23,6 +23,7 @@ import com.goodee.service.BbsService;
 import com.goodee.service.CartService;
 import com.goodee.service.ReviewService;
 import com.goodee.service.UserService;
+import com.goodee.vo.PageVO;
 import com.goodee.vo.ProductVO;
 import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.QnaVO;
@@ -62,8 +63,8 @@ public class QnaController {
 	// QNA content로 이동
 	@GetMapping("/qna/{id}")
 	public String getContent(@PathVariable("id") String id, Model model) {
+		
 		bbsservice.getQnaContent(model, id);
-		model.addAttribute("qnaHits", bbsservice.qnaCount(id)); // 조회수
 		return "/qna/content";
 	}
 
@@ -123,16 +124,14 @@ public class QnaController {
 	}
 
 	// Q&A content에서 삭제버튼
-	@GetMapping("/remove/{id}")
+	@RequestMapping("/remove/{id}")
 	public String deleteBBS(@SessionAttribute("user") UserVO user, @ModelAttribute("qnaVO") QnaVO qnavo,
-			@PathVariable("id") String id) {
+			@PathVariable("id") String id, QnaCommentVO commentvo) {
 		qnavo.setOwner(user.getUsername());
 		qnavo.setOwnerId(user.getId());
-		if (bbsservice.deleteQna(qnavo)) {
-			return "redirect:/qna";
-		} else {
-			return "redirect:/qna/" + qnavo.getId();
-		}
+		bbsservice.deleteQna(qnavo, commentvo);
+		return "redirect:/qna";
+		
 	}
 
 	// Q&A 답변페이지로
@@ -149,7 +148,7 @@ public class QnaController {
 	// Q&A 답변 등록버튼
 	@RequestMapping("/reply/good")
 	public String replyBBSResult(@SessionAttribute("user") UserVO user, QnaCommentVO commentvo,
-			@ModelAttribute QnaVO qnaVO) {
+			@ModelAttribute("qnaVO") QnaVO qnaVO) {
 		if (user != null) {
 			commentvo.setOwnerId(user.getId());
 			commentvo.setOwner(user.getUsername());
@@ -176,6 +175,7 @@ public class QnaController {
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
+		model.addAttribute("code", id);
 		bbsservice.getBBSList(page, request, model);  // 이너Q&A데이터
 		return "/qna/detail_qna";
 	}
@@ -249,11 +249,11 @@ public class QnaController {
 	// inner Q&A 삭제버튼
 	@GetMapping("/detail_remove/{id}/{detailid}")
 	public String deleteinnerBBS(@SessionAttribute("user") UserVO user, @ModelAttribute("qnaVO") QnaVO qnavo,
-			@PathVariable("id") String id, Model model, @PathVariable("detailid")String detailid) {
+			@PathVariable("id") String id, Model model, @PathVariable("detailid")String detailid, QnaCommentVO commentvo) {
 		cartservice.getDetailContent(model, detailid); // 상세페이지 상품 데이터들
 		qnavo.setOwner(user.getUsername());
 		qnavo.setOwnerId(user.getId());
-		if (bbsservice.deleteQna(qnavo)) {
+		if (bbsservice.deleteQna(qnavo, commentvo)) {
 			return "redirect:/detail_qna/" + detailid;
 		} else {
 			return "redirect:/detail_qna/" + detailid;

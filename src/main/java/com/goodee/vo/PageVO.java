@@ -36,6 +36,17 @@ public class PageVO {
 	//리뷰 카테고리
 	private String id;
 	
+	//큐앤에이 코드
+	private Integer code;
+	
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+	
 	public String getId() {
 		return id;
 	}

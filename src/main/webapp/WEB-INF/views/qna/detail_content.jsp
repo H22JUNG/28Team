@@ -31,14 +31,13 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
 	max-width: 100%;
 }
 
 main .mypage-container {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: 80%;
 	justify-content: center;
 	align-items: center;
 }
@@ -241,7 +240,7 @@ input::-webkit-input-placeholder {
 	border: none;
 }
 
-.detail_top h2 #name {
+.detail_top h2 #itemName {
 	margin: 15px 0 15px;
 	width: 100%;
 	border: none;
@@ -350,6 +349,10 @@ input::-webkit-input-placeholder {
 	cursor: pointer;
 }
 
+#detaillabel{
+	color: #21A5B5;
+}
+
 .tabmenu label:nth-of-type(2) {
 	width: 34%;
 }
@@ -365,10 +368,6 @@ input::-webkit-input-placeholder {
 	display: block;
 }
 
-/*.tabmenu #tab1:checked ~ #content1, .tabmenu #tab2:checked ~ #content2,
-	.tabmenu #tab3:checked ~ #content3 {
-	display: block;
-}*/
 hr {
 	margin-top: 20px;
 }
@@ -385,8 +384,8 @@ hr {
 }
 
 #content3 {
-	margin: auto;
-	width: 70%;
+	width: 70vw;
+	padding: 0px;
 }
 
 #delivery {
@@ -485,8 +484,12 @@ input {
 	border: 1px solid black;
 }
 
-.options #name:focus {
-	outline: none;
+.options #itemName:focus{
+	outline : none;
+}
+
+#procode{
+	display : none;
 }
 
 /* QNA css*/
@@ -496,7 +499,8 @@ a {
 }
 
 .qna_wrap {
-	width: 1000px;
+	width: 70%;
+	margin : 0 auto;
 }
 
 .qna_title {
@@ -616,7 +620,7 @@ a {
 
 .qna_content .cont {
 	padding: 50px 5px 100px 5px;
-	border-bottom: none;
+	border-bottom: 1px solid #21A5B5;
 	line-height: 160%;
 	font-size: 30px;
 	text-align: left;
@@ -645,10 +649,7 @@ a {
 								<li><img src="${detailVO.pic4}" alt=""></li>
 							</c:if>
 						</ul>
-						<input type="hidden" name="pic1" id="pic1"
-							value="${detailVO.pic1}" /> <input type="hidden"
-							value="${detailVO.price}" id="cost1">
-
+			
 						<!--사진슬라이드 버튼-->
 						<div class="btns" id="next">
 							<i class="fa fa-chevron-right"></i>
@@ -661,14 +662,16 @@ a {
 						</div>
 					</div>
 				</div>
-
+				
 				<!--상세페이지 상단의 우측(옵션부분)-->
 				<div class="go-btn" onclick="window.scrollTo(0, 0);">
 					<span><i class="fa fa-chevron-up"></i></span>
 				</div>
-				<div class="options">
+				<div class="options"><!-- 옵션시작 -->
+				<form action="${pageContext.request.contextPath}/NowBuyController" method="post" id="now-buy">
+				
 					<h2>
-						<input type="text" value="${detailVO.name}" id="name">
+						<input type="text" value="${detailVO.name}" id="itemName" name="itemName">
 					</h2>
 					<table id="productTable">
 						<colgroup>
@@ -681,9 +684,9 @@ a {
 								<th><label>가격 </label></th>
 								<td><input type="text"
 									value="<fmt:formatNumber value="${detailVO.price}" pattern="#,###" />원"
-									id="cost"><label for="discount"></label> <input
-									type="text" value="${detailVO.discount}" name="discount"
-									id="discount"><span id="discount-span">%</span></td>
+									id="cost"><label for="discount"></label> <input type="text"
+									value="${detailVO.discount}" name="discount" id="discount"><span
+									id="discount-span">%</span></td>
 							</tr>
 							<tr>
 								<th><label>판매가격 </label></th>
@@ -691,11 +694,9 @@ a {
 									value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
 									id="price"> <span>원</span></td>
 							</tr>
-							<tr>
+							<tr id = "procode">
 								<th><label>상품코드 </label></th>
-								<%-- <td><input type="hidden" name="proNum" value="${detailOptionVO.proNum}"
-										id="product_code"></td>--%>
-								<td><select name="code" id="code">
+								<td><select name="proNum" id="code">
 										<c:forEach var="vo" items="${detailOptionVO}">
 											<c:forTokens var="vo1" items="${vo.proNum}" delims=",">
 												<option value="${vo1}">${vo1}</option>
@@ -715,45 +716,58 @@ a {
 									id="save"><span>원</span></td>
 							</tr>
 
-							<%-- <c:if test="${detailOptionVO[1].size != null}">--%>
-							<tr>
-								<th>옵션선택(사이즈)</th>
-								<td><select name="opt_select_2" id="select_size"
-									class="form-control opt_select_size">
-										<option value="선택없음">-선택없음-</option>
-										<c:forEach var="vo2" items="${selectOptionSize}">
-											<c:forTokens var="vo3" items="${vo2.size}" delims=",">
-												<option value="${vo3}">${vo3}</option>
-											</c:forTokens>
-										</c:forEach>
-								</select></td>
-							</tr>
-							<%-- </c:if>--%>
+							<c:if test="${detailOptionVO[1].size != null}">
+								<tr>
+									<th>옵션선택(사이즈)</th>
+									<td><select name="size" id="select_size"
+										class="form-control opt_select_size">
+											<option value="선택없음">-선택없음-</option>
+											<c:forEach var="vo2" items="${selectOptionSize}">
+												<c:forTokens var="vo3" items="${vo2.size}" delims=",">
+													<option value="${vo3}">${vo3}</option>
+												</c:forTokens>
+											</c:forEach>
+									</select></td>
+								</tr>
+							</c:if>
 
-							<%--c:if test="${detailOptionVO[1].color != null}"--%>
-							<tr>
-								<th>옵션선택(색상)</th>
-								<td><select name="opt_select_1" id="select_color"
-									data-size="10" class="form-control opt_select_color">
-										<option value="선택없음">-선택없음-</option>
-								</select></td>
-							</tr>
-							<%--/c:if--%>
-							<!--tr>
-									<th>옵션선택(색상)</th>
-									<td><select name="opt_select_1" id="select_color" class="form-control opt_select_color">
-													<option value="nochoice">-선택없음-</option>
-													<option value="${optionVO.color}">${optionVO.color}</option>
+							<c:if test="${detailOptionVO[1].color != null}">
+							<c:choose>
+								<c:when test="${detailOptionVO[1].size != null}">
+									<tr>
+										<th>옵션선택(색상)</th>
+										<td>
+											<select name="color" id="select_color"
+												data-size="10" class="form-control opt_select_color">
+												<option value="선택없음">-선택없음-</option>
 											</select>
-									</td>
-								</tr-->
-
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise> 
+									<tr>
+										<th>옵션선택(색상)</th>
+										<td>
+											<select name="color" id="select_color"
+												data-size="10" class="form-control opt_select_color">
+												<option value="선택없음">-선택없음-</option>
+												<c:forEach var="vo2" items="${selectOptionSize}">
+													<c:forTokens var="vo3" items="${vo2.color}" delims=",">
+														<option value="${vo3}">${vo3}</option>
+													</c:forTokens>
+												</c:forEach>
+											</select>
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+							</c:if>
+								
 							<tr>
 								<th><label>구매수량</label></th>
-								<td><select name="select_count" id="select_count"
+								<td><select name="count" id="select_count"
 									class="form-control">
-										<option value="선택없음">-수량선택-</option>
-										<c:forEach begin="1" end="${detailOptionVO[1].stock}"
+										<c:forEach begin="1" end="${detailOptionVO[0].stock}"
 											var="count">
 											<option>${count}</option>
 										</c:forEach>
@@ -761,23 +775,28 @@ a {
 							</tr>
 						</tbody>
 					</table>
-					<div id="selectoption"></div>
-					<input type="hidden" name="productId" id="proid"
-						value="${detailVO.id}">
+					<div id="selectoption">
+					
+					</div>
+					<input type="hidden" name="productId" id="proid" value="${detailVO.id}">
 
 					<!--장바구니/구매하기 버튼-->
 					<div class="datail_top_btns">
-						<input type="submit" value="장바구니" id="btn1" /> <input
-							type="submit" value="구매하기" id="btn2" />
+						<input type="submit" value="장바구니" id="btn1" /> 
+						<input type="submit" value="구매하기" id="btn2" />
 					</div>
-				</div>
-			</div>
+					<input type="hidden" name="pic1" id="pic1" value="${detailVO.pic1}" /> 
+					<input type="hidden" value="${detailVO.price}" id="cost1" name="price">
+					<input type="hidden" name="salePrice" id="salePrice" value= "<fmt:parseNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}"/>" />
+				</form>
+				</div><!-- 옵션 끝 -->
+			</div><!-- 디테일-탑 -->
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3" id="detaillabel">상품문의</label></a>
 				<div id="content1"></div>
 				<div id="content2"></div>
 				<div id="content3">
@@ -812,25 +831,46 @@ a {
 									value="${qnaVO.qnaCategory}">
 							</div>
 						</div>
-						<%-- <c:if test="${UserVO.admin == 1}">--%>
 						<div class="comment" id="comment"></div>
-						<div class="insert" id="insert">
-							<textarea id="inittext" rows="7" cols="141"></textarea>
-							<button id="ibtn">등록</button>
-						</div>
-						<%-- </c:if>--%>
+						
+						<c:choose>
+							<c:when test="${user.admin == 1}">
+								<div class="insert" id="insert">
+									<textarea id="inittext" rows="7" cols="135"></textarea>
+									<button id="ibtn">등록</button>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="insert" id="insert" style="display:none">
+									<textarea id="inittext" rows="7" cols="135"></textarea>
+									<button id="ibtn">등록</button>
+								</div>
+							</c:otherwise>
+						</c:choose>
+
 						<!--버튼-->
 						<div class="btn_wrap">
 							<a
 								href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"
 								class="on" id="return">목록으로</a>
 
-							<c:if test="${qnaVO.ownerId eq user.id}">
-								<a href="#" id="modify">수정</a>
-							</c:if>
-							<c:if test="${qnaVO.ownerId eq user.id}">
-								<a href="#" id="del">삭제</a>
-							</c:if>
+							<c:choose>
+								<c:when test="${qnaVO.ownerId eq user.id || user.admin == 1}">
+									<a href="#" id="modify">수정</a>
+								</c:when>
+								<c:otherwise>
+									<a href="#" id="modify" style="display:none">수정</a>
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+								<c:when test="${qnaVO.ownerId eq user.id || user.admin == 1}">
+									<a href="#" id="del">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<a href="#" id="del" style="display:none">삭제</a>
+								</c:otherwise>
+							</c:choose>
 
 						</div>
 					</div>
@@ -849,10 +889,7 @@ a {
 				$('#tab3').click();
 			}
 		});
-		// 상품코드 선택
-		$("#select_color option:eq(1)").prop("selected", true);
-		$("#select_color option:eq(2)").prop("selected", true);
-
+		
 		// 사진슬라이드   //컬러&색상&재고에 조건 배열값으로 넣었더니 컬러색상이 null이 있으면 슬라이드 안됨.
 		var slideWrapper = document.getElementById('slider-wrap');
 		var slideIndex = 0;
@@ -910,198 +947,14 @@ a {
 		var autoSlider = setInterval(function() {
 			plusSlides(1);
 		}, 3000);
-
-		// 장바구니 이동
-		$("#btn1").click(function() {
-			var id = $("#id").val();
-			var count = $("#select_count").val();
-			var size = $("#select_size").val();
-			var color = $("#select_color").val();
-			var itemName = $("#name").val();
-			var proNum = $("#code").val();
-			var discount = $("#discount").val();
-			var price = $("#cost1").val();
-			var pic1 = $("#pic1").val();
-
-			console.log("id : " + id);
-			console.log("count : " + count);
-			console.log("size : " + size);
-			console.log("color : " + color);
-			console.log("itemName : " + itemName);
-			console.log("proNum : " + proNum);
-			console.log("discount : " + discount);
-			console.log("price : " + price);
-			console.log("pic1 : " + pic1);
-
-			var data = {
-				id : id,
-				count : count,
-				size : size,
-				color : color,
-				itemName : itemName,
-				proNum : proNum,
-				discount : discount,
-				price : price,
-				pic1 : pic1
-
-			};
-
-			$.ajax({
-				url : "${pageContext.request.contextPath}/detailcart",
-				type : "post",
-				data : data,
-				success : function(result) {
-					if (result == 1) {
-						if (confirm("장바구니에 담으시겠습니까?")) {
-							alert("장바구니에 담았습니다.");
-							$("#select_count").val("1");
-						}
-					} else {
-						alert("로그인 후 이용해주세요.");
-						$("#select_count").val("1");
-					}
-				},
-				error : function() {
-					alert("장바구니에 담을 수 없습니다.");
-				}
-			});
-		});
-
-		// 구매하기 이동
-		$("#btn2").click(function() {
-			var id = $("#id").val();
-			var count = $("#select_count").val();
-			var size = $("#select_size").val();
-			var color = $("#select_color").val();
-			var itemName = $("#name").val();
-			var proNum = $("#code").val();
-			var discount = $("#discount").val();
-			var price = $("#cost1").val();
-			var pic1 = $("#pic1").val();
-
-			console.log("id : " + id);
-			console.log("count : " + count);
-			console.log("size : " + size);
-			console.log("color : " + color);
-			console.log("itemName : " + itemName);
-			console.log("proNum : " + proNum);
-			console.log("discount : " + discount);
-			console.log("price : " + price);
-			console.log("pic1 : " + pic1);
-
-			var data = {
-				id : id,
-				count : count,
-				size : size,
-				color : color,
-				itemName : itemName,
-				proNum : proNum,
-				discount : discount,
-				price : price,
-				pic1 : pic1
-			};
-
-			$.ajax({
-				url : "${pageContext.request.contextPath}/datailpay",
-				type : "post",
-				data : data,
-				success : function(result) {
-					if (result == 1) {
-						$("#select_count").val("1");
-					} else {
-						alert("로그인 후 이용해주세요.");
-						$("#select_count").val("1");
-					}
-				},
-				error : function() {
-					alert("죄송합니다. 구매하실 수 없습니다.");
-				}
-			});
-		});
-		document
-				.querySelector("select[name='select_count']")
-				.addEventListener(
-						"change",
-						function() {
-							let size = document.getElementById("select_size").value;
-							let color = document.getElementById("select_color").value;
-							let count = document.getElementById("select_count").value;
-
-							//html 추가로 생성 작업
-							$('.optionSize').remove();
-							var html = '';
-							html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
-							html += '<div class="optionSize">사이즈 : ' + size
-									+ '</div>';
-							html += '<div class="optionSize">색상 : ' + color
-									+ '</div>';
-							html += '<div class="optionSize">수량 : ' + count
-									+ '</div>';
-
-							$('#selectoption').append(html);
-
-							$(".optionSize").css("width", 500);
-
-						});
-
-		$("#select_size")
-				.change(
-						function() {
-							//alert( "Handler for .change() called." );
-							//console.log($("#proid").val(), $("#select_size").val());
-							$('#select_color').empty();
-							let option = $("<option value='선택없음'>-선택없음-</option>");
-							$('#select_color').append(option);
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath}/colorbyidandsize",
-										type : "post",
-										data : {
-											id : $("#proid").val(),
-											size : $("#select_size").val()
-										},
-										success : function(result) {
-											//console.log(result);
-											result
-													.forEach(function(item) {
-														//console.log(item);
-														let option = $("<option value='"+item+"'>"
-																+ item
-																+ "</option>");
-														$('#select_color')
-																.append(option);
-													});
-										},
-										error : function() {
-											alert("죄송합니다. 구매하실 수 없습니다.");
-										}
-									});
-						});
-
-		$("#select_color")
-				.change(
-						function() {
-							//alert( "Handler for .change() called." );
-							//console.log($("#select_size").val(), $("#select_color").val());
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath}/pronumbysizeandcolor",
-										type : "post",
-										data : {
-											size : $("#select_size").val(),
-											color : $("#select_color").val()
-										},
-										success : function(result) {
-											console.log(result);
-											$("#code").val(result).prop(
-													"selected", true);
-										},
-										error : function() {
-											alert("죄송합니다. 구매하실 수 없습니다.");
-										}
-									});
-						});
 		
+    	// 페이지 스크롤
+    	$(document).ready(function () {
+			$('html, body').animate({
+			scrollTop: $('#content3').offset().top
+			}, 'fast');
+			});
+
 		//댓글달기
     	const commentMain = document.getElementById("comment");
     	
@@ -1209,7 +1062,7 @@ a {
     					root : ${qnaVO.id},
     					ownerId : ${user.id},
     					owner : "${user.username}",
-    					title : 'Re.'+"${qnaVO.title}",
+    					title : "${qnaVO.title}",
     					content : str,
     					password : "${qnaVO.password}",
     					orderId : item.id
@@ -1268,7 +1121,7 @@ a {
     			root : ${qnaVO.id},
     			ownerId : ${user.id},
     			owner : "${user.username}",
-    			title : 'Re.'+"${qnaVO.title}",
+    			title : "${qnaVO.title}",
     			content : str,
     			password : "${qnaVO.password}",
     			orderId : 0
@@ -1289,11 +1142,142 @@ a {
     			console.log(err);
     		});
     	});
+
+    	// 장바구니 이동
+    	$("#btn1").click(function(e) {
+    		e.preventDefault();
+    		var id = $("#id").val();
+    		var count = $("#select_count").val();
+    		var size = $("#select_size").val();
+    		var color = $("#select_color").val();
+    		var itemName = $("#itemName").val();
+    		var proNum = $("#code").val();
+    		var discount = $("#discount").val();
+    		var price = $("#cost1").val();
+    		var pic1 = $("#pic1").val();
+    		
+    		
+    		console.log("id : " + id);
+    		console.log("count : " + count);
+    		console.log("size : " + size);
+    		console.log("color : " + color);
+    		console.log("itemName : " + itemName);
+    		console.log("proNum : " + proNum);
+    		console.log("discount : " + discount);
+    		console.log("price : " + price);
+    		console.log("pic1 : " + pic1);
+    		
+
+    		var data = {
+    			id : id,
+    			count : count,
+    			size : size,
+    			color : color,
+    			itemName : itemName,
+    			proNum : proNum,
+    			discount : discount,
+    			price : price,
+    			pic1 : pic1
+    			
+    		};
+
+    		$.ajax({
+    			url : "${pageContext.request.contextPath}/detailcart",
+    			type : "post",
+    			data : data,
+    			success : function(result) {
+    				if(result ==1){
+    					if(confirm("장바구니에 담으시겠습니까?")){
+    						alert("장바구니에 담았습니다.");
+    						$("#select_count").val("1");
+    						if(confirm("장바구니로 이동하시겠습니까?")){
+    							cancelButton:'다음에'
+    							location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
+    						}
+    					}
+    				} else{
+    					alert("로그인 후 이용해주세요.");
+    					$("#select_count").val("1");
+    				}
+    				},
+    				error : function() {
+    				alert("장바구니에 담을 수 없습니다.");
+    			}
+    		});
+    	});
+    	
+    	// 구매하기 이동
+    	document.getElementById("btn2").addEventListener("click",function(e){
+    		e.preventDefault();
+    		if("${sessionScope.user.userid}" == "") {
+    			alert("로그인 후 이용해주세요.");
+    		} else {
+    			if(confirm("바로 구매하시겠습니까?")){
+    				document.getElementById("now-buy").submit();
+    			}
+    		}
+    	});
+    	
+    	
+    	// 선택한상품 div창
+    	document.querySelector("select[name='count']").addEventListener("change", function(){
+    		let size = document.getElementById("select_size").value;
+    		let color = document.getElementById("select_color").value;
+    		let count = document.getElementById("select_count").value;
+    		
+    		//html 추가로 생성 작업
+    		$('.optionSize').remove();
+    		var html = '';
+    		html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
+    		html += '<div class="optionSize">사이즈 : '+ size +'</div>';
+    		html += '<div class="optionSize">색상 : '+ color +'</div>';
+    		html += '<div class="optionSize">수량 : '+ count +'</div>';
+    		
+    		$('#selectoption').append(html);
+    		
+    		 $(".optionSize").css("width", 500);
+    		
+    	});
+    	
+    	// 사이즈선택 시 색상select창
+    	$( "#select_size" ).change(function() {
+    		  $('#select_color').empty();
+    		  let option = $("<option value='선택없음'>-선택없음-</option>");                
+    		  $('#select_color').append(option);
+    		$.ajax({
+    			url : "${pageContext.request.contextPath}/colorbyidandsize",
+    			type : "post",
+    			data : {id: $("#proid").val(), size: $("#select_size").val()},
+    			success : function(result) {
+    				result.forEach(function(item) {
+    					let option = $("<option value='"+item+"'>"+item+"</option>");                
+    					$('#select_color').append(option);
+    				});
+    			},
+    			error : function() {
+    				alert("죄송합니다. 구매하실 수 없습니다.");
+    			}
+    		});	  
+    	});
+    	
+    	//색상선택 시 상품코드 정해짐
+    	$( "#select_color" ).change(function() {
+    		$.ajax({
+    			url : "${pageContext.request.contextPath}/pronumbysizeandcolor",
+    			type : "post",
+    			data : {id: $("#proid").val(), size: $("#select_size").val(), color: $("#select_color").val()},
+    			success : function(result) {
+    				console.log(result);
+    				$("#code").val(result).prop("selected", true);
+    			},
+    			error : function() {
+    				alert("죄송합니다. 구매하실 수 없습니다.");
+    			}
+    		});	  
+    	});
+    	
     	
     	//목록이동,수정,삭제 버튼	
-    	<%--document.getElementById("modify").addEventListener("click",function(){
-    		location.href = "${pageContext.request.contextPath}/update/${qnaVO.id}";
-    	})--%>
     	window.onload = function(){
     		let modify = document.getElementById("modify");
     		modify.addEventListener('click', () => {
@@ -1307,12 +1291,7 @@ a {
     			location.href="${pageContext.request.contextPath}/detail_remove/${qnaVO.id}/${detailVO.id}";
     		}
     	});
-    	
-    	$(document).ready(function () {
-			$('html, body').animate({
-			scrollTop: $('#content3').offset().top
-			}, 'default');
-			});
+
 	</script>
 
 </body>

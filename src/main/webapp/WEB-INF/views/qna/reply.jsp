@@ -8,94 +8,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul, li {
-	list-style-type: none;
-}
-
-body {
-	background:
-		url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp")
-		0% 300% fixed;
-	background-size: cover;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	z-index: 0;
-}
-
-/* 헤더 */
-header {
-	background-color: white;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 1200px;
-}
-
-header .header-top {
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-}
-
-header .header-top .logo img {
-	width: 265px;
-}
-
-header .header-top .logo {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .header-top .side {
-	position: absolute;
-}
-
-header .header-top .side ul {
-	display: flex;
-	gap: 10px;
-	margin: 10px;
-}
-
-/* 카테고리 */
-header .category {
-	padding: 10px 20px;
-	width: 100%;
-}
-
-header .category ul {
-	display: flex;
-	gap: 30px;
-}
-
-header .category ul li {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .category ul li:first-child {
-	background: #FFECC8;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	padding: 5px 15px 7px;
-	gap: 10px;
-}
-
 /*main*/
 main {
 	background-color: white;
@@ -106,13 +21,13 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
+	min-width: 500px;
 }
 
 main .mypage-container {
 	display: flex;
 	flex-direction: column;
-	width: 80%;
+	width: 70%;
 	justify-content: center;
 	align-items: center;
 }
@@ -123,7 +38,7 @@ a {
 }
 
 .qna_wrap {
-	width: 1000px;
+	width: 100%;
 	margin: 100px auto;
 }
 
@@ -241,35 +156,7 @@ a {
 </style>
 </head>
 <body>
-	<header>
-		<div class="header-top">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath}/"><img
-					src="${pageContext.request.contextPath}/image/KakaoTalk_20221012_170414651.png"
-					alt=""></a>
-			</div>
-			<div class="side">
-				<ul>
-					<li><a href=""><img src="" alt="">검색</a></li>
-					<li><a href=""><img src="" alt="">장바구니</a></li>
-					<li><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-		<nav class="category">
-			<ul>
-				<li>Category</li>
-				<li>가구</li>
-				<li>패브릭</li>
-				<li>수납용품</li>
-				<li>생활용품</li>
-				<li>공지사항</li>
-				<li>Q&A</li>
-				<li>이벤트</li>
-			</ul>
-		</nav>
-	</header>
+	<jsp:include page="../header.jsp"></jsp:include>
 	<main>
 		<div class="mypage-container">
 			<div class="qna_wrap">
@@ -302,8 +189,8 @@ a {
 							<dl>
 								<dt>제목</dt>
 								<dd>
-									Re: ${qnaVO.title}
-									<input type="hidden" name="title" id="" value="Re: ${qnaVO.title}"/>
+									${qnaVO.title}
+									<input type="hidden" name="title" id="title" value="${qnaVO.title}"/>
 								</dd>
 							</dl>
 						</div>
@@ -320,7 +207,7 @@ a {
 			</div>
 		</div>
 	</main>
-	<footer> </footer>
+	<jsp:include page="../footer.jsp"></jsp:include>
 
 	<script type="text/javascript">
 	

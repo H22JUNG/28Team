@@ -7,94 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul, li {
-	list-style-type: none;
-}
-
-body {
-	background:
-		url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp")
-		0% 300% fixed;
-	background-size: cover;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	z-index: 0;
-}
-
-/* 헤더 */
-header {
-	background-color: white;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 1200px;
-}
-
-header .header-top {
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-}
-
-header .header-top .logo img {
-	width: 265px;
-}
-
-header .header-top .logo {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .header-top .side {
-	position: absolute;
-}
-
-header .header-top .side ul {
-	display: flex;
-	gap: 10px;
-	margin: 10px;
-}
-
-/* 카테고리 */
-header .category {
-	padding: 10px 20px;
-	width: 100%;
-}
-
-header .category ul {
-	display: flex;
-	gap: 30px;
-}
-
-header .category ul li {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .category ul li:first-child {
-	background: #FFECC8;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	padding: 5px 15px 7px;
-	gap: 10px;
-}
-
 /*main*/
 main {
 	background-color: white;
@@ -105,13 +20,13 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
+	min-width: 500px;
 }
 
 main .mypage-container {
 	display: flex;
 	flex-direction: column;
-	width: 80%;
+	width: 70%;
 	justify-content: center;
 	align-items: center;
 }
@@ -122,7 +37,7 @@ a {
 }
 
 .qna_wrap {
-	width: 1000px;
+	width: 100%;
 	margin: 100px auto;
 }
 
@@ -152,19 +67,20 @@ a {
 	margin-left: 10px;
 	min-width: 80px;
 	padding: 10px;
-	border: 1px solid #000;
+	border: 1px solid #21A5B5;
 	border-radius: 2px;
 	font-size: 14px;
 	background : none;
+	color : #21A5B5
 }
 
 .btn_wrap button.on {
-	background: #000;
+	background: #21A5B5;
 	color: #fff;
 }
 
 .qna_write {
-	border-top: 2px solid #000;
+	border-top: 2px solid #21A5B5;
 }
 
 .qna_write .title, .qna_write .info {
@@ -173,7 +89,7 @@ a {
 
 .qna_write .info {
 	border-top: 1px dashed #ddd;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #21A5B5;
 	font-size: 0;
 }
 
@@ -222,10 +138,16 @@ a {
 	width: calc(100% - 100px);
 }
 
-.qna_info .title input[type="text"], .qna_write .info input[type="text"],
+.qna_write .title select, .qna_write .info input,
 	.qna_write .title input[type="password"] {
 	padding: 10px;
 	box-sizing: border-box;
+}
+
+.qna_write .title select:focus, .qna_write .info input:focus,
+	.qna_write .title input[type="password"]:focus, .cont textarea:focus{
+	outline: 2px solid #21A5B5;
+	border: 1px solid #21A5B5;
 }
 /* .qna_write .title input[type="text"]{width: 80%;} */
 .qna_write .title dl {
@@ -233,7 +155,7 @@ a {
 }
 
 .qna_write .cont {
-	border-bottom: 1px solid #000;
+	border-bottom: 2px solid #21A5B5;
 }
 
 .qna_write .cont textarea {
@@ -248,35 +170,7 @@ a {
 </style>
 </head>
 <body>
-	<header>
-		<div class="header-top">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath}/"><img
-					src="${pageContext.request.contextPath}/image/KakaoTalk_20221012_170414651.png"
-					alt=""></a>
-			</div>
-			<div class="side">
-				<ul>
-					<li><a href=""><img src="" alt="">검색</a></li>
-					<li><a href=""><img src="" alt="">장바구니</a></li>
-					<li><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-		<nav class="category">
-			<ul>
-				<li>Category</li>
-				<li>가구</li>
-				<li>패브릭</li>
-				<li>수납용품</li>
-				<li>생활용품</li>
-				<li>공지사항</li>
-				<li>Q&A</li>
-				<li>이벤트</li>
-			</ul>
-		</nav>
-	</header>
+	<jsp:include page="../header.jsp"></jsp:include>
 	<main>
 		<div class="mypage-container">
 			<div class="qna_wrap">
@@ -286,8 +180,7 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/update" method="post">
-					<%--<form action="${pageContext.request.contextPath}/update" method ="post"> --%>
+					<form:form modelAttribute="qnaVO" id="myform" action="${pageContext.request.contextPath}/update" method="post">
 						<div class="title">
 							<dl>
 								<dt>문의유형</dt>
@@ -296,19 +189,11 @@ a {
 									<form:select path="qnaCategory">
 										<form:options items="${categoryList}"/>
 									</form:select>
-									<%-- <select name="quest_select" id="">
-									<c:forEach var="vo" items="${categoryList}">
-										<option value="${vo}">${vo}</option>
-									</c:forEach>
-									</select>--%>
-								</dd>
 							</dl>
 							<dl>
 								<dt>비밀번호</dt>
 								<dd>
-									<form:textarea path="password" maxlength="4"/>
-									<%-- <input type="password" name="" id="" placeholder="패스워드 입력"
-										value="${qnaVO.password}" maxlength="4">--%>
+									<input type="password" name="password" id="" value="${qnaVO.password}" maxlength="4"/>
 								</dd>
 							</dl>
 						</div>
@@ -316,9 +201,7 @@ a {
 							<dl>
 								<dt>제목</dt>
 								<dd>
-									<form:textarea path="title" id="title_d"/>
-									<%-- <input type="text" name="" id="title_d" placeholder="제목 입력"
-										value="${qnaVO.title}">--%>
+									<form:input path="title" id="title_d"/>
 								</dd>
 							</dl>
 							<dl>
@@ -342,13 +225,15 @@ a {
 			</div>
 		</div>
 	</main>
-	<footer> </footer>
+	<jsp:include page="../footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
-		document.getElementById("btn1").addEventListener("click",function() {
-							alert("수정이 완료되었습니다.")
-							location.href = "${pageContext.request.contextPath}/update";
-						});
+ 		document.getElementById("btn1").addEventListener("click",function() {
+							/*  alert("수정이 완료되었습니다.") */
+			if ( confirm("Do you really want to update?") ) {
+				$("#myform").submit();
+			}				
+		}); 
 		
 		document.getElementById("btn2").addEventListener("click",function() {
 			location.href = "${pageContext.request.contextPath}/qna/${vo.id}";

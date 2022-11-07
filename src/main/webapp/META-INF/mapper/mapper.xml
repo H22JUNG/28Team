@@ -704,8 +704,8 @@
 		item_name, price, count, color,
 		size, pic1, pro_num, discount)
 		values(null, #{userid}, #{userName}, #{id}, #{itemName}, #{price},
-		#{count}, #{color},
-		#{size}, #{pic1}, #{proNum}, #{discount})
+		#{count}, ifnull(#{color},'선택없음'),
+		ifnull(#{size},'선택없음'), #{pic1}, #{proNum}, #{discount})
 	</insert>
 
 	<!--Q&A 게시글조회 -->
@@ -739,7 +739,15 @@
 		password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d')
 		create_date,
-		owner_id, root, indent from qna where id = #{id}
+		owner_id, root, indent, hits from qna where id = #{id}
+	</select>
+	
+	<select id="selectQnaComment" resultType="QnaCommentVO">
+		select id, code, qna_category,
+		password, owner, title, content,
+		date_format(create_date, '%Y-%m-%d')
+		create_date,
+		owner_id, root, indent, hits from qnacomment where id = #{id}
 	</select>
 
 	<!-- Q&A update -->
@@ -759,15 +767,21 @@
 		#{owner}, #{content}, #{password}, #{code}, #{root})
 	</insert>
 
-	<!-- Q&A delete -->
+	<!-- Q&A delete 원글-->
 	<delete id="deleteQna">
-		delete from qna where id = #{id} and owner_id =
-		#{ownerId}
+		DELETE FROM qna WHERE id = #{id};
+	</delete>
+	<!-- Q&A delete 답변글-->
+	<delete id="deleteQnaComment">
+		DELETE FROM qnacomment WHERE root = #{root};
 	</delete>
 
 	<!-- Q&A조회수 -->
 	<update id="qnaCount">
 		update qna set hits = hits + 1 where id = #{id}
+	</update>
+	<update id="selectQnaCommentCount">
+		update qnacomment set hits = hits + 1 where id = #{id}
 	</update>
 
 	<!-- Q&A 답변 -->
@@ -783,15 +797,22 @@
 
 	<!-- inner-Q&A : 유형이 상품문의만 출력 -->
 	<select id="selectBBSList" resultType="QnaVO">
+		select *
+		from
+		(
 		select id, code,
 		qna_category, password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d') create_date,
 		owner_id, root,
 		indent, hits,
 		(select count(*) from qnacomment c where c.root = q.id) as reply_count from
-		qna q where qna_category = '상품문의' order
-		by id desc limit #{start},
-		#{cntPerPage}
+		qna q where qna_category = '상품문의'
+		<if test="code != null"> 
+		and code = #{code}
+		</if>		
+		order by id desc
+		) TTT
+		LIMIT #{start}, #{cntPerPage}
 	</select>
 
 	<select id="selectBBS" resultType="QnaVO">
@@ -799,8 +820,8 @@
 		password, owner, title, content,
 		date_format(create_date, '%Y-%m-%d')
 		create_date,
-		owner_id, root, indent, hits from qna WHERE qna_category =
-		'상품문의' and id
+		owner_id, root, indent, hits from qna 
+		WHERE qna_category ='상품문의' and id
 		= #{id} ORDER BY id DESC
 	</select>
 
@@ -811,15 +832,13 @@
 		date_format(create_date, '%Y-%m-%d %T') create_date,
 		order_id, root, indent
 		from qnacomment
-		where is_delete = 0
-		and root =
+		where root =
 		#{root}
 	</select>
 
 	<insert id="insertComment">
 		insert into qnacomment(owner_id, owner,
-		title,
-		content, password, order_id, root, indent, qna_category)
+		title, content, password, order_id, root, indent, qna_category)
 		values
 		(#{ownerId},#{owner},#{title},#{content},#{password},#{orderId},
 		#{root}, 1, '상품문의')

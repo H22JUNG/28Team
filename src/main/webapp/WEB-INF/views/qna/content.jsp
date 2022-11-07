@@ -6,94 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul, li {
-	list-style-type: none;
-}
-
-body {
-	background:
-		url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp")
-		0% 300% fixed;
-	background-size: cover;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	z-index: 0;
-}
-
-/* 헤더 */
-header {
-	background-color: white;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 1200px;
-}
-
-header .header-top {
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-}
-
-header .header-top .logo img {
-	width: 265px;
-}
-
-header .header-top .logo {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .header-top .side {
-	position: absolute;
-}
-
-header .header-top .side ul {
-	display: flex;
-	gap: 10px;
-	margin: 10px;
-}
-
-/* 카테고리 */
-header .category {
-	padding: 10px 20px;
-	width: 100%;
-}
-
-header .category ul {
-	display: flex;
-	gap: 30px;
-}
-
-header .category ul li {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .category ul li:first-child {
-	background: #FFECC8;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	padding: 5px 15px 7px;
-	gap: 10px;
-}
-
 /*main*/
 main {
 	background-color: white;
@@ -104,13 +19,13 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
+	min-width: 500px;
 }
 
 main .mypage-container {
 	display: flex;
 	flex-direction: column;
-	width: 80%;
+	width: 70%;
 	justify-content: center;
 	align-items: center;
 }
@@ -121,7 +36,7 @@ a {
 }
 
 .qna_wrap {
-	width: 1000px;
+	width: 100%;
 	margin: 100px auto;
 }
 
@@ -154,7 +69,7 @@ a {
 	border: 1px solid #21A5B5;
 	border-radius: 5px;
 	font-size: 14px;
-	color : #21A5B5
+	color: #21A5B5
 }
 
 .btn_wrap a.on {
@@ -225,35 +140,7 @@ a {
 </style>
 </head>
 <body>
-	<header>
-		<div class="header-top">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath}/"><img
-					src="${pageContext.request.contextPath}/image/KakaoTalk_20221012_170414651.png"
-					alt=""></a>
-			</div>
-			<div class="side">
-				<ul>
-					<li><a href=""><img src="" alt="">검색</a></li>
-					<li><a href=""><img src="" alt="">장바구니</a></li>
-					<li><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-		<nav class="category">
-			<ul>
-				<li>Category</li>
-				<li>가구</li>
-				<li>패브릭</li>
-				<li>수납용품</li>
-				<li>생활용품</li>
-				<li>공지사항</li>
-				<li>Q&A</li>
-				<li>이벤트</li>
-			</ul>
-		</nav>
-	</header>
+	<jsp:include page="../header.jsp"></jsp:include>
 	<main>
 		<div class="mypage-container">
 			<div class="qna_wrap">
@@ -263,69 +150,129 @@ a {
 				</div>
 				<div class="qna_content_wrap">
 					<div class="qna_content">
-						<div class="title">${qnaVO.title}</div>
-						<div class="info">
-							<dl>
-								<dt>NO.</dt>
-								<dd>${qnaVO.id}</dd>
-							</dl>
-							<dl>
-								<dt>작성자</dt>
-								<dd>${qnaVO.owner}</dd>
-							</dl>
-							<dl>
-								<dt>작성일</dt>
-								<dd>${qnaVO.createDate}</dd>
-							</dl>
-							<dl>
-								<dt>조회</dt>
-								<dd>${qnaHits}</dd>
-							</dl>
-						</div>
-						<div class="cont">
-							${qnaVO.content}
-						</div>
+						<c:choose>
+							<c:when test="${qnacommentVO.getIndent()>0}">
+								<div class="title">${qnacommentVO.title}</div>
+								<div class="info">
+									<dl>
+										<dt>NO.</dt>
+										<dd>${qnacommentVO.id}</dd>
+									</dl>
+									<dl>
+										<dt>작성자</dt>
+										<dd>${qnacommentVO.owner}</dd>
+									</dl>
+									<dl>
+										<dt>작성일</dt>
+										<dd>${qnacommentVO.createDate}</dd>
+									</dl>
+									<dl>
+										<dt>조회</dt>
+										<dd>${qnacommentVO.hits}</dd>
+									</dl>
+								</div>
+								<div class="cont">${qnacommentVO.content}</div>
+								<div class="btn_wrap">
+									<a href="${pageContext.request.contextPath}/qna" class="on"
+										id="return">목록으로</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="title">${qnaVO.title}</div>
+								<div class="info">
+									<dl>
+										<dt>NO.</dt>
+										<dd>${qnaVO.id}</dd>
+									</dl>
+									<dl>
+										<dt>작성자</dt>
+										<dd>${qnaVO.owner}</dd>
+									</dl>
+									<dl>
+										<dt>작성일</dt>
+										<dd>${qnaVO.createDate}</dd>
+									</dl>
+									<dl>
+										<dt>조회</dt>
+										<dd>${qnaVO.hits}</dd>
+									</dl>
+								</div>
+								<div class="cont">${qnaVO.content}</div>
+
+								<!--버튼-->
+								<div class="btn_wrap">
+									<a href="${pageContext.request.contextPath}/qna" class="on"
+										id="return">목록으로</a>
+
+									<c:choose>
+										<c:when test="${qnaVO.ownerId eq user.id || user.admin == 1}">
+											<a href="#" id="modify">수정</a>
+										</c:when>
+										<c:otherwise>
+											<a href="#" id="modify" style="display: none">수정</a>
+										</c:otherwise>
+									</c:choose>
+									
+									<c:choose>
+										<c:when test="${qnaVO.ownerId eq user.id || user.admin == 1}">
+											<a href="#" id="del">삭제</a>
+										</c:when>
+										<c:otherwise>
+											<a href="#" id="del" style="display: none">삭제</a>
+										</c:otherwise>
+									</c:choose>
+									
+									<c:choose>
+										<c:when test="${user.admin == 1}">
+											<a class="btn-fill"
+											href="${pageContext.request.contextPath}/reply?id=${qnaVO.id}"
+											id="rep">답글</a>
+										</c:when>
+										<c:otherwise>
+											<a class="btn-fill"
+											href="${pageContext.request.contextPath}/reply?id=${qnaVO.id}"
+											id="rep" style="display: none">답글</a>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 
-				<!--버튼-->
-				<div class="btn_wrap">
-					<a href="${pageContext.request.contextPath}/qna" class="on" id="return">목록으로</a> 
-					
-					<c:if test="${qnaVO.ownerId eq user.id}">
-					<a href="#" id="modify">수정</a>
-					</c:if>
-					<c:if test="${qnaVO.ownerId eq user.id}">
-					<a href="#" id="del">삭제</a>
-					</c:if>
-					<%-- <c:if test="${userVO.admin == 1}">--%>
-					<a class="btn-fill" href="${pageContext.request.contextPath}/reply?id=${qnaVO.id}" id="rep">답글</a>
-					 <%-- </c:if>--%>
-				</div>
-	</div>
-	</div>
+
+			</div>
+		</div>
 	</main>
-	<footer> </footer>
-	
-	
+	<jsp:include page="../footer.jsp"></jsp:include>
+
+
 	<script type="text/javascript">
-    	document.getElementById("return").addEventListener("click",function(){
-    		location.href = "${pageContext.request.contextPath}/qna";
-    	});
-    	
-    	document.getElementById("modify").addEventListener("click",function(){
-    		location.href = "${pageContext.request.contextPath}/update/${qnaVO.id}";
-    	})
-    	document.getElementById("del").addEventListener("click",function(){
-    		let result = confirm("정말로 삭제하시겠습니까?");
-    		if(result){
-    			location.href="${pageContext.request.contextPath}/remove/${qnaVO.id}";
-    		}
-    	});
-    	
-    	document.getElementById("rep").addEventListener("click",function(){
-    		location.href = "${pageContext.request.contextPath}/reply";
-    	});
-    </script>
+		document.getElementById("return").addEventListener("click", function() {
+			location.href = "${pageContext.request.contextPath}/qna";
+		});
+
+		document
+				.getElementById("modify")
+				.addEventListener(
+						"click",
+						function() {
+							location.href = "${pageContext.request.contextPath}/update/${qnaVO.id}";
+						})
+		document
+				.getElementById("del")
+				.addEventListener(
+						"click",
+						function() {
+							let result = confirm("정말로 삭제하시겠습니까?");
+							if (result) {
+								location.href = "${pageContext.request.contextPath}/remove/${qnaVO.id}";
+							}
+						});
+
+		document.getElementById("rep").addEventListener("click", function() {
+			location.href = "${pageContext.request.contextPath}/reply";
+		});
+	</script>
 </body>
 </html>

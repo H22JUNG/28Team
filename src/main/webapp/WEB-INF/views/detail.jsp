@@ -335,10 +335,6 @@ input::-webkit-input-placeholder {
 	text-align: center;
 }
 
-.tabmenu input[type="radio"] {
-	display: none;
-}
-
 .tabmenu label {
 	display: inline-block;
 	width: 33%;
@@ -349,6 +345,10 @@ input::-webkit-input-placeholder {
 	font-size: 20px;
 	text-align: center;
 	cursor: pointer;
+}
+
+#detaillabel{
+	color: #21A5B5;
 }
 
 .tabmenu label:nth-of-type(2) {
@@ -472,7 +472,7 @@ input {
 
 #cost {
 	text-decoration: line-through;
-	width: 65px;
+	width: 71px;
 }
 
 .selected_option {
@@ -484,6 +484,10 @@ input {
 
 .options #name:focus{
 	outline : none;
+}
+
+#procode{
+	display : none;
 }
 </style>
 </head>
@@ -549,7 +553,7 @@ input {
 									value="<fmt:formatNumber value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" pattern="#,###" />"
 									id="price"> <span>원</span></td>
 							</tr>
-							<tr>
+							<tr id = "procode">
 								<th><label>상품코드 </label></th>
 								<td><select name="proNum" id="code">
 										<c:forEach var="vo" items="${detailOptionVO}">
@@ -622,7 +626,7 @@ input {
 								<th><label>구매수량</label></th>
 								<td><select name="count" id="select_count"
 									class="form-control">
-										<c:forEach begin="1" end="${detailOptionVO[1].stock}"
+										<c:forEach begin="1" end="${detailOptionVO[0].stock}"
 											var="count">
 											<option>${count}</option>
 										</c:forEach>
@@ -914,12 +918,6 @@ $(document).ready(function(){
 			}
 		});	  
 	});
-	
-	$(document).ready(function () {
-		$('html, body').animate({
-		scrollTop: $('#content1').offset().top
-		}, 'default');
-		});
 
 	</script>
 
