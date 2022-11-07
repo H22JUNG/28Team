@@ -267,7 +267,7 @@ $(document).ready(function(){
 
 	//뒤로가기 버튼
 	document.getElementById("cancel-btn").addEventListener("click", function() {
-		location.href = "${pageContext.request.contextPath}/admin_admin";
+		location.href = "${pageContext.request.contextPath}/admin-admin-list";
 	});
 	
 }); // ready end
