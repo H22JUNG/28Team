@@ -553,6 +553,9 @@ a {
 	margin-top: 15px;
 	border-radius : 5px;
 	border : 1px solid #21A5B5;
+	width : 100%;
+	height: 6em;
+}
 }
 
 #inittext:focus{
@@ -836,13 +839,13 @@ a {
 						<c:choose>
 							<c:when test="${user.admin == 1}">
 								<div class="insert" id="insert">
-									<textarea id="inittext" rows="7" cols="135"></textarea>
+									<textarea id="inittext"></textarea>
 									<button id="ibtn">등록</button>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="insert" id="insert" style="display:none">
-									<textarea id="inittext" rows="7" cols="135"></textarea>
+									<textarea id="inittext"></textarea>
 									<button id="ibtn">등록</button>
 								</div>
 							</c:otherwise>
@@ -1137,6 +1140,7 @@ a {
     		.then((response) => response.json())
     		.then((data) => {
     			makeCommentList(0, sendObj);
+    			$('#inittext').val('');
     		})
     		.catch(err => {
     			console.log(err);

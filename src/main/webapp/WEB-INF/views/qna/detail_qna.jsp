@@ -868,21 +868,19 @@ a {
 										</tr>
 									</thead>
 									<tbody>
-										<!-- code와 상세페이지id가 같으면 -->
+										<%--code와 상세페이지id가 같으면--%>
 										<c:forEach var="vo" items="${qnaVO1}">
 											<c:if test="${vo.code eq detailVO.id}">
 												<tr>
 													<td class="num">${vo.id}</td>
 													<td class="category">${vo.qnaCategory}</td>
 													<td class="title">
-													 <a href="${pageContext.request.contextPath}/detail_qna/${vo.id}/${detailVO.id}">
-													<%--<a href="#link" onclick="event.preventDefault();movetitlefn('${vo.id}', '${vo.ownerId}', '${vo.password}')">--%>
-															${vo.title} 
-															<c:if test="${vo.replyCount ne 0}">
-																<small><b>(&nbsp;${vo.replyCount}&nbsp;)</b></small>
-															</c:if>
-													</a>
-													</td>
+																<a href="#link" onclick="event.preventDefault();movetitlefn('${vo.id}', '${vo.ownerId}', '${vo.password}', '${detailVO.id}')">
+																${vo.title} 
+																<c:if test="${vo.replyCount ne 0}">
+																	<small><b>(&nbsp;${vo.replyCount}&nbsp;)</b></small>
+																</c:if>
+														</a></td>
 													<c:choose>
 														<c:when test="${vo.indent > 0}">
 															<td class="writer">${vo.owner}</td>
@@ -896,7 +894,7 @@ a {
 												</tr>
 											</c:if>
 										</c:forEach>
-										<!-- code와 상세페이지id가 같지않으면 -->
+										<%-- code와 상세페이지id가 같지않으면--%>
 										<c:forEach var="vo" items="${qnaVO1}">
 											<c:if test="${vo.code} eq ${datailVO.id}">
 												<td>
@@ -907,18 +905,18 @@ a {
 									</tbody>
 								</table>
 								<!-- 패스워드 모달창 -->
-								<%-- <div id="modal">
+								<div id="modal">
 									<div id="modalfont">
 										<h4>비밀글 입니다.</h4>
 										<h5>작성자와 관리자만 열람하실 수 있습니다.</h5>
 									</div>
 									<div id="content">
 										<input type="button" value="X" class="close" id="btnClose" />
-										<label>비밀번호</label> <input type="password" maxlength="4"
-											id="password" name="password" /> <input type="button"
-											value="확인" id="btnCheck" />
+										<label>비밀번호</label> 
+										<input type="password" maxlength="4" id="password" name="password" /> 				
+										<input type="button" value="확인" id="btnCheck" />
 									</div>
-								</div>--%>
+								</div>
 							</div>
 
 
@@ -1040,52 +1038,56 @@ a {
 			plusSlides(1);
 		}, 3000);
 		
+		
 		//패스워드 모달창
-		<%--let thePassword = "";
-		let theId="";
-		$(function(){
-			
+		let thePassword = "";
+		let theId = "";
+		let theDetailId = "";
+		$(function() {
+
 			var btnCheck = document.getElementById('btnCheck');
 			var btnClose = document.getElementById('btnClose');
 
 			// modal 창을 감춤
-			var closeRtn = function(){
-			  var modal = document.getElementById('modal');
-			  modal.style.display = 'none';
-			  thePassword = "";
-			  theId="";
+			var closeRtn = function() {
+				var modal = document.getElementById('modal');
+				modal.style.display = 'none';
+				thePassword = "";
+				theId = "";
+				theDetailId = "";
 			}
 
-
-			let checkPass = function(){
-				if( thePassword !== "" && thePassword ===$("#password").val() ){
-					location.href = '${pageContext.request.contextPath}/qna/'+theId;
+			let checkPass = function() {
+				if (thePassword !== "" && thePassword === $("#password").val()) {
+					location.href = '${pageContext.request.contextPath}/detail_qna/'
+							+ theId + '/' + theDetailId;
 				} else {
 					alert("비밀번호가 올바르지 않습니다.");
 				}
 				closeRtn();
 			}
-			
+
 			btnCheck.onclick = checkPass;
 			btnClose.onclick = closeRtn;
-			
-			
+
 		});
 		// 모달창 나오는 조건
-		var movetitlefn = function(id, ownerId, pwd){
-		  	if("${sessionScope.user.userid}" == "") {
-		  		alert("로그인 후 이용해주세요.");
-		  	} else {
-		  		if(ownerId === '${user.id}' || '${user.admin}' === '1'){
-		  			location.href = '${pageContext.request.contextPath}/qna/'+id;	
-		  		} else{
-			  		var modal = document.getElementById('modal');
-			  	    modal.style.display = 'block';
-			  	    thePassword = pwd;
-			  	    theId = id 
-		  		}
-		  	} 
-		}--%>
+		var movetitlefn = function(id, ownerId, pwd, detailId) {
+			if ("${sessionScope.user.userid}" == "") {
+				alert("로그인 후 이용해주세요.");
+			} else {
+				if (ownerId === '${user.id}' || '${user.admin}' === '1') {
+					location.href = '${pageContext.request.contextPath}/detail_qna/'
+							+ id + '/' + detailId;
+				} else {
+					var modal = document.getElementById('modal');
+					modal.style.display = 'block';
+					thePassword = pwd;
+					theId = id;
+					theDetailId = detailId;
+				}
+			}
+		}
 
 		// 장바구니 이동
 		$("#btn1")
