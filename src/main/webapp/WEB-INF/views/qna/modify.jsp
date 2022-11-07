@@ -228,12 +228,11 @@ a {
 	<jsp:include page="../footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
- 		document.getElementById("btn1").addEventListener("click",function() {
-							/*  alert("수정이 완료되었습니다.") */
-			if ( confirm("Do you really want to update?") ) {
+		document.getElementById("btn1").addEventListener("click",function() {
+			if ( confirm("수정하시겠습니까?") ) {
 				$("#myform").submit();
 			}				
-		}); 
+		});  
 		
 		document.getElementById("btn2").addEventListener("click",function() {
 			location.href = "${pageContext.request.contextPath}/qna/${vo.id}";

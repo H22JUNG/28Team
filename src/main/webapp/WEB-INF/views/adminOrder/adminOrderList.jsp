@@ -360,7 +360,7 @@ table {
 						</li>
 						<li>
 							<h4>
-								<a href="" class="menu1">✔ 로그아웃</a>
+								<a href="${pageContext.request.contextPath}/admin-logout" id="admin-logout" class="menu1">✔ 로그아웃</a>
 							</h4>
 						</li>
 					</div>
@@ -756,8 +756,6 @@ table {
 		// 모달 off
 		//body.style.overflow = 'auto';
 		
-		
-
 	</script>
 </body>
 

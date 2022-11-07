@@ -248,7 +248,7 @@ tr:last-child>td, tr:last-child>th {
 						</li>
 						<li>
 							<h4>
-								<a href="" class="menu1">✔ 로그아웃</a>
+								<a href="${pageContext.request.contextPath}/admin-logout" id="admin-logout" class="menu1">✔ 로그아웃</a>
 							</h4>
 						</li>
 					</div>

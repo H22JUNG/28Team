@@ -162,7 +162,7 @@ public class BbsService {
 			pagevo.setStart((page - 1) * pagevo.getCntPerPage());
 			pagevo.setEnd(page * pagevo.getCntPerPage());
 
-			pagevo.setCntPerBlock(5);
+			pagevo.setCntPerBlock(1);
 			// 전체페이지
 			int totalPage = pagevo.getTotal() / pagevo.getCntPerPage();
 			totalPage = (pagevo.getTotal() % pagevo.getCntPerPage() == 0) ? totalPage : totalPage + 1;

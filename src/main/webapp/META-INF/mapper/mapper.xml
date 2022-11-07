@@ -11,7 +11,7 @@
 	</select>
 	<select id="getUser" resultType="userVO" parameterType="userVO">
 		select
-		id, userid, username, tel, email, point from user
+		id, userid, username, tel, email, point, admin from user
 		where userid =
 		#{userid} and password = #{password}
 	</select>

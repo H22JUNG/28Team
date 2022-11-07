@@ -32,7 +32,7 @@ main {
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-	min-width: 1200px;
+	min-width: 500px;
 	max-width: 100%;
 }
 
