@@ -195,6 +195,8 @@ public interface ProjectDAO {
 	// =============== 관리자페이지 - 주문관리 =====================
 	// 결제완료된 리스트 뽑아오기
 	public List<orderUser> selectAdminOrder(@Param("delivstate") int delivstate);
+	// null 업데이트
+	public void updateNull();
 	// 모달창
 	public List<detailOrderVO> selectOrderModal(detailOrderVO dvo);
 	// delivnum Update

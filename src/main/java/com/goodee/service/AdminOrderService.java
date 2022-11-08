@@ -24,6 +24,7 @@ public class AdminOrderService {
 			if(dao.selectAdminOrder(delivstate).size() != 0) {
 				model.addAttribute("orderList",dao.selectAdminOrder(delivstate));
 			}
+			dao.updateNull();
 		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}

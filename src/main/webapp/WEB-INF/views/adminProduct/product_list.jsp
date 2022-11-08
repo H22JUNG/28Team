@@ -268,6 +268,7 @@ td {
                                         <option value="name">상품명</option>
                                     </select>
                                     <input type="text" name="content" id="content" placeholder="검색어를 입력하세요">
+                                    <input type="hidden" />
                                     <button id="submit">검색</button>
                                 </form>
                             </div>
@@ -293,7 +294,22 @@ td {
                                 	<c:set var="cnt" value="${i=i+1}"/>
                                     <tr>
                                     	<td>${cnt}</td>
-                                        <td>${productVO.category1}</td>
+                                        <td>${productVO.category1}
+                                        <!-- 
+                                        <c:if test="${productVO.category1 eq 'furniture'}">
+                                        		가구
+                                        	</c:if>
+                                        	<c:if test="${productVO.category1 eq 'fabric'}">
+                                        		패브릭
+                                        	</c:if>
+                                        	<c:if test="${productVO.category1 eq 'storage'}">
+                                        		수납용품
+                                        	</c:if>
+                                        	<c:if test="${productVO.category1 eq 'supplies'}">
+                                        		생활용품
+                                        	</c:if>
+                                         -->
+                                        </td>
                                         <td>${productVO.category2}</td>
                                         <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.proNum}" class="choice">${productVO.proNum}</a></td>
                                         <td class="text_left">${productVO.name}</td>
@@ -323,6 +339,12 @@ td {
     	document.getElementById("insert_btn").addEventListener("click",function(){
         	location.href = "${pageContext.request.contextPath}/admin_product_insert";
     	});
+		
+    	/*
+    	document.getElementById("submit").addEventListener("click",function(e){
+    		e.preventDefault();
+    	});
+    	*/
 	</script>
 </body>
 

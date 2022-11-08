@@ -122,9 +122,10 @@
 	<!-- ==================== 관리자 페이지 - 상품 관리 ==================== -->
 	<!-- 관리자 페이지 - product 전체 list 뽑기 - 윤정 -->
 	 <select id="selectProductList" resultType="ProductListVO">
-	 	SELECT product.id, category1, category2, product.name, price, view,  date_format(create_date,'%Y-%m-%d') 'createDate', option.pro_num, size, color, stock
+	 	SELECT product.id, product.category_id, category1, category2, product.name, price, view,  date_format(create_date,'%Y-%m-%d') 'createDate', option.pro_num, upper(size) 'size', upper(color) 'color', stock
 		FROM option INNER JOIN product
 		ON option.id = product.id
+		ORDER by category_id, option.pro_num
 	</select>
 	
 	<select id="serchProductList" resultType="ProductListVO">
@@ -1041,6 +1042,12 @@
 		where
 		<include refid="delivstate" />
 	</select>
+	
+	<update id="updateNull">
+		update orderitem
+		set size = '선택없음', color = '선택없음'
+		where size is null or color is NULL
+	</update>
 
 
 

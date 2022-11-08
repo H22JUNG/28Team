@@ -121,6 +121,10 @@ main section {
     font-weight: bold;
 }
 
+.side-menu li h4 a:focus {
+	background-color: blue;
+}
+
 .side-menu_inner {
     display: flex;
 }
