@@ -573,9 +573,10 @@ a {
 }
 
 .qna_content .title {
+	font-weight: bolder;
 	padding: 10px 15px;
 	border-bottom: 1px dashed #ddd;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 .qna_content .info {
@@ -625,7 +626,7 @@ a {
 	padding: 50px 5px 100px 5px;
 	border-bottom: 1px solid #21A5B5;
 	line-height: 160%;
-	font-size: 30px;
+	font-size: 18px;
 	text-align: left;
 }
 

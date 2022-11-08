@@ -132,6 +132,8 @@ public interface ProjectDAO {
 				
 	//Q&A 게시판
 	public int selectQnaCount();  
+	public int selectQnaAndQnaCommentCount(); //원글+댓글 개수
+	public int selectQnaCountWhereCode(); //'상품문의'일때의 원글 개수
 	public List<QnaVO> QnaList(PageVO pagevo);
 	//Q&A 타이틀 누르면 이동
 	public QnaVO selectQna(String id);

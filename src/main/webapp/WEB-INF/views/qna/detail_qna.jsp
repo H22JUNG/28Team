@@ -333,7 +333,7 @@ input::-webkit-input-placeholder {
 	text-align: center;
 }
 
-.tabmenu label {
+.tabmenu a label {
 	display: inline-block;
 	width: 33%;
 	padding: 15px 0;
@@ -616,26 +616,27 @@ a {
 }
 
 #modal{
-	background-color: #d3d3d3;
+	background-color: white;
 	position : fixed;
 	top : 30%;
 	left : 33%;
-	width : 27.5%;
+	width : 22%;
+	height : 16%;
 	opacity : 80%;
 	text-align: center;
 	display : none;
-}
-
-#modal #modalfont{
+	border : 1px solid #cccccc;
 	padding-top: 20px;
+	box-sizing: content-box;
 }
 
-#modal>#content{
-	width: 350px;
-	height : 100px;
+#content{
+	width : 80%;
+	height : 15%;
 	margin : 15px auto;
-	padding: 15px;
+	padding: 10px;
 	background-color: #fff;
+	box-sizing: content-box;
 }
 
 #modal .close{
@@ -644,7 +645,7 @@ a {
 	right : 5px;
 	font-size: 20px;
 	border: 0;
-	background-color: #d3d3d3;
+	background-color: white;
 }
 
 #modal #btnCheck{
@@ -894,14 +895,6 @@ a {
 												</tr>
 											</c:if>
 										</c:forEach>
-										<%-- code와 상세페이지id가 같지않으면--%>
-										<c:forEach var="vo" items="${qnaVO1}">
-											<c:if test="${vo.code} eq ${datailVO.id}">
-												<td>
-													<p>등록된 글이 없습니다.</p>
-												</td>
-											</c:if>
-										</c:forEach>
 									</tbody>
 								</table>
 								<!-- 패스워드 모달창 -->
@@ -909,12 +902,13 @@ a {
 									<div id="modalfont">
 										<h4>비밀글 입니다.</h4>
 										<h5>작성자와 관리자만 열람하실 수 있습니다.</h5>
-									</div>
-									<div id="content">
-										<input type="button" value="X" class="close" id="btnClose" />
-										<label>비밀번호</label> 
-										<input type="password" maxlength="4" id="password" name="password" /> 				
-										<input type="button" value="확인" id="btnCheck" />
+
+										<div id="content">
+											<input type="button" value="X" class="close" id="btnClose" />
+											<label>비밀번호</label> <input type="password" maxlength="4"
+												id="password" name="password" /> <input type="button"
+												value="확인" id="btnCheck" />
+										</div>
 									</div>
 								</div>
 							</div>
