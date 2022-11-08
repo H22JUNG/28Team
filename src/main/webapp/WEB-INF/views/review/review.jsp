@@ -865,6 +865,7 @@ input {
 				}
     	<%} else {%>
    				alert("로그인 후 이용하실 수 있습니다.");
+   				location.href="${pageContext.request.contextPath}/loginpage";
    		<%} %>
     });
     
@@ -891,6 +892,7 @@ input {
 			 });
 	   		<%} else {%>
 	   			alert("로그인 후 이용하실 수 있습니다.");
+   				location.href="${pageContext.request.contextPath}/loginpage";
 	   		<%} %>
    		}); 
    		
@@ -925,6 +927,7 @@ input {
 			   		}
 			<%} else {%>
 				 alert("로그인 후 이용하실 수 있습니다.");
+	   			location.href="${pageContext.request.contextPath}/loginpage";
 			<%}%>
    			
    		}); 

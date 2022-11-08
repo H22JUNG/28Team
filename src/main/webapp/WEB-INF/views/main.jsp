@@ -427,13 +427,15 @@ main .best-review {
 		</div>
 	</main>
 	<jsp:include page="footer.jsp"></jsp:include>
+   	<c:if test="${empty cookie}">
 	<div id="popup1">
    		<a href="${pageContext.request.contextPath}/notice/13"><img src="image/popup1.png" alt="" /></a>
-   	<div id="popup-close">
-   		<div><input type="checkbox" id="1days" value="check"/><label for="1days">오늘 하루 보지않기</label></div>
-   		<div><button id="popup-button">닫기</button></div>
-   	</div>	
+	   	<div id="popup-close">
+	   		<div><input type="checkbox" id="1days" value="check"/><label for="1days">오늘 하루 보지않기</label></div>
+	   		<div><button id="popup-button">닫기</button></div>
+	   	</div>
     </div>
+   	</c:if>	
 	<script>
         var slideIndex = 0;
 
@@ -524,20 +526,30 @@ main .best-review {
 		
 		
 		//------팝업 쿠키설정------
-        document.getElementById("popup-button").addEventListener("click", function(){
-        	if(document.getElementById("1days").checked==true) {
-        		fetch("${pageContext.request.contextPath}/makeCookie");
-        	}
-        	document.getElementById("popup1").style.display = "none";
-        });
-       
-		 /* window.addEventListener("DOMContentLoaded", function(){
+/* 		window.addEventListener("DOMContentLoaded", function(){
+			console.log("화면띄움");
+			console.log("${cookie}");
+
 			if(${empty cookie}){
-				document.getElementById("popup1").style.display = "";
+				document.getElementById("popup1").style.display = "block";
+		        document.getElementById("popup-button").addEventListener("click", function(){
+		        	if(document.getElementById("1days").checked==true) {
+		        		fetch("${pageContext.request.contextPath}/makeCookie");
+		        	}
+		        	document.getElementById("popup1").style.display = "none";
+		        });
+				console.log("쿠키 비었음");
+				console.log("${cookie}");
 			} else {
-				document.getElementById("popup1").style.display = "";
+				console.log("쿠키있어요");
+				console.log("${cookie}");
+
 			}
-		});  */
+		}); */
+		
+		
+		
+		
     </script>
 </body>
 
