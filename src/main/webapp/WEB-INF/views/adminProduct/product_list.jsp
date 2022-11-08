@@ -216,7 +216,7 @@ td {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1" style="color: #21A5B5;">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>

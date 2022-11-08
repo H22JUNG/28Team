@@ -112,6 +112,36 @@ main section {
 
 /* 여기서부터 윤정이거! */
 
+#orderSearch {
+	height: 25px;
+}
+
+#search button {
+	font-size: 12px;
+    width: 40px;
+    height: 24px;
+    background-color: white;
+    border: 1px solid #21A5B5;
+    color: #21A5B5;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#search form {
+	float: right;
+}
+
+#orderSearch select {
+	color: #616161;
+	font-size: 13px;
+	width: 110px;
+    height: 25px;
+}
+
+#content {
+	height: 25px;
+}
+
 .side-menu li h4 a {
     border: none; 
     padding: 10px 24px;
@@ -327,6 +357,17 @@ table {
     cursor: pointer;
 }
 
+.cancelbtn {
+    border: none;
+    background-color: #d3fbff;
+    padding: 6px;
+    font-weight: bold;
+    color: #21A5B5;
+    cursor: pointer;
+}
+
+
+
 .td_form_button>form>button {
 	margin: 3px;
 	width: 5rem;
@@ -354,7 +395,7 @@ table {
 						</li>
 						<li>
 							<h4>
-								<a href="" class="menu1">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1" class="menu1" style="color: #21A5B5;">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>
@@ -410,6 +451,17 @@ table {
 				</section>
 				<!-- ------------------------------------------------------------------------ -->
 				<section class="tabcontent">
+					<div id="search">
+                    	<form action="${pageContext.request.contextPath}/orderSearch" method="post">
+                        	<select name="orderSearch" id="orderSearch">
+                            	<option value="" selected>카테고리 선택</option>
+                                <option value="userid">회원 ID</option>
+                                <option value="orderNum">주문번호</option>
+                            </select>
+                            <input type="text" name="content" id="content" placeholder="검색어를 입력하세요">
+                            <button id="submit">검색</button>
+                       </form>
+                    </div>
 					<div class="adminorder">
                         <table>
                             <thead>
@@ -466,7 +518,8 @@ table {
 												</form>
 												<form action="${pageContext.request.contextPath}/orderCancel" method="post">
 													<input type="hidden" value="${vo.orderNum}" name="orderNum"/>
-													<button class="paybtn" type="submit">
+													<input type="hidden" value="${vo.userid}" name="userid"/>
+													<button class="cancelbtn" type="submit">
 														환불처리
 													</button>
 												</form>
@@ -768,6 +821,10 @@ table {
 		//body.style.overflow = 'hidden';
 		// 모달 off
 		//body.style.overflow = 'auto';
+		
+		document.querySelector(".cancelbtn").addEventListener("click",function(){
+			alert("환불처리 하시겠습니까?");
+		});
 		
 	</script>
 </body>
