@@ -43,7 +43,7 @@ main {
 
 .title {
 	border-top: 3px solid #D9D9D9;
-	padding: 10px;
+	padding: 10px 20px 10px 10px;
 	border-bottom: 2px solid #D9D9D9;
 }
 
@@ -65,8 +65,21 @@ main {
 .title span, .info span {
 	width: 50px;
 	font-weight: bold;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.content {
+	padding: 50px 20px;
+	min-height: 50vh;
+}
+#title {
+	width: 100%;
+    padding-left: 10px;
+    border: 1px solid #CACACA;
+    height: 30px;
+}
 .content {
 	padding: 50px 20px;
 	min-height: 50vh;
@@ -75,10 +88,11 @@ main {
 .content #content {
 	width: 100%;
 	height: 500px;
-	border: 0;
 	resize: none;
 	padding: 10px;
+	border: 1px solid #CACACA;	
 }
+
 
 #golist {
 	display: inline-block;
@@ -129,6 +143,9 @@ main {
 
 .update button:active {
 	background-color: #eaf7fb;
+}
+#important {
+	margin-right: 10px;
 }
 </style>
 </head>
