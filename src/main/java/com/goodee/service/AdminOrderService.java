@@ -57,4 +57,17 @@ public class AdminOrderService {
 		int i = dao.orderState3();
 		return i;
 	}
+	
+	// 환불처리
+	public void orderCancel(orderUser ovo) {
+		dao.orderCancel(ovo);
+		dao.cancelPointUpdate(ovo);
+		dao.cancelCountUpdate(ovo);
+	}
+	
+	// 검색기능
+	public List<orderUser> orderSerch(orderUser ovo) {
+		List<orderUser> list = dao.orderSerch(ovo);
+		return list;
+	}
 }

@@ -1043,6 +1043,20 @@
 		<include refid="delivstate" />
 	</select>
 	
+	<select id="orderSerch" resultType="orderUser">
+		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num,
+		userid, total_price, delivstate, pay_result
+		from orderuser
+		<where>
+			<if test="orderNum != null and orderNum != ''">
+			and order_num like #{orderNum}
+			</if>
+			<if test="userid != null and userid != ''">
+			and userid = #{userid}
+			</if>
+		</where>
+	</select>
+	
 	<update id="updateNull">
 		update orderitem
 		set size = '선택없음', color = '선택없음'
@@ -1105,17 +1119,36 @@
 
 	<!-- 주문교환 -->
 	<update id="orderExchange">
-		update orderuser set pay_result = "교환신청";
+		update orderuser
+		set pay_result = 4
 		where
 		order_num = #{orderNum}
 	</update>
 
-	<!-- 주문 취소 -->
+	<!-- 환불 처리 -->
 	<update id="orderCancel">
-		update orderuser set pay_result = "취소완료"
+		update orderuser
+		set pay_result = 3
 		where
 		order_num = #{orderNum}
 	</update>
+	<!-- 환불처리 - 포인트 증가 -->
+	<update id="cancelPointUpdate">
+		UPDATE user u INNER JOIN orderuser o
+		ON u.userid = o.userid
+		SET u.POINT = u.point+o.point
+		WHERE o.userid = #{userid}
+		AND o.order_num = #{orderNum}
+	</update>
+	<!-- 환불처리 - count 증가 -->
+	<update id="cancelCountUpdate">
+		UPDATE option o INNER JOIN (orderitem i INNER JOIN orderuser u ON i.cart_listnum = u.cart_listnum)
+		ON o.pro_num = i.pro_num
+		SET o.stock = o.stock+i.count
+		WHERE u.order_num = #{orderNum}
+		AND i.userid = u.userid
+		AND o.pro_num = i.pro_num
+		AND i.cart_listnum = u.cart_listnum
+	</update>
 
-	<!-- 환불처리 -->
 </mapper>

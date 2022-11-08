@@ -212,7 +212,11 @@ public class CartVO {
 		if((double)this.discount/(double)100 == (double)0) {
 			this.salePrice = this.price;
 		}else {
-			this.salePrice = Math.round((int)((double)this.price * ((double)1-(double)this.discount/(double)100)));
+			//this.salePrice = Math.round((int)((double)this.price * ((double)1-(double)this.discount/(double)100)));
+			
+			// d를 반올림 시키고 -> String으로 변환한 다음 -> Integer로 변환
+			double d = (double)this.price * ((double)1-(double)this.discount/(double)100);
+			this.salePrice = Integer.parseInt(String.valueOf(Math.round(d)));
 		}
 		this.resultPrice = this.salePrice*count;
 		//this.point = (int)(Math.floor(this.salePrice*0.05));

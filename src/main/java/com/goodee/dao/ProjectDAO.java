@@ -207,4 +207,10 @@ public interface ProjectDAO {
 	public int orderState1();
 	public int orderState2();
 	public int orderState3();
+	// 환불 처리
+	public void orderCancel(orderUser ovo);
+	public void cancelPointUpdate(orderUser ovo);
+	public void cancelCountUpdate(orderUser ovo);
+	// 검색기능
+	public List<orderUser> orderSerch(orderUser ovo);
 }

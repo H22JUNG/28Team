@@ -44,12 +44,6 @@ public class AdminOrderController {
 		return "redirect:/adminOrder";
 	}
 	
-	// 주문취소
-	@PostMapping("/orderCancel")
-	public String orderCancel(int orderNum) {
-		return "";
-	}
-	
 	// 모달
 	@PostMapping("/modal")
 	@ResponseBody
@@ -57,5 +51,29 @@ public class AdminOrderController {
 		return service.selectOrderModal(dvo);
 	}
 	
+	// 환불처리
+	@PostMapping("/orderCancel")
+	public String orderCancel(orderUser ovo) {
+		service.orderCancel(ovo);
+		return "redirect:/adminOrder";
+	}
 	
+	// 검색기능
+	@PostMapping("/orderSearch")
+	public String orderSearch(@RequestParam("orderSearch") String orderSearch, @RequestParam("content") String content, orderUser ovo, Model model) {
+		if(orderSearch.equals("orderNum")) {
+			ovo.setOrderNum(content);
+		}else if(orderSearch.equals("userid")){
+			ovo.setUserid(content);
+		}
+		
+		
+		model.addAttribute("orderList",service.orderSerch(ovo));
+		
+		model.addAttribute("orderState1",service.orderState1());
+		model.addAttribute("orderState2",service.orderState2());
+		model.addAttribute("orderState3",service.orderState3());
+		
+		return "adminOrder/adminOrderList";
+	}
 }
