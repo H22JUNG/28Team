@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goodee.dao.LoginDAO">
+
+	<!-- 로그인 -->
+	<select id="login" resultType="int" parameterType="userVO">
+		select count(*) from user
+		where userid = #{userid} and password = #{password}
+	</select>
+	<select id="getUser" resultType="userVO" parameterType="userVO">
+		select id, userid, username, tel, email, point from user
+		where userid = #{userid} and password = #{password}
+	</select>
+	<select id="isAdmin" resultType="int" parameterType="userVO">
+		select count(*) from user
+		where userid = #{userid} and password = #{password} and admin = 1
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="addUser" parameterType="userVO">
+		insert into user(userid, password, username, tel, address, email, admin)
+		values (#{userid}, #{password}, #{username}, #{tel}, #{address}, #{email}, 0)
+	</insert>
+	<select id="checkid" resultType="int" parameterType="userVO">
+		select count(*) from user
+		where userid = #{userid}
+	</select>
+	
+
+</mapper>

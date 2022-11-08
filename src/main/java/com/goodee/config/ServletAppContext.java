@@ -15,9 +15,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.goodee.interceptor.LoginInterceptor;
 
 // Spring MVC프로젝트에 관련된 설정을 하는 클래스
 @Configuration
@@ -120,6 +124,22 @@ public class ServletAppContext implements WebMvcConfigurer{
 		multipartResolver.setMaxUploadSizePerFile(MAX_SIZE);
 		
 		return multipartResolver;
+	}
+	
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// TODO Auto-generated method stub
+		WebMvcConfigurer.super.addInterceptors(registry);
+		
+		LoginInterceptor loginInter = new LoginInterceptor();
+		
+		InterceptorRegistration reg = registry.addInterceptor(loginInter);
+		
+		reg.addPathPatterns("/cart");
+		reg.addPathPatterns("/mypage");
+		reg.addPathPatterns("/movemypage/**");
+		reg.addPathPatterns("/CartInforController");
 	}
 }
 

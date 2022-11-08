@@ -79,8 +79,8 @@
         form span {
             font-size: 15px;
             position: absolute;
-            left: 100%;
-            top: -5%;
+            left: 98%;
+   			top: -2%;
             cursor: pointer;
         }
 
@@ -197,38 +197,50 @@
     <div class="signup-container">
         <div class="signup-box">
             <form action="${pageContext.request.contextPath}/adduser" method="post" id="signup-form">
-                <span>╳</span>
+                <span id="backspan">╳</span>
                 <h3>회원가입</h3>
                 <ul class="signupinput">
                     <li>
-                        <input type="text" name="username" id="username" placeholder="이름">
+                        <input type="text" name="username" id="username" placeholder="이름" required="required" pattern="^[가-힣a-zA-Z]+$">
+                        <p>한글, 영문만 입력 가능합니다.</p>
                     </li>
                     <li class="idli">
-                        <input type="text" name="userid" id="userid" placeholder="아이디" readonly required>
+                        <input type="text" name="userid" id="userid" placeholder="아이디" readonly required="required" pattern="^[a-zA-Z0-9]+$">
                         <button type="button" class="idcheck" id="idcheck">아이디 중복 확인</button>
                     </li>
                     <li>
-                        <input type="password" name="password" id="password" placeholder="비밀번호">
+                        <input type="password" name="password" id="password" placeholder="패스워드" required="required">
+                        <p>영문,숫자,기호만 입력 가능합니다.</p>
+                        <p>기호: ~!@#$%^&*_-+=`|\(){}[]:;<>,.?/</p>
                     </li>
                     <li>
-                        <input type="password" name="pwcheck" id="pwcheck" placeholder="비밀번호 확인">
+                        <input type="password" name="pwcheck" id="pwcheck" placeholder="패스워드 확인" required="required">
                     </li>
                     <li>
-                        <input type="tel" name="tel" id="tel" placeholder="휴대폰 번호">
+                        <input type="tel" name="tel" id="tel" placeholder="휴대폰 번호" required="required" pattern="[0-9]{11}">
+                        <p>숫자만 입력해 주세요.</p>
+                    </li>
+                    <li><input type="text" name="address" id="address" placeholder="주소"/>
+                    	<p>필수 항목이 아닙니다.</p>
                     </li>
                     <li>
-                        <input type="email" name="email" id="=email" placeholder="이메일">
+                        <input type="email" name="email" id="email" placeholder="이메일" required="required">
                     </li>
                     <li>
                         <input type="checkbox" name="agree" id="agree" onclick="return false;"><label for="agree" class="saveck">회원가입약관에 동의합니다</label>
                     </li>
                 </ul>
-                <button id="btn" class="btn">회원가입</button>
+                <button id="btn" class="btn" onclick="form_check()">회원가입</button>
             </form>
         </div>
     </div>
 
     <script>
+//		닫기버튼
+		document.getElementById("backspan").addEventListener("click",function(){
+        	history.back();
+        });
+    
     
 //		회원가입약관    
         const agree = document.getElementById("agree");
@@ -255,22 +267,116 @@
             var option = "width = 401, height = 301, left = 280, top = 250";
             window.open(url,name,option);
         }
-        
-//		null 체크
 
-		let id = document.getElementById("userid");
-        document.getElementById("btn").addEventListener("click",function(e){
-        	e.preventDefault();
-        	if(id.value != "") {
-        		document.getElementById("signup-form").submit();
-        	} else {
-        		let warning = document.createElement("p");
-        		warning.innerText = "아이디를 입력해 주세요";
-        		warning.style = "color : red;";
-        		id.style = "border: 2px solid red;";
-        	}
-        	
-        });
+		// 유효성 검사
+		
+		document.getElementById("btn").addEventListener("click",function(e){
+			const username = document.getElementById("username");
+			const userid = document.getElementById("userid");
+			const password = document.getElementById("password");
+			const pwcheck = document.getElementById("pwcheck");
+			const tel = document.getElementById("tel");
+			const address = document.getElementById("address");
+			const email = document.getElementById("email");
+			const agree = document.getElementById("agree");
+			let flag = true;
+			
+			e.preventDefault();
+			
+			// 이름
+			if(username.value == "") {
+				alert("이름을 입력하세요.");
+				username.focus();
+				flag = false;
+				return false;
+			}
+			var nameExp = /^[가-힣|a-z|A-Z]+$/;
+			if(!nameExp.test(username.value)) {
+				alert("이름은 한글, 영문만 가능합니다.");
+				username.focus();
+				flag = false;
+				return false;
+			}
+			// 아이디
+			if(userid.value == "") {
+				alert("아이디를 입력하세요.");
+				userid.focus();
+				flag = false;
+				return false;
+			}
+			var idExp = /^[a-z|A-Z|0-9]+$/;
+			if(!idExp.test(userid.value)) {
+				alert("ID는 영문, 숫자로만 입력해 주세요.");
+				userid.focus();
+				flag = false;
+				return false;
+			}
+			
+			// 비밀번호
+			if(password.value == "") {
+				alert("패스워드를 입력하세요.");
+				password.focus();
+				flag = false;
+				return false;
+			}
+			var pwExp= /^[a-z|A-Z|0-9|~!@\#$%^&*_\-+\=`|\\\(\)\{\}\[\]:;<>,.?\/]+$/;
+			if(!pwExp.test(password.value)) {
+				alert("패스워드는 영문,숫자,기호만 가능합니다.")
+				password.focus();
+				flag = false;
+				return false;
+			}
+			
+			// 비밀번호 체크
+			if(pwcheck.value == "" || pwcheck.value != password.value) {
+				alert("패스워드가 일치하지 않습니다.");
+				pwcheck.focus();
+				flag = false;
+				return false;
+			}
+			// 전화번호
+			if(tel.value == "") {
+				alert("전화번호를 입력하세요.");
+				tel.focus();
+				flag = false;
+				return false;
+			}
+			var telExp = /^[0-9]{11}$/;
+			if(!telExp.test(tel.value)) {
+				alert("휴대폰 번호가 올바르지 않습니다. 11자리 숫자로만 입력해 주세요.");
+				tel.focus();
+				flag = false;
+				return false;
+			}
+			
+			
+			// 이메일
+			if(email.value == "") {
+				alert("이메일을 입력하세요.");
+				email.focus();
+				flag = false;
+				return false;
+			}
+			var mailExp=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			if(!mailExp.test(email.value)) {
+				alert("올바른 이메일 형식이 아닙니다.");
+				email.focus();
+				flag = false;
+				return false;
+			}
+			// 약관 동의
+			if(agree.checked == false) {
+				alert("약관에 동의해 주세요.");
+				flag = false;
+				return false;
+			}
+
+			if(flag == true) {
+				document.getElementById("signup-form").submit();				
+			}
+		});
+		
+		
     </script>
 </body>
 

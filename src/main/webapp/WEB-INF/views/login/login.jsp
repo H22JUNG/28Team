@@ -83,6 +83,7 @@
             position: absolute;
             left: 100%;
             top: -7%;
+            cursor: pointer;
         }
 
         /* input */
@@ -111,10 +112,15 @@
         }
 
         .saveck {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
         }
+
+		.saveck:hover {
+			text-decoration: underline;
+		}
 
         .saveck::before {
             content: "";
@@ -135,6 +141,7 @@
             border-radius: 50%;
             display: none;
         }
+        
 
         /* 아이디/비밀번호 찾기, 회원가입 */
         .login-menu {
@@ -162,15 +169,17 @@
             height: 15px;
         }
         
-        .login-menu li a {
+        .login-menu li {
             font-weight: 400;
             font-size: 16px;
-            height: 100%;
-            text-decoration: none;
             background: linear-gradient(90deg, #21A5B5 0%, #71B2B4 100%);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            cursor: pointer;
+        }
+        .login-menu li:hover {
+        	color: black;
         }
 
 
@@ -205,7 +214,7 @@
     <div class="login-container">
         <div class="login-box">
             <form action="${pageContext.request.contextPath}/login" method="post">
-                <span>╳</span>
+                <span id="backspan">╳</span>
                 <h3>로그인</h3>
                 <ul class="logininput">
                     <li>
@@ -220,9 +229,9 @@
                     </li>
                 </ul>
                 <ul class="login-menu">
-                    <li><a href="">아이디 찾기</a></li>
-                    <li><a href="">비밀번호 찾기</a></li>
-                    <li><a href="${pageContext.request.contextPath}/signuppage">회원가입</a></li>
+                    <li id="find-id">아이디 찾기</li>
+                    <li id="find-pw">비밀번호 찾기</li>
+                    <li id="sign-up">회원가입</li>
                 </ul>
                 <button>로그인</button>
             </form>
@@ -230,6 +239,7 @@
     </div>
 
     <script>
+    	// 아이디 저장 style
         const saveid = document.getElementById("saveid");
         let ischeck = document.querySelectorAll(".saveck");
         saveid.addEventListener("click",function(){
@@ -241,6 +251,30 @@
                 style.innerHTML = ".saveck:after {display: none;}";
             }
         });
+        
+        // 닫기버튼
+        document.getElementById("backspan").addEventListener("click",function(){
+        	if(sessionStorage.getItem("lost") == null) {
+	        	history.back();
+        	} else {
+        		sessionStorage.removeItem("lost");
+        		location.href="${pageContext.request.contextPath}/";
+        	}
+        });
+        
+        // 아이디 찾기
+        document.getElementById("find-id").addEventListener("click",function(){
+        	var url = "${pageContext.request.contextPath}/findID";
+            var name = "findID";
+            var option = "width = 501, height = 401, left = 100, top = 150";
+            window.open(url,name,option);
+        });
+        
+        
+        // 회원가입 페이지로
+       	document.getElementById("sign-up").addEventListener("click",function(){
+       		location.href="${pageContext.request.contextPath}/signuppage";
+       	});
     </script>
 </body>
 

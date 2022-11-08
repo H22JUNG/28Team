@@ -5,18 +5,20 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.goodee.dao.ProjectDAO;
+import com.goodee.dao.LoginDAO;
 import com.goodee.vo.UserVO;
 
 @Service
 public class LoginService {
 	
-	public ProjectDAO dao;
-
-	public LoginService(ProjectDAO dao) {
+	public LoginDAO dao;
+	
+	public LoginService(LoginDAO dao) {
 		this.dao = dao;
 	}
+
 	
+// 로그인
 	public Map<String, String> login(UserVO vo) {
 		Map<String,String> map = new HashMap<String, String>();
 		if(dao.login(vo)==1) {

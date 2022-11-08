@@ -24,11 +24,34 @@ public class LoginController {
 		this.service = service;
 	}
 	
+	@GetMapping("/lostSession")
+	public String lostSession() {
+		return "lost-session";
+	}
+	
+	
+	@GetMapping("/loginpage")
+	public String loginpage(HttpServletRequest request) {
+		
+		String uri = request.getHeader("Referer");
+		if(uri != null && !uri.contains("/login")) {
+			request.getSession().setAttribute("prevPage", uri);
+		}
+		
+		return "login/login";
+	}
+
+	@GetMapping("/signuppage")
+	public String signuppage() {
+		return "login/sign_up";
+	}
+	
 	@PostMapping("/login")
 	public String login(UserVO vo, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		if(service.login(vo).get("login").equals("success")) {
 			session = request.getSession();
 			session.setAttribute("user", service.getUser(vo));
+			session.setMaxInactiveInterval(60);
 			
 			if(request.getParameter("saveid") != null) {
 				Cookie cookie = new Cookie("loginCookie", vo.getUserid());
@@ -50,7 +73,25 @@ public class LoginController {
 				session.setAttribute("admin", "true");
 				
 			}
-			return "redirect:/";
+			
+			if(session.getAttribute("prevPage") != null && session.getAttribute("lost") == null) {
+				String uri = (String) session.getAttribute("prevPage");
+				session.removeAttribute("prevPage");
+				String[]uriArr = uri.split("/");
+				uri = "";
+				for (int i = 4; i < uriArr.length; i++) {
+					uri += uriArr[i];
+					uri += "/";
+				}
+				if(uri.length() > 1) {
+				return "redirect:/" + uri.substring(0, uri.length() - 1);
+				} else {
+					session.removeAttribute("lost");
+					return "redirect:/";
+				}
+			} else {
+				return "redirect:/";
+			}
 		}else {
 			session.invalidate();
 			return "login/login";
@@ -61,6 +102,12 @@ public class LoginController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+// 아이디 찾기
+	@GetMapping("/findID")
+	public String findID() {
+		return "login/find_id";
 	}
 	
 //	회원가입

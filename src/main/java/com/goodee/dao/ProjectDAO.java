@@ -24,14 +24,6 @@ import com.goodee.vo.orderUser;
 @Mapper
 public interface ProjectDAO {
 	
-	public int login(UserVO vo);
-	public UserVO getUser(UserVO vo);
-	public int isAdmin(UserVO vo);
-	
-	//회원가입
-	public void addUser(UserVO vo);
-	public int checkid(UserVO vo);
-	
 	//카테고리별 상품 리스트로 이동
 	public List<ProductVO> selectCategory(ProductVO vo);
 	public List<ProductVO> selectBest(ProductVO vo);	

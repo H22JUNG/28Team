@@ -60,15 +60,6 @@ public class MoveController {
 		this.reviewservice = reviewservice;
 	}
 
-	@GetMapping("/loginpage")
-	public String loginpage() {
-		return "login/login";
-	}
-
-	@GetMapping("/signuppage")
-	public String signuppage() {
-		return "login/sign_up";
-	}
 
 	@GetMapping("/cart")
 	public String cartPage() {
