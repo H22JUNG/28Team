@@ -690,8 +690,12 @@
 														<p class="op_name">
 															<span class="op_name_inner">
 																<span>상품코드 : <span>${vo.proNum}</span></span><br />
-																<span>사이즈 : <span>${vo.size}</span></span>
-																<span>컬러 : <span>${vo.color}</span></span>
+																<c:if test="${vo.color ne '선택없음' and vo.color ne ''}">
+																	<span>컬러 : <span>${vo.color}</span></span>
+																</c:if>
+																<c:if test="${vo.size ne '선택없음' and vo.size ne ''}">
+																	<span>사이즈 : <span>${vo.size}</span></span>
+																</c:if>
 															</span>
 														</p>
 														<div class="bt_cnt">
@@ -704,7 +708,9 @@
 															</div>
 															<div class="price">
 																<div class="price_inner">
-																<del>정가 : <fmt:formatNumber value="${vo.price}" pattern="#,### 원" /></del><br>
+																<c:if test="${vo.price ne vo.salePrice}">
+																	<del>정가 : <fmt:formatNumber value="${vo.price}" pattern="#,### 원" /></del><br>
+																</c:if>
 																	<!-- <p class="origin">${vo.price}가격</p>  -->
 																	<p class="dc"><fmt:formatNumber value="${vo.salePrice}" pattern="#,### 원" /></p>
 																</div>
