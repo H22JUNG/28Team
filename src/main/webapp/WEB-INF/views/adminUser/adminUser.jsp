@@ -16,6 +16,7 @@
 <style>
 
 /* 컨테이너 */
+/* 컨테이너 */
 main {
 	background-color: #FFFAEE;
 	position: relative;
@@ -33,7 +34,7 @@ main .mypage-container {
 	width: 80%;
 	justify-content: center;
 	align-items: start;
-	padding-top: 30px;
+ 	padding-top : 30px;
 }
 
 /* 사이드 메뉴 */
@@ -80,7 +81,6 @@ main aside .menu {
 /* 내용 컨테이터 */
 .content-box {
 	width: 100%;
-	max-height: 860px;
 }
 
 main section {
