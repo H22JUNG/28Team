@@ -51,8 +51,8 @@ public class PayController {
 	// 위에 vo에 저장한것들을 출력
 	return "pay_result";
 		}
-	@GetMapping("/orderNumController/{abc}")
-	public String detailOrderInfor(@PathVariable("abc") String orderNum,Model model) {
+	@GetMapping("/orderNumController/{orderNum}")
+	public String detailOrderInfor(@PathVariable("orderNum") String orderNum,Model model) {
 	service.detailOrderInfor(orderNum, model);
 	return"detail_order_pay";
 		}
@@ -83,5 +83,14 @@ public class PayController {
 		cartvo.add(vo);
 		session.setAttribute("cartList",cartvo);
 		return"pay";
+		}
+		
+		@GetMapping("/PayResultController")
+		public String PayResultChange(orderUser vo,HttpSession session) {
+			vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+			service.PayResultChange(vo);
+			System.out.println(vo.getPayResult());
+			return"redirect:/orderNumController/"+vo.getOrderNum();
+												//이 값을 전달해서 리다이렉트로
 		}
 }

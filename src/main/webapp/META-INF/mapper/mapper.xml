@@ -641,7 +641,7 @@
 
 	<!-- 주문내역에서 해당 주문번호 누르면 해당 주문 상세내역 만 뜨는페이지 -->
 	<select id="detailOrderInfor" resultType="detailVO">
-		SELECT order_name, date_format(order_date,'%Y-%m-%d') 'orderDate', pay,
+		SELECT u.cart_listnum,order_name, date_format(order_date,'%Y-%m-%d') 'orderDate', pay,
 		address, detailAddress, extraAddress, order_tel, total_price, POINT,
 		item_name, COUNT, size, item_price, color, pic1, order_num,pay_result
 		FROM orderuser u INNER JOIN orderitem i
@@ -672,6 +672,12 @@
 		cart
 		WHERE userid = #{userid}
 	</select>
+	
+		<!-- 버튼 눌렀을때 상태 변경할 것 -->
+	<update id="PayResultChange">
+		update orderuser set pay_result = #{payResult}
+		where cart_listnum = #{cartListNum} and userid = #{userid}
+	</update>
 
 
 	<!-- 위까지 유진 mapper -->

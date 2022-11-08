@@ -64,7 +64,7 @@ main aside ul li>div .mytext {
 }
 
 /* 선택중인 메뉴 css */
-main aside ul li:first-child>div {
+main aside ul li:nth-child(3)>div {
 	border: 1px solid transparent;
 	background-image: linear-gradient(#fff, #fff),
 		linear-gradient(90deg, #21A5B5 0%, #71B2B4 100%);
@@ -149,6 +149,12 @@ width: 80px;
 
 #orderNum {
 	color: #71B2B4;
+}
+#orderNum a{
+	color : #71B2B4;
+}
+#orderNum a:hover{
+	text-decoration: underline;
 }
 
 #inRight {

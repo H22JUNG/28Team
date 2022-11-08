@@ -108,4 +108,8 @@ public class PayService {
 	public List<CartVO> getCartInfor(UserVO vo){
 			return dao.getCartInfor(vo);
 	}
+	//pay Result 값을 변경하기위함
+	public void PayResultChange(orderUser vo) {
+			dao.PayResultChange(vo);
+		}
 }

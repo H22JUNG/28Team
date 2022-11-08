@@ -96,6 +96,7 @@ public interface ProjectDAO {
 	public CartVO findCart(CartVO vo);
 	public void cartDelete(CartVO vo);
 	public List<CartVO> getCartInfor(UserVO uservo);
+	public void PayResultChange(orderUser vo); //payResult 값을 변경하기 위함
 	//여기서위까지 유진 DAO
 
 	//Review 게시판

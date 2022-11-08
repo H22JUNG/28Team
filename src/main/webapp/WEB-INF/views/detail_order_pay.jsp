@@ -66,7 +66,7 @@
         }
 
         /* 선택중인 메뉴 css */
-        main aside ul li:first-child>div {
+        main aside ul li:nth-child(3)>div {
             border: 1px solid transparent;
             background-image: linear-gradient(#fff, #fff), linear-gradient(90deg, #21A5B5 0%, #71B2B4 100%);
             background-origin: border-box;
@@ -344,6 +344,31 @@
                   <p>교환</p>
                   </c:otherwise>
                   </c:choose>
+                  
+                  	 <c:choose>
+                  			
+							<c:when test="${detailOrderInfor[0].payResult eq '1'}">
+							<form action="${pageContext.request.contextPath}/PayResultController" method="get">
+							<input type="hidden" value="${detailOrderInfor[0].cartListNum}" name="cartListNum" id="cartListNum"/>
+							<input type="hidden" value="${detailOrderInfor[0].orderNum}" name="orderNum" id="orderNum"/>
+							<input type="hidden" value="2" name="payResult" id="payResult"/>
+							<button id="btn1">취소 신청</button>
+							</form>
+							</c:when>
+							
+							<c:when test="${detailOrderInfor[0].payResult eq '2'}">
+							<form action="${pageContext.request.contextPath}/PayResultController" method="get">
+							<input type="hidden" value="${detailOrderInfor[0].cartListNum}" name="cartListNum" id="cartListNum"/>
+							<input type="hidden" value="${detailOrderInfor[0].orderNum}" name="orderNum" id="orderNum"/>
+							<input type="hidden" value="1" name="payResult" id="payResult"/>
+							<button id="btn2">취소 철회</button>
+							</form>
+							</c:when>
+							<c:otherwise>
+								<p>처리완료</p>
+							</c:otherwise>
+						</c:choose>
+                  
                   </div>
                 </div><!--center 끝-->
                 <div id="bottom">
@@ -374,6 +399,20 @@
                 location.href = "${pageContext.request.contextPath}/movemypage/"+i;
             });
         };
+        
+    	if(document.getElementById("btn1") != null) {
+      		document.getElementById("btn1").addEventListener("click",function(){
+      			var msg = '취소신청 되었습니다.';
+      			alert(msg);
+      	});
+           }
+      		
+          if(document.getElementById("btn2") != null) {
+      	document.getElementById("btn2").addEventListener("click",function(){
+      			var back = '취소철회 되셨습니다.';
+      			alert(back);
+      	});
+         }
 	  </script>
 </body>
 

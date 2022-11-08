@@ -404,6 +404,7 @@
     	  const point = document.getElementById("point").value;
     	  document.getElementById("usePoint").innerText = point;
     	  if (${user.point} < point) {
+    		  document.getElementById("point").value="0";
     	  		var notice = '보유포인트보다 입력한 포인트값이 더 큽니다';
     	        alert(notice);
     			}
