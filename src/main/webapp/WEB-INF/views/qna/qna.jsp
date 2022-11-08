@@ -163,26 +163,27 @@ a {
 }
 
 #modal{
-	background-color: #d3d3d3;
+	background-color: white;
 	position : fixed;
 	top : 30%;
 	left : 33%;
-	width : 27.5%;
+	width : 22%;
+	height : 16%;
 	opacity : 80%;
 	text-align: center;
 	display : none;
-}
-
-#modal #modalfont{
+	border : 1px solid #cccccc;
 	padding-top: 20px;
+	box-sizing: content-box;
 }
 
-#modal>#content{
-	width: 350px;
-	height : 100px;
+#content{
+	width : 80%;
+	height : 15%;
 	margin : 15px auto;
-	padding: 15px;
+	padding: 10px;
 	background-color: #fff;
+	box-sizing: content-box;
 }
 
 #modal .close{
@@ -191,7 +192,7 @@ a {
 	right : 5px;
 	font-size: 20px;
 	border: 0;
-	background-color: #d3d3d3;
+	background-color: white;
 }
 
 #modal #btnCheck{
@@ -283,12 +284,13 @@ a {
 						<div id="modalfont">
 						<h4>비밀글 입니다.</h4>
              			<h5>작성자와 관리자만 열람하실 수 있습니다.</h5>
-             			</div>
+             			
              			<div id="content">
              				<input type="button" value="X" class="close" id="btnClose"/>
              				<label>비밀번호</label>
              				<input type="password" maxlength="4" id="password" name="password"/>
              				<input type="button" value="확인" id="btnCheck"/>
+             			</div>
              			</div>
              		</div>					
 				</div>

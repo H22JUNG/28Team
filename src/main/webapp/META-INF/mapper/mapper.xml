@@ -700,6 +700,28 @@
 	<select id="selectQnaCount" resultType="int">
 		select count(*) from qna;
 	</select>
+	
+	<!-- 원글+댓글개수 출력(페이징) -->
+	<select id="selectQnaAndQnaCommentCount" resultType="int">
+		select sum(T.cnt) 
+		from (select count(*) AS cnt 
+		from qna 
+		UNION ALL select count(*) AS cnt 
+		from qnacomment) T;
+	</select>
+	
+	<!-- 카테코리가 '상품문의'이고 code일때의 개수(페이징) -->
+	<select id="selectQnaCountWhereCode" resultType="int">
+		select count(*)
+		from
+		(
+		select * from
+		qna where qna_category = '상품문의'
+		<if test="code != null"> 
+		and code = #{code}
+		</if>		
+		) TTT
+	</select>
 
 	<select id="QnaList" resultType="QnaVO">
 		SELECT *

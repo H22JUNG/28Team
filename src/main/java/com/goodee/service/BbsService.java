@@ -87,7 +87,7 @@ public class BbsService {
 		// QnA 리스트출력 및 페이징
 		public void getQnaList(int page, HttpServletRequest request, Model model) {
 			PageVO pagevo = new PageVO();
-			pagevo.setTotal(dao.selectQnaCount());
+			pagevo.setTotal(dao.selectQnaAndQnaCommentCount());
 			pagevo.setNowPage(page);
 			pagevo.setCntPerPage(10);
 			pagevo.setStart((page - 1) * pagevo.getCntPerPage());
@@ -103,7 +103,7 @@ public class BbsService {
 			// 시작페이지
 			int startPage = initPage + 1;
 			pagevo.setStartPage(startPage);
-			// 끝 페이지
+			// 마지막 페이지
 			int endPage = initPage + pagevo.getCntPerBlock();
 			if (endPage > pagevo.getTotalPage()) {
 				endPage = pagevo.getTotalPage();
@@ -157,7 +157,7 @@ public class BbsService {
 		// 이너Q&A 조회
 		public void getBBSList(int page, HttpServletRequest request, Model model) {
 			PageVO pagevo = new PageVO();
-			pagevo.setTotal(dao.selectQnaCount());
+			pagevo.setTotal(dao.selectQnaCountWhereCode());
 			pagevo.setNowPage(page);
 			pagevo.setCntPerPage(10);
 			pagevo.setStart((page - 1) * pagevo.getCntPerPage());
