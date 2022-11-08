@@ -427,7 +427,6 @@ main .best-review {
 		</div>
 	</main>
 	<jsp:include page="footer.jsp"></jsp:include>
-   	<c:if test="${empty cookie}">
 	<div id="popup1">
    		<a href="${pageContext.request.contextPath}/notice/13"><img src="image/popup1.png" alt="" /></a>
 	   	<div id="popup-close">
@@ -435,7 +434,6 @@ main .best-review {
 	   		<div><button id="popup-button">닫기</button></div>
 	   	</div>
     </div>
-   	</c:if>	
 	<script>
         var slideIndex = 0;
 
@@ -526,29 +524,28 @@ main .best-review {
 		
 		
 		//------팝업 쿠키설정------
-/* 		window.addEventListener("DOMContentLoaded", function(){
-			console.log("화면띄움");
-			console.log("${cookie}");
-
-			if(${empty cookie}){
-				document.getElementById("popup1").style.display = "block";
-		        document.getElementById("popup-button").addEventListener("click", function(){
-		        	if(document.getElementById("1days").checked==true) {
-		        		fetch("${pageContext.request.contextPath}/makeCookie");
-		        	}
-		        	document.getElementById("popup1").style.display = "none";
-		        });
-				console.log("쿠키 비었음");
-				console.log("${cookie}");
+		window.addEventListener("DOMContentLoaded", function(){
+		//document.cookie = "popupClose=oneDay; max-age=0"; 쿠키 삭제
+			if(document.cookie=="popupClose=oneDay") {
+	        	document.getElementById("popup1").style.display = "none";
 			} else {
-				console.log("쿠키있어요");
-				console.log("${cookie}");
-
+				document.getElementById("popup1").style.display = "";
 			}
-		}); */
+		});
 		
 		
-		
+		document.getElementById("popup-button").addEventListener("click", function(){
+        	if(document.getElementById("1days").checked==true) {
+        		let now = new Date();
+        		let tomorrow = new Date();
+        		tomorrow.setDate(now.getDate()+1);
+        		tomorrow.setHours(0,0,0,0);	//내일 자정까지 설정
+        		
+        		let date = tomorrow.toUTCString();	
+        		document.cookie = "popupClose=oneDay; expires="+date;        	
+        	}
+        	document.getElementById("popup1").style.display = "none";
+		});
 		
     </script>
 </body>
