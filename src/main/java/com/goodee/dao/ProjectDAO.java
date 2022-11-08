@@ -79,7 +79,7 @@ public interface ProjectDAO {
 	public int selectCartListNum(String userid);
 	//리턴값은 jsp에 출력하기위해서 
 	// 마이페이지에서 주문별(장바구니)로 출력하기
-	public List<orderUser> getOrderList(UserVO vo); 
+	public List<orderUser> getOrderList(PageVO vo); 
 	public orderUser orderUserResult(String userid); //위에서 저장한 정보 출력
 	public UserVO payUserInfor(String userid);
 	public List<detailOrderVO> detailOrderInfor(String orderNum);
@@ -89,6 +89,7 @@ public interface ProjectDAO {
 	public void cartDelete(CartVO vo);
 	public List<CartVO> getCartInfor(UserVO uservo);
 	public void PayResultChange(orderUser vo); //payResult 값을 변경하기 위함
+	public int OrderListCount(PageVO vo);
 	//여기서위까지 유진 DAO
 
 	//Review 게시판

@@ -76,7 +76,7 @@ public class MoveController {
 	}
 
 	@GetMapping("/movemypage/{path}")
-	public String movemypage(@PathVariable("path") int path, Model model, HttpSession session) {
+	public String movemypage(@PathVariable("path") int path, Model model, HttpSession session,HttpServletRequest request) {
 		if (path == 0) {
 			return "my_page";
 		} else if (path == 1) {
@@ -84,8 +84,12 @@ public class MoveController {
 
 			return "redirect:/cart/" + ((UserVO) session.getAttribute("user")).getUserid();
 		} else if (path == 2) {
-
-			payservice.getOrderList(model, session);
+			int page = 1;
+			if (request.getParameter("page") != null) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
+			
+			payservice.getOrderList(page,model, session);
 			return "order_list";
 		} else {
 			bbsservice.getwrote(model, session);

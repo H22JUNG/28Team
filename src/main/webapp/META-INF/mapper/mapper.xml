@@ -607,6 +607,7 @@
 		from orderuser
 		where userid = #{userid}
 		order by orderDate desc
+		limit #{start}, #{cntPerPage}
 	</select>
 
 	<!-- 주문내역에서 해당 주문번호 누르면 해당 주문 상세내역 만 뜨는페이지 -->
@@ -648,7 +649,11 @@
 		update orderuser set pay_result = #{payResult}
 		where cart_listnum = #{cartListNum} and userid = #{userid}
 	</update>
-
+	<!-- 주문내역 페이징처리 해보기 -->
+	<select id="OrderListCount" resultType="int">
+		select count(*) from orderuser
+		where userid = #{userid}
+	</select>
 
 	<!-- 위까지 유진 mapper -->
 

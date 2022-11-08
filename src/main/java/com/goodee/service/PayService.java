@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 
 import com.goodee.dao.ProjectDAO;
 import com.goodee.vo.CartVO;
+import com.goodee.vo.PageVO;
 import com.goodee.vo.UserVO;
 import com.goodee.vo.orderUser;
 
@@ -23,7 +24,6 @@ public class PayService {
 		super();
 		this.dao = dao;
 	}
-	
 	
 	
 	
@@ -69,8 +69,33 @@ public class PayService {
 	}
 
 	//저장한 내용 출력
-	public void getOrderList(Model model, HttpSession session) {
-		model.addAttribute("orderList", dao.getOrderList((UserVO)session.getAttribute("user")));
+	public void getOrderList(int page, Model model, HttpSession session) {
+		PageVO vo = new PageVO();
+		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+		vo.setTotal(dao.OrderListCount(vo));
+		vo.setNowPage(page);
+		vo.setCntPerPage(10);
+		vo.setStart((page-1)*vo.getCntPerPage());
+		vo.setEnd(page*vo.getCntPerPage());
+		
+		vo.setCntPerBlock(5);
+		//전체페이지
+		int totalPage = vo.getTotal()/vo.getCntPerPage();
+		totalPage = (vo.getTotal() % vo.getCntPerPage() == 0)? totalPage : totalPage + 1;
+		vo.setTotalPage(totalPage);
+		//페이지 설정
+		int initPage = (vo.getNowPage()-1) / vo.getCntPerBlock() * vo.getCntPerBlock();
+		//시작 페이지
+		int startPage = initPage + 1;
+		vo.setStartPage(startPage);
+		// 끝 페이지
+		int endPage = initPage + vo.getCntPerBlock();
+		if (endPage > vo.getTotalPage()) {
+			endPage = vo.getTotalPage();
+		}
+		vo.setEndPage(endPage);
+		model.addAttribute("orderpage", vo);
+		model.addAttribute("orderList", dao.getOrderList(vo));
 	}
 	
 	public void orderUserResult(String userid,Model model) {

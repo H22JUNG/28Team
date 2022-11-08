@@ -220,6 +220,15 @@ width: 80px;
 	text-align: center;
 	padding-top: 10px;
 }
+.orderPage{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.orderPage a{
+    color: #71B2B4;
+}
 
 @media ( max-width : 700px) {
 	.mypage-container {
@@ -356,6 +365,35 @@ width: 80px;
 				</div>
 							</c:forEach>
 				<!--컨테이너 끝-->
+					<!-- 페이징 처리 -->
+				<div class="orderPage">
+					<c:choose>
+					<c:when test="${1 == orderpage.nowPage}">
+							<a href="#" class="btn prev"><</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/movemypage/2?page=${orderpage.nowPage - 1}"><</a>
+						</c:otherwise>
+					</c:choose>
+					<c:forEach var="i" begin="${orderpage.startPage}" end="${orderpage.endPage}">
+						<c:choose>
+							<c:when test="${orderpage.nowPage eq i}">
+								<a href="#" class="page on">${i}</a> 
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/movemypage/2?page=${i}" class="page">${i}</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${orderpage.totalPage == orderpage.nowPage}">
+							<a href="#" class="btn next">></a> 
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/movemypage/2?page=${orderpage.nowPage + 1}">></a>
+						</c:otherwise>
+						</c:choose>		
+				</div>
 			</section>
 		</div>
 	</main>
