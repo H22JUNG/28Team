@@ -89,8 +89,8 @@ public class PayController {
 		public String PayResultChange(orderUser vo,HttpSession session) {
 			vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
 			service.PayResultChange(vo);
-			System.out.println(vo.getPayResult());
 			return"redirect:/orderNumController/"+vo.getOrderNum();
 												//이 값을 전달해서 리다이렉트로
 		}
+	
 }
