@@ -187,7 +187,13 @@ input[type="text"] {
 #search-btn:active {
 	background-color: #eaf7fb;
 }
-
+.null {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    border-top: 1px solid #CACACA;
+}
 </style>
 </head>
 <body>
@@ -229,6 +235,9 @@ input[type="text"] {
 						<div class="td view">${vo.view}</div>
 					</div>
 				</c:forEach>
+				<c:if test="${notice.size() == 0}">
+					<div class="null">작성된 글이 없습니다.</div>
+				</c:if>
 			</div>
 			<c:if test="${admin != null}">
 			<div class="update">
@@ -357,11 +366,23 @@ input[type="text"] {
 		});
 		
 		document.getElementById("delete").addEventListener("click",function(){
+			
+			const selectbox = document.querySelectorAll(".idck");
+			for (var i = 0; i < selectbox.length; i++) {
+				selectbox[i].remove();				
+			}
+			
+			const selectbtn = document.querySelectorAll(".selectDelete");
+			for (var i = 0; i < selectbtn.length; i++) {
+				selectbtn[i].remove();				
+			}
+			
 			const thead = document.getElementById("thead");
 				let input = document.createElement("input");
 				input.setAttribute("type", "checkbox");
 				input.setAttribute("name","select-all");
 				input.setAttribute("id","select-all");
+				input.setAttribute("class","idck");
 				input.setAttribute("checked",true);
 				input.setAttribute("onchange", "selectAll()");
 				thead.prepend(input);
@@ -375,6 +396,7 @@ input[type="text"] {
 				let input = document.createElement("input");
 				input.setAttribute("type", "checkbox");
 				input.setAttribute("name", "id");
+				input.setAttribute("class", "idck");
 				input.setAttribute("checked", true);
 				input.setAttribute("id","impid"+impids[i]);
 				input.setAttribute("value", impids[i]);
@@ -386,6 +408,7 @@ input[type="text"] {
 				let input = document.createElement("input");
 				input.setAttribute("type", "checkbox");
 				input.setAttribute("name", "id");
+				input.setAttribute("class", "idck");
 				input.setAttribute("checked", true);
 				input.setAttribute("id","id"+ids[i]);
 				input.setAttribute("value", ids[i]);
@@ -394,6 +417,7 @@ input[type="text"] {
 			
 			const button = document.createElement("button");
 			button.setAttribute("id","selectDelete");
+			button.setAttribute("class","selectDelete");
 			button.innerText = "선택삭제"
 			document.querySelector(".update").prepend(button);
 			
