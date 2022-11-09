@@ -134,7 +134,10 @@ main aside .outer-cate>li img {
 main aside .outer-cate>li:hover>a img {
 	filter: invert(60%) sepia(54%) saturate(587%) hue-rotate(139deg) brightness(93%) contrast(90%);
 }
-
+main aside .outer-cate>li:first-child>img:hover {
+	filter: invert(60%) sepia(54%) saturate(587%) hue-rotate(139deg) brightness(93%) contrast(90%);
+	cursor: pointer;
+}
 
 main aside .outer-cate>li>.inner-cate {
   	display: none;
@@ -172,7 +175,7 @@ aside .outer-cate>li:hover>.inner-cate>li>a:hover{
 main .item-container {
 	width: 1040px;
 	display: flex;
-	gap: 30px;
+	gap: 100px;
 	flex-direction: column;
 	margin-left: 20%;
 }
@@ -441,24 +444,47 @@ main .item-container .item-list>p {
 
 		.select-box {
 			display: flex;
-    		padding: 10px 10px 0;
+    		padding: 10px;
     		justify-content: space-between;
     		align-items: end;
+    		position: relative;
 		}
 		#select {
-			position: relative;
+			position: absolute;
+   			top: -14px;
+   			background: white;
+    		left: 874px;
+    		border: 1px solid #CACACA;
 		}
 	
         input[type="radio"] {
              display: none; 
         }
-
-        .listck {
+        .listck,.cklist {
             display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
+    		align-items: center;
+    		gap: 5px;
+    		cursor: pointer;
+    		background-color: white;
         }
+        .listck {
+        	display: none;
+    		padding: 12px 20px;
+    		font-size: 14px;
+        }
+        .cklist {
+        	justify-content: center;
+    		width: 154.25px;
+    		height: 45px;
+    		font-size: 15px;
+        }
+        #cklist span {
+        	font-size: 12px;
+        	color: #28BACE;
+        }
+		#select .listck:hover {
+			background-color: #dcf7ff;	
+		}
 
         .listck::before {
             content: "";
@@ -467,17 +493,21 @@ main .item-container .item-list>p {
             border: 1px solid #bdbbbb;
             border-radius: 50%;
             box-sizing: border-box;
+            background-color: white;
         }
         .listck::after {
             box-sizing: border-box;
             content: "";
             position: absolute;
-            left: 4px;
+            left: 24px;
             width: 10px;
             height: 10px;
             background: #21A5B5;
             border-radius: 50%;
             display: none;
+        }
+        .flex {
+        	display: flex;
         }
 </style>
 <link rel="stylesheet"
@@ -551,6 +581,7 @@ main .item-container .item-list>p {
 			</ul>
 		</aside>
 		<script type="text/javascript">
+			
 			document.querySelector("#search-button").addEventListener("click",function(){
 				let search = document.getElementById("aside-search").value;
 				if(search != "") {
@@ -638,6 +669,26 @@ main .item-container .item-list>p {
 				<div class="select-box">
 					<p>전체 ${fn:length(list)}개</p>
 					<div id="select">
+						<c:choose>
+							<c:when test="${param.order == 0}">
+								<div class="cklist" id="cklist">신상품순 <span>▼</span></div>
+							</c:when>
+							<c:when test="${param.order == 1}">
+								<div class="cklist" id="cklist">인기순 <span>▼</span></div>
+							</c:when>
+							<c:when test="${param.order == 2}">
+								<div class="cklist" id="cklist">리뷰 많은 순 <span>▼</span></div>
+							</c:when>
+							<c:when test="${param.order == 3}">
+								<div class="cklist" id="cklist">낮은 가격 순 <span>▼</span></div>
+							</c:when>
+							<c:when test="${param.order == 4}">
+								<div class="cklist" id="cklist">높은 가격 순 <span>▼</span></div>
+							</c:when>
+							<c:otherwise>
+								<div class="cklist" id="cklist">신상품순 <span>▼</span></div>
+							</c:otherwise>
+						</c:choose>
 						<input type="radio" name="listOrder" id="order-create" value="0" onchange="changeOrder()" checked="checked"/><label for="order-create" class="listck">신상품순</label>
 						<input type="radio" name="listOrder" id="order-view" value="1" onchange="changeOrder()" /><label for="order-view" class="listck">인기순</label>
 						<input type="radio" name="listOrder" id="order-review" value="2" onchange="changeOrder()" /><label for="order-review" class="listck">리뷰 많은 순</label>
@@ -652,21 +703,29 @@ main .item-container .item-list>p {
 								if(listck[i].value == getOrder()){
 									listck[i].setAttribute('checked',true);
 									var style = document.head.appendChild(document.createElement("style"));
-						            style.innerHTML = ".listck:nth-child("+((i+1)*2)+"):after {display: block;}";
+						            style.innerHTML = ".listck:nth-child("+((i+1)*2+1)+"):after {display: block;}";
 								}
 							}
 						} else {
 							for (let i = 0; i < listck.length; i++) {
 							if(listck[i].checked) {
 									var style = document.head.appendChild(document.createElement("style"));
-						            style.innerHTML = ".listck:nth-child("+((i+1)*2)+"):after {display: block;}";
+						            style.innerHTML = ".listck:nth-child("+((i+1)*2+1)+"):after {display: block;}";
 								}
 							}							
 						}
 						
 						const searchParams = new URLSearchParams(location.search);
+						if(searchParams.get("search") != null) {
+							 document.getElementById("aside-search").value = searchParams.get("search");
+							 document.getElementById("aside-search").addEventListener("focus",function(){
+								document.getElementById("aside-search").value = ""; 
+							 });
+							 document.getElementById("aside-search").addEventListener("blur",function(){
+								document.getElementById("aside-search").value = searchParams.get("search"); 
+							 });
+						}
 						
-						console.log(searchParams.get("search"));
 						
 						function getParams() {
 							if(searchParams.get("search") != null) {
@@ -699,6 +758,23 @@ main .item-container .item-list>p {
 							} else {
 								location.href = "${pageContext.request.contextPath}/searchProduct?search="+getParams()+"&order="+order;
 							}
+						}
+						
+						const cklist = document.getElementById("cklist");
+						cklist.addEventListener("click",function() {
+							toggle(); 
+						});
+						
+						const cklabel = document.getElementsByClassName("listck");
+						function toggle() {
+								for (var i = 0; i < cklabel.length; i++) {
+									cklabel[i].classList.toggle("flex");									
+								}
+									if(cklabel[0].classList.contains("flex")) {
+										document.querySelector("#cklist span").innerText = "▲";
+									} else {
+										document.querySelector("#cklist span").innerText = "▼";
+									}
 						}
 					</script>
 				</div>
@@ -828,6 +904,8 @@ main .item-container .item-list>p {
 		const rScroll = document.getElementById("scroll-right");
 		const lScroll = document.getElementById("scroll-left");
 	
+		
+		if(lScroll != null && rScroll != null) {
 		lScroll.style.visibility="hidden";
 		rScroll.style.visibility="hidden";
 		
@@ -858,6 +936,7 @@ main .item-container .item-list>p {
 				lScroll.style.visibility="hidden";
 			}
 		});
+		}
 		
 		
 	</script>
