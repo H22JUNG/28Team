@@ -59,8 +59,8 @@ public class AdminProductController {
 	
 	// 상품 수정 페이지
 	@GetMapping("/admin/productUpdate/{pro_num}")
-	public String updateProduct(@PathVariable("pro_num") String pro_num, Model model) {
-		service.selectUpdateList(pro_num, model);
+	public String updateProduct(@PathVariable("pro_num") String proNum, Model model) {
+		service.selectUpdateList(proNum, model);
 		// product 리스트로 다시 돌아가게 설정
 		return "adminProduct/product_update";
 	}

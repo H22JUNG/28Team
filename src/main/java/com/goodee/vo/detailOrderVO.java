@@ -24,6 +24,7 @@ public class detailOrderVO {
 	private String pic1;
 	private String orderNum;
 	private int payResult;
+	private String proNum;
 	
 	
 	
@@ -140,6 +141,12 @@ public class detailOrderVO {
 	}
 	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
+	}
+	public String getProNum() {
+		return proNum;
+	}
+	public void setProNum(String proNum) {
+		this.proNum = proNum;
 	}
 	
 	

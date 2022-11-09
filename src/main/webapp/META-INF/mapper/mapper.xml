@@ -118,16 +118,16 @@
 	</select>
 
 	<!-- product 수정 불러오기 -->
-	<select id="selectUpdateList" resultType="map">
+	<select id="selectUpdateList" resultType="ProductListVO">
 		SELECT option.pro_num, product.pic1, product.pic2, product.pic3,
-		product.pic4, product.NAME, product.price,
+		product.pic4, product.name, product.price,
 		product.discount, product.category1, product.category2, product.view,
 		product.create_date, option.size, option.color, option.stock
 		FROM
 		option INNER JOIN product
 		ON option.id = product.id
 		where pro_num =
-		#{pro_num};
+		#{proNum};
 	</select>
 
 	<!-- update를 서비스에 한번에 담아준다. -->
@@ -183,7 +183,7 @@
 	<!-- 관리자 페이지 product 삭제 - 윤정 -->
 	<delete id="productDelete">
 		delete from option
-		where pro_num = #{pro_num}
+		where pro_num = #{proNum}
 	</delete>
 	<!-- option에 존재하지 않는 id가 product에 있으면 삭제 -->
 	<delete id="optionNullId">
@@ -1032,11 +1032,12 @@
 	</sql>
 
 	<select id="selectAdminOrder" resultType="orderUser">
-		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num,
+		select DATE_FORMAT(order_date, '%Y-%m-%d %H:%i:%s') order_date, order_num,
 		userid, total_price, delivstate, pay_result
 		from orderuser
 		where
 		<include refid="delivstate" />
+		order by order_date desc
 	</select>
 	
 	<select id="orderSerch" resultType="orderUser">
@@ -1067,7 +1068,7 @@
 		date_format(order_date,'%Y-%m-%d') 'orderDate', pay, address,
 		detailAddress, extraAddress, order_tel, total_price, point,
 		item_name,
-		COUNT, size, item_price, color, pic1, order_num, pro_num
+		COUNT, upper(size) 'size', item_price, upper(color) 'color', pic1, order_num, pro_num
 		FROM orderuser
 		u INNER JOIN orderitem i
 		ON u.cart_listnum = i.cart_listnum

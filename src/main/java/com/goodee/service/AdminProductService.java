@@ -34,10 +34,8 @@ public class AdminProductService {
 	}
 	
 	// admin product Update List 출력
-	public void selectUpdateList(String pro_num, Model model) {
-		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-		list = dao.selectUpdateList(pro_num);
-		model.addAttribute("productUpdateList", list);
+	public void selectUpdateList(String proNum, Model model) {
+		model.addAttribute("productUpdateList", dao.selectUpdateList(proNum));
 	}
 	
 	// 상품 수정하기

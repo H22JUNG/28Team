@@ -151,8 +151,8 @@ main section {
     font-weight: bold;
 }
 
-.side-menu li h4 a:focus {
-	background-color: blue;
+.side-menu li h4 a:active {
+	background-color: #80f3ff;
 }
 
 .side-menu_inner {
@@ -183,6 +183,8 @@ table {
 .btn-open-popup {
 	text-decoration: underline;
 	cursor: pointer;
+	color: #26a3cf;
+    font-weight: bold;
 }
 
 .form-group {
@@ -207,6 +209,10 @@ table {
     font-weight: bold;
     color: #21A5B5;
     cursor: pointer;
+}
+
+.modalProNum {
+	color: blue;
 }
 
 /* 모달 */
@@ -306,6 +312,8 @@ table {
 	/*border: 1px solid green;*/
 	width: 70%;
 	height: 90%;
+	display: flex;
+    flex-direction: column;
 }
 
 #right_inner {
@@ -316,9 +324,15 @@ table {
 
 .right_inner {
 	display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     padding: 0.8rem 2rem;
+}
+
+.right_inner_info {
+	width: 500px;
+    align-items: center;
+    justify-content: center;
 }
 
 .right_img {
@@ -339,7 +353,7 @@ table {
 }
 
 #orderInfo_left> div> h4>  p {
-	color: #21A5B5;
+	color: #229ead;
 	font-size: 1.2rem;
 }
 
@@ -372,6 +386,8 @@ table {
 	margin: 3px;
 	width: 5rem;
 }
+
+
 </style>
 </head>
 <body>
@@ -436,11 +452,13 @@ table {
 								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=5" class="menu2">환불처리</a>
 							</h4>
 						</li>
+                        <!-- 
                         <li>
 							<h4>
 								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=6" class="menu2">교환처리</a>
 							</h4>
 						</li>
+						 -->
                         <li>
 							<h4>
 								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=3" class="menu2">배송완료</a>
@@ -510,12 +528,14 @@ table {
 											</c:if>
 											<c:if test="${vo.payResult == 2}">
 												취소신청
+												<!-- 
 												<form action="${pageContext.request.contextPath}/orderExchange" method="post">
 													<input type="hidden" value="${vo.orderNum}" name="orderNum"/>
 													<button class="paybtn" type="submit">
 														교환처리
 													</button>
 												</form>
+												 -->
 												<form action="${pageContext.request.contextPath}/orderCancel" method="post">
 													<input type="hidden" value="${vo.orderNum}" name="orderNum"/>
 													<input type="hidden" value="${vo.userid}" name="userid"/>
@@ -566,6 +586,7 @@ table {
 	<script type="text/javascript">
 	    $(document).ready(function() {
 		    delivNumberAdd();
+		    
 	    });
 	
 	    // 송장번호입력 버튼을 누르면 실행
@@ -711,7 +732,8 @@ table {
 							
 							// 사용한 적립금
 							let p5 = document.createElement("p");
-							p5.innerText = data[i].point;
+							let usePoint = data[i].point.toLocaleString();
+							p5.innerText = usePoint;
 							
 							let h4_5 = document.createElement("h4");
 							h4_5.innerText = '사용한 적립금';
@@ -746,11 +768,14 @@ table {
 							
 							let right_inner = document.createElement("div");
 							right_inner.setAttribute("class","right_inner");
-														
+							
+							let imgDiv = document.createElement("div");
+							
 							let pic1 = document.createElement("img");
 							pic1.setAttribute("id","modal_pic1");
 							pic1.setAttribute("src",data[j].pic1);
-							right_inner.append(pic1);
+							imgDiv.append(pic1);
+							right_inner.append(imgDiv);
 							orderInfo_right.append(right_inner);
 							
 							// 상품명 컬러 가격 수량 상품번호도 가져오고 싶은데?
@@ -763,8 +788,15 @@ table {
 							let item_size = document.createElement("h4");
 							item_size.innerText = '(사이즈 : ' + data[j].size + ' , 컬러 : ' + data[j].color + ')';
 							
+							let item_proNum = document.createElement("h4");
+							item_proNum.innerText = '상품코드 : ' + data[j].proNum;
+							item_proNum.setAttribute("class","modalProNum");
+							
 							let item_price = document.createElement("h4");
-							item_price.innerText = '상품가격 : ' + data[j].itemPrice;
+							let price = data[j].itemPrice.toLocaleString();
+							console.log(price);
+							item_price.innerText = '상품가격 : ' + price;
+							//item_price.innerHTML = `<div?<fmt:formatNumber value="${vo.totalPrice}" pattern="#,###"></fmt:formatNumber></div>`;
 							
 							let item_count = document.createElement("h4");
 							item_count.innerText = '구매 수량 : ' + data[j].count;
@@ -772,6 +804,7 @@ table {
 					
 							right_inner_info.append(item_name);
 							right_inner_info.append(item_size);
+							right_inner_info.append(item_proNum);
 							right_inner_info.append(item_price);
 							right_inner_info.append(item_count);
 							
@@ -826,6 +859,8 @@ table {
 			alert("환불처리 하시겠습니까?");
 		});
 		
+		
+
 	</script>
 </body>
 

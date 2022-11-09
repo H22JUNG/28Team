@@ -35,7 +35,7 @@ public interface ProjectDAO {
 	public List<ProductListVO> selectProductList();
 	public List<ProductListVO> serchProductList(ProductListVO vo);
 	//product 수정페이지 리스트 불러오기
-	public List<Map<String,Object>> selectUpdateList(String pro_num);
+	public List<ProductListVO> selectUpdateList(String proNum);
 	//product 수정하기
 	public void update1(ProductListVO vo);
 	public void update2(ProductListVO vo);

@@ -326,11 +326,11 @@ input:read-only {
 
 					<div class="container admin_container">
 						<div class="h1_container">
-						<h1 class="jumbotron" style="text-align: center;">${productUpdateList.get(0).NAME}</h1>
+						<h1 class="jumbotron" style="text-align: center;">${productUpdateList.get(0).name}</h1>
 						</div>
 						<div class="row">
 							<!--form태그의 위치를 옮겼음--><!-- /admin/product/update -->
-							<form action="${pageContext.request.contextPath}/admin/updateInfo/${productUpdateList.get(0).pro_num}" method="post">
+							<form action="${pageContext.request.contextPath}/admin/updateInfo/${productUpdateList.get(0).proNum}" method="post">
 								<div id="fileDrop">
 									<label>상품 이미지 (url 입력 가능)</label>
 									<div class="fileDrop">
@@ -356,9 +356,10 @@ input:read-only {
 									</div>
 								</div>
 								<div class="form-group productInfo">
+									<input type="hidden" name="name" value="${productUpdateList.get(0).name}"/>
 									<div>
-										<label>상품코드</label> <input name="pro_num"
-											value="${productUpdateList.get(0).pro_num}" class="form-control pro_num" readonly="readonly">
+										<label>상품코드</label> <input name="proNum"
+											value="${productUpdateList.get(0).proNum}" class="form-control proNum" readonly="readonly">
 									</div>
 									<div>
 										<label>상품가격</label> <input name="price"
@@ -455,7 +456,7 @@ input:read-only {
 			alert("컬러는 수정하실 수 없습니다. 새 상품으로 등록하세요.")
 		});
 	
-		document.querySelector(".pro_num").addEventListener("click",function(){
+		document.querySelector(".proNum").addEventListener("click",function(){
 			alert("상품코드는 수정할 수 없습니다. 새 상품으로 등록하세요.")
 		});
 	
@@ -464,7 +465,7 @@ input:read-only {
     		e.preventDefault;
     		var isOk = confirm("상품을 삭제하시겠습니까?");
     		if(isOk){
-        		location.href = "${pageContext.request.contextPath}/admin/deleteInfo/${productUpdateList.get(0).pro_num}";
+        		location.href = "${pageContext.request.contextPath}/admin/deleteInfo/${productUpdateList.get(0).proNum}";
        		};
     	});
     	
