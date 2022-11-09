@@ -35,10 +35,10 @@
 					reviewCount desc
 				</when>
 				<when test='order == 3'>
-					price
+					price-(price*(discount/100))
 				</when>
 				<when test='order == 4'>
-					price desc
+					price-(price*(discount/100)) desc
 				</when>
 				<otherwise>
 					createDate desc

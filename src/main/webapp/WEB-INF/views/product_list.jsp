@@ -664,17 +664,24 @@ main .item-container .item-list>p {
 							}							
 						}
 						
+						const searchParams = new URLSearchParams(location.search);
+						
+						console.log(searchParams.get("search"));
+						
 						function getParams() {
+							if(searchParams.get("search") != null) {
+								return searchParams.get("search");
+							} else {
 							var url = decodeURIComponent(location.href);
 							url = decodeURIComponent(url);
 
 							var params;
-							params = url.substring(url.indexOf('/') + 1,
-									url.length);
+							params = url.substring(url.indexOf('/') + 1, url.length);
 							params = params.split("/");
 							var orderIndex;
 							orderIndex = params[4].split("?");
 							return params[3] + "/" + orderIndex[0];
+							}	
 						}
 						function getOrder() {
 							const urlParams = new URL(location.href).searchParams;
@@ -687,7 +694,11 @@ main .item-container .item-list>p {
 							var url = new URL(url_href);
 							var selected = document.querySelector('input[type=radio][name=listOrder]:checked');
 							let order = selected.value;
+							if(searchParams.get("search") == null) {
 							location.href = "${pageContext.request.contextPath}/"+ getParams() + "?order=" + order;
+							} else {
+								location.href = "${pageContext.request.contextPath}/searchProduct?search="+getParams()+"&order="+order;
+							}
 						}
 					</script>
 				</div>
