@@ -572,9 +572,6 @@ main .item-container .item-list>p {
 				<li><a href="${pageContext.request.contextPath}/qna">Q&A<img
 						src="${pageContext.request.contextPath}/image/icons/qna-icon.png" alt="" /></a>
 				</li>
-				<li><a href="">이벤트<img
-						src="${pageContext.request.contextPath}/image/icons/event-icon.png"
-						alt="" /></a></li>
 				<li><a href="${pageContext.request.contextPath}/mypage">마이페이지<img
 						src="${pageContext.request.contextPath}/image/icons/person-icon.png"
 						alt="" /></a></li>
