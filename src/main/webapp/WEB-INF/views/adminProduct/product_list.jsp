@@ -198,6 +198,23 @@ td {
 	color: #21A5B5;
 	font-weight: bold;
 }
+
+.spanarrow {
+    padding: 0 5px;
+    color: #CBCBCB;
+}
+
+.arrow {
+    padding: 0 5px;
+    color: black;
+    text-decoration: none;
+}
+
+.paging {
+	border-top: 1px solid #CBCBCB;
+    text-align: center;
+    padding-top: 15px;
+}
 </style>
 </head>
 
@@ -216,7 +233,7 @@ td {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1" style="color: #21A5B5;">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content=" class="menu1" style="color: #21A5B5;">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
@@ -242,7 +259,7 @@ td {
 					<ul class="side-menu">
                         <li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list"><span>상품정보 조회</span></a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content="><span>상품정보 조회</span></a>
 							</h4>
 						</li>
 						<li>
@@ -259,7 +276,7 @@ td {
                         <div class="row">
 	                        <button id="insert_btn">상품 등록</button>
                             <div id="search">
-                                <form action="${pageContext.request.contextPath}/serch" method="post">
+                                <form action="${pageContext.request.contextPath}/admin_product_list/1" method="get">
                                     <select name="order" id="order">
                                     	<option value="" selected>카테고리 선택</option>
                                         <option value="category1">대분류</option>
@@ -268,7 +285,6 @@ td {
                                         <option value="name">상품명</option>
                                     </select>
                                     <input type="text" name="content" id="content" placeholder="검색어를 입력하세요">
-                                    <input type="hidden" />
                                     <button id="submit">검색</button>
                                 </form>
                             </div>
@@ -290,7 +306,7 @@ td {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	<c:forEach var="productVO" items="${productList}">
+                                	<c:forEach var="productVO" items="${list}">
                                 	<c:set var="cnt" value="${i=i+1}"/>
                                     <tr>
                                     	<td>${cnt}</td>
@@ -358,6 +374,58 @@ td {
                         </div>
                         <!-- class = row -->
                     </div>
+                    
+                   <c:if test="${nothing != null }">
+						<p id="nothing">검색 결과가 없습니다.</p>
+					</c:if>
+					
+					
+					<div class="paging">
+						<c:if test="${list != null}">
+						<c:choose>
+							<c:when test="${1 == page.nowPage}">
+								<span class="spanarrow">〈〈 </span>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=${order}&content=${content}" class="arrow">〈〈 </a>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${1 == page.nowPage}">
+								<span class="spanarrow"> 〈</span>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/admin_product_list/${page.nowPage - 1}?order=${order}&content=${content}" class="arrow"> 〈</a>
+							</c:otherwise>
+						</c:choose>
+						<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+							<c:choose>
+								<c:when test="${page.nowPage eq i}">
+									<span class="arrow" id="nowpage">${i}</span>
+								</c:when>
+								<c:otherwise>
+									<a href="${pageContext.request.contextPath}/admin_product_list/${i}?order=${order}&content=${content}"  class="arrow" style="color:#CBCBCB;">${i}</a>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:choose>
+							<c:when test="${page.totalPage == page.nowPage}">
+								<span class="spanarrow">〉 </span>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/admin_product_list/${page.nowPage + 1}?order=${order}&content=${content}" class="arrow">〉 </a>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${page.totalPage eq page.nowPage}">
+								<span class="spanarrow"> 〉〉</span>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/admin_product_list/${page.totalPage}?order=${order}&content=${content}" class="arrow"> 〉〉</a>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
+					</div>
 				</section>
 			</div>
 		</div>

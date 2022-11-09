@@ -32,8 +32,9 @@ public interface ProjectDAO {
 	public List<ReviewVO> selectBestReview();
 	
 	//product List 출력 - 윤정
-	public List<ProductListVO> selectProductList();
-	public List<ProductListVO> serchProductList(ProductListVO vo);
+	public List<ProductListVO> selectProductList(PageVO vo);
+	public int productCount(PageVO vo);
+	public List<ProductListVO> serchProductList(PageVO vo);
 	//product 수정페이지 리스트 불러오기
 	public List<ProductListVO> selectUpdateList(String proNum);
 	//product 수정하기

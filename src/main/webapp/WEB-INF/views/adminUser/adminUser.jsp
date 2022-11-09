@@ -233,7 +233,7 @@ tr:last-child>td, tr:last-child>th {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content=" class="menu1">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>

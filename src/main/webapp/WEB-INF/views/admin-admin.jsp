@@ -157,17 +157,17 @@ td {
 					<div class="menu">
 						<li>
 							<h4>
-								<a href="">✔ 회원관리</a>
+								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=">✔ 회원관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content=">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="">✔ 주문관리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>

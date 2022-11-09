@@ -3,6 +3,8 @@ package com.goodee.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.goodee.service.AdminProductService;
 import com.goodee.service.ListService;
 import com.goodee.vo.OptionVO;
+import com.goodee.vo.PageVO;
 import com.goodee.vo.ProductListVO;
 import com.goodee.vo.ProductVO;
 
@@ -26,33 +29,31 @@ public class AdminProductController {
 	}
 
 	// 상품 리스트 페이지
+	/*
 	@GetMapping("/admin_product_list")
-	public String selectProductList(ProductListVO vo,Model model) {
-		service.selectProductList(model);
+	public String selectProductList(ProductListVO vo, Model model, HttpServletRequest request) {
+		int page = 1;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		service.selectProductList(model, page);
 		return "adminProduct/product_list";
 	}
+	*/
 	
 	// 검색기능
-	@PostMapping("/serch")
-	public String serchProductList(@RequestParam("order") String order,@RequestParam("content") String content, ProductListVO vo, Model model) {
+	@GetMapping("/admin_product_list/{page}")
+	public String serchProductList(@RequestParam String order,@RequestParam String content,
+									PageVO vo, @PathVariable("page") int page, Model model) {
 			
-			System.out.println(order);
-			System.out.println(content);
-			System.out.println(vo.toString());
-			
-		System.out.println();
-		if(order.equals("category1")) {
-			vo.setCategory1(content);
-		}else if(order.equals("category2")) {
-			vo.setCategory2(content);
-		}else if(order.equals("name")) {
-			vo.setName(content);
-		}else if(order.equals("proNum")) {
-			vo.setProNum(content);
+		if(page == 0) {
+			vo.setNowPage(1);
 		}
-		
-		model.addAttribute("productList",service.serchProductList(vo));
-		
+		vo.setNowPage(page);
+
+		service.serchProductList(model, vo, page, order, content);
+		model.addAttribute("order", order);
+		model.addAttribute("content", content);
 		
 		return "adminProduct/product_list";
 	}
@@ -70,7 +71,7 @@ public class AdminProductController {
 	public String updateInfo(@PathVariable("pro_num") String pro_num, ProductListVO vo) {
 		vo.setProNum(pro_num);
 		service.update(vo);
-		return "redirect:/admin_product_list";
+		return "redirect:/admin_product_list/1?order=&content=";
 	}
 	
 	// 상품 삭제하기
@@ -78,7 +79,7 @@ public class AdminProductController {
 	public String productDelete(@PathVariable("pro_num") String pro_num) {
 		service.productDelete(pro_num);
 		System.out.println(pro_num);
-		return "redirect:/admin_product_list";
+		return "redirect:/admin_product_list/1?order=&content=";
 	}
 	
 	// 상품 등록하기
@@ -87,7 +88,7 @@ public class AdminProductController {
 		System.out.println(vo.getSize());
 		System.out.println(vo.getColor());
 		service.productInsert(vo);
-		return "redirect:/admin_product_list";
+		return "redirect:/admin_product_list/1?order=&content=";
 	}
 	
 	

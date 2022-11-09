@@ -281,7 +281,7 @@ form div label {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1" style="color: #21A5B5;">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content=" class="menu1" style="color: #21A5B5;">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
@@ -307,7 +307,7 @@ form div label {
 					<ul class="side-menu">
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list">상품정보 조회</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content=">상품정보 조회</a>
 							</h4>
 						</li>
 						<li>
@@ -419,7 +419,7 @@ form div label {
     	// 돌아가기 버튼
     	document.getElementById("btn_product_back").addEventListener("click",function(e){
     		e.preventDefault;
-        	location.href = "${pageContext.request.contextPath}/admin_product_list";
+        	location.href = "${pageContext.request.contextPath}/admin_product_list/1?order=&content=";
     	});
     	
     	

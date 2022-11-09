@@ -47,6 +47,15 @@ public class PageVO {
 	private String search;
 	private int page;
 	
+	// 상품관리 리스트
+	private String content;
+	public String category1;
+	public String category2;
+	public String category;
+	private String proNum;
+	private String name;
+	
+	
 	public Integer getCode() {
 		return code;
 	}
@@ -230,5 +239,118 @@ public class PageVO {
 	public void setPage(int page) {
 		this.page = page;
 	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;		
+		/*
+		this.setCategory(content);
+		System.out.println(content);
+		*/
+	}
+
+
+	public String getCategory1() {
+		return category1;
+	}
+
+	public void setCategory1(String category1) {
+		this.category1 = category1;
+		this.setCategory(category1);
+	}
+
+	public String getCategory2() {
+		return category2;
+	}
+
+	public void setCategory2(String category2) {
+		this.category2 = category2;
+		this.setCategory(category2);
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		/*
+		if(category.equals("가구")) {
+			this.content = "furniture";
+		}else if(category.equals("침대")) {
+			this.content = "bed";
+		}else if(category.equals("소파")) {
+			this.content = "sofa";
+		}else if(category.equals("거울")) {
+			this.content = "mirror";
+		}else if(category.equals("의자")) {
+			this.content = "chair";
+		}else if(category.equals("패브릭")) {
+			this.content = "fabric";
+		}else if(category.equals("커튼")) {
+			this.content = "curtain";
+		}else if(category.equals("침구")) {
+			this.content = "bedding";
+		}else if(category.equals("러그")) {
+			this.content = "rug";
+		}else if(category.equals("수납용품")) {
+			this.content = "storage";
+		}else if(category.equals("수납장")) {
+			this.content = "storage store";
+		}else if(category.equals("옷걸이")) {
+			this.content = "organization";
+		}else if(category.equals("생활용품")) {
+			this.content = "supplies";
+			this.content = "supplies";
+		}
+		 */
+		if(category.equals("가구")) {
+			this.category1 = "furniture";
+		}else if(category.equals("침대")) {
+			this.category2 = "bed";
+		}else if(category.equals("소파")) {
+			this.category2 = "sofa";
+		}else if(category.equals("거울")) {
+			this.category2 = "mirror";
+		}else if(category.equals("의자")) {
+			this.category2 = "chair";
+		}else if(category.equals("패브릭")) {
+			this.category1 = "fabric";
+		}else if(category.equals("커튼")) {
+			this.category2 = "curtain";
+		}else if(category.equals("침구")) {
+			this.category2 = "bedding";
+		}else if(category.equals("러그")) {
+			this.category2 = "rug";
+		}else if(category.equals("수납용품")) {
+			this.category1 = "storage";
+		}else if(category.equals("수납장")) {
+			this.category2 = "storage store";
+		}else if(category.equals("옷걸이")) {
+			this.category2 = "organization";
+		}else if(category.equals("생활용품")) {
+			this.category1 = "supplies";
+			this.category2 = "supplies";
+		}
+	}
+
+	public String getProNum() {
+		return proNum;
+	}
+
+	public void setProNum(String proNum) {
+		this.proNum = proNum;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	
 }

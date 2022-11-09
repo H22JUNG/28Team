@@ -80,7 +80,7 @@ main aside .menu {
 /* 내용 컨테이터 */
 .content-box {
 	width: 100%;
-	max-height: 860px;
+	/*max-height: 860px;*/
 }
 
 main section {
@@ -429,7 +429,7 @@ table {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
+								<a href="${pageContext.request.contextPath}/admin_product_list/1?order=&content=" class="menu1">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>

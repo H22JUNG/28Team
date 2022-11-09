@@ -95,10 +95,11 @@
 		FROM option INNER JOIN product
 		ON option.id = product.id
 		ORDER by category_id, option.pro_num
+		limit #{start}, #{cntPerPage}
 	</select>
 	
-	<select id="serchProductList" resultType="ProductListVO">
-		SELECT product.id, category1, category2, product.name, price, view, date_format(create_date,'%Y-%m-%d') 'createDate', option.pro_num, size, color, stock
+	<select id="productCount" resultType="int" parameterType="pageVO">
+		SELECT count(option.pro_num)
 		FROM option INNER JOIN product
 		ON option.id = product.id
 		<where>
@@ -115,6 +116,28 @@
 			and name like CONCAT('%',#{name},'%')
 			</if>
 		</where>
+	</select>
+	
+	<select id="serchProductList" resultType="ProductListVO" parameterType="pageVO">
+		SELECT product.id, category1, category2, product.name, price, view, date_format(create_date,'%Y-%m-%d') 'createDate', option.pro_num, upper(size) 'size', upper(color) 'color', stock
+		FROM option INNER JOIN product
+		ON option.id = product.id
+		<where>
+			<if test="category1 != null and category1 != ''">
+			and category1 like #{category1}
+			</if>
+			<if test="category2 != null and category2 != ''">
+			and category2 like #{category2}
+			</if>
+			<if test="proNum != null and proNum != ''">
+			and pro_num like CONCAT('%',#{proNum},'%')
+			</if>
+			<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+			</if>
+		</where>
+		ORDER by category_id, option.pro_num
+		limit #{start}, #{cntPerPage}
 	</select>
 
 	<!-- product 수정 불러오기 -->
