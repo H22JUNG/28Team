@@ -260,6 +260,7 @@
     <form action="${pageContext.request.contextPath}/InforController" method="get" id="payform">
         <div class="left">
             <div id="top">
+            <h3>선택한 상품</h3>
             	<c:forEach var="vo" items="${sessionScope.cartList}">
 						<div class="itembox">
 							<div class="smallItembox">
@@ -477,7 +478,13 @@
   function noBack(){
 	  window.history.forward();
 	
+  };
+  document.getElementById("nowButton").addEventListener("click",function(){
+	  if (document.querySelector('input[name="pay"]:checked').value == "cash") {
+		alert("무통장 입금을 선택하셨습니다.")
   }
+  });
+  
   </script>
   
     </body>
