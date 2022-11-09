@@ -556,8 +556,12 @@ a {
 	text-align: center;
 }
 
-.qna_list .num, .count {
-	width: 5%;
+.qna_list .num{
+	width: 10%;
+}
+
+.qna_list .count {
+	width: 15%;
 }
 
 .qna_list .writer {
@@ -565,11 +569,11 @@ a {
 }
 
 .qna_list .category, .date {
-	width: 18%;
+	width: 15%;
 }
 
 .qna_list .title {
-	width: 47%;
+	width: 45%;
 }
 
 .qna_list tbody .title {
@@ -845,7 +849,7 @@ a {
 					for="tab1">상세정보</label></a> <a
 					href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label
 					for="tab2">리뷰</label></a> <a
-					href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label
+					href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label
 					for="tab3" id="detaillabel">상품문의</label></a>
 				<div id="content1"></div>
 				<div id="content2"></div>
@@ -869,32 +873,43 @@ a {
 										</tr>
 									</thead>
 									<tbody>
-										<%--code와 상세페이지id가 같으면--%>
+										<%-- code와 상세페이지id가 같지않으면--%>
+										<c:choose>
+										<c:when test="${qnaVO1.isEmpty()}">
+										<tr>
+											<td colspan="6">
+												<p>작성된 글이 없습니다.</p>
+											</td>
+										</tr>
+										</c:when>
+										<c:otherwise>
 										<c:forEach var="vo" items="${qnaVO1}">
-											<c:if test="${vo.code eq detailVO.id}">
-												<tr>
-													<td class="num">${vo.id}</td>
-													<td class="category">${vo.qnaCategory}</td>
-													<td class="title">
-																<a href="#link" onclick="event.preventDefault();movetitlefn('${vo.id}', '${vo.ownerId}', '${vo.password}', '${detailVO.id}')">
-																${vo.title} 
-																<c:if test="${vo.replyCount ne 0}">
-																	<small><b>(&nbsp;${vo.replyCount}&nbsp;)</b></small>
-																</c:if>
-														</a></td>
-													<c:choose>
-														<c:when test="${vo.indent > 0}">
-															<td class="writer">${vo.owner}</td>
-														</c:when>
-														<c:otherwise>
-															<td class="writer">${fn:substring(vo.owner,0,fn:length(vo.owner)-2)}**</td>
-														</c:otherwise>
-													</c:choose>
+											<%--code와 상세페이지id가 같으면--%>
+											<tr>
+												<td class="num">${vo.id}</td>
+												<td class="category">${vo.qnaCategory}</td>
+												<td class="title">
+													<a href="#link" onclick="event.preventDefault();movetitlefn('${vo.id}', '${vo.ownerId}', '${vo.password}', '${detailVO.id}')">
+														${vo.title} 
+													<c:if test="${vo.replyCount ne 0}">
+														<small><b>(&nbsp;${vo.replyCount}&nbsp;)</b></small>
+													</c:if>
+													</a>
+												</td>
+												<c:choose>
+												<c:when test="${vo.indent > 0}">
+													<td class="writer">${vo.owner}</td>
+												</c:when>
+												<c:otherwise>
+													<td class="writer">${fn:substring(vo.owner,0,fn:length(vo.owner)-2)}**</td>
+												</c:otherwise>
+												</c:choose>
 													<td class="date">${vo.createDate}</td>
 													<td class="count">${vo.hits}</td>
-												</tr>
-											</c:if>
+											</tr>
 										</c:forEach>
+										</c:otherwise>
+										</c:choose>
 									</tbody>
 								</table>
 								<!-- 패스워드 모달창 -->
@@ -913,12 +928,10 @@ a {
 								</div>
 							</div>
 
-
 							<!--버튼-->
 							<div class="btn_wrap">
-								<c:if test="${qnaVO.ownerId eq userVO.id}">
-									<a
-										href="${pageContext.request.contextPath}/detail_write/${detailVO.id}?code=${detailVO.id}"
+								<c:if test="${user != null}">
+									<a href="${pageContext.request.contextPath}/detail_write/${detailVO.id}?code=${detailVO.id}#detaillabel"
 										class="on">문의하기</a>
 								</c:if>
 							</div>
@@ -967,12 +980,6 @@ a {
 
 
 	<script type="text/javascript">
-		// 페이지 스크롤	
-		$(document).ready(function() {
-			$('html, body').animate({
-				scrollTop : $('#content3').offset().top
-			}, 'default');
-		});
 
 		// 사진슬라이드   //컬러&색상&재고에 조건 배열값으로 넣었더니 컬러색상이 null이 있으면 슬라이드 안됨.
 		var slideWrapper = document.getElementById('slider-wrap');
@@ -1032,61 +1039,59 @@ a {
 			plusSlides(1);
 		}, 3000);
 		
-		
 		//패스워드 모달창
 		let thePassword = "";
-		let theId = "";
-		let theDetailId = "";
-		$(function() {
-
+		let theId="";
+		let theDetailId="";
+		$(function(){
+			
 			var btnCheck = document.getElementById('btnCheck');
 			var btnClose = document.getElementById('btnClose');
 
 			// modal 창을 감춤
-			var closeRtn = function() {
-				var modal = document.getElementById('modal');
-				modal.style.display = 'none';
-				thePassword = "";
-				theId = "";
-				theDetailId = "";
+			var closeRtn = function(){
+			  var modal = document.getElementById('modal');
+			  modal.style.display = 'none';
+			  thePassword = "";
+			  theId="";
+			  theDetailId="";
 			}
 
-			let checkPass = function() {
-				if (thePassword !== "" && thePassword === $("#password").val()) {
-					location.href = '${pageContext.request.contextPath}/detail_qna/'
-							+ theId + '/' + theDetailId;
+
+			let checkPass = function(){
+				if( thePassword !== "" && thePassword ===$("#password").val() ){
+					location.href = '${pageContext.request.contextPath}/detail_qna/'+theId+'/'+theDetailId;
 				} else {
 					alert("비밀번호가 올바르지 않습니다.");
 				}
 				closeRtn();
 			}
-
+			
 			btnCheck.onclick = checkPass;
 			btnClose.onclick = closeRtn;
-
+			
+			
 		});
 		// 모달창 나오는 조건
-		var movetitlefn = function(id, ownerId, pwd, detailId) {
-			if ("${sessionScope.user.userid}" == "") {
-				alert("로그인 후 이용해주세요.");
-			} else {
-				if (ownerId === '${user.id}' || '${user.admin}' === '1') {
-					location.href = '${pageContext.request.contextPath}/detail_qna/'
-							+ id + '/' + detailId;
-				} else {
-					var modal = document.getElementById('modal');
-					modal.style.display = 'block';
-					thePassword = pwd;
-					theId = id;
-					theDetailId = detailId;
-				}
-			}
+		var movetitlefn = function(id, ownerId, pwd, detailId){
+		  	if("${sessionScope.user.userid}" == "") {
+		  		alert("로그인 후 이용해주세요.");
+		  		location.href="${pageContext.request.contextPath}/loginpage";
+		  	} else {
+		  		if(ownerId === '${user.id}' || '${user.admin}' === '1'){
+		  			location.href = '${pageContext.request.contextPath}/detail_qna/'+id+'/'+detailId+'#detaillabel';	
+		  		} else{
+			  		var modal = document.getElementById('modal');
+			  	    modal.style.display = 'block';
+			  	    thePassword = pwd;
+			  	    theId = id;
+			  	 	theDetailId = detailId;
+		  		}
+		  	} 
 		}
 
 		// 장바구니 이동
-		$("#btn1")
-				.click(
-						function(e) {
+		$("#btn1").click(function(e) {
 							e.preventDefault();
 							var id = $("#id").val();
 							var count = $("#select_count").val();
@@ -1121,31 +1126,30 @@ a {
 
 							};
 
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath}/detailcart",
-										type : "post",
-										data : data,
-										success : function(result) {
-											if (result == 1) {
-												if (confirm("장바구니에 담으시겠습니까?")) {
-													alert("장바구니에 담았습니다.");
-													$("#select_count").val("1");
-													if (confirm("장바구니로 이동하시겠습니까?")) {
-														cancelButton: '다음에'
-														location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
-													}
-												}
-											} else {
-												alert("로그인 후 이용해주세요.");
-												$("#select_count").val("1");
-											}
-										},
-										error : function() {
-											alert("장바구니에 담을 수 없습니다.");
-										}
-									});
-						});
+				$.ajax({
+					url : "${pageContext.request.contextPath}/detailcart",
+					type : "post",
+					data : data,
+					success : function(result) {
+					if (result == 1) {
+					if (confirm("장바구니에 담으시겠습니까?")) {
+					alert("장바구니에 담았습니다.");
+					$("#select_count").val("1");
+					if (confirm("장바구니로 이동하시겠습니까?")) {
+						cancelButton: '다음에'
+						location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
+					}
+				}
+					} else {
+						alert("로그인 후 이용해주세요.");
+						$("#select_count").val("1");
+						}
+					},
+						error : function() {
+						alert("장바구니에 담을 수 없습니다.");
+					}
+				});
+			});
 
 		// 구매하기 이동
 		document.getElementById("btn2").addEventListener("click", function(e) {
@@ -1160,86 +1164,65 @@ a {
 		});
 
 		// 선택한상품 div창
-		document
-				.querySelector("select[name='count']")
-				.addEventListener(
-						"change",
-						function() {
-							let size = document.getElementById("select_size").value;
-							let color = document.getElementById("select_color").value;
-							let count = document.getElementById("select_count").value;
+		document.querySelector("select[name='count']").addEventListener("change",function() {
+			let size = document.getElementById("select_size").value;
+			let color = document.getElementById("select_color").value;
+			let count = document.getElementById("select_count").value;
 
-							//html 추가로 생성 작업
-							$('.optionSize').remove();
-							var html = '';
-							html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
-							html += '<div class="optionSize">사이즈 : ' + size
-									+ '</div>';
-							html += '<div class="optionSize">색상 : ' + color
-									+ '</div>';
-							html += '<div class="optionSize">수량 : ' + count
-									+ '</div>';
-
-							$('#selectoption').append(html);
-
-							$(".optionSize").css("width", 500);
-
-						});
+			//html 추가로 생성 작업
+			$('.optionSize').remove();
+			var html = '';
+			html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
+			html += '<div class="optionSize">사이즈 : ' + size + '</div>';
+			html += '<div class="optionSize">색상 : ' + color + '</div>';
+			html += '<div class="optionSize">수량 : ' + count + '</div>';
+			$('#selectoption').append(html);
+			$(".optionSize").css("width", 500);
+		});
 
 		// 사이즈선택 시 색상select창
-		$("#select_size")
-				.change(
-						function() {
-							$('#select_color').empty();
-							let option = $("<option value='선택없음'>-선택없음-</option>");
-							$('#select_color').append(option);
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath}/colorbyidandsize",
-										type : "post",
-										data : {
-											id : $("#proid").val(),
-											size : $("#select_size").val()
-										},
-										success : function(result) {
-											result
-													.forEach(function(item) {
-														let option = $("<option value='"+item+"'>"
-																+ item
-																+ "</option>");
-														$('#select_color')
-																.append(option);
-													});
-										},
-										error : function() {
-											alert("죄송합니다. 구매하실 수 없습니다.");
-										}
-									});
+		$("#select_size").change(function() {
+			$('#select_color').empty();
+			let option = $("<option value='선택없음'>-선택없음-</option>");
+			$('#select_color').append(option);
+			$.ajax({
+				url : "${pageContext.request.contextPath}/colorbyidandsize",
+				type : "post",
+				data : {
+				id : $("#proid").val(),
+				size : $("#select_size").val()
+			},
+				success : function(result) {
+				result.forEach(function(item) {
+					let option = $("<option value='"+item+"'>"+ item+ "</option>");
+						$('#select_color').append(option);
 						});
+				},
+					error : function() {
+						alert("죄송합니다. 구매하실 수 없습니다.");
+					}
+				});
+			});
 
 		//색상선택 시 상품코드 정해짐
-		$("#select_color")
-				.change(
-						function() {
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath}/pronumbysizeandcolor",
-										type : "post",
-										data : {
-											id : $("#proid").val(),
-											size : $("#select_size").val(),
-											color : $("#select_color").val()
-										},
-										success : function(result) {
-											console.log(result);
-											$("#code").val(result).prop(
-													"selected", true);
-										},
-										error : function() {
-											alert("죄송합니다. 구매하실 수 없습니다.");
-										}
-									});
-						});
+		$("#select_color").change(function() {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/pronumbysizeandcolor",
+				type : "post",
+				data : {
+				id : $("#proid").val(),
+				size : $("#select_size").val(),
+				color : $("#select_color").val()
+			},
+				success : function(result) {
+				console.log(result);
+				$("#code").val(result).prop("selected", true);
+			},
+				error : function() {
+					alert("죄송합니다. 구매하실 수 없습니다.");
+				}
+			});
+		});
 	</script>
 
 </body>

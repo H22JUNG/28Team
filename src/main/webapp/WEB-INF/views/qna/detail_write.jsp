@@ -799,7 +799,7 @@ a {
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3" id="detaillabel">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label for="tab3" id="detaillabel">상품문의</label></a>
 				<div id="content1"></div>
 				<div id="content2"></div>
 				<div id="content3">
@@ -810,7 +810,7 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/detail_write/good/${detailVO.id}" method="post" id="frm">
+					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/detail_write/good/${detailVO.id}#detaillabel" method="post" id="frm">
 						<div class="title">
 							<dl>
 								<dt>문의유형</dt>
@@ -913,13 +913,6 @@ a {
 		var autoSlider = setInterval(function() {
 			plusSlides(1);
 		}, 3000);
-		
-		//페이지스크롤		
-		$(document).ready(function () {
-			$('html, body').animate({
-			scrollTop: $('#content3').offset().top
-			}, 'default');
-			});
 
 		// 장바구니 이동
 		$("#btn1").click(function(e) {
@@ -968,6 +961,7 @@ a {
 						if(confirm("장바구니에 담으시겠습니까?")){
 							alert("장바구니에 담았습니다.");
 							$("#select_count").val("1");
+							location.href="${pageContext.request.contextPath}/loginpage";
 							if(confirm("장바구니로 이동하시겠습니까?")){
 								cancelButton:'다음에'
 								location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
@@ -989,6 +983,7 @@ a {
 			e.preventDefault();
 			if("${sessionScope.user.userid}" == "") {
 				alert("로그인 후 이용해주세요.");
+				location.href="${pageContext.request.contextPath}/loginpage";
 			} else {
 				if(confirm("바로 구매하시겠습니까?")){
 					document.getElementById("now-buy").submit();
@@ -1075,7 +1070,7 @@ a {
 					let result = confirm("게시글 작성을 취소하시겠습니까?");
 					if (result == true) {
 						confirm("취소되었습니다.");
-						location.href = "${pageContext.request.contextPath}/detail_qna/${detailVO.id}";
+						location.href = "${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel";
 					}
 	});
 

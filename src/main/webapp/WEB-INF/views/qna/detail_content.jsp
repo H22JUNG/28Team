@@ -556,7 +556,6 @@ a {
 	width : 100%;
 	height: 6em;
 }
-}
 
 #inittext:focus{
 	outline : 1px solid #21A5B5;
@@ -800,7 +799,7 @@ a {
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3" id="detaillabel">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label for="tab3" id="detaillabel">상품문의</label></a>
 				<div id="content1"></div>
 				<div id="content2"></div>
 				<div id="content3">
@@ -855,7 +854,7 @@ a {
 						<!--버튼-->
 						<div class="btn_wrap">
 							<a
-								href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"
+								href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"
 								class="on" id="return">목록으로</a>
 
 							<c:choose>
@@ -951,13 +950,6 @@ a {
 		var autoSlider = setInterval(function() {
 			plusSlides(1);
 		}, 3000);
-		
-    	// 페이지 스크롤
-    	$(document).ready(function () {
-			$('html, body').animate({
-			scrollTop: $('#content3').offset().top
-			}, 'fast');
-			});
 
 		//댓글달기
     	const commentMain = document.getElementById("comment");
@@ -1203,6 +1195,7 @@ a {
     				} else{
     					alert("로그인 후 이용해주세요.");
     					$("#select_count").val("1");
+    					location.href="${pageContext.request.contextPath}/loginpage";
     				}
     				},
     				error : function() {
@@ -1216,6 +1209,7 @@ a {
     		e.preventDefault();
     		if("${sessionScope.user.userid}" == "") {
     			alert("로그인 후 이용해주세요.");
+    			location.href="${pageContext.request.contextPath}/loginpage";
     		} else {
     			if(confirm("바로 구매하시겠습니까?")){
     				document.getElementById("now-buy").submit();
@@ -1286,14 +1280,14 @@ a {
     	window.onload = function(){
     		let modify = document.getElementById("modify");
     		modify.addEventListener('click', () => {
-    			location.href = "${pageContext.request.contextPath}/detail_update/${qnaVO.id}/${detailVO.id}";
+    			location.href = "${pageContext.request.contextPath}/detail_update/${qnaVO.id}/${detailVO.id}#detaillabel";
     		});
     	}
     	
     	document.getElementById("del").addEventListener("click",function(){
     		let result = confirm("정말로 삭제하시겠습니까?");
     		if(result){
-    			location.href="${pageContext.request.contextPath}/detail_remove/${qnaVO.id}/${detailVO.id}";
+    			location.href="${pageContext.request.contextPath}/detail_remove/${qnaVO.id}/${detailVO.id}#detaillabel";
     		}
     	});
 

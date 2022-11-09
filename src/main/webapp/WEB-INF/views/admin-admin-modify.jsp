@@ -6,35 +6,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
 <script src="${pageContext.request.contextPath}/js/common.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <title>Document</title>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+/* 마이페이지 */
+main {
+	background-color: #FFFAEE;
+	position: relative;
+	top: 33%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	min-width: 1200px;
 }
 
-ul, li {
-	list-style-type: none;
+main .mypage-container {
+	display: flex;
+	width: 80%;
+	justify-content: center;
+	align-items: center;
 }
 
-a {
-	text-decoration: none;
+/* 마이페이지 메뉴 */
+main aside {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30px;
+	background-color: white;
+	border-radius: 30px;
+	margin: 20px;
+	width: 300px;
 }
 
-body {
-	background:
-		url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp")
-		0% 300% fixed;
-	background-size: cover;
-	height: 100vh;
+main aside ul {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	z-index: 0;
-	background-color: #FFFAEE;
+	gap: 10px;
+	width: 100%;
+}
+
+main aside ul li {
+	padding: 15px 0 15px 0;
+}
+
+main aside .menu a {
+	text-decoration: none;
+	color: #000;
+	margin: 20px 0 20px 0;
+}
+
+main aside .menu {
+	border: 1px solid #F0F0F0;
+	border-radius: 25px;
+	width: 100%;
+	padding: 10px;
+	justify-content: space-between;
+}
+
+#sidemenulist h3 {
+	text-align: center;
 }
 
 /* 내용 */
@@ -53,30 +89,30 @@ main section {
 	border-radius: 30px;
 	margin: 10px;
 }
-
-.sec2 {
-	height: 400px;
-}
 /* 본문 */
 table {
 	border-collapse: collapse;
+	width: 100%;
 }
 
 th {
 	color: #616161;
 	padding: 10px 5px 10px 5px;
 	border-bottom: 3px solid #21A5B5;
+	font-size : 14px;
 }
 
 td {
 	border-bottom: 1px solid #616161;
 	padding: 10px 5px 10px 5px;
 	text-align: center;
+	font-size : 14px;
 }
 
 td input{
 	height : 30px;
 	text-align: center;
+	width: 100%;
 }
 
 .admin{
@@ -126,6 +162,7 @@ td input{
 	color: #21A5B5;
 }
 
+
 .title select:focus, .title options:focus, .qna_write .info input[type="text"]:focus,
 	.qna_write .title input[type="password"]:focus, #content:focus  {
 	border : none;
@@ -139,19 +176,53 @@ td input:focus, .admin:focus{
 	border-radius : 5px;
 }
 
+
 </style>
 </head>
 
 <body>
+	<jsp:include page="header.jsp"></jsp:include>
 	<main>
 		<div class="mypage-container">
+			<aside>
+				<ul id="sidemenulist">
+					<h3>관리자페이지</h3>
+					<div class="menu">
+						<li>
+							<h4>
+								<a href="">✔ 회원관리</a>
+							</h4>
+						</li>
+						<li>
+							<h4>
+								<a href="">✔ 상품관리</a>
+							</h4>
+						</li>
+						<li>
+							<h4>
+								<a href="">✔ 주문관리</a>
+							</h4>
+						</li>
+						<li>
+							<h4>
+								<a href="${pageContext.request.contextPath}/admin-admin-list" class="menu1">✔
+									관리자 정보수정</a>
+							</h4>
+						</li>
+						<li>
+							<h4>
+								<a href="${pageContext.request.contextPath}/admin-logout" id="admin-logout">✔ 로그아웃</a>
+							</h4>
+						</li>
+					</div>
+				</ul>
+			</aside>
 			<div class="content-box">
 				<section>
 					<ul class="side-menu">
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin-admin">관리자
-									정보 수정</a>
+								<a href="${pageContext.request.contextPath}/admin-admin-list" class="menu1">관리자 정보 수정</a>
 							</h4>
 						</li>
 					</ul>
@@ -211,11 +282,9 @@ td input:focus, .admin:focus{
 			</div>
 		</div>
 	</main>
-	<footer> </footer>
-</body>
-<script>
+	<jsp:include page="footer.jsp"></jsp:include>
+	<script>
 $(document).ready(function(){
-		
 	//input빈칸채우게 하기
 	$("#modify-btn").click(function () {
 		console.log('click');
@@ -273,4 +342,5 @@ $(document).ready(function(){
 }); // ready end
 	
 </script>
+</body>
 </html>

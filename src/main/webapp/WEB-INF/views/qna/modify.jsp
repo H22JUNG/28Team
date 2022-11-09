@@ -147,7 +147,8 @@ a {
 .qna_write .title select:focus, .qna_write .info input:focus,
 	.qna_write .title input[type="password"]:focus, .cont textarea:focus{
 	outline: 2px solid #21A5B5;
-	border: 1px solid #21A5B5;
+	border: none;
+	border-radius : 5px;
 }
 /* .qna_write .title input[type="text"]{width: 80%;} */
 .qna_write .title dl {
@@ -228,11 +229,11 @@ a {
 	<jsp:include page="../footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
-		document.getElementById("btn1").addEventListener("click",function() {
-			if ( confirm("수정하시겠습니까?") ) {
+ 		document.getElementById("btn1").addEventListener("click",function() {
+			if ( confirm("게시글을 수정하시겠습니까?") ) {
 				$("#myform").submit();
 			}				
-		});  
+		}); 
 		
 		document.getElementById("btn2").addEventListener("click",function() {
 			location.href = "${pageContext.request.contextPath}/qna/${vo.id}";

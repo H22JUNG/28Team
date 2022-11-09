@@ -148,7 +148,7 @@ a {
 .title select:focus, .title options:focus, .qna_write .info input[type="text"]:focus,
 	.qna_write .title input[type="password"]:focus, #content:focus  {
 	border : none;
-	outline : 1px solid #21A5B5;
+	outline : 2px solid #21A5B5;
 	border-radius : 5px;
 }
 /* .qna_write .title input[type="text"]{width: 80%;} */

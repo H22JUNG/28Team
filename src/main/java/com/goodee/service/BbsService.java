@@ -90,24 +90,25 @@ public class BbsService {
 			pagevo.setTotal(dao.selectQnaAndQnaCommentCount());
 			pagevo.setNowPage(page);
 			pagevo.setCntPerPage(10);
-			pagevo.setStart((page - 1) * pagevo.getCntPerPage());
-			pagevo.setEnd(page * pagevo.getCntPerPage());
-
+			pagevo.setStart((page - 1)*pagevo.getCntPerPage());
+			pagevo.setEnd(page*pagevo.getCntPerPage());
+			//블록당 페이지
 			pagevo.setCntPerBlock(5);
 			// 전체페이지
-			int totalPage = pagevo.getTotal() / pagevo.getCntPerPage();
-			totalPage = (pagevo.getTotal() % pagevo.getCntPerPage() == 0) ? totalPage : totalPage + 1;
+			int totalPage = pagevo.getTotal()/pagevo.getCntPerPage();
+			totalPage = (pagevo.getTotal()%pagevo.getCntPerPage() == 0)?totalPage:totalPage+1;
 			pagevo.setTotalPage(totalPage);
 			// 페이지 설정
-			int initPage = (pagevo.getNowPage() - 1) / pagevo.getCntPerBlock() * pagevo.getCntPerBlock();
+			int initPage = (pagevo.getNowPage()-1)/pagevo.getCntPerBlock()*pagevo.getCntPerBlock();
 			// 시작페이지
-			int startPage = initPage + 1;
+			int startPage = initPage+1;
 			pagevo.setStartPage(startPage);
 			// 마지막 페이지
-			int endPage = initPage + pagevo.getCntPerBlock();
+			int endPage = initPage+pagevo.getCntPerBlock();
 			if (endPage > pagevo.getTotalPage()) {
 				endPage = pagevo.getTotalPage();
 			}
+			
 			pagevo.setEndPage(endPage);
 			model.addAttribute("list", dao.QnaList(pagevo));
 			model.addAttribute("page", pagevo);

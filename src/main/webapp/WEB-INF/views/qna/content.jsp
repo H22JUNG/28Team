@@ -226,12 +226,12 @@ a {
 										<c:when test="${user.admin == 1}">
 											<a class="btn-fill"
 											href="${pageContext.request.contextPath}/reply?id=${qnaVO.id}"
-											id="rep">답글</a>
+											id="rep">답변</a>
 										</c:when>
 										<c:otherwise>
 											<a class="btn-fill"
 											href="${pageContext.request.contextPath}/reply?id=${qnaVO.id}"
-											id="rep" style="display: none">답글</a>
+											id="rep" style="display: none">답변</a>
 										</c:otherwise>
 									</c:choose>
 								</div>

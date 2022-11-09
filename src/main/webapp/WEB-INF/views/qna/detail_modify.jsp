@@ -286,7 +286,8 @@ input::-webkit-input-placeholder {
 
 .detail_top table select:focus {
 	outline: 2px solid #21A5B5;
-	border: 1px solid #21A5B5;
+	border: none;
+	border-radius : 5px;
 }
 
 /*옵션버튼*/
@@ -555,12 +556,16 @@ a {
 
 .qna_write .info dl {
 	display: inline-block;
-	vertical-align: middle;
-	margin-right: 100px;
+	vertical-align: left;
+}
+
+.qna_write .info #title_dd{
+	width : 65%;
+	margin-right : 50px;
 }
 
 .qna_wrap .info #title_d {
-	width: 435px;
+	width: 100%;
 }
 
 .qna_wrap .info #owner_d {
@@ -608,8 +613,8 @@ a {
 
 .title select:focus, .title options:focus, .qna_write #title_d:focus,
 	.qna_write #pw:focus, #content:focus  {
-	border : none;
-	outline : 1px solid #21A5B5;
+	outline: 2px solid #21A5B5;
+	border: none;
 	border-radius : 5px;
 }
 /* .qna_write .title input[type="text"]{width: 80%;} */
@@ -796,7 +801,7 @@ a {
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3" id="detaillabel">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label for="tab3" id="detaillabel">상품문의</label></a>
 				<div id="content1"></div>
 				<div id="content2"></div>
 				<div id="content3">
@@ -808,7 +813,7 @@ a {
 						<div class="qna_write_wrap">
 							<div class="qna_write">
 								<form:form modelAttribute="qnaVO"
-									action="${pageContext.request.contextPath}/detail_update/${detailVO.id}"
+									action="${pageContext.request.contextPath}/detail_update/${detailVO.id}#detaillabel"
 									method="post" id="btnform">
 									<div class="title">
 										<dl>
@@ -828,7 +833,7 @@ a {
 										</dl>
 									</div>
 									<div class="info">
-										<dl>
+										<dl id="title_dd">
 											<dt>제목</dt>
 											<dd>
 												<form:input path="title" id="title_d"/>
@@ -845,7 +850,7 @@ a {
 									<!--버튼-->
 									<div class="btn_wrap">
 										<button class="on" id="btn1">수정완료</button>
-										<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}" type="button" id="btn2">취소</a>
+										<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel" type="button" id="btn2">취소</a>
 									</div>
 								</form:form>
 							</div>
@@ -916,13 +921,6 @@ a {
 		var autoSlider = setInterval(function() {
 			plusSlides(1);
 		}, 3000);
-		
-		// 페이지 스크롤
-		$(document).ready(function () {
-			$('html, body').animate({
-			scrollTop: $('#content3').offset().top
-			}, 'fast');
-			});
 
 		// 장바구니 이동
 		$("#btn1").click(function(e) {
@@ -971,6 +969,7 @@ a {
 						if(confirm("장바구니에 담으시겠습니까?")){
 							alert("장바구니에 담았습니다.");
 							$("#select_count").val("1");
+							location.href="${pageContext.request.contextPath}/loginpage";
 							if(confirm("장바구니로 이동하시겠습니까?")){
 								cancelButton:'다음에'
 								location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
@@ -992,6 +991,7 @@ a {
 			e.preventDefault();
 			if("${sessionScope.user.userid}" == "") {
 				alert("로그인 후 이용해주세요.");
+				location.href="${pageContext.request.contextPath}/loginpage";
 			} else {
 				if(confirm("바로 구매하시겠습니까?")){
 					document.getElementById("now-buy").submit();
@@ -1057,27 +1057,12 @@ a {
 			});	  
 		});
 
-		// 수정버튼, 취소버튼
-		document
-				.getElementById("btn1")
-				.addEventListener(
-						"click",
-						function() {
-							let result = confirm("게시글을 수정하시겠습니까?");
-							if (result == true) {
-								confirm("수정되었습니다.");
-							}
-		});
-		
-		document
-		.getElementById("btn2")
-		.addEventListener(
-				"click",
-				function() {
-					let result = confirm("수정을 취소하시겠습니까?");
-					if (result == true) {
-						confirm("취소되었습니다.");
-					}
+		// 수정버튼
+		document.getElementById("btn1").addEventListener("click",function() {
+			if (confirm("게시글을 수정하시겠습니까?")) {
+			confirm("수정되었습니다.");
+			$("#btnform").submit();
+		}
 	});
 
 	</script>

@@ -153,6 +153,12 @@ a {
 	border: 0;
 	resize: vertical;
 }
+
+.qna_write textarea:focus, .qna_write input:focus{
+	border : none;
+	outline : 2px solid #21A5B5;
+	border-radius : 5px;
+}
 </style>
 </head>
 <body>
@@ -179,7 +185,7 @@ a {
 							<dl>
 								<dt>비밀번호</dt>
 								<dd>
-									<input type="password" name="password" id="" value="${qnaVO.password}"/>
+									<input type="password" name="password" id="" value="${qnaVO.password}" maxlength="4"/>
 									<input type="hidden" name="root" id="root" value="${qnaVO.id}">
 									<input type="hidden" name="qnaCategory" id="qnaCategory" value="${qnaVO.qnaCategory}">
 								</dd>

@@ -6,100 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
 <title>Document</title>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul, li {
-	list-style-type: none;
-}
-
-a {
-	text-decoration: none;
-}
-
-body {
-	background:
-		url("${pageContext.request.contextPath}/image/KakaoTalk_20221013_170149504.webp")
-		0% 300% fixed;
-	background-size: cover;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	z-index: 0;
-	background-color: #FFFAEE;
-}
-
-/* 헤더 */
-header {
-	background-color: #FFFAEE;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 1200px;
-}
-
-header .header-top {
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-}
-
-header .header-top .logo img {
-	width: 265px;
-}
-
-header .header-top .logo {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .header-top .side {
-	position: absolute;
-}
-
-header .header-top .side ul {
-	display: flex;
-	gap: 10px;
-	margin: 10px;
-}
-
-/* 카테고리 */
-header .category {
-	padding: 10px 20px;
-	width: 100%;
-}
-
-header .category ul {
-	display: flex;
-	gap: 30px;
-}
-
-header .category ul li {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-header .category ul li:first-child {
-	background: #FFECC8;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	padding: 5px 15px 7px;
-	gap: 10px;
-}
 
 /* 마이페이지 */
 main {
@@ -233,42 +144,11 @@ td {
 	color: #21A5B5;
 }
 
-.admin-popup {
-	display: none;
-}
 </style>
 </head>
 
 <body>
-	<header>
-		<div class="header-top">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath}/"><img
-					src="${pageContext.request.contextPath}/image/KakaoTalk_20221012_170414651.png"
-					alt=""></a>
-			</div>
-			<div class="side">
-				<ul>
-					<li><a href=""><img src="" alt="">검색</a></li>
-					<li><a href=""><img src="" alt="">장바구니</a></li>
-					<li><a href="${pageContext.request.contextPath}/loginpage">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-		<nav class="category">
-			<ul>
-				<li>Category</li>
-				<li>가구</li>
-				<li>패브릭</li>
-				<li>수납용품</li>
-				<li>생활용품</li>
-				<li>공지사항</li>
-				<li>Q&A</li>
-				<li>이벤트</li>
-			</ul>
-		</nav>
-	</header>
+	<jsp:include page="header.jsp"></jsp:include>
 	<main>
 		<div class="mypage-container">
 			<aside>
@@ -277,17 +157,17 @@ td {
 					<div class="menu">
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/adminpage/1?searchUser=&userInfo=">✔ 회원관리</a>
+								<a href="">✔ 회원관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin_product_list" class="menu1">✔ 상품관리</a>
+								<a href="">✔ 상품관리</a>
 							</h4>
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1">✔ 주문관리</a>
+								<a href="">✔ 주문관리</a>
 							</h4>
 						</li>
 						<li>
@@ -298,7 +178,7 @@ td {
 						</li>
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/admin-logout" id="admin-logout" id="admin-logout">✔ 로그아웃</a>
+								<a href="${pageContext.request.contextPath}/admin-logout" id="admin-logout">✔ 로그아웃</a>
 							</h4>
 						</li>
 					</div>
@@ -309,7 +189,7 @@ td {
 					<ul class="side-menu">
 						<li>
 							<h4>
-								<a href="">관리자 정보 수정</a>
+								<a href="${pageContext.request.contextPath}/admin-admin-list" class="menu1">관리자 정보 수정</a>
 							</h4>
 						</li>
 					</ul>
@@ -353,31 +233,25 @@ td {
 			</div>
 		</div>
 	</main>
-	<footer> </footer>
-</body>
-
-<script>
+	<jsp:include page="footer.jsp"></jsp:include>
+	<script>
 	//관리자 로그아웃
-	document
-			.getElementById("admin-logout")
-			.addEventListener(
-					"click",
-					function() {
-						let result = confirm("로그아웃 하시겠습니까?");
-						if (result) {
-							alert("로그아웃 되었습니다.");
-							location.href = "${pageContext.request.contextPath}/admin-logout";
-						}
-					});
+	document.getElementById("admin-logout").addEventListener("click",function() {
+		let result = confirm("로그아웃 하시겠습니까?");
+		if (result) {
+			$("#admin-logout").submit();
+		alert("로그아웃 되었습니다.");
+	}
+});
 	
-	//수정하기 버튼
+	//삭제하기 버튼
 	$(document).on('click', '#delete-btn', function() {
 		let result = confirm("삭제하시겠습니까?")
 		if (result){
+			$("#delete-btn").submit();
 			alert("해당 관리자가 삭제되었습니다.")
-		}else{
-
 		}
 	})
 </script>
+</body>
 </html>

@@ -89,11 +89,6 @@ a {
 	border-bottom: 1px solid #ddd;
 }
 
-/*.top th {
-	border-bottom: 2px solid #999;
-	font-size: 15px;
-}*/
-
 .qna_list {
 	border-bottom: 3px solid #21A5B5;
 	 border-collapse: collapse
@@ -372,6 +367,7 @@ $(function(){
 var movetitlefn = function(id, ownerId, pwd){
   	if("${sessionScope.user.userid}" == "") {
   		alert("로그인 후 이용해주세요.");
+  		location.href="${pageContext.request.contextPath}/loginpage";
   	} else {
   		if(ownerId === '${user.id}' || '${user.admin}' === '1'){
   			location.href = '${pageContext.request.contextPath}/qna/'+id;	

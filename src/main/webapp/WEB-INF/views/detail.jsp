@@ -654,9 +654,9 @@ input {
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">
-				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
+				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1" id="detaillabel">상세정보</label></a> 
 				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1#detaillabel"><label for="tab2">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label for="tab3">상품문의</label></a>
 				<div id="content1">
 					<img src="${pageContext.request.contextPath}/image/detailHead.png"
 						alt=""> <img
@@ -841,6 +841,7 @@ $(document).ready(function(){
 				} else{
 					alert("로그인 후 이용해주세요.");
 					$("#select_count").val("1");
+					location.href="${pageContext.request.contextPath}/loginpage";
 				}
 				},
 				error : function() {
@@ -854,6 +855,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		if("${sessionScope.user.userid}" == "") {
 			alert("로그인 후 이용해주세요.");
+			location.href="${pageContext.request.contextPath}/loginpage";
 		} else {
 			if(confirm("바로 구매하시겠습니까?")){
 				document.getElementById("now-buy").submit();

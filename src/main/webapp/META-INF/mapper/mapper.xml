@@ -698,7 +698,7 @@
 
 	<!--Q&A 게시글조회 -->
 	<select id="selectQnaCount" resultType="int">
-		select count(*) from qna;
+		select count(*) from qna
 	</select>
 	
 	<!-- 원글+댓글개수 출력(페이징) -->
@@ -722,7 +722,7 @@
 		</if>		
 		) TTT
 	</select>
-
+	
 	<select id="QnaList" resultType="QnaVO">
 		SELECT *
 		from
@@ -739,7 +739,7 @@
 		owner_id, root, root AS root2, indent, hits
 		from qnacomment
 		)
-		) Temp
+		) Temp 
 		ORDER BY root2 DESC, indent ASC LIMIT #{start}, #{cntPerPage}
 	</select>
 
@@ -765,7 +765,7 @@
 		update qna set qna_category = #{qnaCategory},
 		password = #{password},owner = #{owner}, title=#{title},
 		content=#{content}
-		where id = #{id} and owner_id = #{ownerId}
+		where id = #{id}
 	</update>
 
 	<!-- Q&A insert -->
@@ -821,7 +821,7 @@
 		and code = #{code}
 		</if>		
 		order by id desc
-		) TTT
+		) TTT order by id desc
 		LIMIT #{start}, #{cntPerPage}
 	</select>
 
