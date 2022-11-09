@@ -655,7 +655,7 @@ input {
 			<!--탭-->
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1">상세정보</label></a> 
-				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label for="tab2">리뷰</label></a>
+				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1#detaillabel"><label for="tab2">리뷰</label></a>
 				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
 				<div id="content1">
 					<img src="${pageContext.request.contextPath}/image/detailHead.png"

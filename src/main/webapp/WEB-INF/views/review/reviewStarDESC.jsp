@@ -350,10 +350,6 @@ input::-webkit-input-placeholder {
 	cursor: pointer;
 }
 
-#detaillabel{
-	color: #21A5B5;
-}
-
 .tabmenu label:nth-of-type(2) {
 	width: 34%;
 }
@@ -660,9 +656,9 @@ input {
 			<hr width="100%" color="black" size="1">
 			<!--탭-->
 			<div class="tabmenu">
-				<a href="${pageContext.request.contextPath}//detail/${detailVO.id}"><label for="tab1">상세정보</label></a>
-				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}"><label for="tab2" style="color:#21A5B5;">리뷰</label></a>
-				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}"><label for="tab3">상품문의</label></a>
+				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label for="tab1" id="detaillabel">상세정보</label></a>
+				<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}#detaillabel"><label for="tab2" style="color:#21A5B5;">리뷰</label></a>
+				<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label for="tab3">상품문의</label></a>
 				<div id="content2">
 <div id="reviewContainer">
     <div id="REVIEW">
@@ -930,13 +926,13 @@ input {
    	</c:forEach>
    	
    	document.getElementById("recentDESC").addEventListener("click", function() {
-   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=recent";
+   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=recent#recentDESC";
    	});
    	document.getElementById("starDESC").addEventListener("click", function() {
-   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=star";
+   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=star#starDESC";
    	});
    	document.getElementById("hitDESC").addEventListener("click", function() {
-   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits";
+   		location.href = "${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits#hitDESC";
    	});
     </script>
      
