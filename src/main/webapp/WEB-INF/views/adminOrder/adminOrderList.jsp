@@ -387,7 +387,30 @@ table {
 	width: 5rem;
 }
 
+.delivstate_inner {
+	display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
 
+.delivnum_output {
+	width: 8rem;
+    height: 30px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: none;
+    border-bottom: 1px solid #26a3cf;
+    text-align: center;
+}
+
+.delivnum_modify_btn {
+	border: 1px solid #26a3cf;
+    padding: 4px;
+    color: #26a3cf;
+    cursor: pointer;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -515,6 +538,11 @@ table {
 	                                                </c:if>
 	                                                <c:if test="${vo.delivstate == 2}">
 	                                                    배송중
+	                                                    <div class="delivstate_inner">
+		                                                    <p>송장번호 : </p>
+		                                                    <input type="text" class="delivnum_output" name="delivnum" value="${vo.delivnum}"/>
+		                                                    <a class="delivnum_modify_btn" data-order_num="${vo.orderNum}">변경</a>
+	                                                    </div>
 	                                                </c:if>
 	                                                <c:if test="${vo.delivstate == 3}">
 	                                                    배송완료
@@ -557,6 +585,11 @@ table {
                         </table>
                     </div>
 				</section>
+				
+				<form action="${pageContext.request.contextPath}/adminorder/delivNumberUpdate" method="post" class="delivnum_update_form">
+					<input type="hidden" name="orderNum" class="update_orderNum"/>
+					<input type="hidden" name="delivnum" class="update_delivnum"/>
+				</form>
 
 				<!-- 모달창 -->
 				<div id="modal" class="modal">
@@ -855,10 +888,20 @@ table {
 		// 모달 off
 		//body.style.overflow = 'auto';
 		
+		// 송장번호 수정 버튼
+		$(".delivnum_modify_btn").on("click",function(){
+			let orderNum = $(this).data("order_num");
+			let delivnum = $(this).parent(".delivstate_inner").find(".delivnum_output").val();
+			$('.update_orderNum').val(orderNum);
+			$('.update_delivnum').val(delivnum);
+			$('.delivnum_update_form').submit();
+		});
+		
+		/*
 		document.querySelector(".cancelbtn").addEventListener("click",function(){
 			alert("환불처리 하시겠습니까?");
 		});
-		
+		*/
 		
 
 	</script>

@@ -154,8 +154,12 @@
 		ON o.id = product.id
 		SET
 		o.id = product.id,
+		<if test="size != null and size != ''">
 		size = #{size},
+		</if>
+		<if test="color != null and color != ''">
 		color = #{color},
+		</if>
 		stock = #{stock}
 		WHERE o.pro_num = #{proNum}
 	</update>
@@ -199,15 +203,37 @@
 	<insert id="productInsert" useGeneratedKeys="true"
 		keyProperty="id">
 		INSERT INTO product(category1, category2, pic1, pic2,
-		pic3, pic4, name, price, discount)
+		pic3, 
+		<if test="pic4 != null and pic4 != ''">
+		pic4, 
+		</if>
+		name, price, discount)
 		VALUES (#{category1}, #{category2},
-		#{pic1}, #{pic2}, #{pic3}, #{pic4}, #{name}, #{price}, #{discount})
+		#{pic1}, #{pic2}, #{pic3}, 
+		<if test="pic4 != null and pic4 != ''">
+		#{pic4}, 
+		</if>
+		#{name}, #{price}, #{discount})
 	</insert>
 
 	<insert id="optionInsert">
-		INSERT INTO option (id, size, color, stock)
+		INSERT INTO option (id,
+		<if test="size != null and size != ''">
+		size,
+		</if>
+		<if test="color != null and color != ''">
+		color,
+		</if>
+		 stock)
 		VALUES
-		(#{id}, #{size}, #{color}, #{stock})
+		(#{id}, 
+		<if test="size != null and size != ''">
+		#{size}, 
+		</if>
+		<if test="color != null and color != ''">
+		#{color},
+		</if>
+		#{stock})
 	</insert>
 	<update id="categoryIdUpdate">
 		UPDATE product LEFT JOIN category
@@ -1033,7 +1059,7 @@
 
 	<select id="selectAdminOrder" resultType="orderUser">
 		select DATE_FORMAT(order_date, '%Y-%m-%d %H:%i:%s') order_date, order_num,
-		userid, total_price, delivstate, pay_result
+		userid, total_price, delivstate, pay_result, delivnum
 		from orderuser
 		where
 		<include refid="delivstate" />
@@ -1042,7 +1068,7 @@
 	
 	<select id="orderSerch" resultType="orderUser">
 		select DATE_FORMAT(order_date, '%Y-%m-%d') order_date, order_num,
-		userid, total_price, delivstate, pay_result
+		userid, total_price, delivstate, pay_result, delivnum
 		from orderuser
 		<where>
 			<if test="orderNum != null and orderNum != ''">
@@ -1146,6 +1172,14 @@
 		AND i.userid = u.userid
 		AND o.pro_num = i.pro_num
 		AND i.cart_listnum = u.cart_listnum
+	</update>
+
+	<!-- 송장번호 수정 -->
+	<update id="delivnumUpdate">
+		update orderuser
+		set delivnum = #{delivnum}
+		where
+		order_num = #{orderNum}
 	</update>
 
 </mapper>

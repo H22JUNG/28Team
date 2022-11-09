@@ -328,7 +328,7 @@ form div label {
 							<form action="${pageContext.request.contextPath}/admin/insertInfo" method="post">
 								<div id="fileDrop">
 									<label>상품 이미지 url을 입력하세요.</label>
-                                    <label>최소 1장 이상 입력하세요.</label>
+                                    <label>3장 이상 사진을 등록하세요.</label>
                                     <label>(최대 4장까지 가능)</label>
 									<div class="fileDrop">
 									<ul class="clearfix">
@@ -336,9 +336,9 @@ form div label {
                                             <h4>사진1</h4>
 											<input type="text" name="pic1" id="" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진2</h4>
-											<input type="text" name="pic2" id="" placeholder="url을 입력하세요."/>
+											<input type="text" name="pic2" id="" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진3</h4>
-											<input type="text" name="pic3" id="" placeholder="url을 입력하세요."/>
+											<input type="text" name="pic3" id="" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진4</h4>
 											<input type="text" name="pic4" id="" placeholder="url을 입력하세요."/>
 										</li>

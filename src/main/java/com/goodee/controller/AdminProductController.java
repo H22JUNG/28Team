@@ -84,8 +84,11 @@ public class AdminProductController {
 	// 상품 등록하기
 	@PostMapping("/admin/insertInfo")
 	public String productInsert(ProductListVO vo) {
+		System.out.println(vo.getSize());
+		System.out.println(vo.getColor());
 		service.productInsert(vo);
 		return "redirect:/admin_product_list";
 	}
+	
 	
 }

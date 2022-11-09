@@ -55,7 +55,7 @@ public class AdminOrderController {
 	@PostMapping("/orderCancel")
 	public String orderCancel(orderUser ovo) {
 		service.orderCancel(ovo);
-		return "redirect:/adminOrder";
+		return "redirect:/adminOrder?delivstate=4";
 	}
 	
 	// 검색기능
@@ -75,5 +75,12 @@ public class AdminOrderController {
 		model.addAttribute("orderState3",service.orderState3());
 		
 		return "adminOrder/adminOrderList";
+	}
+	
+	// 송장번호 수정
+	@PostMapping("/adminorder/delivNumberUpdate")
+	public String delivnumUpdate(orderUser ovo) {
+		service.delivnumUpdate(ovo);
+		return "redirect:/adminOrder?delivstate=2";
 	}
 }

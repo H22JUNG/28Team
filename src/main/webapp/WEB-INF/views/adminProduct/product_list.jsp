@@ -294,8 +294,7 @@ td {
                                 	<c:set var="cnt" value="${i=i+1}"/>
                                     <tr>
                                     	<td>${cnt}</td>
-                                        <td>${productVO.category1}
-                                        <!-- 
+                                        <td>
                                         <c:if test="${productVO.category1 eq 'furniture'}">
                                         		가구
                                         	</c:if>
@@ -308,9 +307,39 @@ td {
                                         	<c:if test="${productVO.category1 eq 'supplies'}">
                                         		생활용품
                                         	</c:if>
-                                         -->
                                         </td>
-                                        <td>${productVO.category2}</td>
+                                        <td>
+	                                        <c:if test="${productVO.category2 eq 'bed'}">
+	                                        		침대
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'sofa'}">
+	                                        		소파
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'mirror'}">
+	                                        		거울
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'chair'}">
+	                                        		의자
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'curtain'}">
+	                                        		커튼
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'bedding'}">
+	                                        		침구
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'rug'}">
+	                                        		러그
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'storage store'}">
+	                                        		수납장
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'organization'}">
+	                                        		옷걸이
+	                                        	</c:if>
+	                                        	<c:if test="${productVO.category2 eq 'supplies'}">
+	                                        		생활용품
+	                                        	</c:if>
+                                        </td>
                                         <td><a href="${pageContext.request.contextPath}/admin/productUpdate/${productVO.proNum}" class="choice">${productVO.proNum}</a></td>
                                         <td class="text_left">${productVO.name}</td>
                                         <td>${productVO.size}</td>

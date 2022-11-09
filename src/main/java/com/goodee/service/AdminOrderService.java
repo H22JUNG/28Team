@@ -70,4 +70,10 @@ public class AdminOrderService {
 		List<orderUser> list = dao.orderSerch(ovo);
 		return list;
 	}
+	
+	
+	// 송장번호 수정
+	public void delivnumUpdate(orderUser ovo) {
+		dao.delivnumUpdate(ovo);
+	}
 }

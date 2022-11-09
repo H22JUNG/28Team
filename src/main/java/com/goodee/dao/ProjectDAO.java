@@ -208,4 +208,6 @@ public interface ProjectDAO {
 	public void cancelCountUpdate(orderUser ovo);
 	// 검색기능
 	public List<orderUser> orderSerch(orderUser ovo);
+	// 송장번호 수정
+	public void delivnumUpdate(orderUser ovo);
 }

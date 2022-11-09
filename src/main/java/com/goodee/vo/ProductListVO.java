@@ -5,6 +5,7 @@ public class ProductListVO {
 	public int id;
 	public String category1;
 	public String category2;
+	public String category;
 	public String pic1;
 	public String pic2;
 	public String pic3;
@@ -32,12 +33,14 @@ public class ProductListVO {
 	}
 	public void setCategory1(String category1) {
 		this.category1 = category1;
+		this.setCategory(category1);
 	}
 	public String getCategory2() {
 		return category2;
 	}
 	public void setCategory2(String category2) {
 		this.category2 = category2;
+		this.setCategory(category2);
 	}
 	public String getPic1() {
 		return pic1;
@@ -118,6 +121,42 @@ public class ProductListVO {
 		this.stock = stock;
 	}
 	
+	
+	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		if(category.equals("가구")) {
+			this.category1 = "furniture";
+		}else if(category.equals("침대")) {
+			this.category2 = "bed";
+		}else if(category.equals("소파")) {
+			this.category2 = "sofa";
+		}else if(category.equals("거울")) {
+			this.category2 = "mirror";
+		}else if(category.equals("의자")) {
+			this.category2 = "chair";
+		}else if(category.equals("패브릭")) {
+			this.category1 = "fabric";
+		}else if(category.equals("커튼")) {
+			this.category2 = "curtain";
+		}else if(category.equals("침구")) {
+			this.category2 = "bedding";
+		}else if(category.equals("러그")) {
+			this.category2 = "rug";
+		}else if(category.equals("수납용품")) {
+			this.category1 = "storage";
+		}else if(category.equals("수납장")) {
+			this.category2 = "storage store";
+		}else if(category.equals("옷걸이")) {
+			this.category2 = "organization";
+		}else if(category.equals("생활용품")) {
+			this.category1 = "supplies";
+			this.category2 = "supplies";
+		}
+		
+	}
 	@Override
 	public String toString() {
 		return "ProductListVO [id=" + id + ", category1=" + category1 + ", category2=" + category2 + ", pic1=" + pic1
@@ -130,3 +169,4 @@ public class ProductListVO {
 
 	
 }
+
