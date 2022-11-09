@@ -58,7 +58,7 @@
 </style>
 <body>
 	<div id="container">
-		<img src="image/error404.jpg" alt="">
+		<img src="${pageContext.request.contextPath}/image/error404.jpg" alt="">
 		<div id="text">
 			<h1>잘못된 경로입니다.</h1>
 			<div id="a-tag-container">

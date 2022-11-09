@@ -58,7 +58,7 @@
 </head>
 <body>
 	<div id="container">
-		<img src="image/error500.png" alt="">
+		<img src="${pageContext.request.contextPath}/image/error500.png" alt="">
 		<div id="text">
 			<h1>잘못된 요청입니다.</h1>
 			<div id="a-tag-container">
