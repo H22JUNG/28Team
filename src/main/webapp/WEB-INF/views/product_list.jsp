@@ -776,6 +776,15 @@ main .item-container .item-list>p {
 										document.querySelector("#cklist span").innerText = "▼";
 									}
 						}
+						document.addEventListener("click",function(e){
+							if(!cklist.contains(e.target)) {
+								for(var i = 0; i<cklabel.length; i++) {
+									cklabel[i].classList.remove("flex");
+								}
+								document.querySelector("#cklist span").innerText = "▼";
+							}
+						});
+						
 					</script>
 				</div>
 				<c:forEach var="vo" items="${list}">
