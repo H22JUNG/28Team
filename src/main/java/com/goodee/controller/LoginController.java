@@ -1,5 +1,6 @@
 package com.goodee.controller;
 
+import java.net.http.HttpRequest;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.goodee.service.LoginService;
@@ -25,7 +27,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("/lostSession")
-	public String lostSession() {
+	public String lostSession(@RequestParam(required = false, value = "path", defaultValue = "1") int path, HttpServletRequest request) {
+		request.setAttribute("path", path);
 		return "lost-session";
 	}
 	
@@ -55,7 +58,7 @@ public class LoginController {
 			
 			if(request.getParameter("saveid") != null) {
 				Cookie cookie = new Cookie("loginCookie", vo.getUserid());
-				cookie.setMaxAge(60*60);
+				cookie.setMaxAge(60);
 				cookie.setPath("/");
 				response.addCookie(cookie);
 			}else {

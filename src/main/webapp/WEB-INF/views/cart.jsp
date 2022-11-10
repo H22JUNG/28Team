@@ -1028,7 +1028,7 @@
         			let count_input = "<input name='orders[" + orderNumber + "].count' type='hidden' value='" + count + "'>";
         			form_contents += count_input;
         			
-        			let price_input = "<input name='orders[" + orderNumber + "].price' type='hidden' value='" + price + "'>";
+        			let price_input = "<input name='orders[" + orderNumber + "].salePrice' type='hidden' value='" + price + "'>";
         			form_contents += price_input;
         			orderNumber += 1;
         			
