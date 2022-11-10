@@ -489,6 +489,10 @@ input {
 #procode{
 	display : none;
 }
+
+#selectoption{
+	margin-top: 15px;
+}
 </style>
 </head>
 <body>
@@ -638,6 +642,7 @@ input {
 					
 					</div>
 					<input type="hidden" name="productId" id="proid" value="${detailVO.id}">
+					<input type="hidden" value="${detailVO.price - (detailVO.price * (detailVO.discount/100))}" id="price1">
 
 					<!--장바구니/구매하기 버튼-->
 					<div class="datail_top_btns">
@@ -830,6 +835,9 @@ $(document).ready(function(){
 			data : data,
 			success : function(result) {
 				if(result ==1){
+					if(color == '선택없음' || size == '선택없음'){
+						alert("옵션을 선택해주세요")
+					}else{
 					if(confirm("장바구니에 담으시겠습니까?")){
 						alert("장바구니에 담았습니다.");
 						$("#select_count").val("1");
@@ -837,7 +845,7 @@ $(document).ready(function(){
 							cancelButton:'다음에'
 							location.href = "${pageContext.request.contextPath}/cart/${user.userid}";
 						}
-					}
+					}}
 				} else{
 					alert("로그인 후 이용해주세요.");
 					$("#select_count").val("1");
@@ -857,8 +865,13 @@ $(document).ready(function(){
 			alert("로그인 후 이용해주세요.");
 			location.href="${pageContext.request.contextPath}/loginpage";
 		} else {
+			if($("#select_size").val() == '선택없음' || $("#select_color").val() == '선택없음'){
+				alert("옵션을 선택해주세요")
+			}else{
+			
 			if(confirm("바로 구매하시겠습니까?")){
 				document.getElementById("now-buy").submit();
+			}
 			}
 		}
 	});
@@ -869,6 +882,7 @@ $(document).ready(function(){
 		let size = document.getElementById("select_size").value;
 		let color = document.getElementById("select_color").value;
 		let count = document.getElementById("select_count").value;
+		let price = document.getElementById("price1").value;
 		
 		//html 추가로 생성 작업
 		$('.optionSize').remove();
@@ -877,6 +891,10 @@ $(document).ready(function(){
 		html += '<div class="optionSize">사이즈 : '+ size +'</div>';
 		html += '<div class="optionSize">색상 : '+ color +'</div>';
 		html += '<div class="optionSize">수량 : '+ count +'</div>';
+		html += '<div class="optionSize">총 금액 : ₩'+(price*count).toLocaleString()+'</div>';
+		console.log(price);
+		console.log(count);
+		console.log(parseFloat(price*count));
 		
 		$('#selectoption').append(html);
 		

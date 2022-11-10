@@ -66,7 +66,7 @@ public class PayController {
 				if (vo.getCartNum() != 0) {
 				CartVO cartItem = new CartVO();
 				cartItem = service.findCart(vo);
-				cartItem.setPrice(vo.getPrice());
+				cartItem.setSalePrice(vo.getSalePrice());
 				cartItem.setCount(vo.getCount());
 				cartList.add(cartItem);
 				}

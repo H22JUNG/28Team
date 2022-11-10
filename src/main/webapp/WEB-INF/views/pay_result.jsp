@@ -303,7 +303,7 @@
 									<h4>상품 이름 : ${vo.itemName}</h4>
 									<p>Size : ${vo.size}</p> 
 									<p>Color : ${vo.color}</p>
-									<h4>상품 가격 : <fmt:formatNumber value="${vo.price}" pattern="###,###"/> 원</h4>
+									<h4>상품 가격 : <fmt:formatNumber value="${vo.salePrice}" pattern="###,###"/> 원</h4>
 								</div>
 							</div>
 						</div>

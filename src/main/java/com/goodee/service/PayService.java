@@ -50,7 +50,7 @@ public class PayService {
 		int TotalPrice = 0;
 
 		for (int i = 0; i < volist.size(); i++) {
-			TotalPrice+=volist.get(i).getPrice()*volist.get(i).getCount();
+			TotalPrice+=volist.get(i).getSalePrice()*volist.get(i).getCount();
 			
 			volist.get(i).setId(((UserVO)session.getAttribute("user")).getId());
 			volist.get(i).setUserid(((UserVO)session.getAttribute("user")).getUserid());

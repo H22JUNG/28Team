@@ -272,7 +272,7 @@
 									<h4>상품 이름 : ${vo.itemName}</h4>
 									<p>Size : ${vo.size}</p> <p>Color : ${vo.color}</p>
 									<h4>상품 수량 : ${vo.count}</h4>
-									<h4>상품 가격 : ${vo.price}</h4>
+									<h4>상품 가격 : ${vo.salePrice}</h4>
 								</div>
 							</div>
 						</div>
@@ -285,15 +285,15 @@
 					<div>
 						<input type="text" id="postcode" placeholder="우편번호">
 						<input type="button" onclick="execDaumPostcode()"
-						  value="우편번호 찾기" id="addBtn"><br>
+						  value="우편번호 찾기" id="addBtn"><br />
 					</div>
-					주소<input type="text" class="inforInput" required id="address" name="address" placeholder="주소"><br> 
+					주소<input type="text" class="inforInput" required id="address" name="address" placeholder="주소"><br /> 
 					상세 주소<input type="text" class="inforInput" id="detailAddress" name="detailAddress" required placeholder="상세주소를 입력해주세요"> 
 					<input type="text" name="extraAddress" id="extraAddress" placeholder="(동, 건물)" class="inforInput">
 				</div>
 				<div class="inforBox">
-					주문자 <input type="text" id="ordername" class="inforInput" placeholder="이름을 입력해주세요"required name="orderName" > 
-					연락처 <input type="text" id="orderTel" class="inforInput" placeholder="숫자로만 입력해주세요" required name="orderTel" >
+					주문자 <input type="text" id="ordername" class="inforInput" placeholder="이름을 입력해주세요(한글, 영문)"required name="orderName" > 
+					연락처 <input type="text" id="orderTel" class="inforInput" placeholder="010-****-****" required name="orderTel" >
 				</div>
             <!--여기까지 infor끝-->
             <div id="checkItem">
@@ -302,11 +302,11 @@
 				<c:forEach var="vo" items="${sessionScope.cartList}">
 				<div class="checkItems">
 					<h4>${vo.itemName}</h4>
-					<p>${vo.price}</p>
+					<p>${vo.salePrice}</p>
 					<p>수량 : ${vo.count}</p>
 					<p>${vo.size}</p><p>${vo.color}</p>
 				</div>
-				<c:set var="total" value="${total+vo.price*(vo.count)}"/>
+				<c:set var="total" value="${total+vo.salePrice*(vo.count)}"/>
 				</c:forEach>
             </div>
             <!--여기까지 결제 할 물건 -->
@@ -354,6 +354,7 @@
 <jsp:include page="footer.jsp"></jsp:include>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
   function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -421,30 +422,26 @@
       		};
       	});
 </script>
-<!-- jQuery -->
+
+ <!-- jQuery -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
   <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
   <script type="text/javascript">
 
-  const usertel = document.getElementById("orderTel").value;
-  const address = document.getElementById("address").value;
-  const postcode = document.getElementById("postcode").value;
-  const point = document.getElementById("point").value;
   
   var IMP = window.IMP; // 생략 가능
   IMP.init("imp28442011"); // 예: imp00000000
- 
   function requestPay() {
       // IMP.request_pay(param, callback) 결제창 호출
-      IMP.request_pay({ // param
+      IMP.request_pay({ // param    	  
           pg: "html5_inicis",
           pay_method: "card", 
           merchant_uid: "merchant-"+new Date().getTime(), //가맹점 주문번호(아임포트를 사용하는 가맹점에서 중복되지않은 임의의 문자열)
           name: "${cartList[0].itemName} 외 ${fn:length(cartList)}건", //결제창에 노출될 상품명
           amount: "${total+2500}"-document.getElementById("point").value, //금액 (적립금사용한 만큼 빠지게 적용되었음)
           buyer_email: "${payInfor.email}",	// 이메일 -> payInfor로 끌어와서 씀
-          buyer_name: "${payInfor.username}", // 위에 input에 입력한 값
+          buyer_name: "${payInfor.username}", 
           buyer_tel: document.getElementById("orderTel").value,	// 전화번호 -> payInfor
           buyer_addr: document.getElementById("address").value,	// 주소 위에 input에 입력한 값
           buyer_postcode: document.getElementById("postcode").value	// 우편번호 위에 input에 입력된 값
@@ -453,37 +450,82 @@
     	  	var msg = '주문해주셔서 감사합니다';
               	alert(msg); 
               	document.getElementById("payform").submit();
-              	
           } else {
               // 결제 실패 시 로직,
               var msg = '결제에 실패하였습니다';
               alert(msg);
+              return false;
           }
       });
     }
-	
-  	document.getElementById("nowButton").addEventListener("click",function(e){
-  		if(document.querySelector('input[name="pay"]:checked') == null) {
-  			e.preventDefault();
+  
+	document.getElementById("nowButton").addEventListener("click",function(e){
+		e.preventDefault();
+		
+		if("${payInfor.userid}" == null || "${payInfor.userid}" == "" ) {
+			alert("세션 만료");
+			location.href="${pageContext.request.contextPath}/lostSession?path=0";
+		}
+		
+  		const ordername_reg = /^[가-힣a-zA-Z]+$/; //한글 , 영문
+   		const tel_reg = /^\d{3}-\d{4}-\d{4}$/; 	//000-0000-0000
+    	const email_reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;	//id@site.com
+    	const point_reg = /^[0-9]+$/;	//숫자
+    	
+    	const name = document.getElementById('ordername').value;
+    	const tel = document.getElementById('orderTel').value;
+		const address = document.getElementById('address').value;
+		const point = document.getElementById('point').value;
+		
+		if(!ordername_reg.test(name)) {
+			alert("이름을 형식에 맞게 입력하세요(한글, 영문)");
+			document.getElementById('ordername').focus();
+			return false;
+		} 
+		
+		if(!tel_reg.test(tel)) {
+			alert("전화번호를 형식에 맞게 입력하세요('-'를 포함한 숫자 11자리)");
+			document.getElementById('orderTel').focus();
+			return false;
+		}
+		
+		if(address == null || address=="") {
+			alert("회원의 주소를 입력해주세요");
+			document.getElementById('address').focus();
+			return false;
+		}
+		
+		if(!point_reg.test(point)) {
+			alert("적립금을 형식에 맞게 입력하세요(0이상의 숫자)");
+			document.getElementById('point').focus();
+			return false;
+		}
+		
+		if(document.querySelector('input[name="pay"]:checked') == null) {
   			alert("결제 방법을 선택해 주세요");
-  		} else if(document.querySelector('input[name="pay"]:checked').value == "card") {
-  			e.preventDefault();
-  			requestPay();
-  		};
-  	});
+  			return false;
+  		}
 
+		
+		if(document.querySelector('input[name="pay"]:checked').value == "card") {
+  			requestPay();
+  		}else if (document.querySelector('input[name="pay"]:checked').value == "cash") {
+		alert("무통장 입금을 선택하셨습니다.");
+		document.getElementById("payform").submit(); 
+		//위에서 일단 이동을 막고 모든 조건을 충족하면 전송이 되게
+		}
+	
+  	});
+	  
   </script>
+  
+
   <script type="text/javascript">
   window.history.forward();
   function noBack(){
 	  window.history.forward();
 	
   };
-  document.getElementById("nowButton").addEventListener("click",function(){
-	  if (document.querySelector('input[name="pay"]:checked').value == "cash") {
-		alert("무통장 입금을 선택하셨습니다.")
-  }
-  });
   
   </script>
   

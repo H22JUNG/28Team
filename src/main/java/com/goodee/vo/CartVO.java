@@ -190,7 +190,7 @@ public class CartVO {
 	public int getSalePrice() {
 		return salePrice;
 	}
-
+	
 
 	public int getResultPrice() {
 		return resultPrice;

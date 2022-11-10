@@ -12,7 +12,11 @@
 		<script type="text/javascript">
 			alert("로그인 후 이용 가능합니다.");
 			<%
+				if((int)request.getAttribute("path") == 1) {
 				session.setAttribute("lost","lost");
+				} else {
+					session.removeAttribute("lost");
+				}
 			%>
 			
 			location.href="${pageContext.request.contextPath}/loginpage";
