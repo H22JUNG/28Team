@@ -30,7 +30,6 @@ public class PayController {
 	//주문자정보를 저장하는 로직
 	@GetMapping("/InforController")
 	public String orderUserInfor(orderUser vo, HttpSession session ,Model model ) {
-			
 	//session에 있는 id로 찾아서 insert했음
 	service.orderInfor(vo,(List<CartVO>)session.getAttribute("cartList"), session, model);
 	service.orderStock((List<CartVO>)session.getAttribute("cartList"));
@@ -59,8 +58,8 @@ public class PayController {
 	
 	//cart 페이지에서 정보를 받아옴
 		@PostMapping("/CartInforController")
-		public String findCart(CartSession cartvo,HttpSession session) {
-
+		public String findCart(CartSession cartvo,HttpSession session,Model model) {
+			service.payUserInfor(session, model);
 			List<CartVO> cartList = new ArrayList<CartVO>();
 			for (CartVO vo : cartvo.getOrders()) {
 				if (vo.getCartNum() != 0) {
@@ -77,8 +76,8 @@ public class PayController {
 		}
 		// 바로 구매하기 상품을 누르면 오는 controller
 		@PostMapping("/NowBuyController")
-		public String NowBuy(CartVO vo,HttpSession session) {
-		System.out.println(vo);
+		public String NowBuy(CartVO vo,HttpSession session, Model model) {
+		service.payUserInfor(session, model);
 		List<CartVO> cartvo = new ArrayList<CartVO>();
 		cartvo.add(vo);
 		session.setAttribute("cartList",cartvo);

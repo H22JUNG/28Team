@@ -462,7 +462,7 @@
 	document.getElementById("nowButton").addEventListener("click",function(e){
 		e.preventDefault();
 		
-		if("${payInfor.userid}" == null || "${payInfor.userid}" == "" ) {
+		if("${payInfor.username}" == "" ) {
 			alert("세션 만료");
 			location.href="${pageContext.request.contextPath}/lostSession?path=0";
 		}
