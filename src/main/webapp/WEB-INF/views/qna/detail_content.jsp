@@ -1023,7 +1023,6 @@ a {
     		initButton.style.background = "none";
     		initButton.style.cursor = "pointer";
     		
-    		
     		subDiv1.append(h4);
     		subDiv1.append(p);
     		
@@ -1049,7 +1048,7 @@ a {
     			wbtn.style.cursor = "pointer";
     			writeArea.style.width = "900px";
     			writeArea.style.height = "90px";
-    			
+    		
     			
     			wbtn.addEventListener("click",function(){
     				let str = writeArea.value;

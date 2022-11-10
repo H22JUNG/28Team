@@ -849,7 +849,7 @@ a {
 									</div>
 									<!--버튼-->
 									<div class="btn_wrap">
-										<button class="on" id="btn1">수정완료</button>
+										<button class="on" id="btn1" onclick="modify_qna()">수정완료</button>
 										<a href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel" type="button" id="btn2">취소</a>
 									</div>
 								</form:form>
@@ -886,11 +886,11 @@ a {
 
 		function plusSlides(n) {
 			showSlides(slideIndex += n);
-		}
+		};
 
 		function currentSlides(n) {
 			showSlides(slideIndex = n);
-		}
+		};
 
 		function showSlides(n) {
 			slideIndex = n;
@@ -902,12 +902,12 @@ a {
 
 			slider.style.left = -(sliderWidth * slideIndex) + 'px';
 			pagination();
-		}
+		};
 
 		slides.forEach(function() {
 			var li = document.createElement('li');
 			document.querySelector('#pagination-wrap ul').appendChild(li);
-		})
+		});
 
 		function pagination() {
 			var dots = document.querySelectorAll('#pagination-wrap ul li');
@@ -915,7 +915,7 @@ a {
 				element.classList.remove('active');
 			});
 			dots[slideIndex].classList.add('active');
-		}
+		};
 
 		pagination();
 		var autoSlider = setInterval(function() {
@@ -1058,12 +1058,12 @@ a {
 		});
 
 		// 수정버튼
-		document.getElementById("btn1").addEventListener("click",function() {
-			if (confirm("게시글을 수정하시겠습니까?")) {
-			confirm("수정되었습니다.");
-			$("#btnform").submit();
-		}
-	});
+		function modify_qna(){
+			if (confirm("수정하시겠습니까?")) {
+				$("#btnform").submit();
+				alert("수정되었습니다.")
+			}
+		};
 
 	</script>
 
