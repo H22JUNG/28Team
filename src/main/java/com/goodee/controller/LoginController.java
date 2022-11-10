@@ -110,6 +110,8 @@ public class LoginController {
 		return "login/find_id";
 	}
 	
+	
+	
 //	회원가입
 	
 //	아이디 중복
@@ -126,7 +128,7 @@ public class LoginController {
 	@PostMapping("/adduser")
 	public String adduser(UserVO vo) {
 		service.addUser(vo);
-		return "add_user";
+		return "login/add_user";
 	}
 	
 //	약관 페이지

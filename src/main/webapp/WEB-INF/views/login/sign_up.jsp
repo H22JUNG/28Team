@@ -186,8 +186,13 @@
         }
     </style>
 </head>
-
-<body>
+    <script type="text/javascript">
+		window.history.forward();
+		function noBack() {
+			window.history.forward();
+		}
+	</script>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
     <div class="background">
 
     </div>
@@ -230,12 +235,15 @@
                         <input type="checkbox" name="agree" id="agree" onclick="return false;"><label for="agree" class="saveck">회원가입약관에 동의합니다</label>
                     </li>
                 </ul>
-                <button id="btn" class="btn" onclick="form_check()">회원가입</button>
+                <button id="btn" class="btn">회원가입</button>
             </form>
         </div>
     </div>
-
+	
+	
     <script>
+    
+    
 //		닫기버튼
 		document.getElementById("backspan").addEventListener("click",function(){
         	history.back();
@@ -372,12 +380,16 @@
 			}
 
 			if(flag == true) {
-				document.getElementById("signup-form").submit();				
+				const form = document.getElementById("signup-form");
+				form.submit();				
 			}
 		});
 		
 		
+		
+		
     </script>
+    
 </body>
 
 </html>

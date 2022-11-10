@@ -254,7 +254,7 @@
         
         // 닫기버튼
         document.getElementById("backspan").addEventListener("click",function(){
-        	if(sessionStorage.getItem("lost") == null) {
+         	if("<%=session.getAttribute("lost")%>" == null) {
 	        	history.back();
         	} else {
         		sessionStorage.removeItem("lost");

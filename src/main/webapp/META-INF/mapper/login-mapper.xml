@@ -20,8 +20,8 @@
 	
 	<!-- 회원가입 -->
 	<insert id="addUser" parameterType="userVO">
-		insert into user(userid, password, username, tel, address, email, admin)
-		values (#{userid}, #{password}, #{username}, #{tel}, #{address}, #{email}, 0)
+		insert into user(userid, password, username, tel, address, email, admin, point)
+		values (#{userid}, #{password}, #{username}, concat(left(#{tel},3),"-",substring(#{tel},4,4),"-",right(#{tel},4)), #{address}, #{email}, 0, 0)
 	</insert>
 	<select id="checkid" resultType="int" parameterType="userVO">
 		select count(*) from user
