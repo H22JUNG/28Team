@@ -1095,7 +1095,7 @@
 		from orderuser
 		<where>
 			<if test="orderNum != null and orderNum != ''">
-			and order_num like #{orderNum}
+			and order_num like CONCAT('%',#{orderNum},'%')
 			</if>
 			<if test="userid != null and userid != ''">
 			and userid = #{userid}
@@ -1108,7 +1108,6 @@
 		set size = '선택없음', color = '선택없음'
 		where size is null or color is NULL
 	</update>
-
 
 
 	<!-- 모달창으로 가져올 상세정보 -->
@@ -1203,6 +1202,13 @@
 		set delivnum = #{delivnum}
 		where
 		order_num = #{orderNum}
+	</update>
+	
+	<!-- delivstate 배송완료 변경버튼 -->
+	<update id="delivStateUpdate">
+		UPDATE orderuser
+		SET delivstate = 3
+		WHERE order_num = #{orderNum};
 	</update>
 
 </mapper>

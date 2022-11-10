@@ -211,4 +211,6 @@ public interface ProjectDAO {
 	public List<orderUser> orderSerch(orderUser ovo);
 	// 송장번호 수정
 	public void delivnumUpdate(orderUser ovo);
+	// delivstate 배송완료 변경버튼
+	public void delivStateUpdate(orderUser ovo);
 }

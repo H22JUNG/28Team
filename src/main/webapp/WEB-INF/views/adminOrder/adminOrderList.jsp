@@ -98,7 +98,7 @@ main section {
 /* 컨텐츠 메뉴 */
 .side-menu {
 	display: flex;
-	justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .side-menu li {
@@ -172,7 +172,7 @@ table, th, td{
     border-top: 1px solid rgb(206, 206, 206);
     border-bottom: 1px solid rgb(206, 206, 206);
     border-collapse: collapse;
-    padding: 10px 30px;
+    padding: 10px 25px;
     text-align: center;
 }
 
@@ -390,7 +390,8 @@ table {
 .delivstate_inner {
 	display: flex;
     justify-content: space-evenly;
-    align-items: baseline;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .delivnum_output {
@@ -408,6 +409,14 @@ table {
 	border: 1px solid #26a3cf;
     padding: 4px;
     color: #26a3cf;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delivstate_modify_btn {
+	border: 1px solid #006ab9;
+    padding: 4px;
+    color: #006ab9;
     cursor: pointer;
     font-weight: bold;
 }
@@ -469,7 +478,7 @@ table {
 								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=4" class="menu2">취소신청<span>(${orderState3})</span></a>
 							</h4>
 						</li>
-                        <!-- <div class="side-menu_inner">  -->
+                        <div class="side-menu_inner">
                         <li>
 							<h4>
 								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=5" class="menu2">환불처리</a>
@@ -487,7 +496,7 @@ table {
 								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=3" class="menu2">배송완료</a>
 							</h4>
 						</li>
-                    <!-- </div>  -->
+                    </div>
 					</ul>
 				</section>
 				<!-- ------------------------------------------------------------------------ -->
@@ -530,7 +539,7 @@ table {
 	                                            <input type="hidden" value="${vo.orderNum}" name="orderNum" id="orderNum">
 	                                            <div class="delivNumber">
 	                                            	<c:if test="${vo.delivstate == 1 and vo.payResult == 1}">
-	                                                    물품준비중 
+	                                                    물품준비중
 	                                                    <button class="delivNumberAdd_btn" type="button">
 	                                                        송장번호입력
 	                                                    </button>
@@ -542,10 +551,14 @@ table {
 		                                                    <p>송장번호 : </p>
 		                                                    <input type="text" class="delivnum_output" name="delivnum" value="${vo.delivnum}"/>
 		                                                    <a class="delivnum_modify_btn" data-order_num="${vo.orderNum}">변경</a>
+		                                                    <a class="delivstate_modify_btn" data-order_num="${vo.orderNum}">배송완료</a>
 	                                                    </div>
 	                                                </c:if>
 	                                                <c:if test="${vo.delivstate == 3}">
 	                                                    배송완료
+	                                                </c:if>
+	                                                <c:if test="${vo.delivstate == 4}">
+	                                                    반품완료
 	                                                </c:if>
 	                                            </div>  
 	                                        </form>
@@ -554,8 +567,8 @@ table {
 											<c:if test="${vo.payResult == 1}">
 												정상주문
 											</c:if>
-											<c:if test="${vo.payResult == 2}">
-												취소신청
+											<c:if test="${vo.payResult == 2 and vo.delivstate == 1}">
+												취소신청 <!-- 물품준비중일때만 취소신청 가능하게 -->
 												<!-- 
 												<form action="${pageContext.request.contextPath}/orderExchange" method="post">
 													<input type="hidden" value="${vo.orderNum}" name="orderNum"/>
@@ -586,9 +599,15 @@ table {
                     </div>
 				</section>
 				
+				<!-- 송장번호 변경 form -->
 				<form action="${pageContext.request.contextPath}/adminorder/delivNumberUpdate" method="post" class="delivnum_update_form">
 					<input type="hidden" name="orderNum" class="update_orderNum"/>
 					<input type="hidden" name="delivnum" class="update_delivnum"/>
+				</form>
+
+				<!-- 배송완료 변경 form -->
+				<form action="${pageContext.request.contextPath}/adminorder/delivStateUpdate" method="post" class="delivstate_update_form">
+					<input type="hidden" name="orderNum" class="delivnum_update_orderNum"/>
 				</form>
 
 				<!-- 모달창 -->
@@ -629,10 +648,14 @@ table {
 			for (let i = 0; i < $(".delivNumberAdd_btn").length; i++) {
 				 $(".delivNumberAdd_btn").eq(i).on("click",function() {
 					 	$(".delivnum_input").eq(i).html('');
-			            $(".delivnum_input").eq(i).append("<div class='form-group'><input type='text' placeholder='송장번호와 택배사' class='form-control' style='float:left;' name='delivnum' value='${orderList.get(i).delivnum}'>"
-			                                    + "<button type='submit' class='btn btn-round btn-g'>" + "입력" + "</button></div>");
-				    	});
-
+			            $(".delivnum_input").eq(i).append("<div class='form-group'><input type='text' placeholder='송장번호 입력(숫자만)' class='form-control delivnum_inputText' style='float:left;' name='delivnum' value='${orderList.get(i).delivnum}'>"
+			                                    + "<button type='submit' class='btn btn-round btn-g' id='delivnum_input_btn'>" + "입력" + "</button></div>");
+			            
+			            // 송장번호 숫자만 입력되게
+			            $('.delivnum_inputText').on("blur keyup", function(){
+							$(this).val($(this).val().replace(/[^0-9]/g, '' ));			            	
+			            });
+				 });
 			}
 	    }
 						 
@@ -892,18 +915,35 @@ table {
 		$(".delivnum_modify_btn").on("click",function(){
 			let orderNum = $(this).data("order_num");
 			let delivnum = $(this).parent(".delivstate_inner").find(".delivnum_output").val();
-			$('.update_orderNum').val(orderNum);
-			$('.update_delivnum').val(delivnum);
-			$('.delivnum_update_form').submit();
+			let result = confirm("송장번호를 변경 하시겠습니까");
+			
+			if(result == true){
+				$('.update_orderNum').val(orderNum);
+				$('.update_delivnum').val(delivnum);
+				$('.delivnum_update_form').submit();
+			}else {
+				alert("취소를 눌렀습니다.");
+			}
+			
 		});
 		
-		/*
-		document.querySelector(".cancelbtn").addEventListener("click",function(){
-			alert("환불처리 하시겠습니까?");
+		// delivstate 배송완료로 수정
+		$(".delivstate_modify_btn").on("click",function(){
+			let orderNum = $(this).data("order_num");
+			let result = confirm("배송완료 처리 하시겠습니까");
+			
+			if(result == true){
+				$('.delivnum_update_orderNum').val(orderNum);
+				$('.delivstate_update_form').submit();
+			}else {
+				alert("취소를 눌렀습니다.");
+			}
 		});
-		*/
 		
-
+		// 송장번호창 정규식(숫자만 입력)
+		$('.delivnum_output').on("blur keyup", function(){
+			$(this).val($(this).val().replace(/[^0-9]/g, ''));			            	
+        });
 	</script>
 </body>
 

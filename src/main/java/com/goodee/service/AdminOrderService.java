@@ -76,4 +76,9 @@ public class AdminOrderService {
 	public void delivnumUpdate(orderUser ovo) {
 		dao.delivnumUpdate(ovo);
 	}
+	
+	// delivstate 배송완료 변경버튼
+	public void delivStateUpdate(orderUser ovo) {
+		dao.delivStateUpdate(ovo);
+	}
 }

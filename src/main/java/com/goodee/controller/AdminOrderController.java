@@ -67,8 +67,8 @@ public class AdminOrderController {
 			ovo.setUserid(content);
 		}
 		
-		
 		model.addAttribute("orderList",service.orderSerch(ovo));
+		
 		
 		model.addAttribute("orderState1",service.orderState1());
 		model.addAttribute("orderState2",service.orderState2());
@@ -81,6 +81,13 @@ public class AdminOrderController {
 	@PostMapping("/adminorder/delivNumberUpdate")
 	public String delivnumUpdate(orderUser ovo) {
 		service.delivnumUpdate(ovo);
+		return "redirect:/adminOrder?delivstate=2";
+	}
+	
+	// delivstate 배송완료로 변경
+	@PostMapping("/adminorder/delivStateUpdate")
+	public String delivStateUpdate(orderUser ovo) {
+		service.delivStateUpdate(ovo);
 		return "redirect:/adminOrder?delivstate=2";
 	}
 }
