@@ -798,7 +798,7 @@ input {
 						<span class="spanarrow">〈〈 &nbsp;</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=1" class="arrow" id="prepre">〈〈  &nbsp;</a>
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=1#hitDESC" class="arrow" id="prepre">〈〈  &nbsp;</a>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
@@ -806,7 +806,7 @@ input {
 						<span class="spanarrow"> 〈&nbsp;</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.nowPage - 1}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.nowPage - 1}#hitDESC"
 							class="arrow" id="pre"> 〈&nbsp;</a>
 					</c:otherwise>
 				</c:choose>
@@ -816,7 +816,7 @@ input {
 							<span class="arrow" id="nowpage">&nbsp;${i}&nbsp;</span>
 						</c:when>
 						<c:otherwise>
-							<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${i}"
+							<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${i}#hitDESC"
 								class="arrow" style="color: #CBCBCB;" id="movePage">&nbsp;${i}&nbsp;</a>
 						</c:otherwise>
 					</c:choose>
@@ -826,7 +826,7 @@ input {
 						<span class="spanarrow">&nbsp;〉 </span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.nowPage + 1}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.nowPage + 1}#hitDESC"
 							class="arrow" id="next">&nbsp;〉 </a>
 					</c:otherwise>
 				</c:choose>
@@ -835,7 +835,7 @@ input {
 						<span class="spanarrow">&nbsp; 〉〉</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.totalPage}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?desc=hits&page=${page.totalPage}#hitDESC"
 							class="arrow" id="nextnext">&nbsp; 〉〉</a>
 					</c:otherwise>
 				</c:choose>

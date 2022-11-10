@@ -802,7 +802,7 @@ input {
 						<span class="spanarrow">〈〈 &nbsp;</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1" class="arrow" id="prepre">〈〈  &nbsp;</a>
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1#recentDESC" class="arrow" id="prepre">〈〈  &nbsp;</a>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
@@ -810,7 +810,7 @@ input {
 						<span class="spanarrow"> 〈&nbsp;</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.nowPage - 1}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.nowPage - 1}#recentDESC"
 							class="arrow" id="pre"> 〈&nbsp;</a>
 					</c:otherwise>
 				</c:choose>
@@ -820,7 +820,7 @@ input {
 							<span class="arrow" id="nowpage">&nbsp;${i}&nbsp;</span>
 						</c:when>
 						<c:otherwise>
-							<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${i}"
+							<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${i}#recentDESC"
 								class="arrow" style="color: #CBCBCB;" id="movePage">&nbsp;${i}&nbsp;</a>
 						</c:otherwise>
 					</c:choose>
@@ -830,7 +830,7 @@ input {
 						<span class="spanarrow">&nbsp;〉 </span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.nowPage + 1}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.nowPage + 1}#recentDESC"
 							class="arrow" id="next">&nbsp;〉 </a>
 					</c:otherwise>
 				</c:choose>
@@ -839,7 +839,7 @@ input {
 						<span class="spanarrow">&nbsp; 〉〉</span>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.totalPage}"
+						<a href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=${page.totalPage}#recentDESC"
 							class="arrow" id="nextnext">&nbsp; 〉〉</a>
 					</c:otherwise>
 				</c:choose>
