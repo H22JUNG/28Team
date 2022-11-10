@@ -175,6 +175,18 @@ a {
 								<div class="btn_wrap">
 									<a href="${pageContext.request.contextPath}/qna" class="on"
 										id="return">목록으로</a>
+									<c:choose>
+										<c:when test="${user.admin == 1}">
+											<a class="btn-fill"
+												href="${pageContext.request.contextPath}/removeComment/${qnacommentVO.id}"
+												id="delComment" onclick="del_Comment()">삭제</a>
+										</c:when>
+										<c:otherwise>
+											<a class="btn-fill"
+												href="${pageContext.request.contextPath}/removeComment/${qnacommentVO.id}"
+												id="delComment" style="display: none">삭제</a>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:when>
 							<c:otherwise>
@@ -206,19 +218,19 @@ a {
 
 									<c:choose>
 										<c:when test="${qnaVO.ownerId eq user.id || user.admin == 1}">
-											<a href="#" id="modify">수정</a>
+											<a href="${pageContext.request.contextPath}/update/${qnaVO.id}" id="modify">수정</a>
 										</c:when>
 										<c:otherwise>
-											<a href="#" id="modify" style="display: none">수정</a>
+											<a href="${pageContext.request.contextPath}/update/${qnaVO.id}" id="modify" style="display: none">수정</a>
 										</c:otherwise>
 									</c:choose>
 									
 									<c:choose>
 										<c:when test="${qnaVO.ownerId eq user.id || user.admin == 1}">
-											<a href="#" id="del">삭제</a>
+											<a href="${pageContext.request.contextPath}/remove/${qnaVO.id}" id="del" onclick="del_Qna()">삭제</a>
 										</c:when>
 										<c:otherwise>
-											<a href="#" id="del" style="display: none">삭제</a>
+											<a href="${pageContext.request.contextPath}/remove/${qnaVO.id}" id="del" style="display: none">삭제</a>
 										</c:otherwise>
 									</c:choose>
 									
@@ -248,27 +260,20 @@ a {
 
 
 	<script type="text/javascript">
-		document.getElementById("return").addEventListener("click", function() {
-			location.href = "${pageContext.request.contextPath}/qna";
-		});
-
-		document
-				.getElementById("modify")
-				.addEventListener(
-						"click",
-						function() {
-							location.href = "${pageContext.request.contextPath}/update/${qnaVO.id}";
-						})
-		document
-				.getElementById("del")
-				.addEventListener(
-						"click",
-						function() {
-							let result = confirm("정말로 삭제하시겠습니까?");
-							if (result) {
-								location.href = "${pageContext.request.contextPath}/remove/${qnaVO.id}";
-							}
-						});
+		function del_Qna(){
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				$("#del").submit();
+				alert("삭제되었습니다.")
+			}
+		};
+		
+		//답변 삭제
+		function del_Comment(){
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				$("#delComment").submit();
+				alert("삭제되었습니다.")
+			}
+		};
 
 		document.getElementById("rep").addEventListener("click", function() {
 			location.href = "${pageContext.request.contextPath}/reply";

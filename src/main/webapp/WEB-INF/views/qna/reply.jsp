@@ -172,7 +172,7 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/reply/good" method="post">
+					<form action="${pageContext.request.contextPath}/reply/good" method="post">
 						<div class="title">
 							<dl>
 								<dt>작성자</dt>
@@ -201,13 +201,13 @@ a {
 							</dl>
 						</div>
 						<div class="cont">
-							<form:textarea path="content"/>
+							<textarea name="content">Q.${qnaVO.content}</textarea>
 						</div>
 					<div class="btn_wrap">
 						<button class="on" id="acc">답변등록</button>
 						<button type="button" id="cancel">취소</button>
 					</div>
-					</form:form>
+					</form>
 					</div>
 				</div>
 			</div>
@@ -217,28 +217,19 @@ a {
 
 	<script type="text/javascript">
 	
-		document
-				.getElementById("acc")
-				.addEventListener(
-						"click",
-						function() {
-							let result = confirm("게시글을 등록하시겠습니까?");
-							if (result == true) {
-								confirm("등록되었습니다.");
-								location.href = "${pageContext.request.contextPath}/reply/good";
-							}
-		});
+		document.getElementById("acc").addEventListener("click",function() {
+			let result = confirm("게시글을 등록하시겠습니까?");
+			if (result == true) {
+				confirm("등록되었습니다.");
+			}
+	});
 		
-		document
-		.getElementById("cancel")
-		.addEventListener(
-				"click",
-				function() {
-					let result = confirm("게시글 작성을 취소하시겠습니까?");
-					if (result == true) {
-						confirm("취소되었습니다.");
-						location.href = "${pageContext.request.contextPath}/qna";
-					}
+		document.getElementById("cancel").addEventListener("click",function() {
+			let result = confirm("게시글 작성을 취소하시겠습니까?");
+			if (result == true) {
+				confirm("취소되었습니다.");
+				location.href = "${pageContext.request.contextPath}/qna";
+			}
 	});
 		
 	</script>

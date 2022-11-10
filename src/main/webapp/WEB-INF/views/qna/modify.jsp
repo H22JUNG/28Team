@@ -236,7 +236,9 @@ a {
 		}); 
 		
 		document.getElementById("btn2").addEventListener("click",function() {
-			location.href = "${pageContext.request.contextPath}/qna/${vo.id}";
+			if ( confirm("수정을 취소하시겠습니까?") ) {
+			location.href = "${pageContext.request.contextPath}/qna/${qnaVO.id}";
+			}
 		});
 	</script>
 </body>

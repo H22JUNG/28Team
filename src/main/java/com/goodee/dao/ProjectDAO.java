@@ -1,7 +1,6 @@
 package com.goodee.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -145,6 +144,7 @@ public interface ProjectDAO {
 	public int insertQna(QnaVO qnavo);
 	public int deleteQna(QnaVO qnavo); //원글삭제
 	public int deleteQnaComment(QnaCommentVO commentvo); //답변삭제
+	public int deleteOnlyQnaComment(QnaCommentVO commentvo); //답변만삭제
 	//Q&A 조회수
 	public int qnaCount(String id);
 	public int selectQnaCommentCount(String id);

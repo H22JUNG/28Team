@@ -6,10 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,19 +21,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.goodee.service.BbsService;
 import com.goodee.service.CartService;
 import com.goodee.service.ReviewService;
 import com.goodee.service.UserService;
-import com.goodee.vo.PageVO;
 import com.goodee.vo.ProductVO;
 import com.goodee.vo.QnaCommentVO;
 import com.goodee.vo.QnaVO;
 import com.goodee.vo.UserVO;
 
 @Controller
+@ControllerAdvice
 public class QnaController {
 
 	public BbsService bbsservice;
@@ -114,8 +120,8 @@ public class QnaController {
 	// Q&A 수정페이지 수정완료버튼
 	@PostMapping("/update")
 	public String setBBS(@SessionAttribute("user") UserVO user, @ModelAttribute("qnaVO") QnaVO qnavo) {
-		qnavo.setOwner(user.getUsername());
-		qnavo.setOwnerId(user.getId());
+			qnavo.setOwner(user.getUsername());
+			qnavo.setOwnerId(user.getId());
 		if (bbsservice.updateQna(qnavo)) {
 			return "redirect:/qna";
 		} else {
@@ -124,7 +130,7 @@ public class QnaController {
 	}
 
 	// Q&A content에서 삭제버튼
-	@RequestMapping("/remove/{id}")
+	@GetMapping("/remove/{id}")
 	public String deleteBBS(@SessionAttribute("user") UserVO user, @ModelAttribute("qnaVO") QnaVO qnavo,
 			@PathVariable("id") String id, QnaCommentVO commentvo) {
 		qnavo.setOwner(user.getUsername());
@@ -132,6 +138,15 @@ public class QnaController {
 		bbsservice.deleteQna(qnavo, commentvo);
 		return "redirect:/qna";
 		
+	}
+	
+	// Q&A 답변만 삭제
+	@GetMapping("/removeComment/{id}")
+	public String deleteBBSComment(@SessionAttribute("user") UserVO user,
+			@PathVariable("id") String id, QnaCommentVO commentvo) {
+		bbsservice.deleteQnaComment(commentvo);
+		return "redirect:/qna";
+
 	}
 
 	// Q&A 답변페이지로
@@ -293,5 +308,4 @@ public class QnaController {
 			return "redirect:/login";
 		}
 	}
-
 }

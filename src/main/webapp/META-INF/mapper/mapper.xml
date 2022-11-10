@@ -834,6 +834,11 @@
 	<delete id="deleteQnaComment">
 		DELETE FROM qnacomment WHERE root = #{root};
 	</delete>
+	
+	<!-- Q&A 답변만 delete-->
+	<delete id="deleteOnlyQnaComment">
+		DELETE FROM qnacomment WHERE id = #{id};
+	</delete>
 
 	<!-- Q&A조회수 -->
 	<update id="qnaCount">
@@ -845,13 +850,8 @@
 
 	<!-- Q&A 답변 -->
 	<insert id="insertReply">
-		insert into qnacomment(owner_id, owner, title,
-		content,
-		password, root, indent, qna_category)
-		values(#{ownerId},
-		#{owner}, #{title},
-		#{content}, #{password}, #{root}, 1,
-		#{qnaCategory})
+		insert into qnacomment(owner_id, owner, title, content, password, root, indent, qna_category)
+		values(#{ownerId}, #{owner}, #{title}, #{content}, #{password}, #{root}, 1, #{qnaCategory})
 	</insert>
 
 	<!-- inner-Q&A : 유형이 상품문의만 출력 -->
