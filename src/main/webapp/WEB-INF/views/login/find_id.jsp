@@ -110,6 +110,20 @@
 .byphone-box, .byemail-box {
 	display: none;
 }
+.byphone-box {
+	flex-direction: column
+    gap: 10px;
+    padding: 30px 0;
+    justify-content: center;
+}
+.byphone-box div {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+}
+.byphone-box input {
+	width: 150px;
+}
 </style>
 </head>
 <body>
@@ -137,11 +151,22 @@
 			<p>휴대폰으로 본인확인을 진행합니다.</p>
 		</div>
 		<div class="byphone-box">
+			<div>
 			<label for="username">이름 : </label><input type="text" name="username" id="username" />
-			<label for="tel">등록한 휴대폰 번호 : </label><input type="tel" name="tel" id="tel" />
+			<label for="tel">휴대폰 번호 : </label><input type="tel" name="tel" id="tel" />
+			</div>
+			<div>
+			<button>확인</button>
+			</div>
 		</div>
 		<div class="byemail-box">
-				
+			<div>
+			<label for="username">이름 : </label><input type="text" name="username" id="username" />
+			<label for="tel">이메일 : </label><input type="email" name="email" id="email" />
+			</div>	
+			<div>
+			<button>확인</button>
+			</div>
 		</div>
 	</div>
 	<div class="bottom">

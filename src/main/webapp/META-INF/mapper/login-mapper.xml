@@ -10,7 +10,7 @@
 		where userid = #{userid} and password = #{password}
 	</select>
 	<select id="getUser" resultType="userVO" parameterType="userVO">
-		select id, userid, username, tel, email, point, admin from user
+		select id, userid, username, tel, email, address, point, admin from user
 		where userid = #{userid} and password = #{password}
 	</select>
 	<select id="isAdmin" resultType="int" parameterType="userVO">
@@ -28,5 +28,20 @@
 		where userid = #{userid}
 	</select>
 	
-
+	<!-- 내 정보 수정 -->
+	<update id="updateUser">
+		update user
+		set username = #{username}, email = #{email}, tel = #{tel}
+		<if test="password != null and password !=''">
+			,password = #{password}
+		</if>
+		<if test="address != null and address !=''">
+			,address = #{address}
+		</if>
+		where userid = #{userid} 
+	</update>
+	<delete id="deleteUser">
+		delete from user
+		where userid = #{userid}
+	</delete>
 </mapper>

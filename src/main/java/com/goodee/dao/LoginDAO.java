@@ -15,4 +15,8 @@ public interface LoginDAO {
 	//회원가입
 	public void addUser(UserVO vo);
 	public int checkid(UserVO vo);
+	
+	// 내 정보 수정
+	public void updateUser(UserVO vo);
+	public void deleeteUser(UserVO vo);
 }

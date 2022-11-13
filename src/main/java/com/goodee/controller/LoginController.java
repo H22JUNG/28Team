@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,7 +55,7 @@ public class LoginController {
 		if(service.login(vo).get("login").equals("success")) {
 			session = request.getSession();
 			session.setAttribute("user", service.getUser(vo));
-			session.setMaxInactiveInterval(60);
+			session.setMaxInactiveInterval(60*60);
 			
 			if(request.getParameter("saveid") != null) {
 				Cookie cookie = new Cookie("loginCookie", vo.getUserid());
@@ -138,5 +139,38 @@ public class LoginController {
 	@GetMapping("/terms")
 	public String terms() {
 		return "login/terms";
+	}
+	
+// 내 정보 조회
+	@PostMapping("inquireInfo")
+	public String inquireInfo(UserVO vo, HttpSession session) {
+		if(service.inquireInfo(vo, session).get("pwcheck").equals("ok")) {
+			return "redirect:/my_page/info";			
+		} else {
+			return "redirect:/mypage";
+		}
+	}
+	
+	@GetMapping("my_page/info")
+	public String inquireInfo2(HttpSession session, Model model) {
+		service.inquireInfo2(session, model);
+		return "info";
+	}
+	
+	@PostMapping("UpdateUser")
+	public String updateUser(HttpSession session, UserVO vo) {
+		service.updateUser(vo);
+		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+		session.setAttribute("user", vo);
+		return "redirect:/my_page/info";
+	}
+	
+	@GetMapping("deleteUser")
+	public String deleteUser(HttpSession session) {
+		UserVO vo = new UserVO();
+		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+		service.deleteUser(vo);
+		session.invalidate();
+		return "redirect:/";
 	}
 }

@@ -3,7 +3,10 @@ package com.goodee.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.goodee.dao.LoginDAO;
 import com.goodee.vo.UserVO;
@@ -53,5 +56,30 @@ public class LoginService {
 			map.put("state", "success");
 		}
 		return map;
+	}
+
+// 내 정보 조회
+	public Map<String, String> inquireInfo(UserVO vo, HttpSession session) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+		if(dao.getUser(vo).getUserid().equals(((UserVO)session.getAttribute("user")).getUserid())) {
+			map.put("pwcheck", "ok");
+		}else {
+			map.put("pwcheck", "cancel");
+		}
+		return map;
+	}
+
+	public void inquireInfo2 (HttpSession session, Model model) {
+		model.addAttribute("user", ((UserVO)session.getAttribute("user")));
+	}
+	
+// 내 정보 수정
+	public void updateUser(UserVO vo) {
+		dao.updateUser(vo);
+	}
+	public void deleteUser(UserVO vo) {
+		dao.deleeteUser(vo);
 	}
 }
