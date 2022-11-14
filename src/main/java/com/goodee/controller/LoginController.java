@@ -159,8 +159,9 @@ public class LoginController {
 	
 	@PostMapping("/updateUser")
 	public String updateUser(HttpSession session, UserVO vo) {
-		service.updateUser(vo);
 		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+		service.updateUser(vo);
+		vo.setPoint(((UserVO)session.getAttribute("user")).getPoint());
 		session.setAttribute("user", vo);
 		return "redirect:/my_page/info";
 	}
