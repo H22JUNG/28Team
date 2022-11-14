@@ -370,47 +370,48 @@ public class MoveController {
 	}
 
 	// 공지사항
-		@GetMapping("/notice")
-		public String moveNotice(Model model, PageVO vo) {
-			if(vo.getPage() == 0) {
-				vo.setPage(1);
-			}
-			bbsservice.selectNotice(model, vo);
-			return "notice/notice";
+	@GetMapping("/notice")
+	public String moveNotice(Model model, PageVO vo) {
+		if(vo.getPage() == 0) {
+			vo.setPage(1);
 		}
+		bbsservice.selectNotice(model, vo);
+		return "notice/notice";
+	}
 
-		@GetMapping("/notice/{no}")
-		public String moveDetailNotice(@PathVariable("no") int no, Model model) {
-			bbsservice.selectDetailNotice(model, no);
-			return "notice/notice_detail";
+	@GetMapping("/notice/{no}")
+	public String moveDetailNotice(@PathVariable("no") int no, Model model) {
+		bbsservice.selectDetailNotice(model, no);
+		return "notice/notice_detail";
+	}
+	
+	@GetMapping("/updateNotice/{no}")
+	public String updateNotice(@PathVariable("no") int no, Model model) {
+		bbsservice.selectDetailNotice(model, no);
+		return "notice/updateNotice";
+	}
+	@PostMapping("/setNotice/{no}")
+	public String setNotice(@PathVariable("no") int no, NoticeVO vo) {
+		vo.setNo(no);
+		bbsservice.updateNotice(vo);
+		return "redirect:/notice/"+no;
+	}
+	@GetMapping("/writeNotice")
+	public String writeNotice(NoticeVO vo) {
+		return "notice/writenotice";
+	}
+	
+	@PostMapping("/insertNotice")
+	public String insertNotice(NoticeVO vo) {
+		bbsservice.insertNotice(vo);
+		return "redirect:/notice";
+	}
+	
+	@GetMapping("/deleteNotice")
+	public String deleteNotice(@RequestParam("id") int[] ids) {
+		for (int id : ids) {
+			bbsservice.deleteNotice(id);
 		}
-		
-		@GetMapping("/updateNotice/{no}")
-		public String updateNotice(@PathVariable("no") int no, Model model) {
-			bbsservice.selectDetailNotice(model, no);
-			return "notice/updateNotice";
-		}
-		@PostMapping("/setNotice")
-		public String setNotice(NoticeVO vo) {
-			bbsservice.updateNotice(vo);
-			return "redirect:/notice";
-		}
-		@GetMapping("/writeNotice")
-		public String writeNotice(NoticeVO vo) {
-			return "notice/writenotice";
-		}
-		
-		@PostMapping("/insertNotice")
-		public String insertNotice(NoticeVO vo) {
-			bbsservice.insertNotice(vo);
-			return "redirect:/notice";
-		}
-		
-		@GetMapping("/deleteNotice")
-		public String deleteNotice(@RequestParam("id") int[] ids) {
-			for (int id : ids) {
-				bbsservice.deleteNotice(id);
-			}
-			return "redirect:/notice";
-		}
+		return "redirect:/notice";
+	}
 }

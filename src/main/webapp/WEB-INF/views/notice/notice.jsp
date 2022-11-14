@@ -64,6 +64,7 @@ main {
 
 .important {
 	background-color: #eaf7fb;
+	font-weight: bold;
 }
 
 .tr {

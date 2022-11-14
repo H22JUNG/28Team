@@ -67,6 +67,7 @@ main {
 	min-height: 50vh;
 }
 
+
 #golist {
 	display: inline-block;
 	margin: 10px;
@@ -115,6 +116,15 @@ main {
 }
 .update button:active {
 	background-color: #eaf7fb;
+}
+.content ul>li {
+	list-style-type: disc;
+}
+.content ol>li {
+	list-style-type: decimal;
+}
+.content img {
+	max-width: 100%;
 }
 </style>
 </head>
