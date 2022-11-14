@@ -917,7 +917,6 @@ input {
 							let p = document.createElement("p");
 							p.append(data.username +" : "+data.content);
 							document.getElementById("dropdown${review.id}").lastElementChild.before(p);
-							/* 수정삭제 만들기 */
 							document.getElementById("commentContent${review.id}").value = "";
 						});
 			   		}
@@ -925,8 +924,8 @@ input {
 				 alert("로그인 후 이용하실 수 있습니다.");
 	   			location.href="${pageContext.request.contextPath}/loginpage";
 			<%}%>
-   			
    		}); 
+   		
    	</c:forEach>
    	
    	document.getElementById("recentDESC").addEventListener("click", function() {

@@ -131,7 +131,6 @@ public class ReviewService {
 		//리뷰 쓸 수 있는 주문내역 있는지 없는지 확인(List)
 		model.addAttribute("authority", dao.getAuthority(vo));
 		
-		
 		//-- 쓸 수 있는 리뷰 여러 개 일 떄--
 		if(dao.getAuthority(vo).size() > 1) {
 			//리뷰 쓰러 이동할 떄 상품 id 함께 전송
@@ -143,18 +142,12 @@ public class ReviewService {
 			String orderNum;
 			for(int i=0; i<revivo.size(); i++ ) {
 				orderNum = revivo.get(i).getOrderNum();
-				//System.out.println(orderNum);
-				//detailvo.add(
 				detailvo.add((detailOrderVO) dao.detailOrderInfor(orderNum).get(0));
-				//System.out.println(dao.detailOrderInfor(orderNum).toString());
 			}
-			//System.out.println(detailvo.size());
 			if(detailvo != null) {
 				model.addAttribute("detail", detailvo);
 			}
 		}
-		
-		
 	}
 	
 	//리뷰 DB로 전송
@@ -165,7 +158,6 @@ public class ReviewService {
 			Path path1 = Paths.get(Path+pic1File.getOriginalFilename());
 			try {
 				pic1File.transferTo(path1);
-				//vo.setPic1(Path + pic1File.getOriginalFilename());
 				vo.setPic1(pic1File.getOriginalFilename());
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
@@ -175,6 +167,7 @@ public class ReviewService {
 				e.printStackTrace();
 			}
 		}
+		
 		if(!pic2File.getOriginalFilename().isEmpty()) {	//파일이름이 있으면
 			Path path2 = Paths.get(Path +pic2File.getOriginalFilename());
 			try {
