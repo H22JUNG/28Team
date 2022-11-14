@@ -233,12 +233,12 @@
         </aside>
         <section>
           	<h1>내 정보 조회</h1>
-        	<form action="${pageContext.request.contextPath}/updateUser" method="post" id="updateForm">
+        	<form action="${pageContext.request.contextPath}/updateUser" method="post" id="update-form">
 	                <ul>
                     <li><span>아이디</span>${user.userid}</li>
                     <li><span>이름</span><input type="text" name="username" id="username" value="${user.username}"></li>
                     <li><span>비밀번호 수정</span><input type="password" name="password" id="password"></li>
-                    <li><span>비밀번호 확인</span><input type="password" name="password" id="password"></li>
+                    <li><span>비밀번호 확인</span><input type="password" name="pwcheck" id="pwcheck"></li>
                     <li><span>휴대폰 번호</span><input type="tel" name="tel" id="tel" value="${user.tel}"></li>
                     <li><span>이메일</span><input type="text" name="email" id="email" value="${user.email}"></li>
                     <li><span>주소</span><input type="text" name="address" id="address" value="${user.address}"></li>
@@ -293,13 +293,14 @@
 			
 			// 비밀번호
 			var pwExp= /^[a-z|A-Z|0-9|~!@\#$%^&*_\-+\=`|\\\(\)\{\}\[\]:;<>,.?\/]+$/;
+			if(password.value != "") {
 			if(!pwExp.test(password.value)) {
 				alert("패스워드는 영문,숫자,기호만 가능합니다.")
 				password.focus();
 				flag = false;
 				return false;
+				}
 			}
-			
 			// 비밀번호 체크
 			if(pwcheck.value != password.value) {
 				alert("패스워드가 일치하지 않습니다.");
@@ -339,7 +340,7 @@
 			}
 
 			if(flag == true) {
-				const form = document.getElementById("updateForm");
+				const form = document.getElementById("update-form");
 				form.submit();				
 			}
 		});

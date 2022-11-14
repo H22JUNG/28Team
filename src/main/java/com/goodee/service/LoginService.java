@@ -80,6 +80,6 @@ public class LoginService {
 		dao.updateUser(vo);
 	}
 	public void deleteUser(UserVO vo) {
-		dao.deleeteUser(vo);
+		dao.deleteUser(vo);
 	}
 }

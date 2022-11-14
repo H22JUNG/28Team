@@ -18,5 +18,5 @@ public interface LoginDAO {
 	
 	// 내 정보 수정
 	public void updateUser(UserVO vo);
-	public void deleeteUser(UserVO vo);
+	public void deleteUser(UserVO vo);
 }

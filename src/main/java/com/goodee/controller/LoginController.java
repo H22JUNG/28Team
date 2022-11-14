@@ -142,7 +142,7 @@ public class LoginController {
 	}
 	
 // 내 정보 조회
-	@PostMapping("inquireInfo")
+	@PostMapping("/inquireInfo")
 	public String inquireInfo(UserVO vo, HttpSession session) {
 		if(service.inquireInfo(vo, session).get("pwcheck").equals("ok")) {
 			return "redirect:/my_page/info";			
@@ -151,13 +151,13 @@ public class LoginController {
 		}
 	}
 	
-	@GetMapping("my_page/info")
+	@GetMapping("/my_page/info")
 	public String inquireInfo2(HttpSession session, Model model) {
 		service.inquireInfo2(session, model);
 		return "info";
 	}
 	
-	@PostMapping("UpdateUser")
+	@PostMapping("/updateUser")
 	public String updateUser(HttpSession session, UserVO vo) {
 		service.updateUser(vo);
 		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
@@ -165,7 +165,7 @@ public class LoginController {
 		return "redirect:/my_page/info";
 	}
 	
-	@GetMapping("deleteUser")
+	@GetMapping("/deleteUser")
 	public String deleteUser(HttpSession session) {
 		UserVO vo = new UserVO();
 		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());

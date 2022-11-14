@@ -147,6 +147,7 @@
     		border-radius: 4px;
     		margin-left: 330px;
     		margin-top: 20px;
+    		white-space: nowrap;
         }
         
         main sectipn form button:hover {
