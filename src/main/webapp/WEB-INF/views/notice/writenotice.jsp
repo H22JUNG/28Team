@@ -365,6 +365,7 @@ main {
 			reader.addEventListener('load',function(e){
 				focus();
 				document.execCommand('insertImage', false, reader.result);
+				resize();
 			});
 			reader.readAsDataURL(file);
 		}
