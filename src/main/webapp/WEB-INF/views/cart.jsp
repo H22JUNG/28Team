@@ -588,7 +588,7 @@
                             <h4>장바구니</h4>
                         </div>
                         <div class="open">
-                            <div><span>+</span></div>
+                            <div><span>-</span></div>
                         </div>
                     </div>
                 </li>

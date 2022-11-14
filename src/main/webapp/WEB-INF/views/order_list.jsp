@@ -299,7 +299,7 @@ width: 80px;
 							</div>
 							<div class="open">
 								<div>
-									<span>+</span>
+									<span>-</span>
 								</div>
 							</div>
 						</div>

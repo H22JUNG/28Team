@@ -282,7 +282,7 @@
 							</div>
 							<div class="open">
 								<div>
-									<span>+</span>
+									<span>-</span>
 								</div>
 							</div>
 						</div>

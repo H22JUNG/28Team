@@ -172,7 +172,7 @@
                             <p>내 정보 조회 / 수정 / 적립금조회</p>
                         </div>
                         <div class="open">
-                            <div><span>+</span></div>
+                            <div><span>-</span></div>
                         </div>
                     </div>
                 </li>

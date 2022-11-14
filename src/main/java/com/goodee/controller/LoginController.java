@@ -147,7 +147,7 @@ public class LoginController {
 		if(service.inquireInfo(vo, session).get("pwcheck").equals("ok")) {
 			return "redirect:/my_page/info";			
 		} else {
-			return "redirect:/mypage";
+			return "my_page";
 		}
 	}
 	

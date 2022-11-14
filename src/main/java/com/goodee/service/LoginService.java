@@ -63,8 +63,12 @@ public class LoginService {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		vo.setUserid(((UserVO)session.getAttribute("user")).getUserid());
+		if(dao.getUser(vo) != null) {
 		if(dao.getUser(vo).getUserid().equals(((UserVO)session.getAttribute("user")).getUserid())) {
 			map.put("pwcheck", "ok");
+		}else {
+			map.put("pwcheck", "cancel");
+		}
 		}else {
 			map.put("pwcheck", "cancel");
 		}
