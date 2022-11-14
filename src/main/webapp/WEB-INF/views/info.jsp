@@ -340,8 +340,11 @@
 			}
 
 			if(flag == true) {
+				if(confirm("수정하시겠습니까?")) {
+				alert("수정되었습니다.");
 				const form = document.getElementById("update-form");
 				form.submit();				
+				}
 			}
 		});
 	
