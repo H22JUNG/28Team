@@ -118,7 +118,7 @@
     <div id="coverContainer">
       <div id="container">
 			
-			<h2>${qnamodi.category}</h2>
+			<h2>${detail.category}</h2>
 			<form:form modelAttribute="detail" action="${pageContext.request.contextPath}/modify?category=${detail.category}&id=${detail.id}" method="post" enctype="multipart/form-data">
 			<table>
 				<c:if test="${not empty proName}">

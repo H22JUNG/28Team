@@ -91,7 +91,7 @@
     </header>
     <div id="coverContainer">
       <div id="container">
-			<h2>QnA</h2>
+			<h2>Review</h2>
 			<table>
 				<c:if test="${not empty proName}">
 				<tr>
