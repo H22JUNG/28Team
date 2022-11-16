@@ -1241,17 +1241,26 @@ $(document).ready(function(){
 	
 	// 선택한상품 div창
 	document.querySelector("select[name='count']").addEventListener("change", function(){
-		let size = document.getElementById("select_size").value;
-		let color = document.getElementById("select_color").value;
+		let size = document.getElementById("select_size");
+		let color = document.getElementById("select_color");
 		let count = document.getElementById("select_count").value;
+		let price = document.getElementById("price1").value;
 		
 		//html 추가로 생성 작업
 		$('.optionSize').remove();
 		var html = '';
 		html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
-		html += '<div class="optionSize">사이즈 : '+ size +'</div>';
-		html += '<div class="optionSize">색상 : '+ color +'</div>';
+		if(size != null){
+			html += '<div class="optionSize">사이즈 : '+ size.value +'</div>';
+		}
+		if(color != null){
+			html += '<div class="optionSize">색상 : '+ color.value +'</div>';
+		}
 		html += '<div class="optionSize">수량 : '+ count +'</div>';
+		html += '<div class="optionSize">총 금액 : ₩'+(price*count).toLocaleString()+'</div>';
+		console.log(price);
+		console.log(count);
+		console.log(parseFloat(price*count));
 		
 		$('#selectoption').append(html);
 		
