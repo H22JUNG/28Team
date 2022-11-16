@@ -111,13 +111,11 @@ tr:nth-child(6) td, tr:nth-child(6) th, tr:nth-child(7) td, tr:nth-child(7) th
         	const name_reg = /^[가-힣a-zA-Z]+$/;	//한글, 영문
         	const tel_reg = /^\d{3}-\d{4}-\d{4}$/; 	//000-0000-0000
         	const email_reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;	//id@site.com
-        	const point_reg = /^[0-9]$/;	//숫자
         	
         	var name = document.getElementById('name').value;
         	var tel = document.getElementById('tel').value;
 			var address = document.getElementById('address').value;
 			var email = document.getElementById('email').value;
-			var point = document.getElementById('point').value;
         	
 			if(!name_reg.test(name)) {
 				alert("이름을 형식에 맞게 입력하세요(한글, 영문)");
@@ -139,12 +137,6 @@ tr:nth-child(6) td, tr:nth-child(6) th, tr:nth-child(7) td, tr:nth-child(7) th
 				document.getElementById('email').focus();
 				return false;
 			}
-			if(!point_reg.test(point)) {
-				alert("적립금을 형식에 맞게 입력하세요(0이상의 숫자)");
-				document.getElementById('point').focus();
-				return false;
-			}
-			
 			
         	let simple_data = { "id":"${list[0].id}",
         						"username":name,
