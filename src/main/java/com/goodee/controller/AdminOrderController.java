@@ -67,7 +67,11 @@ public class AdminOrderController {
 			ovo.setUserid(content);
 		}
 		
-		model.addAttribute("orderList",service.orderSerch(ovo));
+		if(service.orderSerch(ovo).size() == 0) {
+			model.addAttribute("nothing","검색 결과가 없습니다.");
+		}else {
+			model.addAttribute("orderList",service.orderSerch(ovo));
+		}
 		
 		
 		model.addAttribute("orderState1",service.orderState1());

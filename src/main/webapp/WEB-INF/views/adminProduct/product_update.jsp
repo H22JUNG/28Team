@@ -362,7 +362,7 @@ input:read-only {
 											value="${productUpdateList.get(0).proNum}" class="form-control proNum" readonly="readonly">
 									</div>
 									<div>
-										<label>상품가격</label> <input name="price"
+										<label>상품가격</label> <input name="price" id="productPrice"
 											value="${productUpdateList.get(0).price}" class="form-control" required="required"
 											onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 									</div>
@@ -435,7 +435,7 @@ input:read-only {
 		let btns = document.querySelectorAll('.input_btn');
 		for (let i = 0; i < btns.length; i++) {
 			btns[i].addEventListener("click",function(){
-	    		alert("카카테고리는 수정하실 수 없습니다.");
+	    		alert("카테고리는 수정하실 수 없습니다.");
 			});
 		}
 		
@@ -443,7 +443,7 @@ input:read-only {
 		for (let i = 0; i < selects.length; i++) {
 			selects[i].addEventListener("click",function(e){
 				e.preventDefault();
-				alert("카카테고리는 수정하실 수 없습니다.");
+				alert("카테고리는 수정하실 수 없습니다.");
 			});
 		}	
 		
@@ -475,6 +475,51 @@ input:read-only {
     		e.preventDefault;
         	location.href = "${pageContext.request.contextPath}/admin_product_list/1?order=&content=";
     	});
+    	
+    	
+    	/*
+    	
+    	// input창 가격 형식 지정하기 
+    	$(document).ready(function(){
+    		$('#productPrice').on('focus',function(){
+    			var val = $('#productPrice').val();
+    			if(!isEmpty(val)){
+    				val = val.replace(/,/g,'');
+    				$('#productPrice').val(val);
+    			}
+    		});
+    		
+    		$('#productPrice').on('blur',function(){
+    			var val = $('#productPrice').val();
+    			if(!isEmpty(val) && isNumeric(val)){
+    				val = currencyFormatter(val);
+    				$('#productPrice').val(val);
+    			}
+    		});
+    	});
+    	
+    	// Null check
+    	function isEmpty(value){
+    		if(value.length == 0 || value == null){
+    			return true;
+    		}else {
+    			return false;
+    		}
+    	}
+    	
+    	// Number check with Regular expression
+    	function isNumeric(value){
+    		var regExp = /^[0-9]+$/g;
+    		return regExp.test(value);
+    	}
+    	
+    	// 숫자 세자리 마다 콤마를 추가하여 금액 표기 형태로 변환
+    	function currencyFormatter(amount){
+    		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+    	}
+    	
+    	
+    	*/
     	
     	
     	/*

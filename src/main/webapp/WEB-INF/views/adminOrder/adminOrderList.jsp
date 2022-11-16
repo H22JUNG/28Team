@@ -513,7 +513,12 @@ table {
                        </form>
                     </div>
 					<div class="adminorder">
-                        <table>
+
+						<c:if test="${nothing != null }">
+							<p id="nothing">일치하는 검색 결과가 없습니다.</p>
+						</c:if>
+
+						<table>
                             <thead>
                                 <tr>
                                     <th>주문일</th>
@@ -524,8 +529,10 @@ table {
                                     <th>결제상태</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            	<c:forEach var="vo" items="${orderList}" varStatus="vs">
+							
+							<tbody>
+
+								<c:forEach var="vo" items="${orderList}" varStatus="vs">
 	                                <tr>
 	                                	<td>${vo.orderDate}</td>
 	                                    <td>
@@ -594,7 +601,7 @@ table {
 										</td>
 	                                </tr>
                                 </c:forEach>
-                            </tbody>
+							</tbody>
                         </table>
                     </div>
 				</section>
@@ -775,7 +782,13 @@ table {
 							
 							// 결제 수단
 							let p4 = document.createElement("p");
-							p4.innerText = data[i].pay;
+							// p4.innerText = data[i].pay;
+							console.log("결제 수단 : "+data[i].pay);
+							if(data[i].pay == 'cash'){
+								p4.innerText = '무통장 입금';
+							}else if(data[i].pay == 'card'){
+								p4.innerText = '카드';
+							}
 							
 							let h4_4 = document.createElement("h4");
 							h4_4.innerText = '결제 수단';

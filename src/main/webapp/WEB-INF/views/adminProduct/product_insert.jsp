@@ -334,13 +334,13 @@ form div label {
 									<ul class="clearfix">
 										<li>
                                             <h4>사진1</h4>
-											<input type="text" name="pic1" id="" placeholder="url을 입력하세요." required="required"/>
+											<input type="text" name="pic1" id="pic1" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진2</h4>
-											<input type="text" name="pic2" id="" placeholder="url을 입력하세요." required="required"/>
+											<input type="text" name="pic2" id="pic2" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진3</h4>
-											<input type="text" name="pic3" id="" placeholder="url을 입력하세요." required="required"/>
+											<input type="text" name="pic3" id="pic3" placeholder="url을 입력하세요." required="required"/>
                                             <h4>사진4</h4>
-											<input type="text" name="pic4" id="" placeholder="url을 입력하세요."/>
+											<input type="text" name="pic4" id="pic4" placeholder="url을 입력하세요."/>
 										</li>
 									</ul>
 									</div>
@@ -350,7 +350,7 @@ form div label {
 										<label>상품명</label> <input name="name" class="form-control" required="required" placeholder="상품명을 입력하세요.">
 									</div>
 									<div>
-										<label>상품가격</label> <input name="price" class="form-control" required="required"
+										<label>상품가격</label> <input name="price" id="productPrice" class="form-control" required="required"
 										onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 									</div>
 									<div>
@@ -394,10 +394,10 @@ form div label {
 											onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 										</div>
 										<div>
-											<label>사이즈</label><input name="size" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요.">
+											<label>사이즈</label><input name="size" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요(예:S,L,M).">
 										</div>
 										<div>
-										<label>컬러</label> <input name="color" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요.">
+										<label>컬러</label> <input name="color" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요(예:white,black).">
 										</div>
 										<div class="btns">
 											<button class="btn btn-default final_btn" id="btn_product_insert">등록하기</button>
@@ -503,7 +503,7 @@ form div label {
 	            // 상품구분을 선택하고 입력 버튼을 누르면 input란에 해당하는 값이 출력됨
 			});
 		});
-		
+    	
 		
 	</script>
 </body>
