@@ -381,7 +381,7 @@ main {
 		}
 		
 		function resize() {
-
+		
 			if (editor.scrollHeight > editor.offsetHeight) {
 				editor.style.height = 'auto';
 				let height = editor.scrollHeight; // 높이

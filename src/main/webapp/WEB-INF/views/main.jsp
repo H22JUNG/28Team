@@ -197,22 +197,29 @@ main .best-review {
 	display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
+}
+.reviewstar{
+	cursor: default;
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 20px;
 }
-.star .stargrade {
+.stargrade {
 	color: #28BACE;
 	letter-spacing: -0.1rem;
 	
 }
-.star .stargrade .nonstar {
+.stargrade .nonstar {
 	color: #ABABAB;
 }
 
-.star .review-count{
+.review-count{
 	color: #A8A8A8;
 	font-size: 13px;
 }
-.star .product-name{
+.product-name{
 	color: #A8A8A8;
 	font-size: 13px;
 }
@@ -397,13 +404,13 @@ main .best-review {
 								</div>
 								<div class="bestitem-name">
 									<p class="review-content">${vo.content}</p>
-									<p class="hits">${vo.hits}</p>
+									<p class="hits">👍🏻 ${vo.hits}</p>
 									<div class="item-info">
-										<p class="star">
+										<p class="reviewstar">
 											<span class="stargrade"> <c:choose>
 													<c:when test="${vo.stargrade == 5}">
-										★★★★★
-									</c:when>
+														★★★★★
+													</c:when>
 													<c:when test="${vo.stargrade == 0}">
 														<span class="nonstar"> ☆☆☆☆☆ </span>
 													</c:when>
