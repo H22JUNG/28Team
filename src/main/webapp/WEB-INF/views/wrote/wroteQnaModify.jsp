@@ -88,7 +88,7 @@
       <div id="container">
 			
 			<h2>${qnamodi.category}</h2>
-			<form:form modelAttribute="qnamodi" action="${pageContext.request.contextPath}/modify?category=${qnamodi.category}&id=${qnamodi.id}" method="post">
+			<form:form modelAttribute="qnamodi" action="${pageContext.request.contextPath}/modifyQnA?category=${qnamodi.category}&id=${qnamodi.id}" method="post">
 			<table>
 				<tr>
 					<td>문의유형</td>

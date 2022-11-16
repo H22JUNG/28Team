@@ -134,11 +134,20 @@ public class MoveController {
 		return "wrote/wroteReviewModify";
 	}
 
+	@PostMapping("/modifyQnA") // 수정완료버튼
+	public String modifydone(@ModelAttribute("detail") WrotebbsVO vo, @RequestParam("category") String category,
+			@RequestParam("id") int id) {
+
+		vo.setId(id);
+		vo.setCategory(category);
+		bbsservice.modify(vo);
+		return "redirect:/wrotedetail?id=" + vo.getId() + "&category=" + vo.getCategory();
+	}
 	@PostMapping("/modify") // 수정완료버튼
 	public String modifydone(@ModelAttribute("detail") WrotebbsVO vo, @RequestParam("category") String category,
 			@RequestParam("id") int id, @RequestParam("pic1File") MultipartFile pic1File,
 			@RequestParam("pic2File") MultipartFile pic2File) {
-
+		
 		if (!pic1File.getOriginalFilename().isEmpty()) { // 파일이름이 있으면
 			Path path1 = Paths.get(Path + pic1File.getOriginalFilename());
 			try {
