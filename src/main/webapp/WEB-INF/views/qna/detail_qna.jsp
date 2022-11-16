@@ -847,7 +847,7 @@ a {
 			<div class="tabmenu">
 				<a href="${pageContext.request.contextPath}/detail/${detailVO.id}"><label
 					for="tab1">상세정보</label></a> <a
-					href="${pageContext.request.contextPath}/moveReview/${detailVO.id}?page=1"><label
+					href="${pageContext.request.contextPath}/moveReview/${detailVO.id}"><label
 					for="tab2">리뷰</label></a> <a
 					href="${pageContext.request.contextPath}/detail_qna/${detailVO.id}#detaillabel"><label
 					for="tab3" id="detaillabel">상품문의</label></a>
@@ -1164,20 +1164,32 @@ a {
 		});
 
 		// 선택한상품 div창
-		document.querySelector("select[name='count']").addEventListener("change",function() {
-			let size = document.getElementById("select_size").value;
-			let color = document.getElementById("select_color").value;
+		document.querySelector("select[name='count']").addEventListener("change", function(){
+			let size = document.getElementById("select_size");
+			let color = document.getElementById("select_color");
 			let count = document.getElementById("select_count").value;
-
+			let price = document.getElementById("price1").value;
+			
 			//html 추가로 생성 작업
 			$('.optionSize').remove();
 			var html = '';
 			html += '<div class="optionSize">상품명 : ${detailVO.name}<div>';
-			html += '<div class="optionSize">사이즈 : ' + size + '</div>';
-			html += '<div class="optionSize">색상 : ' + color + '</div>';
-			html += '<div class="optionSize">수량 : ' + count + '</div>';
+			if(size != null){
+				html += '<div class="optionSize">사이즈 : '+ size.value +'</div>';
+			}
+			if(color != null){
+				html += '<div class="optionSize">색상 : '+ color.value +'</div>';
+			}
+			html += '<div class="optionSize">수량 : '+ count +'</div>';
+			html += '<div class="optionSize">총 금액 : ₩'+(price*count).toLocaleString()+'</div>';
+			console.log(price);
+			console.log(count);
+			console.log(parseFloat(price*count));
+			
 			$('#selectoption').append(html);
-			$(".optionSize").css("width", 500);
+			
+			 $(".optionSize").css("width", 500);
+			
 		});
 
 		// 사이즈선택 시 색상select창

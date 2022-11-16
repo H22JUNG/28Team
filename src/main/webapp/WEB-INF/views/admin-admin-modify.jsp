@@ -122,7 +122,7 @@ td input{
 }
 
 .pw, .pwConfirm, .username{
-	width: 120px;
+	width: 85%;
 }
 
 #modify-btn {
