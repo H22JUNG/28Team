@@ -9,313 +9,70 @@
 
 <style>
 @keyframes slide-right {
-  from {
-  	transform: translateX(0%);
-  }
+from { transform:translateX(0%);}
 
-  to {
-  }
+to {}
 }
 @keyframes slide-left {
-  from {
-  }
+from {}
 
-  to {
-    transform: translateX(0%);
-  }
+to { transform: translateX(0%);}
 }
-/* 메인페이지 */
-main {
-	background-color: white;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 100px 20px 300px;
-    gap: 100px;
-    min-width: 1200px;
-}
+@keyframes slide-right2 {
+from { transform:translateX(0%);}
 
-main .event {
-	width: 900px;
-    height: 450px;
+to {}
 }
+@keyframes slide-left2 {
+from {}
 
-main .event img {
-	width: 100%;
-	height: 100%;
-}
-
-main .best,
-main .best-review {
-	width: 1060px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 10px;
-	gap: 10px;
-}
-.best h1,
-.best-review h1 {
-	color: #71b9c3;
-}
-
-/* 베스트 아이템 스크롤 */
-
-.bestitem-container {
-	position: relative;
-}
-
-.bestitem-container #scroll-left,
-.bestitem-container #scroll-left1 {
-    position: absolute;
-    top: 50%;
-    cursor: pointer;
-	padding: 10px;
-	font-weight: bold;
-    font-size: 24px;
-    transform: translateX(-100%);
-    
-}
-.bestitem-container #scroll-right,
-.bestitem-container #scroll-right1 {
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    cursor: pointer;
-	padding: 10px;
-	font-weight: bold;
-    font-size: 24px;
-}
-
-.slide-right {
-	animation: slide-right 1s forwards;
-}
-.slide-left {
-	animation: slide-left 1s forwards;
-}
-
-
-/* 베스트 아이템 */
-.bestitem-box>div {
-	width: 240px;
-	height: 320px;
-	margin: 10px;
-}
-.bestitem-container {
-	width: 100%;
-}
-
-.bestitem-container .bestitem-list {
-	height: 370px;
-	white-space: nowrap;
-	overflow: hidden;
-}
-
-.bestitem-wrap {
-	width: fit-content;
-	font-size: 0;
-	letter-spacing: 0;
-	word-spacing: 0;
-}
-
-.bestitem-box {
-	width: 240px;
-	display: inline-block;
-	margin: 10px;
-	white-space: normal;
-	font-size: 16px;
-}
-
-.bestitem-box .bestitem-image {
-	width: 100%;
-	height: 200px;
-	overflow: hidden;
-	margin: 0 auto;
-}
-
-.bestitem-box .bestitem-image img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.bestitem-box .bestitem-name {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 150px;
-	padding: 10px;
-	gap: 10px;
-	margin: 0;
-}
-
-.bestitem-name a {
-	flex: 1;
-	font-size: 16px;
-	font-weight: 500;
-}
-.bestitem-name .review-content {
-	flex: 1;
-	font-size: 16px;
-	font-weight: 500;
-}
-
-.bestitem-name a .discount {
-	color: #28BACE;
-}
-
-.bestitem-name a:hover>span:last-child {
-	text-decoration: underline;
-}
-
-.bestitem-name .price {
-	font-weight: 700;
-	cursor: default;
-}
-
-.bestitem-name .price .viewprice {
-	text-decoration: line-through;
-	font-size: 15px;
-	text-align: center;
-	color: #b2b2b2;
-	font-weight: normal;
-}
-
-.bestitem-name .item-info {
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-}
-
-
-/* 별점 */
-.star{
-	cursor: default;
-	display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-.reviewstar{
-	cursor: default;
-	display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
-.stargrade {
-	color: #28BACE;
-	letter-spacing: -0.1rem;
-	
-}
-.stargrade .nonstar {
-	color: #ABABAB;
-}
-
-.review-count{
-	color: #A8A8A8;
-	font-size: 13px;
-}
-.product-name{
-	color: #A8A8A8;
-	font-size: 13px;
-}
-
-/* 품절, 특가세일, 마감임박 */
-.soldout {
-	width: 36px;
-	background: #ABABAB;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2px 0px;
-	color: white;
-	font-size: 12px;
-	cursor: default;
-}
-
-.deadline {
-	width: 60px;
-	background: #be0000;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2px 0px;
-	color: white;
-	font-size: 12px;
-	cursor: default;
-	animation: 0.5s deadline infinite;
-}
-
-@keyframes deadline {
-  0% {
-    background: #be0000;
-  }
-
-  50% {
-    background: #ff1f65;  	
-  }
-  to {
-    background: #be0000;
-  }
-}
-
-.specialprice {
-	width: 36px;
-	background: #F8A120;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2px 0px;
-	color: white;
-	font-size: 12px;
-	cursor: default;
-}
-
-.hits {
-	width: 100%;
-	text-align: right;
+to { transform: translateX(0%);}
 }
 
 /* 팝업 */
 #popup1 {
-   	position : absolute;
-   	top : 100px;
-   	left : 500px;
-   	background-color : #FFECC8;
+	position: absolute;
+	top: 100px;
+	left: 500px;
+	background-color: #FFECC8;
 }
-#popup1  img{
-   	width : 650px;
-   	height : 500px;
+
+#popup1  img {
+	width: 650px;
+	height: 500px;
 }
+
 #popup-close {
-   	padding : 4px 10px;
-   	display : flex;
-   	justify-content : space-between;
+	padding: 4px 10px;
+	display: flex;
+	justify-content: space-between;
 }
-#popup-close label{
-   	padding-left : 7px;
-  	font-size : 16px;
-  	color : #111F36;
+
+#popup-close label {
+	padding-left: 7px;
+	font-size: 16px;
+	color: #111F36;
 }
-#popup-close #popup-button{
-   	padding : 5px 8px;
-   	margin-bottom : 1px;
-   	background-color : #B28F3A;
-   	color : white;
-   	border : none;
-   	font-weight : 900;
-   	cursor : pointer;
+
+#popup-close #popup-button {
+	padding: 5px 8px;
+	margin-bottom: 1px;
+	background-color: #B28F3A;
+	color: white;
+	border: none;
+	font-weight: 900;
+	cursor: pointer;
 }
+
 #popup-close #popup-button:hover {
-   	background-color : #9D7E33;
+	background-color: #9D7E33;
 }
 </style>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/common.css">
+</head>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/main.css">
 </head>
 
 <body>
@@ -331,7 +88,7 @@ main .best-review {
 				<span id="scroll-left">〈</span> <span id="scroll-right">〉</span>
 				<div class="bestitem-list" id="bestlist">
 					<div class="bestitem-wrap" id="bestwrap">
-						<c:forEach var="vo" items="${best}">
+						<c:forEach var="vo" items="${best}" varStatus="status">
 							<div class="bestitem-box">
 								<div class="bestitem-image">
 									<a href="${pageContext.request.contextPath}/detail/${vo.id}">
@@ -339,30 +96,27 @@ main .best-review {
 									</a>
 								</div>
 								<div class="bestitem-name">
-									<a href="${pageContext.request.contextPath}/detail/${vo.id}">
-										<c:if test="${vo.discount != 0}">
-											<span class="discount">${vo.discount}%</span>
-										</c:if> <span> ${vo.name} </span>
-									</a>
+									<div class="bestitem-name-wrap">
+										<div class="bestcount">${status.count}</div>
+										<div>
+											<a href="${pageContext.request.contextPath}/detail/${vo.id}">
+												<c:if test="${vo.discount != 0}">
+													<span class="discount">${vo.discount}%</span>
+												</c:if> <span> ${vo.name} </span>
+											</a>
+										</div>
+									</div>
 									<div class="price">
-										<p class="viewprice">${vo.viewPrice}</p>
-										<p class="saleprice">${vo.salePrice}원</p>
+											<p class="viewprice">${vo.viewPrice}</p>
+											<p class="saleprice">${vo.salePrice}원</p>
 									</div>
 									<div class="item-info">
-
 										<p class="star">
 											<span class="stargrade"> <c:choose>
-													<c:when test="${vo.stargrade == 5}">
-										★★★★★
-									</c:when>
-													<c:when test="${vo.stargrade == 0}">
-														<span class="nonstar"> ☆☆☆☆☆ </span>
-													</c:when>
+													<c:when test="${vo.stargrade == 5}">★★★★★</c:when>
+													<c:when test="${vo.stargrade == 0}"><span class="nonstar">☆☆☆☆☆</span></c:when>
 													<c:otherwise>
-														<c:forEach begin="0" end="${vo.stargrade - 1}">★</c:forEach>
-														<c:forEach begin="0" end="${4 - vo.stargrade}">
-															<span class="nonstar">☆</span>
-														</c:forEach>
+														<c:forEach begin="0" end="${vo.stargrade - 1}">★</c:forEach><c:forEach begin="0" end="${4 - vo.stargrade}"><span class="nonstar">☆</span></c:forEach>
 													</c:otherwise>
 												</c:choose>
 											</span> <span class="review-count">(${vo.reviewCount})</span>
@@ -389,43 +143,48 @@ main .best-review {
 				</div>
 			</div>
 		</div>
+
+
+
+
 		<div class="best-review">
 			<h1>Best Review</h1>
-			<div class="bestitem-container">
+			<div class="bestreview-container">
 				<span id="scroll-left1">〈</span> <span id="scroll-right1">〉</span>
-				<div class="bestitem-list" id="bestlist1">
-					<div class="bestitem-wrap" id="bestwrap1">
+				<div class="bestreview-list" id="bestlist1">
+					<div class="bestreview-wrap" id="bestwrap1">
 						<c:forEach var="vo" items="${bestReview}">
-							<div class="bestitem-box">
-								<div class="bestitem-image">
-									<a href="${pageContext.request.contextPath}/detail/${vo.code}">
-										<img src="${pageContext.request.contextPath}/upload/${vo.pic1}" alt="" />
-									</a>
+						<div class="bestreview-box-wrap">
+						<a href="${pageContext.request.contextPath}/detail/${vo.code}">
+						<div class="review-cover">
+								<p>상품 페이지 바로가기 ➤</p>
+						</div>
+							</a>
+							<div class="bestreview-box">
+								<div class="bestreview-image">
+										<img
+										src="${pageContext.request.contextPath}/upload/${vo.pic1}"
+										alt="" />
 								</div>
-								<div class="bestitem-name">
+								<div class="bestreview-name">
 									<p class="review-content">${vo.content}</p>
 									<p class="hits">👍🏻 ${vo.hits}</p>
-									<div class="item-info">
+									<div class="review-info">
 										<p class="reviewstar">
 											<span class="stargrade"> <c:choose>
-													<c:when test="${vo.stargrade == 5}">
-														★★★★★
-													</c:when>
+													<c:when test="${vo.stargrade == 5}">★★★★★</c:when>
 													<c:when test="${vo.stargrade == 0}">
-														<span class="nonstar"> ☆☆☆☆☆ </span>
+														<span class="nonstar">☆☆☆☆☆</span>
 													</c:when>
 													<c:otherwise>
-														<c:forEach begin="0" end="${vo.stargrade - 1}">★</c:forEach>
-														<c:forEach begin="0" end="${4 - vo.stargrade}">
-															<span class="nonstar">☆</span>
-														</c:forEach>
+														<c:forEach begin="0" end="${vo.stargrade - 1}">★</c:forEach><c:forEach begin="0" end="${4 - vo.stargrade}"><span class="nonstar">☆</span></c:forEach>
 													</c:otherwise>
 												</c:choose>
-											</span>
-											<span class="product-name">${vo.itemName}</span>
+											</span> <span class="product-name">${vo.itemName}</span>
 										</p>
 									</div>
 								</div>
+							</div>
 							</div>
 						</c:forEach>
 					</div>
@@ -435,12 +194,18 @@ main .best-review {
 	</main>
 	<jsp:include page="footer.jsp"></jsp:include>
 	<div id="popup1">
-   		<a href="${pageContext.request.contextPath}/notice/13"><img src="image/popup1.png" alt="" /></a>
-	   	<div id="popup-close">
-	   		<div><input type="checkbox" id="1days" value="check"/><label for="1days">오늘 하루 보지않기</label></div>
-	   		<div><button id="popup-button">닫기</button></div>
-	   	</div>
-    </div>
+		<a href="${pageContext.request.contextPath}/notice/13"><img
+			src="image/popup1.png" alt="" /></a>
+		<div id="popup-close">
+			<div>
+				<input type="checkbox" id="1days" value="check" /><label for="1days">오늘
+					하루 보지않기</label>
+			</div>
+			<div>
+				<button id="popup-button">닫기</button>
+			</div>
+		</div>
+	</div>
 	<script>
         var slideIndex = 0;
 
@@ -487,6 +252,10 @@ main .best-review {
 		rSlide.appendRule('100% { transform: translateX(-'+(bestWrap.offsetWidth-bestList.offsetWidth)+'px);}');
 		let lSlide = document.styleSheets[0].cssRules[1];
 		lSlide.appendRule('from { transform: translateX(-'+(bestWrap.offsetWidth-bestList.offsetWidth)+'px);}');
+		let rSlide2 = document.styleSheets[0].cssRules[2];
+		rSlide2.appendRule('100% { transform: translateX(-'+(bestWrap1.offsetWidth-bestList1.offsetWidth)+'px);}');
+		let lSlide2 = document.styleSheets[0].cssRules[3];
+		lSlide2.appendRule('from { transform: translateX(-'+(bestWrap1.offsetWidth-bestList1.offsetWidth)+'px);}');
 	
 		if(bestList.offsetWidth < bestWrap.offsetWidth) {
 			rScroll.style.visibility="visible";
@@ -512,8 +281,8 @@ main .best-review {
 			rScroll1.style.visibility="visible";
 		
 			rScroll1.addEventListener("click",function(){
-				bestWrap1.classList.remove("slide-left");
-				bestWrap1.classList.add("slide-right");
+				bestWrap1.classList.remove("slide-left2");
+				bestWrap1.classList.add("slide-right2");
 				lScroll1.style.visibility="visible";
 				rScroll1.style.visibility="hidden";
 			});
@@ -521,9 +290,9 @@ main .best-review {
 		
 		lScroll1.addEventListener("click",function(){
 		
-			if(bestWrap1.classList.contains("slide-right")){
-				bestWrap1.classList.remove("slide-right");
-				bestWrap1.classList.add("slide-left");
+			if(bestWrap1.classList.contains("slide-right2")){
+				bestWrap1.classList.remove("slide-right2");
+				bestWrap1.classList.add("slide-left2");
 				rScroll1.style.visibility="visible";
 				lScroll1.style.visibility="hidden";
 			}
