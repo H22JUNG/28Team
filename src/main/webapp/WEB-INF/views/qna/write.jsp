@@ -182,7 +182,7 @@ a {
 				</div>
 				<div class="qna_write_wrap">
 					<div class="qna_write">
-					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post">
+					<form:form modelAttribute="qnaVO" action="${pageContext.request.contextPath}/write/good" method="post" id="myform">
 						<div class="title">
 							<dl>
 								<dt>문의유형</dt>
@@ -224,28 +224,20 @@ a {
 	<jsp:include page="../footer.jsp"></jsp:include>
 
 	<script type="text/javascript">
-		document
-				.getElementById("acc")
-				.addEventListener(
-						"click",
-						function() {
-							let result = confirm("게시글을 등록하시겠습니까?");
-							if (result == true) {
-								confirm("등록되었습니다.");
-								location.href = "${pageContext.request.contextPath}/write/good";
-							}
+		document.getElementById("acc").addEventListener("click",function() {
+			let result = confirm("게시글을 등록하시겠습니까?");
+			if (result == true) {
+				confirm("등록되었습니다.");
+				$("#myform").submit();
+			}
 		});
 		
-		document
-		.getElementById("cancel")
-		.addEventListener(
-				"click",
-				function() {
-					let result = confirm("게시글 작성을 취소하시겠습니까?");
-					if (result == true) {
-						confirm("취소되었습니다.");
-						location.href = "${pageContext.request.contextPath}/qna";
-					}
+		document.getElementById("cancel").addEventListener("click",function() {
+			let result = confirm("게시글 작성을 취소하시겠습니까?");
+			if (result == true) {
+			confirm("취소되었습니다.");
+			location.href = "${pageContext.request.contextPath}/qna";
+		}
 	});
 	</script>
 </body>

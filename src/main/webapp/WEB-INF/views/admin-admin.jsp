@@ -250,8 +250,12 @@ td {
 		if (result){
 			$("#delete-btn").submit();
 			alert("해당 관리자가 삭제되었습니다.")
+		}else{
+			var e = window.event;
+			e.preventDefault();
+			location.href = "${pageContext.request.contextPath}/admin-admin-list";
 		}
-	})
+	});
 </script>
 </body>
 </html>
