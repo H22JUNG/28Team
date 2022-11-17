@@ -394,10 +394,10 @@ form div label {
 											onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="숫자만 입력하세요.">
 										</div>
 										<div>
-											<label>사이즈</label><input name="size" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요(예:S,L,M).">
+											<label>사이즈</label><input name="size" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요 (예:S,L,M).">
 										</div>
 										<div>
-										<label>컬러</label> <input name="color" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요(예:white,black).">
+										<label>컬러</label> <input name="color" class="form-control" pattern="[A-Za-z]+" placeholder="영어로 입력하세요 (예:white,black).">
 										</div>
 										<div class="btns">
 											<button class="btn btn-default final_btn" id="btn_product_insert">등록하기</button>

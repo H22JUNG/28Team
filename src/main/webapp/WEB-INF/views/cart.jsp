@@ -191,7 +191,7 @@
 
         table {
             border-top : 2px solid black;
-            border-bottom: 2px solid rgb(218, 218, 218);
+            border-bottom: 3px solid black;
         }
 
         th{

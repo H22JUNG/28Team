@@ -465,7 +465,7 @@ table {
 					<ul class="side-menu">
 						<li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1" class="menu2">물품준비중<span>(${orderState1})</span></a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=1" class="menu2">상품준비중<span>(${orderState1})</span></a>
 							</h4>
 						</li>
 						<li>
@@ -481,7 +481,7 @@ table {
                         <div class="side-menu_inner">
                         <li>
 							<h4>
-								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=5" class="menu2">환불처리</a>
+								<a href="${pageContext.request.contextPath}/adminOrder?delivstate=5" class="menu2">환불완료</a>
 							</h4>
 						</li>
                         <!-- 
@@ -523,9 +523,9 @@ table {
                                 <tr>
                                     <th>주문일</th>
                                     <th>주문번호</th>
-                                    <th>주문자</th>
+                                    <th>회원 ID</th>
                                     <th>결제금액</th>
-                                    <th>배송</th>
+                                    <th>배송상태</th>
                                     <th>결제상태</th>
                                 </tr>
                             </thead>
@@ -546,7 +546,7 @@ table {
 	                                            <input type="hidden" value="${vo.orderNum}" name="orderNum" id="orderNum">
 	                                            <div class="delivNumber">
 	                                            	<c:if test="${vo.delivstate == 1 and vo.payResult == 1}">
-	                                                    물품준비중
+	                                                    상품준비중
 	                                                    <button class="delivNumberAdd_btn" type="button">
 	                                                        송장번호입력
 	                                                    </button>
@@ -587,7 +587,7 @@ table {
 												<form action="${pageContext.request.contextPath}/orderCancel" method="post">
 													<input type="hidden" value="${vo.orderNum}" name="orderNum"/>
 													<input type="hidden" value="${vo.userid}" name="userid"/>
-													<button class="cancelbtn" type="submit">
+													<button class="cancelbtn" id="cancelbtn" type="submit">
 														환불처리
 													</button>
 												</form>
@@ -656,7 +656,7 @@ table {
 				 $(".delivNumberAdd_btn").eq(i).on("click",function() {
 					 	$(".delivnum_input").eq(i).html('');
 			            $(".delivnum_input").eq(i).append("<div class='form-group'><input type='text' placeholder='송장번호 입력(숫자만)' class='form-control delivnum_inputText' style='float:left;' name='delivnum' value='${orderList.get(i).delivnum}'>"
-			                                    + "<button type='submit' class='btn btn-round btn-g' id='delivnum_input_btn'>" + "입력" + "</button></div>");
+			                                    + "<button type='submit' class='btn btn-round btn-g' id='delivnum_input_btn'>" + "등록" + "</button></div>");
 			            
 			            // 송장번호 숫자만 입력되게
 			            $('.delivnum_inputText').on("blur keyup", function(){
@@ -769,7 +769,8 @@ table {
 							
 							// 연락처
 							let p3 = document.createElement("p");
-							p3.innerText = data[i].orderTel;
+							let dataTel = data[i].orderTel;
+							p3.innerText = dataTel.substr(0,3) + "-" + dataTel.substr(3,4)+"-"+dataTel.substr(7,4);
 							
 							let h4_3 = document.createElement("h4");
 							h4_3.innerText = '연락처';
