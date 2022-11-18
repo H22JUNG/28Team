@@ -632,7 +632,7 @@
 	<insert id="orderItemInfor" parameterType="CartVO">
 		INSERT INTO orderitem
 		(userid, cart_listnum, item_name, size, item_price, color,pro_num,pic1,count)
-		VALUES(#{userid},#{cartListNum},#{itemName},#{size},#{price},#{color},#{proNum},#{pic1},${count});
+		VALUES(#{userid},#{cartListNum},#{itemName},#{size},#{salePrice},#{color},#{proNum},#{pic1},${count});
 	</insert>
 
 	<select id="selectCartListNum" resultType="int">
