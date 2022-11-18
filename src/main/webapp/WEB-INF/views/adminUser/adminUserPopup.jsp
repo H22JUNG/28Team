@@ -116,6 +116,7 @@ tr:nth-child(6) td, tr:nth-child(6) th, tr:nth-child(7) td, tr:nth-child(7) th
         	var tel = document.getElementById('tel').value;
 			var address = document.getElementById('address').value;
 			var email = document.getElementById('email').value;
+			var point = document.getElementById('point').value;
         	
 			if(!name_reg.test(name)) {
 				alert("이름을 형식에 맞게 입력하세요(한글, 영문)");

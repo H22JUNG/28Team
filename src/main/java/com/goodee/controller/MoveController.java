@@ -375,7 +375,7 @@ public class MoveController {
 	@GetMapping("/admin-logout")
 	public String adminlogout(HttpSession session) {
 		session.invalidate();
-		return "main";
+		return "redirect:/";
 	}
 
 	// 공지사항
