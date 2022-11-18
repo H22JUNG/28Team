@@ -769,8 +769,9 @@ table {
 							
 							// 연락처
 							let p3 = document.createElement("p");
-							let dataTel = data[i].orderTel;
-							p3.innerText = dataTel.substr(0,3) + "-" + dataTel.substr(3,4)+"-"+dataTel.substr(7,4);
+							//let dataTel = data[i].orderTel;
+							//p3.innerText = dataTel.substr(0,3) + "-" + dataTel.substr(3,4)+"-"+dataTel.substr(7,4);
+							p3.innerText = data[i].orderTel;
 							
 							let h4_3 = document.createElement("h4");
 							h4_3.innerText = '연락처';
