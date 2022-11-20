@@ -44,6 +44,17 @@ public class LoginService {
 		}
 	}
 	
+	public void byPhone(UserVO vo, Model model) {
+		if(dao.byPhone(vo).size() >= 1)  { 
+		model.addAttribute("userid", dao.byPhone(vo));
+		}
+	}
+	public void byEmail(UserVO vo, Model model) {
+		if(dao.byEmail(vo).size() >= 1)  { 
+		model.addAttribute("userid", dao.byEmail(vo));
+		}
+	}
+	
 //	회원가입
 	public void addUser(UserVO vo) {
 		dao.addUser(vo);

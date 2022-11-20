@@ -1,5 +1,7 @@
 package com.goodee.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.goodee.vo.UserVO;
@@ -11,6 +13,9 @@ public interface LoginDAO {
 	public int login(UserVO vo);
 	public UserVO getUser(UserVO vo);
 	public int isAdmin(UserVO vo);
+	
+	public List<UserVO> byPhone(UserVO vo);
+	public List<UserVO> byEmail(UserVO vo);
 	
 	//회원가입
 	public void addUser(UserVO vo);

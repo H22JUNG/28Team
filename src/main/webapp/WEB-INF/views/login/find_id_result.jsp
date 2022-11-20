@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,47 +132,18 @@
 		<h3>아이디 찾기</h3>
 	</div>
 	<div class="check-div">
-		<div class="certify-div divlist">
-			<input type="radio" name="findid" id="certify" checked="checked"
-				onchange="changeTab()" /> <label for="certify">본인 확인 후 찾기</label>
-		</div>
-		<div class="phone-div divlist">
-			<input type="radio" name="findid" id="byphone" onchange="changeTab()" />
-			<label for="byphone">등록된 휴대폰 번호로 찾기</label>
-		</div>
-		<div class="email-div divlist">
-			<input type="radio" name="findid" id="byemail" onchange="changeTab()" />
-			<label for="byemail">이메일로 찾기</label>
-		</div>
-	</div>
-	<div id="find-div" class="find-div">
-		<div class="certify-box">
-			<button id="certify-btn">본인명의 휴대폰으로 인증</button>
-			<p>회원님의 명의로 등록된</p>
-			<p>휴대폰으로 본인확인을 진행합니다.</p>
-		</div>
-		<div class="byphone-box">
-			<form action="${pageContext.request.contextPath}/byPhone" method="post">
-			<div>
-			<label for="username">이름 : </label><input type="text" name="username" id="username" />
-			<label for="tel">휴대폰 번호 : </label><input type="tel" name="tel" id="tel" />
-			</div>
-			<div>
-			<button>확인</button>
-			</div>
-			</form>
-		</div>
-		<div class="byemail-box">
-			<form action="${pageContext.request.contextPath}/byEmail" method="post">
-			<div>
-			<label for="username">이름 : </label><input type="text" name="username" id="username" />
-			<label for="tel">이메일 : </label><input type="email" name="email" id="email" />
-			</div>	
-			<div>
-			<button>확인</button>
-			</div>
-			</form>
-		</div>
+	<c:choose>
+		<c:when test="${userid} != null">	
+		${UserVO.username} 님의 아이디는 
+		<c:forEach items="${userid}" var="id">
+			${id.userid}<br>
+		</c:forEach>
+		입니다.
+		</c:when>
+		<c:otherwise>
+			회원 정보가 없습니다.			
+		</c:otherwise>
+	</c:choose>
 	</div>
 	<div class="bottom">
 		<button id="close">닫기</button>
@@ -203,37 +175,7 @@
 			window.close();
 		});
 		
-		// 휴대폰 본인 인증
-		document.getElementById("certify-btn").addEventListener("click",function(){
-		var dt = new Date();
-  		var IMP = window.IMP; // 생략 가능
-  		IMP.init("imp28442011"); // 예: imp00000000
-  	 	 // IMP.certification(param, callback) 호출
-  	  	IMP.certification({ // param
-  	   	 	merchant_uid: "ORD"+dt.getFullYear()+("0" + (dt.getMonth() + 1)).slice(-2)+("0" + dt.getDate()).slice(-2)+"-"+dt.getTime(), // 주문 번호
-  	    	m_redirect_url : "${pageContext.request.contextPath}/findID", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
-  	    	popup : false // PC환경에서는 popup 파라메터가 무시되고 항상 true 로 적용됨
-  	  	}, function (rsp) { // callback
-  	   		 if (rsp.success) {		// 인증 성공 시
-  	   		 // jQuery로 HTTP 요청
-//   	   	      jQuery.ajax({
-//   	   	        url: "${pageContext.request.contextPath}/findID", // 예: https://www.myservice.com/certifications
-//   	   	        method: "POST",
-//   	   	        headers: { "Content-Type": "application/json" },
-//   	   	        data: { imp_uid: rsp.imp_uid }
-//   	   	      });
-  	   		var msg = '주문해주셔서 감사합니다';
-          	alert(msg); 
-	   	    } else {
-  	      // 인증 실패 시 로직,
-	   	   alert("인증에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
-  	    }
-  	  });
-		});
 		
-		// 등록 휴대폰으로 찾기
-		
-		// 이메일로 찾기
 	</script>
 </body>
 </html>
