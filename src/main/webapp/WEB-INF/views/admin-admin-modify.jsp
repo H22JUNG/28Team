@@ -102,6 +102,10 @@ th {
 	font-size : 14px;
 }
 
+.longtitle{
+	padding: 10px 0px;
+}
+
 td {
 	border-bottom: 1px solid #616161;
 	padding: 10px 5px 10px 5px;
@@ -235,14 +239,14 @@ td input:focus, .admin:focus{
 							<thead>
 								<tr>
 									<th>NO.</th>
-									<th>아이디</th>
+									<th class="longtitle">아이디</th>
 									<th>비밀번호</th>
 									<th>비밀번호 확인</th>
 									<th>관리자명</th>
 									<th>연락처</th>
 									<th>주소</th>
 									<th>이메일</th>
-									<th>관리자 유/무</th>
+									<th class="longtitle">관리자 유/무</th>
 								</tr>
 							</thead>
 							<tbody>

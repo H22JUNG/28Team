@@ -161,10 +161,10 @@ a {
 	background-color: white;
 	position : fixed;
 	top : 30%;
-	left : 33%;
+	left : 38%;
 	width : 22%;
 	height : 16%;
-	opacity : 80%;
+	opacity : 90%;
 	text-align: center;
 	display : none;
 	border : 1px solid #cccccc;
