@@ -47,7 +47,7 @@ public class CartController {
 	@PostMapping("/cart/delete")
 	public String deleteCart(CartVO cvo) {
 		service.deleteCart(cvo.getCartNum());
-		System.out.println("카트넘" + cvo.getCartNum());
+		//System.out.println("카트넘" + cvo.getCartNum());
 		return "redirect:/cart/" + cvo.getUserid();
 	}
 

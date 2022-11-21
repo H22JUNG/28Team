@@ -117,7 +117,7 @@ public class LoginController {
 	public String byPhone(UserVO vo, Model model) {
 		String regEx = "(\\d{3})(\\d{4})(\\d{4})";
 		vo.setTel(vo.getTel().replaceAll(regEx, "$1-$2-$3"));
-		System.out.println(vo.getTel());
+		//System.out.println(vo.getTel());
 		service.byPhone(vo, model);
 		return "login/find_id_result";
 	}

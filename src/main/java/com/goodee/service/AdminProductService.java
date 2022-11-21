@@ -132,8 +132,8 @@ public class AdminProductService {
 	public void productDelete(String pro_num) {
 		dao.productDelete(pro_num);
 		dao.optionNullId();
-		System.out.println(pro_num);
-		System.out.println("삭제하기 서비스타나");
+		//System.out.println(pro_num);
+		//System.out.println("삭제하기 서비스타나");
 	}
 	
 	// 상품 insert
@@ -142,7 +142,7 @@ public class AdminProductService {
 		dao.optionInsert(vo);
 		dao.categoryIdUpdate();
 		dao.proNumUpdate();
-		System.out.println("product insert 타니?");
+		//System.out.println("product insert 타니?");
 	}
 	
 }

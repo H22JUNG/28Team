@@ -90,7 +90,7 @@ public class QnaController {
 	@PostMapping("/write/good")
 	public String setBBSResult(@SessionAttribute("user") UserVO user, @ModelAttribute("qnaVO") QnaVO qnavo) {
 		if (user != null) {
-			System.out.println(qnavo.getId());
+			//System.out.println(qnavo.getId());
 			qnavo.setOwnerId(user.getId());
 			qnavo.setOwner(user.getUsername());
 			qnavo.setRoot(qnavo.getId());

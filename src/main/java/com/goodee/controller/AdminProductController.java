@@ -78,15 +78,15 @@ public class AdminProductController {
 	@GetMapping("/admin/deleteInfo/{pro_num}")
 	public String productDelete(@PathVariable("pro_num") String pro_num) {
 		service.productDelete(pro_num);
-		System.out.println(pro_num);
+		//System.out.println(pro_num);
 		return "redirect:/admin_product_list/1?order=&content=";
 	}
 	
 	// 상품 등록하기
 	@PostMapping("/admin/insertInfo")
 	public String productInsert(ProductListVO vo) {
-		System.out.println(vo.getSize());
-		System.out.println(vo.getColor());
+		//System.out.println(vo.getSize());
+		//System.out.println(vo.getColor());
 		service.productInsert(vo);
 		return "redirect:/admin_product_list/1?order=&content=";
 	}
