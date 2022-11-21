@@ -21,11 +21,11 @@
 	<!-- 아이디 찾기 -->
 	<select id="byPhone" resultType="userVO">
 		select userid from user
-		where username = #{username} and tel = ${tel}
+		where username = #{username} and tel = #{tel}
 	</select>
 	<select id="byEmail" resultType="userVO">
 		select userid from user
-		where username = #{username} and email = ${email}
+		where username = #{username} and email = #{email}
 	</select>
 	
 	<!-- 회원가입 -->

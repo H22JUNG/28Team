@@ -12,7 +12,11 @@
 	margin: 0;
 	box-sizing: border-box;
 }
-
+body {
+	    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 
 .top {
 	width: 100%;
@@ -69,7 +73,8 @@
 }
 
 .find-div {
-	height: 230px;
+	    min-height: 230px;
+    flex: 1;
 }
 
 .bottom {
@@ -110,18 +115,30 @@
 .byphone-box, .byemail-box {
 	display: none;
 }
-.byphone-box {
-	flex-direction: column
-    gap: 10px;
+.byphone-box,
+.byemail-box {
+    height: 100%;
     padding: 30px 0;
     justify-content: center;
 }
-.byphone-box div {
+.byphone-box form,
+.byemail-box form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+        align-items: center;
+}
+}
+.byphone-box div,
+.byemail-box div {
 	display: flex;
 	gap: 10px;
 	justify-content: center;
 }
 .byphone-box input {
+	width: 150px;
+}
+.byemail-box input[name="username"] {
 	width: 150px;
 }
 </style>
@@ -165,7 +182,7 @@
 			<form action="${pageContext.request.contextPath}/byEmail" method="post">
 			<div>
 			<label for="username">이름 : </label><input type="text" name="username" id="username" />
-			<label for="tel">이메일 : </label><input type="email" name="email" id="email" />
+			<label for="email">이메일 : </label><input type="email" name="email" id="email" />
 			</div>	
 			<div>
 			<button>확인</button>

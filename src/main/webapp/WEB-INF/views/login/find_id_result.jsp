@@ -14,6 +14,11 @@
 	box-sizing: border-box;
 }
 
+body {
+	display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 
 .top {
 	width: 100%;
@@ -29,10 +34,16 @@
 }
 
 .check-div {
+	flex: 1;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 50px;
+	    text-align: center;
+    gap: 10px;
+        text-align: center;
+    gap: 10px;
+    min-height: 200px;
 }
 
 .divlist {
@@ -133,12 +144,16 @@
 	</div>
 	<div class="check-div">
 	<c:choose>
-		<c:when test="${userid} != null">	
-		${UserVO.username} 님의 아이디는 
+		<c:when test="${userid != null}">	
+		<span>${userVO.username} <b>님의 아이디는</b></span>
+		<span>
 		<c:forEach items="${userid}" var="id">
+		<span>
 			${id.userid}<br>
+		</span>
 		</c:forEach>
-		입니다.
+		</span>
+		<b>입니다.</b>
 		</c:when>
 		<c:otherwise>
 			회원 정보가 없습니다.			
